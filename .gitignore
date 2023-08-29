@@ -1,0 +1,17 @@
+/bin/
+/target/
+*.log
+/tests/
+.checkstyle
+.classpath
+.project
+/.settings/
+/nbproject/
+.idea
+*.iml
+
+/build/
+/lib/
+/test-output/
+src/tz-data/
+*TempTest*
