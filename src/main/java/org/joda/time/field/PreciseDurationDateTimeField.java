@@ -15,6 +15,8 @@
  */
 package org.joda.time.field;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.DurationField;
 
@@ -45,6 +47,7 @@ public abstract class PreciseDurationDateTimeField extends BaseDateTimeField {
      * @throws IllegalArgumentException if duration field is imprecise
      * @throws IllegalArgumentException if unit milliseconds is less than one
      */
+    @Impure
     public PreciseDurationDateTimeField(DateTimeFieldType type, DurationField unit) {
         super(type);
 
@@ -63,6 +66,7 @@ public abstract class PreciseDurationDateTimeField extends BaseDateTimeField {
     /**
      * Returns false by default.
      */
+    @Pure
     public boolean isLenient() {
         return false;
     }
@@ -75,6 +79,7 @@ public abstract class PreciseDurationDateTimeField extends BaseDateTimeField {
      * @return the updated time instant.
      * @throws IllegalArgumentException if value is too large or too small.
      */
+    @Impure
     public long set(long instant, int value) {
         FieldUtils.verifyValueBounds(this, value, getMinimumValue(),
                                      getMaximumValueForSet(instant, value));
@@ -89,6 +94,7 @@ public abstract class PreciseDurationDateTimeField extends BaseDateTimeField {
      * return super.roundFloor(instant + ALIGNMENT_MILLIS) - ALIGNMENT_MILLIS;
      * </pre>
      */
+    @Impure
     public long roundFloor(long instant) {
         if (instant >= 0) {
             return instant - instant % iUnitMillis;
@@ -106,6 +112,7 @@ public abstract class PreciseDurationDateTimeField extends BaseDateTimeField {
      * return super.roundCeiling(instant + ALIGNMENT_MILLIS) - ALIGNMENT_MILLIS;
      * </pre>
      */
+    @Impure
     public long roundCeiling(long instant) {
         if (instant > 0) {
             instant -= 1;
@@ -123,6 +130,7 @@ public abstract class PreciseDurationDateTimeField extends BaseDateTimeField {
      * return super.remainder(instant + ALIGNMENT_MILLIS);
      * </pre>
      */
+    @Impure
     public long remainder(long instant) {
         if (instant >= 0) {
             return instant % iUnitMillis;
@@ -138,6 +146,7 @@ public abstract class PreciseDurationDateTimeField extends BaseDateTimeField {
      * @return the duration of this field, or UnsupportedDurationField if field
      * has no duration
      */
+    @Pure
     public DurationField getDurationField() {
         return iUnitField;
     }
@@ -147,10 +156,12 @@ public abstract class PreciseDurationDateTimeField extends BaseDateTimeField {
      * 
      * @return the minimum value
      */
+    @Pure
     public int getMinimumValue() {
         return 0;
     }
 
+    @Pure
     public final long getUnitMillis() {
         return iUnitMillis;
     }
@@ -160,6 +171,7 @@ public abstract class PreciseDurationDateTimeField extends BaseDateTimeField {
      * returns getMaximumValue(instant). Override to provide a faster
      * implementation.
      */
+    @Impure
     protected int getMaximumValueForSet(long instant, int value) {
         return getMaximumValue(instant);
     }

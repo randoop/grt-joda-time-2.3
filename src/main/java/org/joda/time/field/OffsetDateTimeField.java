@@ -15,6 +15,8 @@
  */
 package org.joda.time.field;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.time.DateTimeField;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.DurationField;
@@ -43,6 +45,7 @@ public class OffsetDateTimeField extends DecoratedDateTimeField {
      * @param offset  offset to add to field values
      * @throws IllegalArgumentException if offset is zero
      */
+    @Impure
     public OffsetDateTimeField(DateTimeField field, int offset) {
         this(field, (field == null ? null : field.getType()), offset, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
@@ -55,6 +58,7 @@ public class OffsetDateTimeField extends DecoratedDateTimeField {
      * @param offset  offset to add to field values
      * @throws IllegalArgumentException if offset is zero
      */
+    @Impure
     public OffsetDateTimeField(DateTimeField field, DateTimeFieldType type, int offset) {
         this(field, type, offset, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
@@ -69,6 +73,7 @@ public class OffsetDateTimeField extends DecoratedDateTimeField {
      * @param maxValue  maximum allowed value
      * @throws IllegalArgumentException if offset is zero
      */
+    @Impure
     public OffsetDateTimeField(DateTimeField field, DateTimeFieldType type, int offset,
                                int minValue, int maxValue) {
         super(field, type);
@@ -97,6 +102,7 @@ public class OffsetDateTimeField extends DecoratedDateTimeField {
      * @param instant  the time instant in millis to query.
      * @return the amount of units extracted from the input.
      */
+    @Impure
     public int get(long instant) {
         return super.get(instant) + iOffset;
     }
@@ -109,6 +115,7 @@ public class OffsetDateTimeField extends DecoratedDateTimeField {
      * @param amount  the amount of units to add (can be negative).
      * @return the updated time instant.
      */
+    @Impure
     public long add(long instant, int amount) {
         instant = super.add(instant, amount);
         FieldUtils.verifyValueBounds(this, get(instant), iMin, iMax);
@@ -123,6 +130,7 @@ public class OffsetDateTimeField extends DecoratedDateTimeField {
      * @param amount  the amount of units to add (can be negative).
      * @return the updated time instant.
      */
+    @Impure
     public long add(long instant, long amount) {
         instant = super.add(instant, amount);
         FieldUtils.verifyValueBounds(this, get(instant), iMin, iMax);
@@ -137,6 +145,7 @@ public class OffsetDateTimeField extends DecoratedDateTimeField {
      * @param amount  the amount of units to add (can be negative).
      * @return the updated time instant.
      */
+    @Impure
     public long addWrapField(long instant, int amount) {
         return set(instant, FieldUtils.getWrappedValue(get(instant), amount, iMin, iMax));
     }
@@ -149,19 +158,23 @@ public class OffsetDateTimeField extends DecoratedDateTimeField {
      * @return the updated time instant.
      * @throws IllegalArgumentException if value is too large or too small.
      */
+    @Impure
     public long set(long instant, int value) {
         FieldUtils.verifyValueBounds(this, value, iMin, iMax);
         return super.set(instant, value - iOffset);
     }
 
+    @Impure
     public boolean isLeap(long instant) {
         return getWrappedField().isLeap(instant);
     }
 
+    @Impure
     public int getLeapAmount(long instant) {
         return getWrappedField().getLeapAmount(instant);
     }
 
+    @Impure
     public DurationField getLeapDurationField() {
         return getWrappedField().getLeapDurationField();
     }
@@ -171,6 +184,7 @@ public class OffsetDateTimeField extends DecoratedDateTimeField {
      * 
      * @return the minimum value
      */
+    @Pure
     public int getMinimumValue() {
         return iMin;
     }
@@ -180,30 +194,37 @@ public class OffsetDateTimeField extends DecoratedDateTimeField {
      * 
      * @return the maximum value
      */
+    @Pure
     public int getMaximumValue() {
         return iMax;
     }
     
+    @Impure
     public long roundFloor(long instant) {
         return getWrappedField().roundFloor(instant);
     }
 
+    @Impure
     public long roundCeiling(long instant) {
         return getWrappedField().roundCeiling(instant);
     }
 
+    @Impure
     public long roundHalfFloor(long instant) {
         return getWrappedField().roundHalfFloor(instant);
     }
 
+    @Impure
     public long roundHalfCeiling(long instant) {
         return getWrappedField().roundHalfCeiling(instant);
     }
 
+    @Impure
     public long roundHalfEven(long instant) {
         return getWrappedField().roundHalfEven(instant);
     }
 
+    @Impure
     public long remainder(long instant) {
         return getWrappedField().remainder(instant);
     }
@@ -213,6 +234,7 @@ public class OffsetDateTimeField extends DecoratedDateTimeField {
      * 
      * @return the offset
      */
+    @Pure
     public int getOffset() {
         return iOffset;
     }

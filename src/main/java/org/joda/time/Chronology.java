@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 package org.joda.time;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 
 
 /**
@@ -68,6 +70,7 @@ public abstract class Chronology {
      *
      * @return the DateTimeZone, null if unspecified
      */
+    @Impure
     public abstract DateTimeZone getZone();
 
     /**
@@ -77,6 +80,7 @@ public abstract class Chronology {
      *
      * @return a version of this chronology that ignores time zones
      */
+    @Impure
     public abstract Chronology withUTC();
     
     /**
@@ -86,6 +90,7 @@ public abstract class Chronology {
      * @param zone to use, or default if null
      * @see org.joda.time.chrono.ZonedChronology
      */
+    @Impure
     public abstract Chronology withZone(DateTimeZone zone);
 
     /**
@@ -104,6 +109,7 @@ public abstract class Chronology {
      * @return millisecond instant from 1970-01-01T00:00:00Z
      * @throws IllegalArgumentException if the values are invalid
      */
+    @Impure
     public abstract long getDateTimeMillis(int year, int monthOfYear, int dayOfMonth, int millisOfDay);
 
     /**
@@ -126,6 +132,7 @@ public abstract class Chronology {
      * @return millisecond instant from 1970-01-01T00:00:00Z
      * @throws IllegalArgumentException if the values are invalid
      */
+    @Impure
     public abstract long getDateTimeMillis(int year, int monthOfYear, int dayOfMonth,
                            int hourOfDay, int minuteOfHour,
                            int secondOfMinute, int millisOfSecond);
@@ -148,6 +155,7 @@ public abstract class Chronology {
      * @return millisecond instant from 1970-01-01T00:00:00Z
      * @throws IllegalArgumentException if the values are invalid
      */
+    @Impure
     public abstract long getDateTimeMillis(long instant,
                            int hourOfDay, int minuteOfHour,
                            int secondOfMinute, int millisOfSecond);
@@ -160,6 +168,7 @@ public abstract class Chronology {
      * @param values  the values to validate, not null, match fields in partial
      * @throws IllegalArgumentException if the instant is invalid
      */
+    @Impure
     public abstract void validate(ReadablePartial partial, int[] values);
 
     /**
@@ -169,6 +178,7 @@ public abstract class Chronology {
      * @param instant  the instant to query
      * @return the values of this partial extracted from the instant
      */
+    @Impure
     public abstract int[] get(ReadablePartial partial, long instant);
 
     /**
@@ -178,6 +188,7 @@ public abstract class Chronology {
      * @param instant  the instant to update
      * @return the updated instant
      */
+    @Impure
     public abstract long set(ReadablePartial partial, long instant);
 
     //-----------------------------------------------------------------------
@@ -189,6 +200,7 @@ public abstract class Chronology {
      * @param endInstant  the start instant of an interval to query
      * @return the values of the period extracted from the interval
      */
+    @Impure
     public abstract int[] get(ReadablePeriod period, long startInstant, long endInstant);
 
     /**
@@ -198,6 +210,7 @@ public abstract class Chronology {
      * @param duration  the duration to query
      * @return the values of the period extracted from the duration
      */
+    @Impure
     public abstract int[] get(ReadablePeriod period, long duration);
 
     /**
@@ -208,6 +221,7 @@ public abstract class Chronology {
      * @param scalar  the number of times to add
      * @return the updated instant
      */
+    @Impure
     public abstract long add(ReadablePeriod period, long instant, int scalar);
 
     //-----------------------------------------------------------------------
@@ -219,6 +233,8 @@ public abstract class Chronology {
      * @param scalar  the number of times to add
      * @return the updated instant
      */
+    @Pure
+    @Impure
     public abstract long add(long instant, long duration, int scalar);
 
     // Millis
@@ -228,6 +244,7 @@ public abstract class Chronology {
      * 
      * @return DurationField or UnsupportedDurationField if unsupported
      */
+    @Impure
     public abstract DurationField millis();
 
     /**
@@ -235,6 +252,7 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
+    @Impure
     public abstract DateTimeField millisOfSecond();
 
     /**
@@ -242,6 +260,7 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
+    @Impure
     public abstract DateTimeField millisOfDay();
 
     // Second
@@ -251,6 +270,7 @@ public abstract class Chronology {
      * 
      * @return DurationField or UnsupportedDurationField if unsupported
      */
+    @Impure
     public abstract DurationField seconds();
 
     /**
@@ -258,6 +278,7 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
+    @Impure
     public abstract DateTimeField secondOfMinute();
 
     /**
@@ -265,6 +286,7 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
+    @Impure
     public abstract DateTimeField secondOfDay();
 
     // Minute
@@ -274,6 +296,7 @@ public abstract class Chronology {
      * 
      * @return DurationField or UnsupportedDurationField if unsupported
      */
+    @Impure
     public abstract DurationField minutes();
 
     /**
@@ -281,6 +304,7 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
+    @Impure
     public abstract DateTimeField minuteOfHour();
 
     /**
@@ -288,6 +312,7 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
+    @Impure
     public abstract DateTimeField minuteOfDay();
 
     // Hour
@@ -297,6 +322,7 @@ public abstract class Chronology {
      * 
      * @return DurationField or UnsupportedDurationField if unsupported
      */
+    @Impure
     public abstract DurationField hours();
 
     /**
@@ -304,6 +330,7 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
+    @Impure
     public abstract DateTimeField hourOfDay();
 
     /**
@@ -311,6 +338,7 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
+    @Impure
     public abstract DateTimeField clockhourOfDay();
 
     // Halfday
@@ -320,6 +348,7 @@ public abstract class Chronology {
      * 
      * @return DurationField or UnsupportedDurationField if unsupported
      */
+    @Impure
     public abstract DurationField halfdays();
 
     /**
@@ -327,6 +356,7 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
+    @Impure
     public abstract DateTimeField hourOfHalfday();
 
     /**
@@ -334,6 +364,7 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
+    @Impure
     public abstract DateTimeField clockhourOfHalfday();
 
     /**
@@ -341,6 +372,7 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
+    @Impure
     public abstract DateTimeField halfdayOfDay();
 
     // Day
@@ -350,6 +382,7 @@ public abstract class Chronology {
      * 
      * @return DurationField or UnsupportedDurationField if unsupported
      */
+    @Impure
     public abstract DurationField days();
 
     /**
@@ -360,6 +393,7 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
+    @Impure
     public abstract DateTimeField dayOfWeek();
 
     /**
@@ -367,6 +401,7 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
+    @Impure
     public abstract DateTimeField dayOfMonth();
 
     /**
@@ -374,6 +409,7 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
+    @Impure
     public abstract DateTimeField dayOfYear();
 
     // Week
@@ -383,6 +419,7 @@ public abstract class Chronology {
      * 
      * @return DurationField or UnsupportedDurationField if unsupported
      */
+    @Impure
     public abstract DurationField weeks();
 
     /**
@@ -390,6 +427,7 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
+    @Impure
     public abstract DateTimeField weekOfWeekyear();
 
     // Weekyear
@@ -399,6 +437,7 @@ public abstract class Chronology {
      * 
      * @return DurationField or UnsupportedDurationField if unsupported
      */
+    @Impure
     public abstract DurationField weekyears();
 
     /**
@@ -406,6 +445,7 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
+    @Impure
     public abstract DateTimeField weekyear();
 
     /**
@@ -413,6 +453,7 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
+    @Impure
     public abstract  DateTimeField weekyearOfCentury();
 
     // Month
@@ -422,6 +463,7 @@ public abstract class Chronology {
      * 
      * @return DurationField or UnsupportedDurationField if unsupported
      */
+    @Impure
     public abstract DurationField months();
 
     /**
@@ -429,6 +471,7 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
+    @Impure
     public abstract DateTimeField monthOfYear();
 
     // Year
@@ -438,6 +481,7 @@ public abstract class Chronology {
      * 
      * @return DurationField or UnsupportedDurationField if unsupported
      */
+    @Impure
     public abstract DurationField years();
 
     /**
@@ -445,6 +489,7 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
+    @Impure
     public abstract DateTimeField year();
 
     /**
@@ -452,6 +497,7 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
+    @Impure
     public abstract DateTimeField yearOfEra();
 
     /**
@@ -459,6 +505,7 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
+    @Impure
     public abstract DateTimeField yearOfCentury();
 
     // Century
@@ -468,6 +515,7 @@ public abstract class Chronology {
      * 
      * @return DurationField or UnsupportedDurationField if unsupported
      */
+    @Impure
     public abstract DurationField centuries();
 
     /**
@@ -475,6 +523,7 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
+    @Impure
     public abstract DateTimeField centuryOfEra();
 
     // Era
@@ -484,6 +533,7 @@ public abstract class Chronology {
      * 
      * @return DurationField or UnsupportedDurationField if unsupported
      */
+    @Impure
     public abstract DurationField eras();
 
     /**
@@ -491,6 +541,7 @@ public abstract class Chronology {
      * 
      * @return DateTimeField or UnsupportedDateTimeField if unsupported
      */
+    @Impure
     public abstract DateTimeField era();
 
     //-----------------------------------------------------------------------
@@ -499,6 +550,7 @@ public abstract class Chronology {
      * 
      * @return a debugging string
      */
+    @Impure
     public abstract String toString();
 
 }

@@ -15,6 +15,8 @@
  */
 package org.joda.time.field;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.Serializable;
 
 import org.joda.time.DurationField;
@@ -40,15 +42,19 @@ public final class MillisDurationField extends DurationField implements Serializ
     /**
      * Restricted constructor.
      */
+    @Impure
     private MillisDurationField() {
         super();
     }
     
     //------------------------------------------------------------------------
+    @Pure
+    @Impure
     public DurationFieldType getType() {
         return DurationFieldType.millis();
     }
 
+    @Pure
     public String getName() {
         return "millis";
     }
@@ -58,6 +64,7 @@ public final class MillisDurationField extends DurationField implements Serializ
      * 
      * @return true always
      */
+    @Pure
     public boolean isSupported() {
         return true;
     }
@@ -67,6 +74,7 @@ public final class MillisDurationField extends DurationField implements Serializ
      * 
      * @return true always
      */
+    @Pure
     public final boolean isPrecise() {
         return true;
     }
@@ -76,60 +84,80 @@ public final class MillisDurationField extends DurationField implements Serializ
      *
      * @return one always
      */
+    @Pure
     public final long getUnitMillis() {
         return 1;
     }
 
     //------------------------------------------------------------------------
+    @Pure
+    @Impure
     public int getValue(long duration) {
         return FieldUtils.safeToInt(duration);
     }
 
+    @Pure
     public long getValueAsLong(long duration) {
         return duration;
     }
 
+    @Pure
+    @Impure
     public int getValue(long duration, long instant) {
         return FieldUtils.safeToInt(duration);
     }
 
+    @Pure
     public long getValueAsLong(long duration, long instant) {
         return duration;
     }
 
+    @Pure
     public long getMillis(int value) {
         return value;
     }
 
+    @Pure
     public long getMillis(long value) {
         return value;
     }
 
+    @Pure
     public long getMillis(int value, long instant) {
         return value;
     }
 
+    @Pure
     public long getMillis(long value, long instant) {
         return value;
     }
 
+    @Pure
+    @Impure
     public long add(long instant, int value) {
         return FieldUtils.safeAdd(instant, value);
     }
 
+    @Pure
+    @Impure
     public long add(long instant, long value) {
         return FieldUtils.safeAdd(instant, value);
     }
 
+    @Pure
+    @Impure
     public int getDifference(long minuendInstant, long subtrahendInstant) {
         return FieldUtils.safeToInt(FieldUtils.safeSubtract(minuendInstant, subtrahendInstant));
     }
 
+    @Pure
+    @Impure
     public long getDifferenceAsLong(long minuendInstant, long subtrahendInstant) {
         return FieldUtils.safeSubtract(minuendInstant, subtrahendInstant);
     }
 
     //------------------------------------------------------------------------
+    @Impure
     public int compareTo(DurationField otherField) {
         long otherMillis = otherField.getUnitMillis();
         long thisMillis = getUnitMillis();
@@ -144,6 +172,8 @@ public final class MillisDurationField extends DurationField implements Serializ
         }
     }
 
+    @Pure
+    @Impure
     public boolean equals(Object obj) {
         if (obj instanceof MillisDurationField) {
             return getUnitMillis() == ((MillisDurationField) obj).getUnitMillis();
@@ -151,6 +181,8 @@ public final class MillisDurationField extends DurationField implements Serializ
         return false;
     }
 
+    @Pure
+    @Impure
     public int hashCode() {
         return (int) getUnitMillis();
     }
@@ -160,6 +192,7 @@ public final class MillisDurationField extends DurationField implements Serializ
      * 
      * @return debug string
      */
+    @Pure
     public String toString() {
         return "DurationField[millis]";
     }
@@ -167,6 +200,7 @@ public final class MillisDurationField extends DurationField implements Serializ
     /**
      * Deserialize to the singleton.
      */
+    @Pure
     private Object readResolve() {
         return INSTANCE;
     }

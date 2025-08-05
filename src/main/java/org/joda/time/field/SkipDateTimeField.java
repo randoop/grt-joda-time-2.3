@@ -15,6 +15,8 @@
  */
 package org.joda.time.field;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import org.joda.time.Chronology;
 import org.joda.time.DateTimeField;
 import org.joda.time.DateTimeFieldType;
@@ -50,6 +52,7 @@ public final class SkipDateTimeField extends DelegatedDateTimeField {
      * @param chronology  the chronoogy to use
      * @param field  the field to skip zero on
      */
+    @Impure
     public SkipDateTimeField(Chronology chronology, DateTimeField field) {
         this(chronology, field, 0);
     }
@@ -61,6 +64,7 @@ public final class SkipDateTimeField extends DelegatedDateTimeField {
      * @param field  the field to skip zero on
      * @param skip  the value to skip
      */
+    @Impure
     public SkipDateTimeField(Chronology chronology, DateTimeField field, int skip) {
         super(field);
         iChronology = chronology;
@@ -76,6 +80,7 @@ public final class SkipDateTimeField extends DelegatedDateTimeField {
     }
 
     //-----------------------------------------------------------------------
+    @Impure
     public int get(long millis) {
         int value = super.get(millis);
         if (value <= iSkip) {
@@ -84,6 +89,7 @@ public final class SkipDateTimeField extends DelegatedDateTimeField {
         return value;
     }
 
+    @Impure
     public long set(long millis, int value) {
         FieldUtils.verifyValueBounds(this, value, iMinValue, getMaximumValue());
         if (value <= iSkip) {
@@ -96,10 +102,12 @@ public final class SkipDateTimeField extends DelegatedDateTimeField {
         return super.set(millis, value);
     }
 
+    @Pure
     public int getMinimumValue() {
         return iMinValue;
     }
 
+    @Impure
     private Object readResolve() {
         return getType().getField(iChronology);
     }

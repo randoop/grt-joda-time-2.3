@@ -15,6 +15,9 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -99,6 +102,7 @@ public final class MonthDay
      * @return the current month-day, not null
      * @since 2.0
      */
+    @Impure
     public static MonthDay now() {
         return new MonthDay();
     }
@@ -112,6 +116,7 @@ public final class MonthDay
      * @return the current month-day, not null
      * @since 2.0
      */
+    @Impure
     public static MonthDay now(DateTimeZone zone) {
         if (zone == null) {
             throw new NullPointerException("Zone must not be null");
@@ -128,6 +133,7 @@ public final class MonthDay
      * @return the current month-day, not null
      * @since 2.0
      */
+    @Impure
     public static MonthDay now(Chronology chronology) {
         if (chronology == null) {
             throw new NullPointerException("Chronology must not be null");
@@ -144,6 +150,7 @@ public final class MonthDay
      * @param str  the string to parse, not null
      * @since 2.0
      */
+    @Impure
     @FromString
     public static MonthDay parse(String str) {
         return parse(str, PARSER);
@@ -156,6 +163,7 @@ public final class MonthDay
      * @param formatter  the formatter to use, not null
      * @since 2.0
      */
+    @Impure
     public static MonthDay parse(String str, DateTimeFormatter formatter) {
         LocalDate date = formatter.parseLocalDate(str);
         return new MonthDay(date.getMonthOfYear(), date.getDayOfMonth());
@@ -178,6 +186,7 @@ public final class MonthDay
      * @throws IllegalArgumentException if the calendar is null
      * @throws IllegalArgumentException if the monthOfYear or dayOfMonth is invalid for the ISO chronology
      */
+    @Impure
     public static MonthDay fromCalendarFields(Calendar calendar) {
         if (calendar == null) {
             throw new IllegalArgumentException("The calendar must not be null");
@@ -198,6 +207,7 @@ public final class MonthDay
      * @throws IllegalArgumentException if the calendar is null
      * @throws IllegalArgumentException if the monthOfYear or dayOfMonth is invalid for the ISO chronology
      */
+    @Impure
     @SuppressWarnings("deprecation")
     public static MonthDay fromDateFields(Date date) {
         if (date == null) {
@@ -217,6 +227,7 @@ public final class MonthDay
      * 
      * @see #now()
      */
+    @Impure
     public MonthDay() {
         super();
     }
@@ -232,6 +243,7 @@ public final class MonthDay
      * @param zone  the zone to use, null means default zone
      * @see #now(DateTimeZone)
      */
+    @Impure
     public MonthDay(DateTimeZone zone) {
         super(ISOChronology.getInstance(zone));
     }
@@ -247,6 +259,7 @@ public final class MonthDay
      * @param chronology  the chronology, null means ISOChronology in the default zone
      * @see #now(Chronology)
      */
+    @Impure
     public MonthDay(Chronology chronology) {
         super(chronology);
     }
@@ -261,6 +274,7 @@ public final class MonthDay
      *
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z
      */
+    @Impure
     public MonthDay(long instant) {
         super(instant);
     }
@@ -276,6 +290,7 @@ public final class MonthDay
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z
      * @param chronology  the chronology, null means ISOChronology in the default zone
      */
+    @Impure
     public MonthDay(long instant, Chronology chronology) {
         super(instant, chronology);
     }
@@ -293,6 +308,7 @@ public final class MonthDay
      * @param instant  the date-time object, null means now
      * @throws IllegalArgumentException if the instant is invalid
      */
+    @Impure
     public MonthDay(Object instant) {
         super(instant, null, ISODateTimeFormat.localDateParser());
     }
@@ -315,6 +331,7 @@ public final class MonthDay
      * @param chronology  the chronology, null means ISO default
      * @throws IllegalArgumentException if the instant is invalid
      */
+    @Impure
     public MonthDay(Object instant, Chronology chronology) {
         super(instant, DateTimeUtils.getChronology(chronology), ISODateTimeFormat.localDateParser());
     }
@@ -330,6 +347,7 @@ public final class MonthDay
      * @param monthOfYear  the month of the year
      * @param dayOfMonth  the day of the month
      */
+    @Impure
     public MonthDay(int monthOfYear, int dayOfMonth) {
         this(monthOfYear, dayOfMonth, null);
     }
@@ -348,6 +366,7 @@ public final class MonthDay
      * @param dayOfMonth  the day of the month
      * @param chronology  the chronology, null means ISOChronology in the default zone
      */
+    @Impure
     public MonthDay(int monthOfYear, int dayOfMonth, Chronology chronology) {
         super(new int[] {monthOfYear, dayOfMonth}, chronology);
     }
@@ -358,6 +377,8 @@ public final class MonthDay
      * @param partial  the partial to base this new instance on
      * @param values  the new set of values
      */
+    @SideEffectFree
+    @Impure
     MonthDay(MonthDay partial, int[] values) {
         super(partial, values);
     }
@@ -368,6 +389,7 @@ public final class MonthDay
      * @param partial  the partial to base this new instance on
      * @param chrono  the new chronology
      */
+    @Impure
     MonthDay(MonthDay partial, Chronology chrono) {
         super(partial, chrono);
     }
@@ -376,6 +398,7 @@ public final class MonthDay
      * Handle broken serialization from other tools.
      * @return the resolved object, not null
      */
+    @Impure
     private Object readResolve() {
         if (DateTimeZone.UTC.equals(getChronology().getZone()) == false) {
             return new MonthDay(this, getChronology().withUTC());
@@ -391,6 +414,7 @@ public final class MonthDay
      *
      * @return the field count, two
      */
+    @Pure
     public int size() {
         return 2;
     }
@@ -404,6 +428,7 @@ public final class MonthDay
      * @param chrono  the chronology to use
      * @return the field, never null
      */
+    @Impure
     protected DateTimeField getField(int index, Chronology chrono) {
         switch (index) {
         case MONTH_OF_YEAR:
@@ -422,6 +447,7 @@ public final class MonthDay
      * @return the field at the specified index, never null
      * @throws IndexOutOfBoundsException if the index is invalid
      */
+    @Pure
     public DateTimeFieldType getFieldType(int index) {
         return FIELD_TYPES[index];
     }
@@ -433,6 +459,7 @@ public final class MonthDay
      *
      * @return the array of field types (cloned), largest to smallest, never null
      */
+    @SideEffectFree
     public DateTimeFieldType[] getFieldTypes() {
         return (DateTimeFieldType[]) FIELD_TYPES.clone();
     }
@@ -452,6 +479,7 @@ public final class MonthDay
      * @return a copy of this month-day with a different chronology, never null
      * @throws IllegalArgumentException if the values are invalid for the new chronology
      */
+    @Impure
     public MonthDay withChronologyRetainFields(Chronology newChronology) {
         newChronology = DateTimeUtils.getChronology(newChronology);
         newChronology = newChronology.withUTC();
@@ -482,6 +510,7 @@ public final class MonthDay
      * @return a copy of this instance with the field set, never null
      * @throws IllegalArgumentException if the value is null or invalid
      */
+    @Impure
     public MonthDay withField(DateTimeFieldType fieldType, int value) {
         int index = indexOfSupported(fieldType);
         if (value == getValue(index)) {
@@ -510,6 +539,7 @@ public final class MonthDay
      * @throws IllegalArgumentException if the value is null or invalid
      * @throws ArithmeticException if the new date-time exceeds the capacity
      */
+    @Impure
     public MonthDay withFieldAdded(DurationFieldType fieldType, int amount) {
         int index = indexOfSupported(fieldType);
         if (amount == 0) {
@@ -536,6 +566,7 @@ public final class MonthDay
      * @return a copy of this instance with the period added, never null
      * @throws ArithmeticException if the new date-time exceeds the capacity
      */
+    @Impure
     public MonthDay withPeriodAdded(ReadablePeriod period, int scalar) {
         if (period == null || scalar == 0) {
             return this;
@@ -566,6 +597,7 @@ public final class MonthDay
      * @return a copy of this instance with the period added, never null
      * @throws ArithmeticException if the new month-day exceeds the capacity
      */
+    @Impure
     public MonthDay plus(ReadablePeriod period) {
         return withPeriodAdded(period, 1);
     }
@@ -588,6 +620,7 @@ public final class MonthDay
      * @param months  the amount of months to add, may be negative
      * @return the new month-day plus the increased months, never null
      */
+    @Impure
     public MonthDay plusMonths(int months) {
         return withFieldAdded(DurationFieldType.months(), months);
     }
@@ -608,6 +641,7 @@ public final class MonthDay
      * @param days  the amount of days to add, may be negative
      * @return the new month-day plus the increased days, never null
      */
+    @Impure
     public MonthDay plusDays(int days) {
         return withFieldAdded(DurationFieldType.days(), days);
     }
@@ -626,6 +660,7 @@ public final class MonthDay
      * @return a copy of this instance with the period taken away, never null
      * @throws ArithmeticException if the new month-day exceeds the capacity
      */
+    @Impure
     public MonthDay minus(ReadablePeriod period) {
         return withPeriodAdded(period, -1);
     }
@@ -648,6 +683,7 @@ public final class MonthDay
      * @param months  the amount of months to subtract, may be negative
      * @return the new month-day minus the increased months, never null
      */
+    @Impure
     public MonthDay minusMonths(int months) {
         return withFieldAdded(DurationFieldType.months(), FieldUtils.safeNegate(months));
     }
@@ -668,6 +704,7 @@ public final class MonthDay
      * @param days  the amount of days to subtract, may be negative
      * @return the new month-day minus the increased days, never null
      */
+    @Impure
     public MonthDay minusDays(int days) {
         return withFieldAdded(DurationFieldType.days(), FieldUtils.safeNegate(days));
     }
@@ -679,6 +716,7 @@ public final class MonthDay
      * @param year  the year to use, valid for chronology
      * @return a LocalDate with the same month-day and chronology, never null
      */
+    @Impure
     public LocalDate toLocalDate(int year) {
         return new LocalDate(year, getMonthOfYear(), getDayOfMonth(), getChronology());
     }
@@ -689,6 +727,8 @@ public final class MonthDay
      *
      * @return the month of year
      */
+    @Pure
+    @Impure
     public int getMonthOfYear() {
         return getValue(MONTH_OF_YEAR);
     }
@@ -698,6 +738,8 @@ public final class MonthDay
      *
      * @return the day of month
      */
+    @Pure
+    @Impure
     public int getDayOfMonth() {
         return getValue(DAY_OF_MONTH);
     }
@@ -714,6 +756,7 @@ public final class MonthDay
      * @return a copy of this object with the field set, never null
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public MonthDay withMonthOfYear(int monthOfYear) {
         int[] newValues = getValues();
         newValues = getChronology().monthOfYear().set(this, MONTH_OF_YEAR, newValues, monthOfYear);
@@ -731,6 +774,7 @@ public final class MonthDay
      * @return a copy of this object with the field set, never null
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public MonthDay withDayOfMonth(int dayOfMonth) {
         int[] newValues = getValues();
         newValues = getChronology().dayOfMonth().set(this, DAY_OF_MONTH, newValues, dayOfMonth);
@@ -746,6 +790,7 @@ public final class MonthDay
      * @return the property object
      * @throws IllegalArgumentException if the field is null or unsupported
      */
+    @Impure
     public Property property(DateTimeFieldType type) {
         return new Property(this, indexOfSupported(type));
     }
@@ -756,6 +801,8 @@ public final class MonthDay
      * 
      * @return the month of year property
      */
+    @SideEffectFree
+    @Impure
     public Property monthOfYear() {
         return new Property(this, MONTH_OF_YEAR);
     }
@@ -765,6 +812,8 @@ public final class MonthDay
      * 
      * @return the day of month property
      */
+    @SideEffectFree
+    @Impure
     public Property dayOfMonth() {
         return new Property(this, DAY_OF_MONTH);
     }
@@ -775,6 +824,7 @@ public final class MonthDay
      *
      * @return ISO8601 time formatted string.
      */
+    @Impure
     @ToString
     public String toString() {
         List<DateTimeFieldType> fields = new ArrayList<DateTimeFieldType>();
@@ -789,6 +839,7 @@ public final class MonthDay
      * @param pattern  the pattern specification, null means use <code>toString</code>
      * @see org.joda.time.format.DateTimeFormat
      */
+    @Impure
     public String toString(String pattern) {
         if (pattern == null) {
             return toString();
@@ -803,6 +854,7 @@ public final class MonthDay
      * @param locale  Locale to use, null means default
      * @see org.joda.time.format.DateTimeFormat
      */
+    @Impure
     public String toString(String pattern, Locale locale) throws IllegalArgumentException {
         if (pattern == null) {
             return toString();
@@ -835,6 +887,8 @@ public final class MonthDay
          * @param partial  the partial instance
          * @param fieldIndex  the index in the partial
          */
+        @SideEffectFree
+        @Impure
         Property(MonthDay partial, int fieldIndex) {
             super();
             iBase = partial;
@@ -846,6 +900,7 @@ public final class MonthDay
          * 
          * @return the field
          */
+        @Impure
         public DateTimeField getField() {
             return iBase.getField(iFieldIndex);
         }
@@ -855,6 +910,7 @@ public final class MonthDay
          * 
          * @return the partial
          */
+        @Pure
         protected ReadablePartial getReadablePartial() {
             return iBase;
         }
@@ -864,6 +920,7 @@ public final class MonthDay
          * 
          * @return the partial
          */
+        @Pure
         public MonthDay getMonthDay() {
             return iBase;
         }
@@ -873,6 +930,8 @@ public final class MonthDay
          * 
          * @return the field value
          */
+        @Pure
+        @Impure
         public int get() {
             return iBase.getValue(iFieldIndex);
         }
@@ -892,6 +951,7 @@ public final class MonthDay
          * @return a copy of the MonthDay with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
+        @Impure
         public MonthDay addToCopy(int valueToAdd) {
             int[] newValues = iBase.getValues();
             newValues = getField().add(iBase, iFieldIndex, newValues, valueToAdd);
@@ -916,6 +976,7 @@ public final class MonthDay
          * @return a copy of the MonthDay with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
+        @Impure
         public MonthDay addWrapFieldToCopy(int valueToAdd) {
             int[] newValues = iBase.getValues();
             newValues = getField().addWrapField(iBase, iFieldIndex, newValues, valueToAdd);
@@ -933,6 +994,7 @@ public final class MonthDay
          * @return a copy of the MonthDay with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
+        @Impure
         public MonthDay setCopy(int value) {
             int[] newValues = iBase.getValues();
             newValues = getField().set(iBase, iFieldIndex, newValues, value);
@@ -950,6 +1012,7 @@ public final class MonthDay
          * @return a copy of the MonthDay with the field value changed
          * @throws IllegalArgumentException if the text value isn't valid
          */
+        @Impure
         public MonthDay setCopy(String text, Locale locale) {
             int[] newValues = iBase.getValues();
             newValues = getField().set(iBase, iFieldIndex, newValues, text, locale);
@@ -966,6 +1029,7 @@ public final class MonthDay
          * @return a copy of the MonthDay with the field value changed
          * @throws IllegalArgumentException if the text value isn't valid
          */
+        @Impure
         public MonthDay setCopy(String text) {
             return setCopy(text, null);
         }

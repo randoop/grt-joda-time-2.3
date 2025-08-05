@@ -15,6 +15,9 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.Serializable;
 import java.util.Comparator;
 
@@ -68,6 +71,7 @@ public class DateTimeComparator implements Comparator<Object>, Serializable {
      * 
      * @return a comparator over all fields
      */
+    @Pure
     public static DateTimeComparator getInstance() {
         return ALL_INSTANCE;
     }
@@ -79,6 +83,8 @@ public class DateTimeComparator implements Comparator<Object>, Serializable {
      * @param lowerLimit  inclusive lower limit for fields to be compared, null means no limit
      * @return a comparator over all fields above the lower limit
      */
+    @SideEffectFree
+    @Impure
     public static DateTimeComparator getInstance(DateTimeFieldType lowerLimit) {
         return getInstance(lowerLimit, null);
     }
@@ -94,6 +100,8 @@ public class DateTimeComparator implements Comparator<Object>, Serializable {
      * @param upperLimit  exclusive upper limit for fields to be compared, null means no limit
      * @return a comparator over all fields between the limits
      */
+    @SideEffectFree
+    @Impure
     public static DateTimeComparator getInstance(DateTimeFieldType lowerLimit, DateTimeFieldType upperLimit) {
         if (lowerLimit == null && upperLimit == null) {
             return ALL_INSTANCE;
@@ -113,6 +121,7 @@ public class DateTimeComparator implements Comparator<Object>, Serializable {
      * 
      * @return a comparator over all date fields
      */
+    @Pure
     public static DateTimeComparator getDateOnlyInstance() {
         return DATE_INSTANCE;
     }
@@ -123,6 +132,7 @@ public class DateTimeComparator implements Comparator<Object>, Serializable {
      * 
      * @return a comparator over all time fields
      */
+    @Pure
     public static DateTimeComparator getTimeOnlyInstance() {
         return TIME_INSTANCE;
     }
@@ -133,6 +143,7 @@ public class DateTimeComparator implements Comparator<Object>, Serializable {
      * @param lowerLimit  the lower field limit, null means no limit
      * @param upperLimit  the upper field limit, null means no limit
      */
+    @SideEffectFree
     protected DateTimeComparator(DateTimeFieldType lowerLimit, DateTimeFieldType upperLimit) {
         super();
         iLowerLimit = lowerLimit;
@@ -145,6 +156,7 @@ public class DateTimeComparator implements Comparator<Object>, Serializable {
      * 
      * @return the field type, null if no upper limit
      */
+    @Pure
     public DateTimeFieldType getLowerLimit() {
         return iLowerLimit;
     }
@@ -154,6 +166,7 @@ public class DateTimeComparator implements Comparator<Object>, Serializable {
      * 
      * @return the field type, null if no upper limit
      */
+    @Pure
     public DateTimeFieldType getUpperLimit() {
         return iUpperLimit;
     }
@@ -170,6 +183,7 @@ public class DateTimeComparator implements Comparator<Object>, Serializable {
      *      negative value if lhsObj &lt; rhsObj, positive value otherwise.
      * @throws IllegalArgumentException if either argument is not supported
      */
+    @Impure
     public int compare(Object lhsObj, Object rhsObj) {
         InstantConverter conv = ConverterManager.getInstance().getInstantConverter(lhsObj);
         Chronology lhsChrono = conv.getChronology(lhsObj, (Chronology) null);
@@ -204,6 +218,8 @@ public class DateTimeComparator implements Comparator<Object>, Serializable {
      * 
      * @return the resolved singleton instance
      */
+    @SideEffectFree
+    @Impure
     private Object readResolve() {
         return getInstance(iLowerLimit, iUpperLimit);
     }
@@ -214,6 +230,8 @@ public class DateTimeComparator implements Comparator<Object>, Serializable {
      * @param object  the object to compare to
      * @return true if equal
      */
+    @Pure
+    @Impure
     public boolean equals(Object object) {
         if (object instanceof DateTimeComparator) {
             DateTimeComparator other = (DateTimeComparator) object;
@@ -230,6 +248,7 @@ public class DateTimeComparator implements Comparator<Object>, Serializable {
      * 
      * @return the hashcode
      */
+    @Pure
     public int hashCode() {
         return (iLowerLimit == null ? 0 : iLowerLimit.hashCode()) +
                (123 * (iUpperLimit == null ? 0 : iUpperLimit.hashCode()));
@@ -240,6 +259,8 @@ public class DateTimeComparator implements Comparator<Object>, Serializable {
      * 
      * @return a debugging string
      */
+    @Pure
+    @Impure
     public String toString() {
         if (iLowerLimit == iUpperLimit) {
             return "DateTimeComparator["

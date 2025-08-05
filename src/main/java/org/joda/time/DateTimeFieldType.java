@@ -15,6 +15,9 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.Serializable;
 
 /**
@@ -149,6 +152,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @param name  the name to use
      */
+    @SideEffectFree
     protected DateTimeFieldType(String name) {
         super();
         iName = name;
@@ -160,6 +164,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DateTimeFieldType millisOfSecond() {
         return MILLIS_OF_SECOND_TYPE;
     }
@@ -169,6 +174,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DateTimeFieldType millisOfDay() {
         return MILLIS_OF_DAY_TYPE;
     }
@@ -178,6 +184,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DateTimeFieldType secondOfMinute() {
         return SECOND_OF_MINUTE_TYPE;
     }
@@ -187,6 +194,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DateTimeFieldType secondOfDay() {
         return SECOND_OF_DAY_TYPE;
     }
@@ -196,6 +204,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DateTimeFieldType minuteOfHour() {
         return MINUTE_OF_HOUR_TYPE;
     }
@@ -205,6 +214,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DateTimeFieldType minuteOfDay() {
         return MINUTE_OF_DAY_TYPE;
     }
@@ -214,6 +224,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DateTimeFieldType hourOfDay() {
         return HOUR_OF_DAY_TYPE;
     }
@@ -223,6 +234,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DateTimeFieldType clockhourOfDay() {
         return CLOCKHOUR_OF_DAY_TYPE;
     }
@@ -232,6 +244,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DateTimeFieldType hourOfHalfday() {
         return HOUR_OF_HALFDAY_TYPE;
     }
@@ -241,6 +254,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DateTimeFieldType clockhourOfHalfday() {
         return CLOCKHOUR_OF_HALFDAY_TYPE;
     }
@@ -250,6 +264,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DateTimeFieldType halfdayOfDay() {
         return HALFDAY_OF_DAY_TYPE;
     }
@@ -260,6 +275,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DateTimeFieldType dayOfWeek() {
         return DAY_OF_WEEK_TYPE;
     }
@@ -269,6 +285,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DateTimeFieldType dayOfMonth() {
         return DAY_OF_MONTH_TYPE;
     }
@@ -278,6 +295,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DateTimeFieldType dayOfYear() {
         return DAY_OF_YEAR_TYPE;
     }
@@ -287,6 +305,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DateTimeFieldType weekOfWeekyear() {
         return WEEK_OF_WEEKYEAR_TYPE;
     }
@@ -296,6 +315,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DateTimeFieldType weekyear() {
         return WEEKYEAR_TYPE;
     }
@@ -305,6 +325,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DateTimeFieldType weekyearOfCentury() {
         return WEEKYEAR_OF_CENTURY_TYPE;
     }
@@ -314,6 +335,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DateTimeFieldType monthOfYear() {
         return MONTH_OF_YEAR_TYPE;
     }
@@ -323,6 +345,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DateTimeFieldType year() {
         return YEAR_TYPE;
     }
@@ -332,6 +355,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DateTimeFieldType yearOfEra() {
         return YEAR_OF_ERA_TYPE;
     }
@@ -341,6 +365,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DateTimeFieldType yearOfCentury() {
         return YEAR_OF_CENTURY_TYPE;
     }
@@ -350,6 +375,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DateTimeFieldType centuryOfEra() {
         return CENTURY_OF_ERA_TYPE;
     }
@@ -359,6 +385,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DateTimeFieldType era() {
         return ERA_TYPE;
     }
@@ -374,6 +401,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return field name
      */
+    @Pure
     public String getName() {
         return iName;
     }
@@ -383,6 +411,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return duration unit of the field, never null
      */
+    @Pure
     public abstract DurationFieldType getDurationType();
 
     /**
@@ -390,6 +419,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return duration range of the field, null if unbounded
      */
+    @Pure
     public abstract DurationFieldType getRangeDurationType();
 
     /**
@@ -398,6 +428,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * @param chronology  the chronology to use, null means ISOChronology in default zone
      * @return a suitable field
      */
+    @Impure
     public abstract DateTimeField getField(Chronology chronology);
 
     /**
@@ -406,6 +437,7 @@ public abstract class DateTimeFieldType implements Serializable {
      * @param chronology  the chronology to use, null means ISOChronology in default zone
      * @return true if supported
      */
+    @Impure
     public boolean isSupported(Chronology chronology) {
         return getField(chronology).isSupported();
     }
@@ -415,6 +447,8 @@ public abstract class DateTimeFieldType implements Serializable {
      * 
      * @return debug string
      */
+    @Pure
+    @Impure
     public String toString() {
         return getName();
     }
@@ -439,6 +473,8 @@ public abstract class DateTimeFieldType implements Serializable {
          * @param unitType  the unit duration type
          * @param rangeType  the range duration type
          */
+        @SideEffectFree
+        @Impure
         StandardDateTimeFieldType(String name, byte ordinal,
                                   DurationFieldType unitType, DurationFieldType rangeType) {
             super(name);
@@ -448,16 +484,19 @@ public abstract class DateTimeFieldType implements Serializable {
         }
 
         /** @inheritdoc */
+        @Pure
         public DurationFieldType getDurationType() {
             return iUnitType;
         }
 
         /** @inheritdoc */
+        @Pure
         public DurationFieldType getRangeDurationType() {
             return iRangeType;
         }
 
         /** @inheritdoc */
+        @Pure
         @Override
         public boolean equals(Object obj) {
             if (this == obj) {
@@ -470,12 +509,14 @@ public abstract class DateTimeFieldType implements Serializable {
         }
 
         /** @inheritdoc */
+        @Pure
         @Override
         public int hashCode() {
             return (1 << iOrdinal);
         }
 
         /** @inheritdoc */
+        @Impure
         public DateTimeField getField(Chronology chronology) {
             chronology = DateTimeUtils.getChronology(chronology);
 
@@ -537,6 +578,7 @@ public abstract class DateTimeFieldType implements Serializable {
          * 
          * @return the singleton type
          */
+        @Pure
         private Object readResolve() {
             switch (iOrdinal) {
                 case ERA:

@@ -15,6 +15,9 @@
  */
 package org.joda.time.base;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import org.joda.convert.ToString;
 import org.joda.time.Duration;
 import org.joda.time.Period;
@@ -40,6 +43,7 @@ public abstract class AbstractDuration implements ReadableDuration {
     /**
      * Constructor.
      */
+    @SideEffectFree
     protected AbstractDuration() {
         super();
     }
@@ -50,6 +54,8 @@ public abstract class AbstractDuration implements ReadableDuration {
      * 
      * @return a Duration created using the millisecond duration from this instance
      */
+    @SideEffectFree
+    @Impure
     public Duration toDuration() {
         return new Duration(getMillis());
     }
@@ -76,6 +82,7 @@ public abstract class AbstractDuration implements ReadableDuration {
      * 
      * @return a Period created using the millisecond duration from this instance
      */
+    @Impure
     public Period toPeriod() {
         return new Period(getMillis());
     }
@@ -89,6 +96,8 @@ public abstract class AbstractDuration implements ReadableDuration {
      * @throws NullPointerException if the object is null
      * @throws ClassCastException if the given object is not supported
      */
+    @Pure
+    @Impure
     public int compareTo(ReadableDuration other) {
         long thisMillis = this.getMillis();
         long otherMillis = other.getMillis();
@@ -109,6 +118,7 @@ public abstract class AbstractDuration implements ReadableDuration {
      * @param duration  another duration to compare to, null means zero milliseconds
      * @return true if this duration is equal to than the duration passed in
      */
+    @Pure
     public boolean isEqual(ReadableDuration duration) {
         if (duration == null) {
             duration = Duration.ZERO;
@@ -122,6 +132,7 @@ public abstract class AbstractDuration implements ReadableDuration {
      * @param duration  another duration to compare to, null means zero milliseconds
      * @return true if this duration is equal to than the duration passed in
      */
+    @Pure
     public boolean isLongerThan(ReadableDuration duration) {
         if (duration == null) {
             duration = Duration.ZERO;
@@ -135,6 +146,7 @@ public abstract class AbstractDuration implements ReadableDuration {
      * @param duration  another duration to compare to, null means zero milliseconds
      * @return true if this duration is equal to than the duration passed in
      */
+    @Pure
     public boolean isShorterThan(ReadableDuration duration) {
         if (duration == null) {
             duration = Duration.ZERO;
@@ -150,6 +162,8 @@ public abstract class AbstractDuration implements ReadableDuration {
      * @param duration  a readable duration to check against
      * @return true if the length of the duration is equal
      */
+    @Pure
+    @Impure
     public boolean equals(Object duration) {
         if (this == duration) {
             return true;
@@ -167,6 +181,8 @@ public abstract class AbstractDuration implements ReadableDuration {
      *
      * @return a hash code
      */
+    @Pure
+    @Impure
     public int hashCode() {
         long len = getMillis();
         return (int) (len ^ (len >>> 32));
@@ -184,6 +200,7 @@ public abstract class AbstractDuration implements ReadableDuration {
      *
      * @return the value as an ISO8601 string
      */
+    @Impure
     @ToString
     public String toString() {
         long millis = getMillis();

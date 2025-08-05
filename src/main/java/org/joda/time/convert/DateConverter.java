@@ -15,6 +15,9 @@
  */
 package org.joda.time.convert;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import java.util.Date;
 
 import org.joda.time.Chronology;
@@ -37,6 +40,8 @@ final class DateConverter extends AbstractConverter
     /**
      * Restricted constructor.
      */
+    @SideEffectFree
+    @Impure
     protected DateConverter() {
         super();
     }
@@ -51,6 +56,7 @@ final class DateConverter extends AbstractConverter
      * @throws NullPointerException if the object is null
      * @throws ClassCastException if the object is an invalid type
      */
+    @Impure
     public long getInstantMillis(Object object, Chronology chrono) {
         Date date = (Date) object;
         return date.getTime();
@@ -62,6 +68,7 @@ final class DateConverter extends AbstractConverter
      * 
      * @return Date.class
      */
+    @Pure
     public Class<?> getSupportedType() {
         return Date.class;
     }

@@ -15,6 +15,9 @@
  */
 package org.joda.time.tz;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.util.Collections;
 import java.util.Set;
 
@@ -33,6 +36,7 @@ public final class UTCProvider implements Provider {
     /**
      * Constructor.
      */
+    @SideEffectFree
     public UTCProvider() {
         super();
     }
@@ -41,6 +45,7 @@ public final class UTCProvider implements Provider {
      * Returns {@link DateTimeZone#UTC UTC} for <code>"UTC"</code>, null
      * otherwise.
      */
+    @Pure
     public DateTimeZone getZone(String id) {
         if ("UTC".equalsIgnoreCase(id)) {
             return DateTimeZone.UTC;
@@ -51,6 +56,7 @@ public final class UTCProvider implements Provider {
     /**
      * Returns a singleton collection containing only <code>"UTC"</code>.
      */    
+    @Impure
     public Set<String> getAvailableIDs() {
         return Collections.singleton("UTC");
     }

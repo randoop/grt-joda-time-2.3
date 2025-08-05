@@ -15,6 +15,9 @@
  */
 package org.joda.time.convert;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.time.JodaTimePermission;
 
 /**
@@ -85,6 +88,7 @@ public final class ConverterManager {
      */
     private static ConverterManager INSTANCE;
 
+    @Impure
     public static ConverterManager getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new ConverterManager();
@@ -101,6 +105,8 @@ public final class ConverterManager {
     /**
      * Restricted constructor.
      */
+    @SideEffectFree
+    @Impure
     protected ConverterManager() {
         super();
 
@@ -156,6 +162,7 @@ public final class ConverterManager {
      * @throws IllegalStateException if multiple converters match the type
      * equally well
      */
+    @Impure
     public InstantConverter getInstantConverter(Object object) {
         InstantConverter converter =
             (InstantConverter)iInstantConverters.select(object == null ? null : object.getClass());
@@ -172,6 +179,8 @@ public final class ConverterManager {
      * 
      * @return the converters, a copy of the real data, never null
      */
+    @SideEffectFree
+    @Impure
     public InstantConverter[] getInstantConverters() {
         ConverterSet set = iInstantConverters;
         InstantConverter[] converters = new InstantConverter[set.size()];
@@ -190,6 +199,7 @@ public final class ConverterManager {
      * @param converter  the converter to add, null ignored
      * @return replaced converter, or null
      */
+    @Impure
     public InstantConverter addInstantConverter(InstantConverter converter)
             throws SecurityException {
         
@@ -209,6 +219,7 @@ public final class ConverterManager {
      * @param converter  the converter to remove, null ignored
      * @return replaced converter, or null
      */
+    @Impure
     public InstantConverter removeInstantConverter(InstantConverter converter)
             throws SecurityException {
         
@@ -226,6 +237,7 @@ public final class ConverterManager {
      * 
      * @throws SecurityException if the user does not have the permission
      */
+    @Impure
     private void checkAlterInstantConverters() throws SecurityException {
         SecurityManager sm = System.getSecurityManager();
         if (sm != null) {
@@ -243,6 +255,7 @@ public final class ConverterManager {
      * @throws IllegalStateException if multiple converters match the type
      * equally well
      */
+    @Impure
     public PartialConverter getPartialConverter(Object object) {
         PartialConverter converter =
             (PartialConverter)iPartialConverters.select(object == null ? null : object.getClass());
@@ -259,6 +272,8 @@ public final class ConverterManager {
      * 
      * @return the converters, a copy of the real data, never null
      */
+    @SideEffectFree
+    @Impure
     public PartialConverter[] getPartialConverters() {
         ConverterSet set = iPartialConverters;
         PartialConverter[] converters = new PartialConverter[set.size()];
@@ -277,6 +292,7 @@ public final class ConverterManager {
      * @param converter  the converter to add, null ignored
      * @return replaced converter, or null
      */
+    @Impure
     public PartialConverter addPartialConverter(PartialConverter converter)
             throws SecurityException {
         
@@ -296,6 +312,7 @@ public final class ConverterManager {
      * @param converter  the converter to remove, null ignored
      * @return replaced converter, or null
      */
+    @Impure
     public PartialConverter removePartialConverter(PartialConverter converter)
             throws SecurityException {
         
@@ -313,6 +330,7 @@ public final class ConverterManager {
      * 
      * @throws SecurityException if the user does not have the permission
      */
+    @Impure
     private void checkAlterPartialConverters() throws SecurityException {
         SecurityManager sm = System.getSecurityManager();
         if (sm != null) {
@@ -330,6 +348,7 @@ public final class ConverterManager {
      * @throws IllegalStateException if multiple converters match the type
      * equally well
      */
+    @Impure
     public DurationConverter getDurationConverter(Object object) {
         DurationConverter converter =
             (DurationConverter)iDurationConverters.select(object == null ? null : object.getClass());
@@ -346,6 +365,8 @@ public final class ConverterManager {
      * 
      * @return the converters, a copy of the real data, never null
      */
+    @SideEffectFree
+    @Impure
     public DurationConverter[] getDurationConverters() {
         ConverterSet set = iDurationConverters;
         DurationConverter[] converters = new DurationConverter[set.size()];
@@ -364,6 +385,7 @@ public final class ConverterManager {
      * @param converter  the converter to add, null ignored
      * @return replaced converter, or null
      */
+    @Impure
     public DurationConverter addDurationConverter(DurationConverter converter)
             throws SecurityException {
         
@@ -383,6 +405,7 @@ public final class ConverterManager {
      * @param converter  the converter to remove, null ignored
      * @return replaced converter, or null
      */
+    @Impure
     public DurationConverter removeDurationConverter(DurationConverter converter)
             throws SecurityException {
         
@@ -400,6 +423,7 @@ public final class ConverterManager {
      * 
      * @throws SecurityException if the user does not have the permission
      */
+    @Impure
     private void checkAlterDurationConverters() throws SecurityException {
         SecurityManager sm = System.getSecurityManager();
         if (sm != null) {
@@ -417,6 +441,7 @@ public final class ConverterManager {
      * @throws IllegalStateException if multiple converters match the type
      * equally well
      */
+    @Impure
     public PeriodConverter getPeriodConverter(Object object) {
         PeriodConverter converter =
             (PeriodConverter)iPeriodConverters.select(object == null ? null : object.getClass());
@@ -433,6 +458,8 @@ public final class ConverterManager {
      * 
      * @return the converters, a copy of the real data, never null
      */
+    @SideEffectFree
+    @Impure
     public PeriodConverter[] getPeriodConverters() {
         ConverterSet set = iPeriodConverters;
         PeriodConverter[] converters = new PeriodConverter[set.size()];
@@ -451,6 +478,7 @@ public final class ConverterManager {
      * @param converter  the converter to add, null ignored
      * @return replaced converter, or null
      */
+    @Impure
     public PeriodConverter addPeriodConverter(PeriodConverter converter)
             throws SecurityException {
         
@@ -470,6 +498,7 @@ public final class ConverterManager {
      * @param converter  the converter to remove, null ignored
      * @return replaced converter, or null
      */
+    @Impure
     public PeriodConverter removePeriodConverter(PeriodConverter converter)
             throws SecurityException {
         
@@ -487,6 +516,7 @@ public final class ConverterManager {
      * 
      * @throws SecurityException if the user does not have the permission
      */
+    @Impure
     private void checkAlterPeriodConverters() throws SecurityException {
         SecurityManager sm = System.getSecurityManager();
         if (sm != null) {
@@ -504,6 +534,7 @@ public final class ConverterManager {
      * @throws IllegalStateException if multiple converters match the type
      * equally well
      */
+    @Impure
     public IntervalConverter getIntervalConverter(Object object) {
         IntervalConverter converter =
             (IntervalConverter)iIntervalConverters.select(object == null ? null : object.getClass());
@@ -520,6 +551,8 @@ public final class ConverterManager {
      * 
      * @return the converters, a copy of the real data, never null
      */
+    @SideEffectFree
+    @Impure
     public IntervalConverter[] getIntervalConverters() {
         ConverterSet set = iIntervalConverters;
         IntervalConverter[] converters = new IntervalConverter[set.size()];
@@ -538,6 +571,7 @@ public final class ConverterManager {
      * @param converter  the converter to add, null ignored
      * @return replaced converter, or null
      */
+    @Impure
     public IntervalConverter addIntervalConverter(IntervalConverter converter) 
             throws SecurityException {
         
@@ -557,6 +591,7 @@ public final class ConverterManager {
      * @param converter  the converter to remove, null ignored
      * @return replaced converter, or null
      */
+    @Impure
     public IntervalConverter removeIntervalConverter(IntervalConverter converter)
             throws SecurityException {
         
@@ -574,6 +609,7 @@ public final class ConverterManager {
      * 
      * @throws SecurityException if the user does not have the permission
      */
+    @Impure
     private void checkAlterIntervalConverters() throws SecurityException {
         SecurityManager sm = System.getSecurityManager();
         if (sm != null) {
@@ -585,6 +621,8 @@ public final class ConverterManager {
     /**
      * Gets a debug representation of the object.
      */
+    @Pure
+    @Impure
     public String toString() {
         return "ConverterManager[" +
             iInstantConverters.size() + " instant," +

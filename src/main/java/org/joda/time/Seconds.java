@@ -15,6 +15,9 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.convert.FromString;
 import org.joda.convert.ToString;
 import org.joda.time.base.BaseSingleFieldPeriod;
@@ -68,6 +71,8 @@ public final class Seconds extends BaseSingleFieldPeriod {
      * @param seconds  the number of seconds to obtain an instance for
      * @return the instance of Seconds
      */
+    @SideEffectFree
+    @Impure
     public static Seconds seconds(int seconds) {
         switch (seconds) {
             case 0:
@@ -97,6 +102,7 @@ public final class Seconds extends BaseSingleFieldPeriod {
      * @return the period in seconds
      * @throws IllegalArgumentException if the instants are null or invalid
      */
+    @Impure
     public static Seconds secondsBetween(ReadableInstant start, ReadableInstant end) {
         int amount = BaseSingleFieldPeriod.between(start, end, DurationFieldType.seconds());
         return Seconds.seconds(amount);
@@ -114,6 +120,7 @@ public final class Seconds extends BaseSingleFieldPeriod {
      * @return the period in seconds
      * @throws IllegalArgumentException if the partials are null or invalid
      */
+    @Impure
     public static Seconds secondsBetween(ReadablePartial start, ReadablePartial end) {
         if (start instanceof LocalTime && end instanceof LocalTime)   {
             Chronology chrono = DateTimeUtils.getChronology(start.getChronology());
@@ -133,6 +140,7 @@ public final class Seconds extends BaseSingleFieldPeriod {
      * @return the period in seconds
      * @throws IllegalArgumentException if the partials are null or invalid
      */
+    @Impure
     public static Seconds secondsIn(ReadableInterval interval) {
         if (interval == null)   {
             return Seconds.ZERO;
@@ -161,6 +169,7 @@ public final class Seconds extends BaseSingleFieldPeriod {
      * @return the period in seconds
      * @throws IllegalArgumentException if the period contains imprecise duration values
      */
+    @Impure
     public static Seconds standardSecondsIn(ReadablePeriod period) {
         int amount = BaseSingleFieldPeriod.standardPeriodIn(period, DateTimeConstants.MILLIS_PER_SECOND);
         return Seconds.seconds(amount);
@@ -177,6 +186,7 @@ public final class Seconds extends BaseSingleFieldPeriod {
      * @return the period in seconds
      * @throws IllegalArgumentException if the string format is invalid
      */
+    @Impure
     @FromString
     public static Seconds parseSeconds(String periodStr) {
         if (periodStr == null) {
@@ -194,6 +204,8 @@ public final class Seconds extends BaseSingleFieldPeriod {
      *
      * @param seconds  the number of seconds to represent
      */
+    @SideEffectFree
+    @Impure
     private Seconds(int seconds) {
         super(seconds);
     }
@@ -203,6 +215,8 @@ public final class Seconds extends BaseSingleFieldPeriod {
      * 
      * @return the singleton instance
      */
+    @SideEffectFree
+    @Impure
     private Object readResolve() {
         return Seconds.seconds(getValue());
     }
@@ -213,6 +227,8 @@ public final class Seconds extends BaseSingleFieldPeriod {
      *
      * @return the period type
      */
+    @Pure
+    @Impure
     public DurationFieldType getFieldType() {
         return DurationFieldType.seconds();
     }
@@ -222,6 +238,7 @@ public final class Seconds extends BaseSingleFieldPeriod {
      *
      * @return the period type
      */
+    @Impure
     public PeriodType getPeriodType() {
         return PeriodType.seconds();
     }
@@ -241,6 +258,8 @@ public final class Seconds extends BaseSingleFieldPeriod {
      * 
      * @return a period representing the number of whole weeks for this number of seconds
      */
+    @SideEffectFree
+    @Impure
     public Weeks toStandardWeeks() {
         return Weeks.weeks(getValue() / DateTimeConstants.SECONDS_PER_WEEK);
     }
@@ -258,6 +277,8 @@ public final class Seconds extends BaseSingleFieldPeriod {
      * 
      * @return a period representing the number of days for this number of seconds
      */
+    @SideEffectFree
+    @Impure
     public Days toStandardDays() {
         return Days.days(getValue() / DateTimeConstants.SECONDS_PER_DAY);
     }
@@ -274,6 +295,8 @@ public final class Seconds extends BaseSingleFieldPeriod {
      * 
      * @return a period representing the number of hours for this number of seconds
      */
+    @SideEffectFree
+    @Impure
     public Hours toStandardHours() {
         return Hours.hours(getValue() / DateTimeConstants.SECONDS_PER_HOUR);
     }
@@ -290,6 +313,8 @@ public final class Seconds extends BaseSingleFieldPeriod {
      * 
      * @return a period representing the number of minutes for this number of seconds
      */
+    @SideEffectFree
+    @Impure
     public Minutes toStandardMinutes() {
         return Minutes.minutes(getValue() / DateTimeConstants.SECONDS_PER_MINUTE);
     }
@@ -308,6 +333,8 @@ public final class Seconds extends BaseSingleFieldPeriod {
      * 
      * @return a duration equivalent to this number of seconds
      */
+    @SideEffectFree
+    @Impure
     public Duration toStandardDuration() {
         long seconds = getValue();  // assign to a long
         return new Duration(seconds * DateTimeConstants.MILLIS_PER_SECOND);
@@ -319,6 +346,8 @@ public final class Seconds extends BaseSingleFieldPeriod {
      *
      * @return the number of seconds in the period
      */
+    @Pure
+    @Impure
     public int getSeconds() {
         return getValue();
     }
@@ -333,6 +362,8 @@ public final class Seconds extends BaseSingleFieldPeriod {
      * @return the new period plus the specified number of seconds
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Seconds plus(int seconds) {
         if (seconds == 0) {
             return this;
@@ -349,6 +380,8 @@ public final class Seconds extends BaseSingleFieldPeriod {
      * @return the new period plus the specified number of seconds
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Seconds plus(Seconds seconds) {
         if (seconds == null) {
             return this;
@@ -366,6 +399,8 @@ public final class Seconds extends BaseSingleFieldPeriod {
      * @return the new period minus the specified number of seconds
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Seconds minus(int seconds) {
         return plus(FieldUtils.safeNegate(seconds));
     }
@@ -379,6 +414,8 @@ public final class Seconds extends BaseSingleFieldPeriod {
      * @return the new period minus the specified number of seconds
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Seconds minus(Seconds seconds) {
         if (seconds == null) {
             return this;
@@ -396,6 +433,8 @@ public final class Seconds extends BaseSingleFieldPeriod {
      * @return the new period multiplied by the specified scalar
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Seconds multipliedBy(int scalar) {
         return Seconds.seconds(FieldUtils.safeMultiply(getValue(), scalar));
     }
@@ -410,6 +449,8 @@ public final class Seconds extends BaseSingleFieldPeriod {
      * @return the new period divided by the specified divisor
      * @throws ArithmeticException if the divisor is zero
      */
+    @SideEffectFree
+    @Impure
     public Seconds dividedBy(int divisor) {
         if (divisor == 1) {
             return this;
@@ -424,6 +465,8 @@ public final class Seconds extends BaseSingleFieldPeriod {
      * @return the new period with a negated value
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Seconds negated() {
         return Seconds.seconds(FieldUtils.safeNegate(getValue()));
     }
@@ -435,6 +478,8 @@ public final class Seconds extends BaseSingleFieldPeriod {
      * @param other  the other period, null means zero
      * @return true if this seconds instance is greater than the specified one
      */
+    @Pure
+    @Impure
     public boolean isGreaterThan(Seconds other) {
         if (other == null) {
             return getValue() > 0;
@@ -448,6 +493,8 @@ public final class Seconds extends BaseSingleFieldPeriod {
      * @param other  the other period, null means zero
      * @return true if this seconds instance is less than the specified one
      */
+    @Pure
+    @Impure
     public boolean isLessThan(Seconds other) {
         if (other == null) {
             return getValue() < 0;
@@ -463,6 +510,8 @@ public final class Seconds extends BaseSingleFieldPeriod {
      *
      * @return the value as an ISO8601 string
      */
+    @SideEffectFree
+    @Impure
     @ToString
     public String toString() {
         return "PT" + String.valueOf(getValue()) + "S";

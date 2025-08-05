@@ -15,6 +15,9 @@
  */
 package org.joda.time.field;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Locale;
@@ -48,6 +51,7 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      * @return the instance
      * @throws IllegalArgumentException if durationField is null
      */
+    @Impure
     public static synchronized UnsupportedDateTimeField getInstance(
             DateTimeFieldType type, DurationField durationField) {
 
@@ -79,6 +83,7 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      * @param type  the field type
      * @param durationField  the duration to use
      */
+    @Impure
     private UnsupportedDateTimeField(DateTimeFieldType type, DurationField durationField) {
         if (type == null || durationField == null) {
             throw new IllegalArgumentException();
@@ -91,10 +96,13 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
     // Design note: Simple accessors return a suitable value, but methods
     // intended to perform calculations throw an UnsupportedOperationException.
 
+    @Pure
     public DateTimeFieldType getType() {
         return iType;
     }
 
+    @Pure
+    @Impure
     public String getName() {
         return iType.getName();
     }
@@ -104,6 +112,7 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @return false always
      */
+    @Pure
     public boolean isSupported() {
         return false;
     }
@@ -113,6 +122,7 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @return false always
      */
+    @Pure
     public boolean isLenient() {
         return false;
     }
@@ -122,6 +132,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public int get(long instant) {
         throw unsupported();
     }
@@ -131,6 +143,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public String getAsText(long instant, Locale locale) {
         throw unsupported();
     }
@@ -140,6 +154,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public String getAsText(long instant) {
         throw unsupported();
     }
@@ -149,6 +165,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public String getAsText(ReadablePartial partial, int fieldValue, Locale locale) {
         throw unsupported();
     }
@@ -158,6 +176,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public String getAsText(ReadablePartial partial, Locale locale) {
         throw unsupported();
     }
@@ -167,6 +187,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public String getAsText(int fieldValue, Locale locale) {
         throw unsupported();
     }
@@ -176,6 +198,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public String getAsShortText(long instant, Locale locale) {
         throw unsupported();
     }
@@ -185,6 +209,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public String getAsShortText(long instant) {
         throw unsupported();
     }
@@ -194,6 +220,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public String getAsShortText(ReadablePartial partial, int fieldValue, Locale locale) {
         throw unsupported();
     }
@@ -203,6 +231,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public String getAsShortText(ReadablePartial partial, Locale locale) {
         throw unsupported();
     }
@@ -212,6 +242,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public String getAsShortText(int fieldValue, Locale locale) {
         throw unsupported();
     }
@@ -221,6 +253,7 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException if the duration is unsupported
      */
+    @Impure
     public long add(long instant, int value) {
         return getDurationField().add(instant, value);
     }
@@ -230,6 +263,7 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException if the duration is unsupported
      */
+    @Impure
     public long add(long instant, long value) {
         return getDurationField().add(instant, value);
     }
@@ -239,6 +273,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public int[] add(ReadablePartial instant, int fieldIndex, int[] values, int valueToAdd) {
         throw unsupported();
     }
@@ -248,6 +284,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public int[] addWrapPartial(ReadablePartial instant, int fieldIndex, int[] values, int valueToAdd) {
         throw unsupported();
     }
@@ -257,6 +295,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public long addWrapField(long instant, int value) {
         throw unsupported();
     }
@@ -266,6 +306,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public int[] addWrapField(ReadablePartial instant, int fieldIndex, int[] values, int valueToAdd) {
         throw unsupported();
     }
@@ -275,6 +317,7 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException if the duration is unsupported
      */
+    @Impure
     public int getDifference(long minuendInstant, long subtrahendInstant) {
         return getDurationField().getDifference(minuendInstant, subtrahendInstant);
     }
@@ -284,6 +327,7 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException if the duration is unsupported
      */
+    @Impure
     public long getDifferenceAsLong(long minuendInstant, long subtrahendInstant) {
         return getDurationField().getDifferenceAsLong(minuendInstant, subtrahendInstant);
     }
@@ -293,6 +337,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public long set(long instant, int value) {
         throw unsupported();
     }
@@ -302,6 +348,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public int[] set(ReadablePartial instant, int fieldIndex, int[] values, int newValue) {
         throw unsupported();
     }
@@ -311,6 +359,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public long set(long instant, String text, Locale locale) {
         throw unsupported();
     }
@@ -320,6 +370,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public long set(long instant, String text) {
         throw unsupported();
     }
@@ -329,6 +381,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public int[] set(ReadablePartial instant, int fieldIndex, int[] values, String text, Locale locale) {
         throw unsupported();
     }
@@ -339,6 +393,7 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @return a possibly supported DurationField
      */
+    @Pure
     public DurationField getDurationField() {
         return iDurationField;
     }
@@ -348,6 +403,7 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @return null always
      */
+    @Pure
     public DurationField getRangeDurationField() {
         return null;
     }
@@ -357,6 +413,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public boolean isLeap(long instant) {
         throw unsupported();
     }
@@ -366,6 +424,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public int getLeapAmount(long instant) {
         throw unsupported();
     }
@@ -375,6 +435,7 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @return null always
      */
+    @Pure
     public DurationField getLeapDurationField() {
         return null;
     }
@@ -384,6 +445,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public int getMinimumValue() {
         throw unsupported();
     }
@@ -393,6 +456,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public int getMinimumValue(long instant) {
         throw unsupported();
     }
@@ -402,6 +467,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public int getMinimumValue(ReadablePartial instant) {
         throw unsupported();
     }
@@ -411,6 +478,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public int getMinimumValue(ReadablePartial instant, int[] values) {
         throw unsupported();
     }
@@ -420,6 +489,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public int getMaximumValue() {
         throw unsupported();
     }
@@ -429,6 +500,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public int getMaximumValue(long instant) {
         throw unsupported();
     }
@@ -438,6 +511,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public int getMaximumValue(ReadablePartial instant) {
         throw unsupported();
     }
@@ -447,6 +522,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public int getMaximumValue(ReadablePartial instant, int[] values) {
         throw unsupported();
     }
@@ -456,6 +533,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public int getMaximumTextLength(Locale locale) {
         throw unsupported();
     }
@@ -465,6 +544,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public int getMaximumShortTextLength(Locale locale) {
         throw unsupported();
     }
@@ -474,6 +555,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public long roundFloor(long instant) {
         throw unsupported();
     }
@@ -483,6 +566,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public long roundCeiling(long instant) {
         throw unsupported();
     }
@@ -492,6 +577,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public long roundHalfFloor(long instant) {
         throw unsupported();
     }
@@ -501,6 +588,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public long roundHalfCeiling(long instant) {
         throw unsupported();
     }
@@ -510,6 +599,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public long roundHalfEven(long instant) {
         throw unsupported();
     }
@@ -519,6 +610,8 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public long remainder(long instant) {
         throw unsupported();
     }
@@ -529,6 +622,7 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
      * 
      * @return debug string
      */
+    @Pure
     public String toString() {
         return "UnsupportedDateTimeField";
     }
@@ -536,10 +630,12 @@ public final class UnsupportedDateTimeField extends DateTimeField implements Ser
     /**
      * Ensure proper singleton serialization
      */
+    @Impure
     private Object readResolve() {
         return getInstance(iType, iDurationField);
     }
 
+    @SideEffectFree
     private UnsupportedOperationException unsupported() {
         return new UnsupportedOperationException(iType + " field is unsupported");
     }

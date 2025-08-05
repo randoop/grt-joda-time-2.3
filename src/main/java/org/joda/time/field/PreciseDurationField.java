@@ -15,6 +15,8 @@
  */
 package org.joda.time.field;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import org.joda.time.DurationFieldType;
 
 /**
@@ -39,6 +41,7 @@ public class PreciseDurationField extends BaseDurationField {
      * @param type  the field type
      * @param unitMillis  the unit milliseconds
      */    
+    @Impure
     public PreciseDurationField(DurationFieldType type, long unitMillis) {
         super(type);
         iUnitMillis = unitMillis;
@@ -50,6 +53,7 @@ public class PreciseDurationField extends BaseDurationField {
      * 
      * @return true always
      */
+    @Pure
     public final boolean isPrecise() {
         return true;
     }
@@ -59,6 +63,7 @@ public class PreciseDurationField extends BaseDurationField {
      *
      * @return the unit size of this field, in milliseconds
      */
+    @Pure
     public final long getUnitMillis() {
         return iUnitMillis;
     }
@@ -72,6 +77,7 @@ public class PreciseDurationField extends BaseDurationField {
      * @return the value of the field, in the units of the field, which may be
      * negative
      */
+    @Pure
     public long getValueAsLong(long duration, long instant) {
         return duration / iUnitMillis;  // safe
     }
@@ -84,6 +90,7 @@ public class PreciseDurationField extends BaseDurationField {
      * @return the milliseconds that the field represents, which may be
      * negative
      */
+    @Pure
     public long getMillis(int value, long instant) {
         return value * iUnitMillis;  // safe
     }
@@ -96,20 +103,28 @@ public class PreciseDurationField extends BaseDurationField {
      * @return the milliseconds that the field represents, which may be
      * negative
      */
+    @Pure
+    @Impure
     public long getMillis(long value, long instant) {
         return FieldUtils.safeMultiply(value, iUnitMillis);
     }
 
+    @Pure
+    @Impure
     public long add(long instant, int value) {
         long addition = value * iUnitMillis;  // safe
         return FieldUtils.safeAdd(instant, addition);
     }
 
+    @Pure
+    @Impure
     public long add(long instant, long value) {
         long addition = FieldUtils.safeMultiply(value, iUnitMillis);
         return FieldUtils.safeAdd(instant, addition);
     }
 
+    @Pure
+    @Impure
     public long getDifferenceAsLong(long minuendInstant, long subtrahendInstant) {
         long difference = FieldUtils.safeSubtract(minuendInstant, subtrahendInstant);
         return difference / iUnitMillis;
@@ -123,6 +138,8 @@ public class PreciseDurationField extends BaseDurationField {
      * @param obj  the object to compare to
      * @return if equal
      */
+    @Pure
+    @Impure
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -138,6 +155,8 @@ public class PreciseDurationField extends BaseDurationField {
      * 
      * @return a suitable hashcode
      */
+    @Pure
+    @Impure
     public int hashCode() {
         long millis = iUnitMillis;
         int hash = (int) (millis ^ (millis >>> 32));

@@ -15,6 +15,8 @@
  */
 package org.joda.time.field;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import org.joda.time.Chronology;
 import org.joda.time.DateTimeField;
 
@@ -40,6 +42,7 @@ public class LenientDateTimeField extends DelegatedDateTimeField {
      * then it is returned as-is. Otherwise, a new LenientDateTimeField is
      * returned.
      */
+    @Impure
     public static DateTimeField getInstance(DateTimeField field, Chronology base) {
         if (field == null) {
             return null;
@@ -53,11 +56,13 @@ public class LenientDateTimeField extends DelegatedDateTimeField {
         return new LenientDateTimeField(field, base);
     }
 
+    @Impure
     protected LenientDateTimeField(DateTimeField field, Chronology base) {
         super(field);
         iBase = base;
     }
 
+    @Pure
     public final boolean isLenient() {
         return true;
     }
@@ -66,6 +71,7 @@ public class LenientDateTimeField extends DelegatedDateTimeField {
      * Set values which may be out of bounds by adding the difference between
      * the new value and the current value.
      */
+    @Impure
     public long set(long instant, int value) {
         // lenient needs to handle time zone chronologies
         // so we do the calculation using local milliseconds

@@ -15,6 +15,9 @@
  */
 package org.joda.time.format;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -98,6 +101,7 @@ public class PeriodFormatterBuilder {
     // Last PeriodFormatter appended of each field type.
     private FieldFormatter[] iFieldFormatters;
 
+    @Impure
     public PeriodFormatterBuilder() {
         clear();
     }
@@ -119,6 +123,7 @@ public class PeriodFormatterBuilder {
      * @return the newly created formatter
      * @throws IllegalStateException if the builder can produce neither a printer nor a parser
      */
+    @Impure
     public PeriodFormatter toFormatter() {
         PeriodFormatter formatter = toFormatter(iElementPairs, iNotPrinter, iNotParser);
         iFieldFormatters = (FieldFormatter[]) iFieldFormatters.clone();
@@ -137,6 +142,7 @@ public class PeriodFormatterBuilder {
      * 
      * @return the newly created printer, null if builder cannot create a printer
      */
+    @Impure
     public PeriodPrinter toPrinter() {
         if (iNotPrinter) {
             return null;
@@ -156,6 +162,7 @@ public class PeriodFormatterBuilder {
      * 
      * @return the newly created parser, null if builder cannot create a parser
      */
+    @Impure
     public PeriodParser toParser() {
         if (iNotParser) {
             return null;
@@ -167,6 +174,7 @@ public class PeriodFormatterBuilder {
     /**
      * Clears out all the appended elements, allowing this builder to be reused.
      */
+    @Impure
     public void clear() {
         iMinPrintedDigits = 1;
         iPrintZeroSetting = PRINT_ZERO_RARELY_LAST;
@@ -188,6 +196,7 @@ public class PeriodFormatterBuilder {
      *
      * @return this PeriodFormatterBuilder
      */
+    @Impure
     public PeriodFormatterBuilder append(PeriodFormatter formatter) {
         if (formatter == null) {
             throw new IllegalArgumentException("No formatter supplied");
@@ -208,6 +217,7 @@ public class PeriodFormatterBuilder {
      * @return this PeriodFormatterBuilder
      * @throws IllegalArgumentException if both the printer and parser are null
      */
+    @Impure
     public PeriodFormatterBuilder append(PeriodPrinter printer, PeriodParser parser) {
         if (printer == null && parser == null) {
             throw new IllegalArgumentException("No printer or parser supplied");
@@ -224,6 +234,7 @@ public class PeriodFormatterBuilder {
      * @return this PeriodFormatterBuilder
      * @throws IllegalArgumentException if text is null
      */
+    @Impure
     public PeriodFormatterBuilder appendLiteral(String text) {
         if (text == null) {
             throw new IllegalArgumentException("Literal must not be null");
@@ -241,6 +252,7 @@ public class PeriodFormatterBuilder {
      *
      * @return this PeriodFormatterBuilder
      */
+    @Impure
     public PeriodFormatterBuilder minimumPrintedDigits(int minDigits) {
         iMinPrintedDigits = minDigits;
         return this;
@@ -252,6 +264,7 @@ public class PeriodFormatterBuilder {
      *
      * @return this PeriodFormatterBuilder
      */
+    @Impure
     public PeriodFormatterBuilder maximumParsedDigits(int maxDigits) {
         iMaxParsedDigits = maxDigits;
         return this;
@@ -262,6 +275,7 @@ public class PeriodFormatterBuilder {
      *
      * @return this PeriodFormatterBuilder
      */
+    @Impure
     public PeriodFormatterBuilder rejectSignedValues(boolean v) {
         iRejectSignedValues = v;
         return this;
@@ -276,6 +290,7 @@ public class PeriodFormatterBuilder {
      *
      * @return this PeriodFormatterBuilder
      */
+    @Impure
     public PeriodFormatterBuilder printZeroRarelyLast() {
         iPrintZeroSetting = PRINT_ZERO_RARELY_LAST;
         return this;
@@ -288,6 +303,7 @@ public class PeriodFormatterBuilder {
      *
      * @return this PeriodFormatterBuilder
      */
+    @Impure
     public PeriodFormatterBuilder printZeroRarelyFirst() {
         iPrintZeroSetting = PRINT_ZERO_RARELY_FIRST;
         return this;
@@ -299,6 +315,7 @@ public class PeriodFormatterBuilder {
      *
      * @return this PeriodFormatterBuilder
      */
+    @Impure
     public PeriodFormatterBuilder printZeroIfSupported() {
         iPrintZeroSetting = PRINT_ZERO_IF_SUPPORTED;
         return this;
@@ -311,6 +328,7 @@ public class PeriodFormatterBuilder {
      *
      * @return this PeriodFormatterBuilder
      */
+    @Impure
     public PeriodFormatterBuilder printZeroAlways() {
         iPrintZeroSetting = PRINT_ZERO_ALWAYS;
         return this;
@@ -325,6 +343,7 @@ public class PeriodFormatterBuilder {
      *
      * @return this PeriodFormatterBuilder
      */
+    @Impure
     public PeriodFormatterBuilder printZeroNever() {
         iPrintZeroSetting = PRINT_ZERO_NEVER;
         return this;
@@ -339,6 +358,7 @@ public class PeriodFormatterBuilder {
      * @return this PeriodFormatterBuilder
      * @see #appendSuffix
      */
+    @Impure
     public PeriodFormatterBuilder appendPrefix(String text) {
         if (text == null) {
             throw new IllegalArgumentException();
@@ -358,6 +378,7 @@ public class PeriodFormatterBuilder {
      * @return this PeriodFormatterBuilder
      * @see #appendSuffix
      */
+    @Impure
     public PeriodFormatterBuilder appendPrefix(String singularText,
                                                  String pluralText) {
         if (singularText == null || pluralText == null) {
@@ -374,6 +395,7 @@ public class PeriodFormatterBuilder {
      * @return this PeriodFormatterBuilder
      * @see #appendSuffix
      */
+    @Impure
     private PeriodFormatterBuilder appendPrefix(PeriodFieldAffix prefix) {
         if (prefix == null) {
             throw new IllegalArgumentException();
@@ -394,6 +416,7 @@ public class PeriodFormatterBuilder {
      *
      * @return this PeriodFormatterBuilder
      */
+    @Impure
     public PeriodFormatterBuilder appendYears() {
         appendField(YEARS);
         return this;
@@ -407,6 +430,7 @@ public class PeriodFormatterBuilder {
      *
      * @return this PeriodFormatterBuilder
      */
+    @Impure
     public PeriodFormatterBuilder appendMonths() {
         appendField(MONTHS);
         return this;
@@ -420,6 +444,7 @@ public class PeriodFormatterBuilder {
      *
      * @return this PeriodFormatterBuilder
      */
+    @Impure
     public PeriodFormatterBuilder appendWeeks() {
         appendField(WEEKS);
         return this;
@@ -433,6 +458,7 @@ public class PeriodFormatterBuilder {
      *
      * @return this PeriodFormatterBuilder
      */
+    @Impure
     public PeriodFormatterBuilder appendDays() {
         appendField(DAYS);
         return this;
@@ -446,6 +472,7 @@ public class PeriodFormatterBuilder {
      *
      * @return this PeriodFormatterBuilder
      */
+    @Impure
     public PeriodFormatterBuilder appendHours() {
         appendField(HOURS);
         return this;
@@ -459,6 +486,7 @@ public class PeriodFormatterBuilder {
      *
      * @return this PeriodFormatterBuilder
      */
+    @Impure
     public PeriodFormatterBuilder appendMinutes() {
         appendField(MINUTES);
         return this;
@@ -472,6 +500,7 @@ public class PeriodFormatterBuilder {
      *
      * @return this PeriodFormatterBuilder
      */
+    @Impure
     public PeriodFormatterBuilder appendSeconds() {
         appendField(SECONDS);
         return this;
@@ -484,6 +513,7 @@ public class PeriodFormatterBuilder {
      *
      * @return this PeriodFormatterBuilder
      */
+    @Impure
     public PeriodFormatterBuilder appendSecondsWithMillis() {
         appendField(SECONDS_MILLIS);
         return this;
@@ -496,6 +526,7 @@ public class PeriodFormatterBuilder {
      *
      * @return this PeriodFormatterBuilder
      */
+    @Impure
     public PeriodFormatterBuilder appendSecondsWithOptionalMillis() {
         appendField(SECONDS_OPTIONAL_MILLIS);
         return this;
@@ -509,6 +540,7 @@ public class PeriodFormatterBuilder {
      *
      * @return this PeriodFormatterBuilder
      */
+    @Impure
     public PeriodFormatterBuilder appendMillis() {
         appendField(MILLIS);
         return this;
@@ -521,15 +553,18 @@ public class PeriodFormatterBuilder {
      *
      * @return this PeriodFormatterBuilder
      */
+    @Impure
     public PeriodFormatterBuilder appendMillis3Digit() {
         appendField(7, 3);
         return this;
     }
 
+    @Impure
     private void appendField(int type) {
         appendField(type, iMinPrintedDigits);
     }
 
+    @Impure
     private void appendField(int type, int minPrinted) {
         FieldFormatter field = new FieldFormatter(minPrinted, iPrintZeroSetting,
             iMaxParsedDigits, iRejectSignedValues, type, iFieldFormatters, iPrefix, null);
@@ -548,6 +583,7 @@ public class PeriodFormatterBuilder {
      * @throws IllegalStateException if no field exists to append to
      * @see #appendPrefix
      */
+    @Impure
     public PeriodFormatterBuilder appendSuffix(String text) {
         if (text == null) {
             throw new IllegalArgumentException();
@@ -568,6 +604,7 @@ public class PeriodFormatterBuilder {
      * @throws IllegalStateException if no field exists to append to
      * @see #appendPrefix
      */
+    @Impure
     public PeriodFormatterBuilder appendSuffix(String singularText,
                                                String pluralText) {
         if (singularText == null || pluralText == null) {
@@ -585,6 +622,7 @@ public class PeriodFormatterBuilder {
      * @throws IllegalStateException if no field exists to append to
      * @see #appendPrefix
      */
+    @Impure
     private PeriodFormatterBuilder appendSuffix(PeriodFieldAffix suffix) {
         final Object originalPrinter;
         final Object originalParser;
@@ -628,6 +666,7 @@ public class PeriodFormatterBuilder {
      * @return this PeriodFormatterBuilder
      * @throws IllegalStateException if this separator follows a previous one
      */
+    @Impure
     public PeriodFormatterBuilder appendSeparator(String text) {
         return appendSeparator(text, text, null, true, true);
     }
@@ -648,6 +687,7 @@ public class PeriodFormatterBuilder {
      * @return this PeriodFormatterBuilder
      * @throws IllegalStateException if this separator follows a previous one
      */
+    @Impure
     public PeriodFormatterBuilder appendSeparatorIfFieldsAfter(String text) {
         return appendSeparator(text, text, null, false, true);
     }
@@ -668,6 +708,7 @@ public class PeriodFormatterBuilder {
      * @return this PeriodFormatterBuilder
      * @throws IllegalStateException if this separator follows a previous one
      */
+    @Impure
     public PeriodFormatterBuilder appendSeparatorIfFieldsBefore(String text) {
         return appendSeparator(text, text, null, true, false);
     }
@@ -693,6 +734,7 @@ public class PeriodFormatterBuilder {
      * @return this PeriodFormatterBuilder
      * @throws IllegalStateException if this separator follows a previous one
      */
+    @Impure
     public PeriodFormatterBuilder appendSeparator(String text, String finalText) {
         return appendSeparator(text, finalText, null, true, true);
     }
@@ -719,11 +761,13 @@ public class PeriodFormatterBuilder {
      * @return this PeriodFormatterBuilder
      * @throws IllegalStateException if this separator follows a previous one
      */
+    @Impure
     public PeriodFormatterBuilder appendSeparator(String text, String finalText,
                                                   String[] variants) {
         return appendSeparator(text, finalText, variants, true, true);
     }
 
+    @Impure
     private PeriodFormatterBuilder appendSeparator(String text, String finalText,
                                                    String[] variants,
                                                    boolean useBefore, boolean useAfter) {
@@ -775,6 +819,7 @@ public class PeriodFormatterBuilder {
     }
 
     //-----------------------------------------------------------------------
+    @Impure
     private void clearPrefix() throws IllegalStateException {
         if (iPrefix != null) {
             throw new IllegalStateException("Prefix not followed by field");
@@ -782,6 +827,7 @@ public class PeriodFormatterBuilder {
         iPrefix = null;
     }
 
+    @Impure
     private PeriodFormatterBuilder append0(PeriodPrinter printer, PeriodParser parser) {
         iElementPairs.add(printer);
         iElementPairs.add(parser);
@@ -791,6 +837,7 @@ public class PeriodFormatterBuilder {
     }
 
     //-----------------------------------------------------------------------
+    @Impure
     private static PeriodFormatter toFormatter(List<Object> elementPairs, boolean notPrinter, boolean notParser) {
         if (notPrinter && notParser) {
             throw new IllegalStateException("Builder has created neither a printer nor a parser");
@@ -814,6 +861,7 @@ public class PeriodFormatterBuilder {
         }
     }
 
+    @Impure
     private static Object[] createComposite(List<Object> elementPairs) {
         switch (elementPairs.size()) {
             case 0:
@@ -832,20 +880,25 @@ public class PeriodFormatterBuilder {
      * This can be used for fields such as 'n hours' or 'nH' or 'Hour:n'.
      */
     static interface PeriodFieldAffix {
+        @Impure
         int calculatePrintedLength(int value);
         
+        @Impure
         void printTo(StringBuffer buf, int value);
         
+        @Impure
         void printTo(Writer out, int value) throws IOException;
         
         /**
          * @return new position after parsing affix, or ~position of failure
          */
+        @Impure
         int parse(String periodStr, int position);
 
         /**
          * @return position where affix starts, or original ~position if not found
          */
+        @Impure
         int scan(String periodStr, int position);
     }
 
@@ -856,22 +909,27 @@ public class PeriodFormatterBuilder {
     static class SimpleAffix implements PeriodFieldAffix {
         private final String iText;
 
+        @SideEffectFree
         SimpleAffix(String text) {
             iText = text;
         }
 
+        @Pure
         public int calculatePrintedLength(int value) {
             return iText.length();
         }
 
+        @Impure
         public void printTo(StringBuffer buf, int value) {
             buf.append(iText);
         }
 
+        @Impure
         public void printTo(Writer out, int value) throws IOException {
             out.write(iText);
         }
 
+        @Pure
         public int parse(String periodStr, int position) {
             String text = iText;
             int textLength = text.length();
@@ -881,6 +939,7 @@ public class PeriodFormatterBuilder {
             return ~position;
         }
 
+        @Pure
         public int scan(String periodStr, final int position) {
             String text = iText;
             int textLength = text.length();
@@ -913,23 +972,28 @@ public class PeriodFormatterBuilder {
         private final String iSingularText;
         private final String iPluralText;
 
+        @SideEffectFree
         PluralAffix(String singularText, String pluralText) {
             iSingularText = singularText;
             iPluralText = pluralText;
         }
 
+        @Pure
         public int calculatePrintedLength(int value) {
             return (value == 1 ? iSingularText : iPluralText).length();
         }
 
+        @Impure
         public void printTo(StringBuffer buf, int value) {
             buf.append(value == 1 ? iSingularText : iPluralText);
         }
 
+        @Impure
         public void printTo(Writer out, int value) throws IOException {
             out.write(value == 1 ? iSingularText : iPluralText);
         }
 
+        @Pure
         public int parse(String periodStr, int position) {
             String text1 = iPluralText;
             String text2 = iSingularText; 
@@ -953,6 +1017,7 @@ public class PeriodFormatterBuilder {
             return ~position;
         }
 
+        @Pure
         public int scan(String periodStr, final int position) {
             String text1 = iPluralText;
             String text2 = iSingularText; 
@@ -988,26 +1053,31 @@ public class PeriodFormatterBuilder {
         private final PeriodFieldAffix iLeft;
         private final PeriodFieldAffix iRight;
 
+        @SideEffectFree
         CompositeAffix(PeriodFieldAffix left, PeriodFieldAffix right) {
             iLeft = left;
             iRight = right;
         }
 
+        @Impure
         public int calculatePrintedLength(int value) {
             return iLeft.calculatePrintedLength(value)
                 + iRight.calculatePrintedLength(value);
         }
 
+        @Impure
         public void printTo(StringBuffer buf, int value) {
             iLeft.printTo(buf, value);
             iRight.printTo(buf, value);
         }
 
+        @Impure
         public void printTo(Writer out, int value) throws IOException {
             iLeft.printTo(out, value);
             iRight.printTo(out, value);
         }
 
+        @Impure
         public int parse(String periodStr, int position) {
             position = iLeft.parse(periodStr, position);
             if (position >= 0) {
@@ -1016,6 +1086,7 @@ public class PeriodFormatterBuilder {
             return position;
         }
 
+        @Impure
         public int scan(String periodStr, final int position) {
             int pos = iLeft.scan(periodStr, position);
             if (pos >= 0) {
@@ -1047,6 +1118,7 @@ public class PeriodFormatterBuilder {
         private final PeriodFieldAffix iPrefix;
         private final PeriodFieldAffix iSuffix;
 
+        @SideEffectFree
         FieldFormatter(int minPrintedDigits, int printZeroSetting,
                        int maxParsedDigits, boolean rejectSignedValues,
                        int fieldType, FieldFormatter[] fieldFormatters,
@@ -1061,6 +1133,8 @@ public class PeriodFormatterBuilder {
             iSuffix = suffix;
         }
 
+        @SideEffectFree
+        @Impure
         FieldFormatter(FieldFormatter field, PeriodFieldAffix suffix) {
             iMinPrintedDigits = field.iMinPrintedDigits;
             iPrintZeroSetting = field.iPrintZeroSetting;
@@ -1075,6 +1149,7 @@ public class PeriodFormatterBuilder {
             iSuffix = suffix;
         }
 
+        @Impure
         public int countFieldsToPrint(ReadablePeriod period, int stopAt, Locale locale) {
             if (stopAt <= 0) {
                 return 0;
@@ -1085,6 +1160,7 @@ public class PeriodFormatterBuilder {
             return 0;
         }
 
+        @Impure
         public int calculatePrintedLength(ReadablePeriod period, Locale locale) {
             long valueLong = getFieldValue(period);
             if (valueLong == Long.MAX_VALUE) {
@@ -1117,6 +1193,7 @@ public class PeriodFormatterBuilder {
             return sum;
         }
         
+        @Impure
         public void printTo(StringBuffer buf, ReadablePeriod period, Locale locale) {
             long valueLong = getFieldValue(period);
             if (valueLong == Long.MAX_VALUE) {
@@ -1152,6 +1229,7 @@ public class PeriodFormatterBuilder {
             }
         }
 
+        @Impure
         public void printTo(Writer out, ReadablePeriod period, Locale locale) throws IOException {
             long valueLong = getFieldValue(period);
             if (valueLong == Long.MAX_VALUE) {
@@ -1183,6 +1261,7 @@ public class PeriodFormatterBuilder {
             }
         }
 
+        @Impure
         public int parseInto(
                 ReadWritablePeriod period, String text, 
                 int position, Locale locale) {
@@ -1351,6 +1430,7 @@ public class PeriodFormatterBuilder {
          * @param length exact count of characters to parse
          * @return parsed int value
          */
+        @SideEffectFree
         private int parseInt(String text, int position, int length) {
             if (length >= 10) {
                 // Since value may exceed max, use stock parser which checks for this.
@@ -1381,6 +1461,7 @@ public class PeriodFormatterBuilder {
         /**
          * @return Long.MAX_VALUE if nothing to print, otherwise value
          */
+        @Impure
         long getFieldValue(ReadablePeriod period) {
             PeriodType type;
             if (iPrintZeroSetting == PRINT_ZERO_ALWAYS) {
@@ -1464,6 +1545,7 @@ public class PeriodFormatterBuilder {
             return value;
         }
 
+        @Impure
         boolean isZero(ReadablePeriod period) {
             for (int i = 0, isize = period.size(); i < isize; i++) {
                 if (period.getValue(i) != 0) {
@@ -1473,6 +1555,8 @@ public class PeriodFormatterBuilder {
             return true;
         }
 
+        @Pure
+        @Impure
         boolean isSupported(PeriodType type, int field) {
             switch (field) {
             default:
@@ -1500,6 +1584,7 @@ public class PeriodFormatterBuilder {
             }
         }
 
+        @Impure
         void setFieldValue(ReadWritablePeriod period, int field, int value) {
             switch (field) {
             default:
@@ -1531,6 +1616,7 @@ public class PeriodFormatterBuilder {
             }
         }
 
+        @Pure
         int getFieldType() {
             return iFieldType;
         }
@@ -1545,26 +1631,32 @@ public class PeriodFormatterBuilder {
         static final Literal EMPTY = new Literal("");
         private final String iText;
 
+        @SideEffectFree
         Literal(String text) {
             iText = text;
         }
 
+        @Pure
         public int countFieldsToPrint(ReadablePeriod period, int stopAt, Locale locale) {
             return 0;
         }
 
+        @Pure
         public int calculatePrintedLength(ReadablePeriod period, Locale locale) {
             return iText.length();
         }
 
+        @Impure
         public void printTo(StringBuffer buf, ReadablePeriod period, Locale locale) {
             buf.append(iText);
         }
 
+        @Impure
         public void printTo(Writer out, ReadablePeriod period, Locale locale) throws IOException {
             out.write(iText);
         }
 
+        @Pure
         public int parseInto(
                 ReadWritablePeriod period, String periodStr,
                 int position, Locale locale) {
@@ -1594,6 +1686,7 @@ public class PeriodFormatterBuilder {
         private final PeriodParser iBeforeParser;
         private volatile PeriodParser iAfterParser;
 
+        @Impure
         Separator(String text, String finalText, String[] variants,
                 PeriodPrinter beforePrinter, PeriodParser beforeParser,
                 boolean useBefore, boolean useAfter) {
@@ -1625,6 +1718,7 @@ public class PeriodFormatterBuilder {
             iUseAfter = useAfter;
         }
 
+        @Impure
         public int countFieldsToPrint(ReadablePeriod period, int stopAt, Locale locale) {
             int sum = iBeforePrinter.countFieldsToPrint(period, stopAt, locale);
             if (sum < stopAt) {
@@ -1633,6 +1727,7 @@ public class PeriodFormatterBuilder {
             return sum;
         }
 
+        @Impure
         public int calculatePrintedLength(ReadablePeriod period, Locale locale) {
             PeriodPrinter before = iBeforePrinter;
             PeriodPrinter after = iAfterPrinter;
@@ -1658,6 +1753,7 @@ public class PeriodFormatterBuilder {
             return sum;
         }
 
+        @Impure
         public void printTo(StringBuffer buf, ReadablePeriod period, Locale locale) {
             PeriodPrinter before = iBeforePrinter;
             PeriodPrinter after = iAfterPrinter;
@@ -1680,6 +1776,7 @@ public class PeriodFormatterBuilder {
             after.printTo(buf, period, locale);
         }
 
+        @Impure
         public void printTo(Writer out, ReadablePeriod period, Locale locale) throws IOException {
             PeriodPrinter before = iBeforePrinter;
             PeriodPrinter after = iAfterPrinter;
@@ -1702,6 +1799,7 @@ public class PeriodFormatterBuilder {
             after.printTo(out, period, locale);
         }
 
+        @Impure
         public int parseInto(
                 ReadWritablePeriod period, String periodStr,
                 int position, Locale locale) {
@@ -1752,6 +1850,7 @@ public class PeriodFormatterBuilder {
             return position;
         }
 
+        @Impure
         Separator finish(PeriodPrinter afterPrinter, PeriodParser afterParser) {
             iAfterPrinter = afterPrinter;
             iAfterParser = afterParser;
@@ -1769,6 +1868,7 @@ public class PeriodFormatterBuilder {
         private final PeriodPrinter[] iPrinters;
         private final PeriodParser[] iParsers;
 
+        @Impure
         Composite(List<Object> elementPairs) {
             List<Object> printerList = new ArrayList<Object>();
             List<Object> parserList = new ArrayList<Object>();
@@ -1790,6 +1890,7 @@ public class PeriodFormatterBuilder {
             }
         }
 
+        @Impure
         public int countFieldsToPrint(ReadablePeriod period, int stopAt, Locale locale) {
             int sum = 0;
             PeriodPrinter[] printers = iPrinters;
@@ -1799,6 +1900,7 @@ public class PeriodFormatterBuilder {
             return sum;
         }
 
+        @Impure
         public int calculatePrintedLength(ReadablePeriod period, Locale locale) {
             int sum = 0;
             PeriodPrinter[] printers = iPrinters;
@@ -1808,6 +1910,7 @@ public class PeriodFormatterBuilder {
             return sum;
         }
 
+        @Impure
         public void printTo(StringBuffer buf, ReadablePeriod period, Locale locale) {
             PeriodPrinter[] printers = iPrinters;
             int len = printers.length;
@@ -1816,6 +1919,7 @@ public class PeriodFormatterBuilder {
             }
         }
 
+        @Impure
         public void printTo(Writer out, ReadablePeriod period, Locale locale) throws IOException {
             PeriodPrinter[] printers = iPrinters;
             int len = printers.length;
@@ -1824,6 +1928,7 @@ public class PeriodFormatterBuilder {
             }
         }
 
+        @Impure
         public int parseInto(
                 ReadWritablePeriod period, String periodStr,
                 int position, Locale locale) {
@@ -1839,6 +1944,7 @@ public class PeriodFormatterBuilder {
             return position;
         }
 
+        @Impure
         private void decompose(List<Object> elementPairs, List<Object> printerList, List<Object> parserList) {
             int size = elementPairs.size();
             for (int i=0; i<size; i+=2) {
@@ -1862,6 +1968,7 @@ public class PeriodFormatterBuilder {
             }
         }
 
+        @Impure
         private void addArrayToList(List<Object> list, Object[] array) {
             if (array != null) {
                 for (int i=0; i<array.length; i++) {

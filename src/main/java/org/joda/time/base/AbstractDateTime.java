@@ -15,6 +15,8 @@
  */
 package org.joda.time.base;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -47,6 +49,8 @@ public abstract class AbstractDateTime
     /**
      * Constructor.
      */
+    @SideEffectFree
+    @Impure
     protected AbstractDateTime() {
         super();
     }
@@ -62,6 +66,7 @@ public abstract class AbstractDateTime
      * @return the value of that field
      * @throws IllegalArgumentException if the field type is null
      */
+    @Impure
     public int get(DateTimeFieldType type) {
         if (type == null) {
             throw new IllegalArgumentException("The DateTimeFieldType must not be null");
@@ -75,6 +80,7 @@ public abstract class AbstractDateTime
      * 
      * @return the era
      */
+    @Impure
     public int getEra() {
         return getChronology().era().get(getMillis());
     }
@@ -84,6 +90,7 @@ public abstract class AbstractDateTime
      * 
      * @return the year of era
      */
+    @Impure
     public int getCenturyOfEra() {
         return getChronology().centuryOfEra().get(getMillis());
     }
@@ -93,6 +100,7 @@ public abstract class AbstractDateTime
      * 
      * @return the year of era
      */
+    @Impure
     public int getYearOfEra() {
         return getChronology().yearOfEra().get(getMillis());
     }
@@ -102,6 +110,7 @@ public abstract class AbstractDateTime
      * 
      * @return the year of century
      */
+    @Impure
     public int getYearOfCentury() {
         return getChronology().yearOfCentury().get(getMillis());
     }
@@ -111,6 +120,7 @@ public abstract class AbstractDateTime
      * 
      * @return the year
      */
+    @Impure
     public int getYear() {
         return getChronology().year().get(getMillis());
     }
@@ -126,6 +136,7 @@ public abstract class AbstractDateTime
      * 
      * @return the year of a week based year
      */
+    @Impure
     public int getWeekyear() {
         return getChronology().weekyear().get(getMillis());
     }
@@ -135,6 +146,7 @@ public abstract class AbstractDateTime
      * 
      * @return the month of year
      */
+    @Impure
     public int getMonthOfYear() {
         return getChronology().monthOfYear().get(getMillis());
     }
@@ -149,6 +161,7 @@ public abstract class AbstractDateTime
      * 
      * @return the week of a week based year
      */
+    @Impure
     public int getWeekOfWeekyear() {
         return getChronology().weekOfWeekyear().get(getMillis());
     }
@@ -158,6 +171,7 @@ public abstract class AbstractDateTime
      * 
      * @return the day of year
      */
+    @Impure
     public int getDayOfYear() {
         return getChronology().dayOfYear().get(getMillis());
     }
@@ -169,6 +183,7 @@ public abstract class AbstractDateTime
      * 
      * @return the day of month
      */
+    @Impure
     public int getDayOfMonth() {
         return getChronology().dayOfMonth().get(getMillis());
     }
@@ -180,6 +195,7 @@ public abstract class AbstractDateTime
      * 
      * @return the day of week
      */
+    @Impure
     public int getDayOfWeek() {
         return getChronology().dayOfWeek().get(getMillis());
     }
@@ -190,6 +206,7 @@ public abstract class AbstractDateTime
      *
      * @return the hour of day
      */
+    @Impure
     public int getHourOfDay() {
         return getChronology().hourOfDay().get(getMillis());
     }
@@ -199,6 +216,7 @@ public abstract class AbstractDateTime
      *
      * @return the minute of day
      */
+    @Impure
     public int getMinuteOfDay() {
         return getChronology().minuteOfDay().get(getMillis());
     }
@@ -208,6 +226,7 @@ public abstract class AbstractDateTime
      *
      * @return the minute of hour
      */
+    @Impure
     public int getMinuteOfHour() {
         return getChronology().minuteOfHour().get(getMillis());
     }
@@ -217,6 +236,7 @@ public abstract class AbstractDateTime
      *
      * @return the second of day
      */
+    @Impure
     public int getSecondOfDay() {
         return getChronology().secondOfDay().get(getMillis());
     }
@@ -226,6 +246,7 @@ public abstract class AbstractDateTime
      *
      * @return the second of minute
      */
+    @Impure
     public int getSecondOfMinute() {
         return getChronology().secondOfMinute().get(getMillis());
     }
@@ -235,6 +256,7 @@ public abstract class AbstractDateTime
      *
      * @return the millis of day
      */
+    @Impure
     public int getMillisOfDay() {
         return getChronology().millisOfDay().get(getMillis());
     }
@@ -244,6 +266,7 @@ public abstract class AbstractDateTime
      *
      * @return the millis of second
      */
+    @Impure
     public int getMillisOfSecond() {
         return getChronology().millisOfSecond().get(getMillis());
     }
@@ -266,6 +289,7 @@ public abstract class AbstractDateTime
      * @param locale  the locale to get the Calendar for, or default if null
      * @return a localized Calendar initialised with this datetime
      */
+    @Impure
     public Calendar toCalendar(Locale locale) {
         if (locale == null) {
             locale = Locale.getDefault();
@@ -290,6 +314,7 @@ public abstract class AbstractDateTime
      *
      * @return a GregorianCalendar initialised with this datetime
      */
+    @Impure
     public GregorianCalendar toGregorianCalendar() {
         DateTimeZone zone = getZone();
         GregorianCalendar cal = new GregorianCalendar(zone.toTimeZone());
@@ -304,6 +329,7 @@ public abstract class AbstractDateTime
      * @param pattern  the pattern specification, null means use <code>toString</code>
      * @see  org.joda.time.format.DateTimeFormat
      */
+    @Impure
     public String toString(String pattern) {
         if (pattern == null) {
             return toString();
@@ -318,6 +344,7 @@ public abstract class AbstractDateTime
      * @param locale  Locale to use, null means default
      * @see  org.joda.time.format.DateTimeFormat
      */
+    @Impure
     public String toString(String pattern, Locale locale) throws IllegalArgumentException {
         if (pattern == null) {
             return toString();

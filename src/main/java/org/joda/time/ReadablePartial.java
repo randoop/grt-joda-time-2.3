@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 package org.joda.time;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 
 /**
  * Defines a partial time that does not support every datetime field, and is
@@ -42,6 +44,7 @@ public interface ReadablePartial extends Comparable<ReadablePartial> {
      *
      * @return the number of fields supported
      */
+    @Pure
     int size();
 
     /**
@@ -51,6 +54,7 @@ public interface ReadablePartial extends Comparable<ReadablePartial> {
      * @return the field at the specified index
      * @throws IndexOutOfBoundsException if the index is invalid
      */
+    @Impure
     DateTimeFieldType getFieldType(int index);
 
     /**
@@ -60,6 +64,7 @@ public interface ReadablePartial extends Comparable<ReadablePartial> {
      * @return the field at the specified index
      * @throws IndexOutOfBoundsException if the index is invalid
      */
+    @Impure
     DateTimeField getField(int index);
 
     /**
@@ -69,6 +74,7 @@ public interface ReadablePartial extends Comparable<ReadablePartial> {
      * @return the value of the field at the specified index
      * @throws IndexOutOfBoundsException if the index is invalid
      */
+    @Impure
     int getValue(int index);
 
     /**
@@ -79,6 +85,7 @@ public interface ReadablePartial extends Comparable<ReadablePartial> {
      * 
      * @return the chronology, never null
      */
+    @Pure
     Chronology getChronology();
 
     /**
@@ -90,6 +97,7 @@ public interface ReadablePartial extends Comparable<ReadablePartial> {
      * @return the value of that field
      * @throws IllegalArgumentException if the field is null or not supported
      */
+    @Impure
     int get(DateTimeFieldType field);
 
     /**
@@ -98,6 +106,7 @@ public interface ReadablePartial extends Comparable<ReadablePartial> {
      * @param field  the field to check, may be null which returns false
      * @return true if the field is supported
      */
+    @Impure
     boolean isSupported(DateTimeFieldType field);
 
     /**
@@ -114,6 +123,7 @@ public interface ReadablePartial extends Comparable<ReadablePartial> {
      * @param baseInstant  the instant that provides the missing fields, null means now
      * @return the combined datetime
      */
+    @Impure
     DateTime toDateTime(ReadableInstant baseInstant);
 
     //-----------------------------------------------------------------------
@@ -127,6 +137,7 @@ public interface ReadablePartial extends Comparable<ReadablePartial> {
      * @param partial  the object to compare to
      * @return true if equal
      */
+    @Impure
     boolean equals(Object partial);
 
     /**
@@ -146,6 +157,7 @@ public interface ReadablePartial extends Comparable<ReadablePartial> {
      *
      * @return a suitable hash code
      */
+    @Impure
     int hashCode();
 
     //-----------------------------------------------------------------------
@@ -182,6 +194,7 @@ public interface ReadablePartial extends Comparable<ReadablePartial> {
      *
      * @return the value as an ISO8601 string
      */
+    @Impure
     String toString();
 
 }

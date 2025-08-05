@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 package org.joda.time.format;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 
 /**
  * Factory that creates instances of PeriodFormatter for the ISO8601 standard.
@@ -48,6 +50,7 @@ public class ISOPeriodFormat {
      *
      * @since 1.1 (previously private)
      */
+    @SideEffectFree
     protected ISOPeriodFormat() {
         super();
     }
@@ -61,6 +64,7 @@ public class ISOPeriodFormat {
      * 
      * @return the formatter
      */
+    @Impure
     public static PeriodFormatter standard() {
         if (cStandard == null) {
             cStandard = new PeriodFormatterBuilder()
@@ -93,6 +97,7 @@ public class ISOPeriodFormat {
      * 
      * @return the formatter
      */
+    @Impure
     public static PeriodFormatter alternate() {
         if (cAlternate == null) {
             cAlternate = new PeriodFormatterBuilder()
@@ -120,6 +125,7 @@ public class ISOPeriodFormat {
      * 
      * @return the formatter
      */
+    @Impure
     public static PeriodFormatter alternateExtended() {
         if (cAlternateExtended == null) {
             cAlternateExtended = new PeriodFormatterBuilder()
@@ -151,6 +157,7 @@ public class ISOPeriodFormat {
      * 
      * @return the formatter
      */
+    @Impure
     public static PeriodFormatter alternateWithWeeks() {
         if (cAlternateWithWeeks == null) {
             cAlternateWithWeeks = new PeriodFormatterBuilder()
@@ -179,6 +186,7 @@ public class ISOPeriodFormat {
      * 
      * @return the formatter
      */
+    @Impure
     public static PeriodFormatter alternateExtendedWithWeeks() {
         if (cAlternateExtendedWihWeeks == null) {
             cAlternateExtendedWihWeeks = new PeriodFormatterBuilder()

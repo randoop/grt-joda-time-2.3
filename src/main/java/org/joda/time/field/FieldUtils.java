@@ -15,6 +15,9 @@
  */
 package org.joda.time.field;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import org.joda.time.DateTimeField;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.IllegalFieldValueException;
@@ -32,6 +35,7 @@ public class FieldUtils {
     /**
      * Restricted constructor.
      */
+    @SideEffectFree
     private FieldUtils() {
         super();
     }
@@ -45,6 +49,7 @@ public class FieldUtils {
      * @throws ArithmeticException if the value is Integer.MIN_VALUE
      * @since 1.1
      */
+    @Pure
     public static int safeNegate(int value) {
         if (value == Integer.MIN_VALUE) {
             throw new ArithmeticException("Integer.MIN_VALUE cannot be negated");
@@ -60,6 +65,7 @@ public class FieldUtils {
      * @return the new total
      * @throws ArithmeticException if the value is too big or too small
      */
+    @Pure
     public static int safeAdd(int val1, int val2) {
         int sum = val1 + val2;
         // If there is a sign change, but the two values have the same sign...
@@ -78,6 +84,7 @@ public class FieldUtils {
      * @return the new total
      * @throws ArithmeticException if the value is too big or too small
      */
+    @Pure
     public static long safeAdd(long val1, long val2) {
         long sum = val1 + val2;
         // If there is a sign change, but the two values have the same sign...
@@ -96,6 +103,7 @@ public class FieldUtils {
      * @return the new total
      * @throws ArithmeticException if the value is too big or too small
      */
+    @Pure
     public static long safeSubtract(long val1, long val2) {
         long diff = val1 - val2;
         // If there is a sign change, but the two values have different signs...
@@ -115,6 +123,7 @@ public class FieldUtils {
      * @throws ArithmeticException if the value is too big or too small
      * @since 1.2
      */
+    @Pure
     public static int safeMultiply(int val1, int val2) {
         long total = (long) val1 * (long) val2;
         if (total < Integer.MIN_VALUE || total > Integer.MAX_VALUE) {
@@ -132,6 +141,7 @@ public class FieldUtils {
      * @throws ArithmeticException if the value is too big or too small
      * @since 1.2
      */
+    @Pure
     public static long safeMultiply(long val1, int val2) {
         switch (val2) {
             case -1:
@@ -159,6 +169,7 @@ public class FieldUtils {
      * @return the new total
      * @throws ArithmeticException if the value is too big or too small
      */
+    @Pure
     public static long safeMultiply(long val1, long val2) {
         if (val2 == 1) {
             return val1;
@@ -183,6 +194,7 @@ public class FieldUtils {
      * @return the value as an int
      * @throws ArithmeticException if the value is too big or too small
      */
+    @Pure
     public static int safeToInt(long value) {
         if (Integer.MIN_VALUE <= value && value <= Integer.MAX_VALUE) {
             return (int) value;
@@ -198,6 +210,8 @@ public class FieldUtils {
      * @return the new total
      * @throws ArithmeticException if the value is too big or too small
      */
+    @Pure
+    @Impure
     public static int safeMultiplyToInt(long val1, long val2) {
         long val = FieldUtils.safeMultiply(val1, val2);
         return FieldUtils.safeToInt(val);
@@ -212,6 +226,7 @@ public class FieldUtils {
      * @param upperBound  the upper bound allowed for value
      * @throws IllegalFieldValueException if value is not in the specified bounds
      */
+    @Impure
     public static void verifyValueBounds(DateTimeField field, 
                                          int value, int lowerBound, int upperBound) {
         if ((value < lowerBound) || (value > upperBound)) {
@@ -230,6 +245,7 @@ public class FieldUtils {
      * @throws IllegalFieldValueException if value is not in the specified bounds
      * @since 1.1
      */
+    @Impure
     public static void verifyValueBounds(DateTimeFieldType fieldType, 
                                          int value, int lowerBound, int upperBound) {
         if ((value < lowerBound) || (value > upperBound)) {
@@ -247,6 +263,7 @@ public class FieldUtils {
      * @param upperBound  the upper bound allowed for value
      * @throws IllegalFieldValueException if value is not in the specified bounds
      */
+    @Impure
     public static void verifyValueBounds(String fieldName,
                                          int value, int lowerBound, int upperBound) {
         if ((value < lowerBound) || (value > upperBound)) {
@@ -271,6 +288,8 @@ public class FieldUtils {
      * @throws IllegalArgumentException if minValue is greater
      *  than or equal to maxValue
      */
+    @Pure
+    @Impure
     public static int getWrappedValue(int currentValue, int wrapValue,
                                       int minValue, int maxValue) {
         return getWrappedValue(currentValue + wrapValue, minValue, maxValue);
@@ -288,6 +307,7 @@ public class FieldUtils {
      * @throws IllegalArgumentException if minValue is greater
      *  than or equal to maxValue
      */
+    @Pure
     public static int getWrappedValue(int value, int minValue, int maxValue) {
         if (minValue >= maxValue) {
             throw new IllegalArgumentException("MIN > MAX");
@@ -317,6 +337,7 @@ public class FieldUtils {
      * @return true if equal
      * @since 1.4
      */
+    @Pure
     public static boolean equals(Object object1, Object object2) {
         if (object1 == object2) {
             return true;

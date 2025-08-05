@@ -15,6 +15,8 @@
  */
 package org.joda.time.field;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.time.DateTimeField;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.DurationField;
@@ -48,6 +50,7 @@ public class RemainderDateTimeField extends DecoratedDateTimeField {
      * @param divisor  divisor, such as 100 years in a century
      * @throws IllegalArgumentException if divisor is less than two
      */
+    @Impure
     public RemainderDateTimeField(DateTimeField field,
                                   DateTimeFieldType type, int divisor) {
         super(field, type);
@@ -73,6 +76,7 @@ public class RemainderDateTimeField extends DecoratedDateTimeField {
      *
      * @param dividedField  complimentary divided field, like "century()".
      */
+    @Impure
     public RemainderDateTimeField(DividedDateTimeField dividedField) {
         this(dividedField, dividedField.getType());
     }
@@ -84,6 +88,7 @@ public class RemainderDateTimeField extends DecoratedDateTimeField {
      * @param dividedField  complimentary divided field, like "century()".
      * @param type  the field type this field actually uses
      */
+    @Impure
     public RemainderDateTimeField(DividedDateTimeField dividedField, DateTimeFieldType type) {
         super(dividedField.getWrappedField(), type);
         iDivisor = dividedField.iDivisor;
@@ -97,6 +102,7 @@ public class RemainderDateTimeField extends DecoratedDateTimeField {
      * @param instant  the time instant in millis to query.
      * @return the remainder extracted from the input.
      */
+    @Impure
     public int get(long instant) {
         int value = getWrappedField().get(instant);
         if (value >= 0) {
@@ -115,6 +121,7 @@ public class RemainderDateTimeField extends DecoratedDateTimeField {
      * @param amount  the amount to add (can be negative).
      * @return the updated time instant.
      */
+    @Impure
     public long addWrapField(long instant, int amount) {
         return set(instant, FieldUtils.getWrappedValue(get(instant), amount, 0, iDivisor - 1));
     }
@@ -127,6 +134,7 @@ public class RemainderDateTimeField extends DecoratedDateTimeField {
      * @return the updated time instant.
      * @throws IllegalArgumentException if value is too large or too small.
      */
+    @Impure
     public long set(long instant, int value) {
         FieldUtils.verifyValueBounds(this, value, 0, iDivisor - 1);
         int divided = getDivided(getWrappedField().get(instant));
@@ -136,6 +144,7 @@ public class RemainderDateTimeField extends DecoratedDateTimeField {
     /**
      * Returns a scaled version of the wrapped field's unit duration field.
      */
+    @Pure
     public DurationField getRangeDurationField() {
         return iRangeField;
     }
@@ -145,6 +154,7 @@ public class RemainderDateTimeField extends DecoratedDateTimeField {
      * 
      * @return the minimum value of zero.
      */
+    @Pure
     public int getMinimumValue() {
         return 0;
     }
@@ -155,30 +165,37 @@ public class RemainderDateTimeField extends DecoratedDateTimeField {
      * 
      * @return the maximum value
      */
+    @Pure
     public int getMaximumValue() {
         return iDivisor - 1;
     }
 
+    @Impure
     public long roundFloor(long instant) {
         return getWrappedField().roundFloor(instant);
     }
 
+    @Impure
     public long roundCeiling(long instant) {
         return getWrappedField().roundCeiling(instant);
     }
 
+    @Impure
     public long roundHalfFloor(long instant) {
         return getWrappedField().roundHalfFloor(instant);
     }
 
+    @Impure
     public long roundHalfCeiling(long instant) {
         return getWrappedField().roundHalfCeiling(instant);
     }
 
+    @Impure
     public long roundHalfEven(long instant) {
         return getWrappedField().roundHalfEven(instant);
     }
 
+    @Impure
     public long remainder(long instant) {
         return getWrappedField().remainder(instant);
     }
@@ -188,10 +205,12 @@ public class RemainderDateTimeField extends DecoratedDateTimeField {
      * 
      * @return the divisor
      */
+    @Pure
     public int getDivisor() {
         return iDivisor;
     }
 
+    @Pure
     private int getDivided(int value) {
         if (value >= 0) {
             return value / iDivisor;

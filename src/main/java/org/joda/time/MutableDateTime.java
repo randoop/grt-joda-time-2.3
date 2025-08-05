@@ -15,6 +15,9 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -102,6 +105,7 @@ public class MutableDateTime
      * @return the current date-time, not null
      * @since 2.0
      */
+    @Impure
     public static MutableDateTime now() {
         return new MutableDateTime();
     }
@@ -114,6 +118,7 @@ public class MutableDateTime
      * @return the current date-time, not null
      * @since 2.0
      */
+    @Impure
     public static MutableDateTime now(DateTimeZone zone) {
         if (zone == null) {
             throw new NullPointerException("Zone must not be null");
@@ -129,6 +134,7 @@ public class MutableDateTime
      * @return the current date-time, not null
      * @since 2.0
      */
+    @Impure
     public static MutableDateTime now(Chronology chronology) {
         if (chronology == null) {
             throw new NullPointerException("Chronology must not be null");
@@ -145,6 +151,7 @@ public class MutableDateTime
      * @param str  the string to parse, not null
      * @since 2.0
      */
+    @Impure
     @FromString
     public static MutableDateTime parse(String str) {
         return parse(str, ISODateTimeFormat.dateTimeParser().withOffsetParsed());
@@ -157,6 +164,7 @@ public class MutableDateTime
      * @param formatter  the formatter to use, not null
      * @since 2.0
      */
+    @Impure
     public static MutableDateTime parse(String str, DateTimeFormatter formatter) {
         return formatter.parseDateTime(str).toMutableDateTime();
     }
@@ -168,6 +176,7 @@ public class MutableDateTime
      * 
      * @see #now()
      */
+    @Impure
     public MutableDateTime() {
         super();
     }
@@ -181,6 +190,7 @@ public class MutableDateTime
      * @param zone  the time zone, null means default zone
      * @see #now(DateTimeZone)
      */
+    @Impure
     public MutableDateTime(DateTimeZone zone) {
         super(zone);
     }
@@ -195,6 +205,7 @@ public class MutableDateTime
      * @param chronology  the chronology, null means ISOChronology in default zone
      * @see #now(Chronology)
      */
+    @Impure
     public MutableDateTime(Chronology chronology) {
         super(chronology);
     }
@@ -206,6 +217,7 @@ public class MutableDateTime
      *
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z
      */
+    @Impure
     public MutableDateTime(long instant) {
         super(instant);
     }
@@ -219,6 +231,7 @@ public class MutableDateTime
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z
      * @param zone  the time zone, null means default zone
      */
+    @Impure
     public MutableDateTime(long instant, DateTimeZone zone) {
         super(instant, zone);
     }
@@ -233,6 +246,7 @@ public class MutableDateTime
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z
      * @param chronology  the chronology, null means ISOChronology in default zone
      */
+    @Impure
     public MutableDateTime(long instant, Chronology chronology) {
         super(instant, chronology);
     }
@@ -253,6 +267,7 @@ public class MutableDateTime
      * @param instant  the datetime object, null means now
      * @throws IllegalArgumentException if the instant is invalid
      */
+    @Impure
     public MutableDateTime(Object instant) {
         super(instant, (Chronology) null);
     }
@@ -276,6 +291,7 @@ public class MutableDateTime
      * @param zone  the time zone, null means default time zone
      * @throws IllegalArgumentException if the instant is invalid
      */
+    @Impure
     public MutableDateTime(Object instant, DateTimeZone zone) {
         super(instant, zone);
     }
@@ -296,6 +312,7 @@ public class MutableDateTime
      * @param chronology  the chronology, null means ISOChronology in default zone
      * @throws IllegalArgumentException if the instant is invalid
      */
+    @Impure
     public MutableDateTime(Object instant, Chronology chronology) {
         super(instant, DateTimeUtils.getChronology(chronology));
     }
@@ -313,6 +330,7 @@ public class MutableDateTime
      * @param secondOfMinute  the second of the minute
      * @param millisOfSecond  the millisecond of the second
      */
+    @Impure
     public MutableDateTime(
             int year,
             int monthOfYear,
@@ -339,6 +357,7 @@ public class MutableDateTime
      * @param millisOfSecond  the millisecond of the second
      * @param zone  the time zone, null means default time zone
      */
+    @Impure
     public MutableDateTime(
             int year,
             int monthOfYear,
@@ -368,6 +387,7 @@ public class MutableDateTime
      * @param millisOfSecond  the millisecond of the second
      * @param chronology  the chronology, null means ISOChronology in default zone
      */
+    @Impure
     public MutableDateTime(
             int year,
             int monthOfYear,
@@ -388,6 +408,7 @@ public class MutableDateTime
      * 
      * @return the rounding field
      */
+    @Pure
     public DateTimeField getRoundingField() {
         return iRoundingField;
     }
@@ -398,6 +419,7 @@ public class MutableDateTime
      * 
      * @return the rounding mode constant
      */
+    @Pure
     public int getRoundingMode() {
         return iRoundingMode;
     }
@@ -414,6 +436,7 @@ public class MutableDateTime
      *
      * @param field rounding field or null to disable
      */
+    @Impure
     public void setRounding(DateTimeField field) {
         setRounding(field, MutableDateTime.ROUND_FLOOR);
     }
@@ -432,6 +455,7 @@ public class MutableDateTime
      * @param mode  rounding mode or ROUND_NONE to disable
      * @throws IllegalArgumentException if mode is unknown, no exception if field is null
      */
+    @Impure
     public void setRounding(DateTimeField field, int mode) {
         if (field != null && (mode < ROUND_NONE || mode > ROUND_HALF_EVEN)) {
             throw new IllegalArgumentException("Illegal rounding mode: " + mode);
@@ -450,6 +474,7 @@ public class MutableDateTime
      * @param instant  the milliseconds since 1970-01-01T00:00:00Z to set the
      * datetime to
      */
+    @Impure
     public void setMillis(long instant) {
         switch (iRoundingMode) {
             case ROUND_NONE:
@@ -482,6 +507,7 @@ public class MutableDateTime
      * 
      * @param instant  the instant to use, null means now
      */
+    @Impure
     public void setMillis(ReadableInstant instant) {
         long instantMillis = DateTimeUtils.getInstantMillis(instant);
         setMillis(instantMillis);  // set via this class not super
@@ -494,6 +520,7 @@ public class MutableDateTime
      * @param duration  the millis to add
      * @throws ArithmeticException if the result exceeds the capacity of the instant
      */
+    @Impure
     public void add(long duration) {
         setMillis(FieldUtils.safeAdd(getMillis(), duration));  // set via this class not super
     }
@@ -506,6 +533,7 @@ public class MutableDateTime
      * @param duration  the duration to add, null means add zero
      * @throws ArithmeticException if the result exceeds the capacity of the instant
      */
+    @Impure
     public void add(ReadableDuration duration) {
         add(duration, 1);
     }
@@ -519,6 +547,7 @@ public class MutableDateTime
      * @param scalar  direction and amount to add, which may be negative
      * @throws ArithmeticException if the result exceeds the capacity of the instant
      */
+    @Impure
     public void add(ReadableDuration duration, int scalar) {
         if (duration != null) {
             add(FieldUtils.safeMultiply(duration.getMillis(), scalar));
@@ -533,6 +562,7 @@ public class MutableDateTime
      * @param period  the period to add, null means add zero
      * @throws ArithmeticException if the result exceeds the capacity of the instant
      */
+    @Impure
     public void add(ReadablePeriod period) {
         add(period, 1);
     }
@@ -546,6 +576,7 @@ public class MutableDateTime
      * @param scalar  direction and amount to add, which may be negative
      * @throws ArithmeticException if the result exceeds the capacity of the instant
      */
+    @Impure
     public void add(ReadablePeriod period, int scalar) {
         if (period != null) {
             setMillis(getChronology().add(period, getMillis(), scalar));  // set via this class not super
@@ -560,6 +591,7 @@ public class MutableDateTime
      * 
      * @param chronology  the chronology to use, null means ISOChronology in default zone
      */
+    @Impure
     public void setChronology(Chronology chronology) {
         super.setChronology(chronology);
     }
@@ -579,6 +611,7 @@ public class MutableDateTime
      * @param newZone  the time zone to use, null means default zone
      * @see #setZoneRetainFields
      */
+    @Impure
     public void setZone(DateTimeZone newZone) {
         newZone = DateTimeUtils.getZone(newZone);
         Chronology chrono = getChronology();
@@ -598,6 +631,7 @@ public class MutableDateTime
      * @param newZone  the time zone to use, null means default zone
      * @see #setZone
      */
+    @Impure
     public void setZoneRetainFields(DateTimeZone newZone) {
         newZone = DateTimeUtils.getZone(newZone);
         DateTimeZone originalZone = DateTimeUtils.getZone(getZone());
@@ -618,6 +652,7 @@ public class MutableDateTime
      * @param value  the value to set the field to
      * @throws IllegalArgumentException if the value is null or invalid
      */
+    @Impure
     public void set(DateTimeFieldType type, int value) {
         if (type == null) {
             throw new IllegalArgumentException("Field must not be null");
@@ -633,6 +668,7 @@ public class MutableDateTime
      * @throws IllegalArgumentException if the value is null or invalid
      * @throws ArithmeticException if the result exceeds the capacity of the instant
      */
+    @Impure
     public void add(DurationFieldType type, int amount) {
         if (type == null) {
             throw new IllegalArgumentException("Field must not be null");
@@ -647,6 +683,7 @@ public class MutableDateTime
      * @param year  the year
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void setYear(final int year) {
         setMillis(getChronology().year().set(getMillis(), year));
     }
@@ -657,6 +694,7 @@ public class MutableDateTime
      * @param years  the years to add
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void addYears(final int years) {
         setMillis(getChronology().years().add(getMillis(), years));
     }
@@ -668,6 +706,7 @@ public class MutableDateTime
      * @param weekyear  the weekyear
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void setWeekyear(final int weekyear) {
         setMillis(getChronology().weekyear().set(getMillis(), weekyear));
     }
@@ -678,6 +717,7 @@ public class MutableDateTime
      * @param weekyears  the weekyears to add
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void addWeekyears(final int weekyears) {
         setMillis(getChronology().weekyears().add(getMillis(), weekyears));
     }
@@ -689,6 +729,7 @@ public class MutableDateTime
      * @param monthOfYear  the month of the year
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void setMonthOfYear(final int monthOfYear) {
         setMillis(getChronology().monthOfYear().set(getMillis(), monthOfYear));
     }
@@ -699,6 +740,7 @@ public class MutableDateTime
      * @param months  the months to add
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void addMonths(final int months) {
         setMillis(getChronology().months().add(getMillis(), months));
     }
@@ -710,6 +752,7 @@ public class MutableDateTime
      * @param weekOfWeekyear the week of the weekyear
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void setWeekOfWeekyear(final int weekOfWeekyear) {
         setMillis(getChronology().weekOfWeekyear().set(getMillis(), weekOfWeekyear));
     }
@@ -720,6 +763,7 @@ public class MutableDateTime
      * @param weeks  the weeks to add
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void addWeeks(final int weeks) {
         setMillis(getChronology().weeks().add(getMillis(), weeks));
     }
@@ -731,6 +775,7 @@ public class MutableDateTime
      * @param dayOfYear the day of the year
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void setDayOfYear(final int dayOfYear) {
         setMillis(getChronology().dayOfYear().set(getMillis(), dayOfYear));
     }
@@ -741,6 +786,7 @@ public class MutableDateTime
      * @param dayOfMonth  the day of the month
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void setDayOfMonth(final int dayOfMonth) {
         setMillis(getChronology().dayOfMonth().set(getMillis(), dayOfMonth));
     }
@@ -751,6 +797,7 @@ public class MutableDateTime
      * @param dayOfWeek  the day of the week
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void setDayOfWeek(final int dayOfWeek) {
         setMillis(getChronology().dayOfWeek().set(getMillis(), dayOfWeek));
     }
@@ -761,6 +808,7 @@ public class MutableDateTime
      * @param days  the days to add
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void addDays(final int days) {
         setMillis(getChronology().days().add(getMillis(), days));
     }
@@ -772,6 +820,7 @@ public class MutableDateTime
      * @param hourOfDay  the hour of day
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void setHourOfDay(final int hourOfDay) {
         setMillis(getChronology().hourOfDay().set(getMillis(), hourOfDay));
     }
@@ -782,6 +831,7 @@ public class MutableDateTime
      * @param hours  the hours to add
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void addHours(final int hours) {
         setMillis(getChronology().hours().add(getMillis(), hours));
     }
@@ -793,6 +843,7 @@ public class MutableDateTime
      * @param minuteOfDay  the minute of day
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void setMinuteOfDay(final int minuteOfDay) {
         setMillis(getChronology().minuteOfDay().set(getMillis(), minuteOfDay));
     }
@@ -803,6 +854,7 @@ public class MutableDateTime
      * @param minuteOfHour  the minute of hour
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void setMinuteOfHour(final int minuteOfHour) {
         setMillis(getChronology().minuteOfHour().set(getMillis(), minuteOfHour));
     }
@@ -813,6 +865,7 @@ public class MutableDateTime
      * @param minutes  the minutes to add
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void addMinutes(final int minutes) {
         setMillis(getChronology().minutes().add(getMillis(), minutes));
     }
@@ -824,6 +877,7 @@ public class MutableDateTime
      * @param secondOfDay  the second of day
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void setSecondOfDay(final int secondOfDay) {
         setMillis(getChronology().secondOfDay().set(getMillis(), secondOfDay));
     }
@@ -834,6 +888,7 @@ public class MutableDateTime
      * @param secondOfMinute  the second of minute
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void setSecondOfMinute(final int secondOfMinute) {
         setMillis(getChronology().secondOfMinute().set(getMillis(), secondOfMinute));
     }
@@ -844,6 +899,7 @@ public class MutableDateTime
      * @param seconds  the seconds to add
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void addSeconds(final int seconds) {
         setMillis(getChronology().seconds().add(getMillis(), seconds));
     }
@@ -855,6 +911,7 @@ public class MutableDateTime
      * @param millisOfDay  the millis of day
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void setMillisOfDay(final int millisOfDay) {
         setMillis(getChronology().millisOfDay().set(getMillis(), millisOfDay));
     }
@@ -865,6 +922,7 @@ public class MutableDateTime
      * @param millisOfSecond  the millis of second
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void setMillisOfSecond(final int millisOfSecond) {
         setMillis(getChronology().millisOfSecond().set(getMillis(), millisOfSecond));
     }
@@ -877,6 +935,7 @@ public class MutableDateTime
      * @param millis  the milliseconds to add
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void addMillis(final int millis) {
         setMillis(getChronology().millis().add(getMillis(), millis));
     }
@@ -889,6 +948,7 @@ public class MutableDateTime
      * @param instant  an instant to copy the date from, time part ignored
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void setDate(final long instant) {
         setMillis(getChronology().millisOfDay().set(instant, getMillisOfDay()));
     }
@@ -903,6 +963,7 @@ public class MutableDateTime
      * @param instant  an instant to copy the date from, time part ignored
      * @throws IllegalArgumentException if the object is invalid
      */
+    @Impure
     public void setDate(final ReadableInstant instant) {
         long instantMillis = DateTimeUtils.getInstantMillis(instant);
         if (instant instanceof ReadableDateTime) {
@@ -925,6 +986,7 @@ public class MutableDateTime
      * @param dayOfMonth  the day of the month
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void setDate(
             final int year,
             final int monthOfYear,
@@ -942,6 +1004,7 @@ public class MutableDateTime
      * @param millis  an instant to copy the time from, date part ignored
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void setTime(final long millis) {
         int millisOfDay = ISOChronology.getInstanceUTC().millisOfDay().get(millis);
         setMillis(getChronology().millisOfDay().set(getMillis(), millisOfDay));
@@ -954,6 +1017,7 @@ public class MutableDateTime
      * @param instant  an instant to copy the time from, date part ignored
      * @throws IllegalArgumentException if the object is invalid
      */
+    @Impure
     public void setTime(final ReadableInstant instant) {
         long instantMillis = DateTimeUtils.getInstantMillis(instant);
         Chronology instantChrono = DateTimeUtils.getInstantChronology(instant);
@@ -974,6 +1038,7 @@ public class MutableDateTime
      * @param millisOfSecond  the millisecond of the second
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void setTime(
             final int hour,
             final int minuteOfHour,
@@ -996,6 +1061,7 @@ public class MutableDateTime
      * @param millisOfSecond  the millisecond of the second
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public void setDateTime(
             final int year,
             final int monthOfYear,
@@ -1018,6 +1084,7 @@ public class MutableDateTime
      * @throws IllegalArgumentException if the field is null or unsupported
      * @since 1.2
      */
+    @Impure
     public Property property(DateTimeFieldType type) {
         if (type == null) {
             throw new IllegalArgumentException("The DateTimeFieldType must not be null");
@@ -1034,6 +1101,7 @@ public class MutableDateTime
      * 
      * @return the era property
      */
+    @Impure
     public Property era() {
         return new Property(this, getChronology().era());
     }
@@ -1043,6 +1111,7 @@ public class MutableDateTime
      * 
      * @return the year of era property
      */
+    @Impure
     public Property centuryOfEra() {
         return new Property(this, getChronology().centuryOfEra());
     }
@@ -1052,6 +1121,7 @@ public class MutableDateTime
      * 
      * @return the year of era property
      */
+    @Impure
     public Property yearOfCentury() {
         return new Property(this, getChronology().yearOfCentury());
     }
@@ -1061,6 +1131,7 @@ public class MutableDateTime
      * 
      * @return the year of era property
      */
+    @Impure
     public Property yearOfEra() {
         return new Property(this, getChronology().yearOfEra());
     }
@@ -1070,6 +1141,7 @@ public class MutableDateTime
      * 
      * @return the year property
      */
+    @Impure
     public Property year() {
         return new Property(this, getChronology().year());
     }
@@ -1079,6 +1151,7 @@ public class MutableDateTime
      * 
      * @return the year of a week based year property
      */
+    @Impure
     public Property weekyear() {
         return new Property(this, getChronology().weekyear());
     }
@@ -1088,6 +1161,7 @@ public class MutableDateTime
      * 
      * @return the month of year property
      */
+    @Impure
     public Property monthOfYear() {
         return new Property(this, getChronology().monthOfYear());
     }
@@ -1097,6 +1171,7 @@ public class MutableDateTime
      * 
      * @return the week of a week based year property
      */
+    @Impure
     public Property weekOfWeekyear() {
         return new Property(this, getChronology().weekOfWeekyear());
     }
@@ -1106,6 +1181,7 @@ public class MutableDateTime
      * 
      * @return the day of year property
      */
+    @Impure
     public Property dayOfYear() {
         return new Property(this, getChronology().dayOfYear());
     }
@@ -1117,6 +1193,7 @@ public class MutableDateTime
      * 
      * @return the day of month property
      */
+    @Impure
     public Property dayOfMonth() {
         return new Property(this, getChronology().dayOfMonth());
     }
@@ -1128,6 +1205,7 @@ public class MutableDateTime
      * 
      * @return the day of week property
      */
+    @Impure
     public Property dayOfWeek() {
         return new Property(this, getChronology().dayOfWeek());
     }
@@ -1138,6 +1216,7 @@ public class MutableDateTime
      * 
      * @return the hour of day property
      */
+    @Impure
     public Property hourOfDay() {
         return new Property(this, getChronology().hourOfDay());
     }
@@ -1147,6 +1226,7 @@ public class MutableDateTime
      * 
      * @return the minute of day property
      */
+    @Impure
     public Property minuteOfDay() {
         return new Property(this, getChronology().minuteOfDay());
     }
@@ -1156,6 +1236,7 @@ public class MutableDateTime
      * 
      * @return the minute of hour property
      */
+    @Impure
     public Property minuteOfHour() {
         return new Property(this, getChronology().minuteOfHour());
     }
@@ -1165,6 +1246,7 @@ public class MutableDateTime
      * 
      * @return the second of day property
      */
+    @Impure
     public Property secondOfDay() {
         return new Property(this, getChronology().secondOfDay());
     }
@@ -1174,6 +1256,7 @@ public class MutableDateTime
      * 
      * @return the second of minute property
      */
+    @Impure
     public Property secondOfMinute() {
         return new Property(this, getChronology().secondOfMinute());
     }
@@ -1183,6 +1266,7 @@ public class MutableDateTime
      * 
      * @return the millis of day property
      */
+    @Impure
     public Property millisOfDay() {
         return new Property(this, getChronology().millisOfDay());
     }
@@ -1192,6 +1276,7 @@ public class MutableDateTime
      * 
      * @return the millis of second property
      */
+    @Impure
     public Property millisOfSecond() {
         return new Property(this, getChronology().millisOfSecond());
     }
@@ -1202,6 +1287,7 @@ public class MutableDateTime
      *
      * @return a clone of the this object.
      */
+    @SideEffectFree
     public MutableDateTime copy() {
         return (MutableDateTime) clone();
     }
@@ -1212,6 +1298,7 @@ public class MutableDateTime
      *
      * @return a clone of this object.
      */
+    @SideEffectFree
     public Object clone() {
         try {
             return super.clone();
@@ -1225,6 +1312,7 @@ public class MutableDateTime
      * 
      * @return ISO8601 time formatted string.
      */
+    @Impure
     @ToString
     public String toString() {
         return ISODateTimeFormat.dateTime().print(this);
@@ -1266,6 +1354,8 @@ public class MutableDateTime
          * @param instant  the instant to set
          * @param field  the field to use
          */
+        @SideEffectFree
+        @Impure
         Property(MutableDateTime instant, DateTimeField field) {
             super();
             iInstant = instant;
@@ -1275,6 +1365,7 @@ public class MutableDateTime
         /**
          * Writes the property in a safe serialization format.
          */
+        @Impure
         private void writeObject(ObjectOutputStream oos) throws IOException {
             oos.writeObject(iInstant);
             oos.writeObject(iField.getType());
@@ -1283,6 +1374,7 @@ public class MutableDateTime
         /**
          * Reads the property from a safe serialization format.
          */
+        @Impure
         private void readObject(ObjectInputStream oos) throws IOException, ClassNotFoundException {
             iInstant = (MutableDateTime) oos.readObject();
             DateTimeFieldType type = (DateTimeFieldType) oos.readObject();
@@ -1295,6 +1387,7 @@ public class MutableDateTime
          * 
          * @return the field
          */
+        @Pure
         public DateTimeField getField() {
             return iField;
         }
@@ -1304,6 +1397,8 @@ public class MutableDateTime
          * 
          * @return the milliseconds
          */
+        @Pure
+        @Impure
         protected long getMillis() {
             return iInstant.getMillis();
         }
@@ -1314,6 +1409,8 @@ public class MutableDateTime
          * @return the chronology
          * @since 1.4
          */
+        @Pure
+        @Impure
         protected Chronology getChronology() {
             return iInstant.getChronology();
         }
@@ -1323,6 +1420,7 @@ public class MutableDateTime
          * 
          * @return the mutable datetime
          */
+        @Pure
         public MutableDateTime getMutableDateTime() {
             return iInstant;
         }
@@ -1335,6 +1433,7 @@ public class MutableDateTime
          * @return the mutable datetime being used, so calls can be chained
          * @see DateTimeField#add(long,int)
          */
+        @Impure
         public MutableDateTime add(int value) {
             iInstant.setMillis(getField().add(iInstant.getMillis(), value));
             return iInstant;
@@ -1347,6 +1446,7 @@ public class MutableDateTime
          * @return the mutable datetime being used, so calls can be chained
          * @see DateTimeField#add(long,long)
          */
+        @Impure
         public MutableDateTime add(long value) {
             iInstant.setMillis(getField().add(iInstant.getMillis(), value));
             return iInstant;
@@ -1359,6 +1459,7 @@ public class MutableDateTime
          * @return the mutable datetime being used, so calls can be chained
          * @see DateTimeField#addWrapField
          */
+        @Impure
         public MutableDateTime addWrapField(int value) {
             iInstant.setMillis(getField().addWrapField(iInstant.getMillis(), value));
             return iInstant;
@@ -1372,6 +1473,7 @@ public class MutableDateTime
          * @return the mutable datetime being used, so calls can be chained
          * @see DateTimeField#set(long,int)
          */
+        @Impure
         public MutableDateTime set(int value) {
             iInstant.setMillis(getField().set(iInstant.getMillis(), value));
             return iInstant;
@@ -1386,6 +1488,7 @@ public class MutableDateTime
          * @throws IllegalArgumentException if the text value isn't valid
          * @see DateTimeField#set(long,java.lang.String,java.util.Locale)
          */
+        @Impure
         public MutableDateTime set(String text, Locale locale) {
             iInstant.setMillis(getField().set(iInstant.getMillis(), text, locale));
             return iInstant;
@@ -1399,6 +1502,7 @@ public class MutableDateTime
          * @throws IllegalArgumentException if the text value isn't valid
          * @see DateTimeField#set(long,java.lang.String)
          */
+        @Impure
         public MutableDateTime set(String text) {
             set(text, null);
             return iInstant;
@@ -1411,6 +1515,7 @@ public class MutableDateTime
          * @return the mutable datetime being used, so calls can be chained
          * @see DateTimeField#roundFloor
          */
+        @Impure
         public MutableDateTime roundFloor() {
             iInstant.setMillis(getField().roundFloor(iInstant.getMillis()));
             return iInstant;
@@ -1422,6 +1527,7 @@ public class MutableDateTime
          * @return the mutable datetime being used, so calls can be chained
          * @see DateTimeField#roundCeiling
          */
+        @Impure
         public MutableDateTime roundCeiling() {
             iInstant.setMillis(getField().roundCeiling(iInstant.getMillis()));
             return iInstant;
@@ -1434,6 +1540,7 @@ public class MutableDateTime
          * @return the mutable datetime being used, so calls can be chained
          * @see DateTimeField#roundHalfFloor
          */
+        @Impure
         public MutableDateTime roundHalfFloor() {
             iInstant.setMillis(getField().roundHalfFloor(iInstant.getMillis()));
             return iInstant;
@@ -1446,6 +1553,7 @@ public class MutableDateTime
          * @return the mutable datetime being used, so calls can be chained
          * @see DateTimeField#roundHalfCeiling
          */
+        @Impure
         public MutableDateTime roundHalfCeiling() {
             iInstant.setMillis(getField().roundHalfCeiling(iInstant.getMillis()));
             return iInstant;
@@ -1458,6 +1566,7 @@ public class MutableDateTime
          * @return the mutable datetime being used, so calls can be chained
          * @see DateTimeField#roundHalfEven
          */
+        @Impure
         public MutableDateTime roundHalfEven() {
             iInstant.setMillis(getField().roundHalfEven(iInstant.getMillis()));
             return iInstant;

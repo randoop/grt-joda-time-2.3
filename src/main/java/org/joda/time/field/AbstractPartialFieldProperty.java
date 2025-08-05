@@ -15,6 +15,9 @@
  */
 package org.joda.time.field;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.util.Locale;
 
 import org.joda.time.DateTimeField;
@@ -39,6 +42,7 @@ public abstract class AbstractPartialFieldProperty {
     /**
      * Constructor.
      */
+    @SideEffectFree
     protected AbstractPartialFieldProperty() {
         super();
     }
@@ -49,6 +53,7 @@ public abstract class AbstractPartialFieldProperty {
      * 
      * @return the field
      */
+    @Impure
     public abstract DateTimeField getField();
 
     /**
@@ -56,6 +61,7 @@ public abstract class AbstractPartialFieldProperty {
      * 
      * @return the field type
      */
+    @Impure
     public DateTimeFieldType getFieldType() {
         return getField().getType();
     }
@@ -65,6 +71,7 @@ public abstract class AbstractPartialFieldProperty {
      * 
      * @return the field name
      */
+    @Impure
     public String getName() {
         return getField().getName();
     }
@@ -74,6 +81,7 @@ public abstract class AbstractPartialFieldProperty {
      * 
      * @return the partial instant
      */
+    @Pure
     protected abstract ReadablePartial getReadablePartial();
 
     //-----------------------------------------------------------------------
@@ -88,6 +96,8 @@ public abstract class AbstractPartialFieldProperty {
      * 
      * @return the current value
      */
+    @Pure
+    @Impure
     public abstract int get();
 
     /**
@@ -102,6 +112,8 @@ public abstract class AbstractPartialFieldProperty {
      * @see DateTimeField#get
      * @since 1.1
      */
+    @SideEffectFree
+    @Impure
     public String getAsString() {
         return Integer.toString(get());
     }
@@ -117,6 +129,7 @@ public abstract class AbstractPartialFieldProperty {
      * @return the current text value
      * @see DateTimeField#getAsText
      */
+    @Impure
     public String getAsText() {
         return getAsText(null);
     }
@@ -133,6 +146,7 @@ public abstract class AbstractPartialFieldProperty {
      * @return the current text value
      * @see DateTimeField#getAsText
      */
+    @Impure
     public String getAsText(Locale locale) {
         return getField().getAsText(getReadablePartial(), get(), locale);
     }
@@ -148,6 +162,7 @@ public abstract class AbstractPartialFieldProperty {
      * @return the current text value
      * @see DateTimeField#getAsShortText
      */
+    @Impure
     public String getAsShortText() {
         return getAsShortText(null);
     }
@@ -164,6 +179,7 @@ public abstract class AbstractPartialFieldProperty {
      * @return the current text value
      * @see DateTimeField#getAsShortText
      */
+    @Impure
     public String getAsShortText(Locale locale) {
         return getField().getAsShortText(getReadablePartial(), get(), locale);
     }
@@ -175,6 +191,7 @@ public abstract class AbstractPartialFieldProperty {
      *
      * @return the duration of this field, or UnsupportedDurationField
      */
+    @Impure
     public DurationField getDurationField() {
         return getField().getDurationField();
     }
@@ -185,6 +202,7 @@ public abstract class AbstractPartialFieldProperty {
      *
      * @return the range duration of this field, or null if field has no range
      */
+    @Impure
     public DurationField getRangeDurationField() {
         return getField().getRangeDurationField();
     }
@@ -196,6 +214,7 @@ public abstract class AbstractPartialFieldProperty {
      * @return the minimum value
      * @see DateTimeField#getMinimumValue
      */
+    @Impure
     public int getMinimumValueOverall() {
         return getField().getMinimumValue();
     }
@@ -206,6 +225,7 @@ public abstract class AbstractPartialFieldProperty {
      * @return the minimum value
      * @see DateTimeField#getMinimumValue
      */
+    @Impure
     public int getMinimumValue() {
         return getField().getMinimumValue(getReadablePartial());
     }
@@ -216,6 +236,7 @@ public abstract class AbstractPartialFieldProperty {
      * @return the maximum value
      * @see DateTimeField#getMaximumValue
      */
+    @Impure
     public int getMaximumValueOverall() {
         return getField().getMaximumValue();
     }
@@ -226,6 +247,7 @@ public abstract class AbstractPartialFieldProperty {
      * @return the maximum value
      * @see DateTimeField#getMaximumValue
      */
+    @Impure
     public int getMaximumValue() {
         return getField().getMaximumValue(getReadablePartial());
     }
@@ -238,6 +260,7 @@ public abstract class AbstractPartialFieldProperty {
      * @return the maximum length
      * @see DateTimeField#getMaximumTextLength
      */
+    @Impure
     public int getMaximumTextLength(Locale locale) {
         return getField().getMaximumTextLength(locale);
     }
@@ -249,6 +272,7 @@ public abstract class AbstractPartialFieldProperty {
      * @return the maximum length
      * @see DateTimeField#getMaximumShortTextLength
      */
+    @Impure
     public int getMaximumShortTextLength(Locale locale) {
         return getField().getMaximumShortTextLength(locale);
     }
@@ -267,6 +291,7 @@ public abstract class AbstractPartialFieldProperty {
      * @throws IllegalArgumentException if the instant is null or the instant
      *  doesn't support the field of this property
      */
+    @Impure
     public int compareTo(ReadableInstant instant) {
         if (instant == null) {
             throw new IllegalArgumentException("The instant must not be null");
@@ -296,6 +321,7 @@ public abstract class AbstractPartialFieldProperty {
      * @throws IllegalArgumentException if the field of this property cannot be queried
      *  on the specified instant
      */
+    @Impure
     public int compareTo(ReadablePartial partial) {
         if (partial == null) {
             throw new IllegalArgumentException("The instant must not be null");
@@ -318,6 +344,7 @@ public abstract class AbstractPartialFieldProperty {
      * @param object  the object to compare to
      * @return true if equal
      */
+    @Impure
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -339,6 +366,7 @@ public abstract class AbstractPartialFieldProperty {
      * @return the hashcode
      * @since 1.3
      */
+    @Impure
     public int hashCode() {
         int hash = 19;
         hash = 13 * hash + get();
@@ -353,6 +381,7 @@ public abstract class AbstractPartialFieldProperty {
      * 
      * @return debugging string
      */
+    @Impure
     public String toString() {
         return "Property[" + getName() + "]";
     }

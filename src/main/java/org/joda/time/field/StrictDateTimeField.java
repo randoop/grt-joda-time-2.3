@@ -15,6 +15,8 @@
  */
 package org.joda.time.field;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import org.joda.time.DateTimeField;
 
 /**
@@ -37,6 +39,7 @@ public class StrictDateTimeField extends DelegatedDateTimeField {
      * then it is returned as-is. Otherwise, a new StrictDateTimeField is
      * returned.
      */
+    @Impure
     public static DateTimeField getInstance(DateTimeField field) {
         if (field == null) {
             return null;
@@ -50,10 +53,12 @@ public class StrictDateTimeField extends DelegatedDateTimeField {
         return new StrictDateTimeField(field);
     }
 
+    @Impure
     protected StrictDateTimeField(DateTimeField field) {
         super(field);
     }
 
+    @Pure
     public final boolean isLenient() {
         return false;
     }
@@ -63,6 +68,7 @@ public class StrictDateTimeField extends DelegatedDateTimeField {
      *
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public long set(long instant, int value) {
         FieldUtils.verifyValueBounds
             (this, value, getMinimumValue(instant), getMaximumValue(instant));

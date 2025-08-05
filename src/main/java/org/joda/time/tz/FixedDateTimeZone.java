@@ -15,6 +15,9 @@
  */
 package org.joda.time.tz;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import org.joda.time.DateTimeZone;
 
 /**
@@ -33,6 +36,8 @@ public final class FixedDateTimeZone extends DateTimeZone {
     private final int iWallOffset;
     private final int iStandardOffset;
 
+    @SideEffectFree
+    @Impure
     public FixedDateTimeZone(String id, String nameKey,
                              int wallOffset, int standardOffset) {
         super(id);
@@ -41,30 +46,37 @@ public final class FixedDateTimeZone extends DateTimeZone {
         iStandardOffset = standardOffset;
     }
 
+    @Pure
     public String getNameKey(long instant) {
         return iNameKey;
     }
 
+    @Pure
     public int getOffset(long instant) {
         return iWallOffset;
     }
 
+    @Pure
     public int getStandardOffset(long instant) {
         return iStandardOffset;
     }
 
+    @Pure
     public int getOffsetFromLocal(long instantLocal) {
         return iWallOffset;
     }
 
+    @Pure
     public boolean isFixed() {
         return true;
     }
 
+    @Pure
     public long nextTransition(long instant) {
         return instant;
     }
 
+    @Pure
     public long previousTransition(long instant) {
         return instant;
     }
@@ -73,6 +85,7 @@ public final class FixedDateTimeZone extends DateTimeZone {
      * Override to return the correct timzone instance.
      * @since 1.5
      */
+    @Impure
     public java.util.TimeZone toTimeZone() {
         String id = getID();
         if (id.length() == 6 && (id.startsWith("+") || id.startsWith("-"))) {
@@ -84,6 +97,8 @@ public final class FixedDateTimeZone extends DateTimeZone {
         return new java.util.SimpleTimeZone(iWallOffset, getID());
     }
 
+    @Pure
+    @Impure
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -98,6 +113,8 @@ public final class FixedDateTimeZone extends DateTimeZone {
         return false;
     }
 
+    @Pure
+    @Impure
     public int hashCode() {
         return getID().hashCode() + 37 * iStandardOffset + 31 * iWallOffset;
     }

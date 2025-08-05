@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 package org.joda.time.format;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * Internal interface for parsing textual representations of datetimes.
@@ -40,6 +42,8 @@ public interface DateTimeParser {
      * 
      * @return the estimated length
      */
+    @Pure
+    @Impure
     int estimateParsedLength();
 
     /**
@@ -59,6 +63,7 @@ public interface DateTimeParser {
      *  apply complement operator (~) to get position of failure
      * @throws IllegalArgumentException if any field is out of range
      */
+    @Impure
     int parseInto(DateTimeParserBucket bucket, String text, int position);
 
 }

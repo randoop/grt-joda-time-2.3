@@ -15,6 +15,9 @@
  */
 package org.joda.time.chrono;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.time.Chronology;
 import org.joda.time.DateTimeField;
 import org.joda.time.DateTimeZone;
@@ -41,6 +44,7 @@ public final class LenientChronology extends AssembledChronology {
      * @param base the chronology to wrap
      * @throws IllegalArgumentException if chronology is null
      */
+    @Impure
     public static LenientChronology getInstance(Chronology base) {
         if (base == null) {
             throw new IllegalArgumentException("Must supply a chronology");
@@ -55,10 +59,12 @@ public final class LenientChronology extends AssembledChronology {
      *
      * @param base the chronology to wrap
      */
+    @Impure
     private LenientChronology(Chronology base) {
         super(base, null);
     }
 
+    @Impure
     public Chronology withUTC() {
         if (iWithUTC == null) {
             if (getZone() == DateTimeZone.UTC) {
@@ -70,6 +76,7 @@ public final class LenientChronology extends AssembledChronology {
         return iWithUTC;
     }
 
+    @Impure
     public Chronology withZone(DateTimeZone zone) {
         if (zone == null) {
             zone = DateTimeZone.getDefault();
@@ -83,6 +90,7 @@ public final class LenientChronology extends AssembledChronology {
         return LenientChronology.getInstance(getBase().withZone(zone));
     }
 
+    @Impure
     protected void assemble(Fields fields) {
         fields.year = convertField(fields.year);
         fields.yearOfEra = convertField(fields.yearOfEra);
@@ -110,6 +118,7 @@ public final class LenientChronology extends AssembledChronology {
         fields.halfdayOfDay = convertField(fields.halfdayOfDay);
     }
 
+    @Impure
     private final DateTimeField convertField(DateTimeField field) {
         return LenientDateTimeField.getInstance(field, getBase());
     }
@@ -123,6 +132,8 @@ public final class LenientChronology extends AssembledChronology {
      * @return true if equal
      * @since 1.4
      */
+    @Pure
+    @Impure
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -140,6 +151,8 @@ public final class LenientChronology extends AssembledChronology {
      * @return the hashcode
      * @since 1.4
      */
+    @Pure
+    @Impure
     public int hashCode() {
         return 236548278 + getBase().hashCode() * 7;
     }
@@ -149,6 +162,8 @@ public final class LenientChronology extends AssembledChronology {
      * 
      * @return the debugging string
      */
+    @SideEffectFree
+    @Impure
     public String toString() {
         return "LenientChronology[" + getBase().toString() + ']';
     }

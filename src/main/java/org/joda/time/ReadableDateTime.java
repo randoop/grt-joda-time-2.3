@@ -15,6 +15,8 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.Locale;
 
 /**
@@ -40,6 +42,7 @@ public interface ReadableDateTime extends ReadableInstant {
      * 
      * @return the day of week
      */
+    @Impure
     int getDayOfWeek();
 
     /**
@@ -47,6 +50,7 @@ public interface ReadableDateTime extends ReadableInstant {
      * 
      * @return the day of month
      */
+    @Impure
     int getDayOfMonth();
 
     /**
@@ -54,6 +58,7 @@ public interface ReadableDateTime extends ReadableInstant {
      * 
      * @return the day of year
      */
+    @Impure
     int getDayOfYear();
 
     /**
@@ -66,6 +71,7 @@ public interface ReadableDateTime extends ReadableInstant {
      * 
      * @return the week of a week based year
      */
+    @Impure
     int getWeekOfWeekyear();
 
     /**
@@ -79,6 +85,7 @@ public interface ReadableDateTime extends ReadableInstant {
      * 
      * @return the year of a week based year
      */
+    @Impure
     int getWeekyear();
 
     /**
@@ -86,6 +93,7 @@ public interface ReadableDateTime extends ReadableInstant {
      * 
      * @return the month of year
      */
+    @Impure
     int getMonthOfYear();
 
     /**
@@ -93,6 +101,7 @@ public interface ReadableDateTime extends ReadableInstant {
      * 
      * @return the year
      */
+    @Impure
     int getYear();
 
     /**
@@ -100,6 +109,7 @@ public interface ReadableDateTime extends ReadableInstant {
      * 
      * @return the year of era
      */
+    @Impure
     int getYearOfEra();
 
     /**
@@ -107,6 +117,7 @@ public interface ReadableDateTime extends ReadableInstant {
      * 
      * @return the year of century
      */
+    @Impure
     int getYearOfCentury();
 
     /**
@@ -114,6 +125,7 @@ public interface ReadableDateTime extends ReadableInstant {
      * 
      * @return the year of era
      */
+    @Impure
     int getCenturyOfEra();
 
     /**
@@ -121,6 +133,7 @@ public interface ReadableDateTime extends ReadableInstant {
      * 
      * @return the era
      */
+    @Impure
     int getEra();
 
     // Time field access methods
@@ -131,6 +144,7 @@ public interface ReadableDateTime extends ReadableInstant {
      *
      * @return the millis of second
      */
+    @Impure
     int getMillisOfSecond();
 
     /**
@@ -138,6 +152,7 @@ public interface ReadableDateTime extends ReadableInstant {
      *
      * @return the millis of day
      */
+    @Impure
     int getMillisOfDay();
 
     /**
@@ -145,6 +160,7 @@ public interface ReadableDateTime extends ReadableInstant {
      *
      * @return the second of minute
      */
+    @Impure
     int getSecondOfMinute();
 
     /**
@@ -152,6 +168,7 @@ public interface ReadableDateTime extends ReadableInstant {
      *
      * @return the second of day
      */
+    @Impure
     int getSecondOfDay();
 
     /**
@@ -159,6 +176,7 @@ public interface ReadableDateTime extends ReadableInstant {
      *
      * @return the minute of hour
      */
+    @Impure
     int getMinuteOfHour();
 
     /**
@@ -166,6 +184,7 @@ public interface ReadableDateTime extends ReadableInstant {
      *
      * @return the minute of day
      */
+    @Impure
     int getMinuteOfDay();
 
     /**
@@ -173,6 +192,7 @@ public interface ReadableDateTime extends ReadableInstant {
      *
      * @return the hour of day
      */
+    @Impure
     int getHourOfDay();
 
     /**
@@ -182,6 +202,7 @@ public interface ReadableDateTime extends ReadableInstant {
      * 
      * @return a DateTime using the same millis
      */
+    @Pure
     DateTime toDateTime();
 
     /**
@@ -189,6 +210,7 @@ public interface ReadableDateTime extends ReadableInstant {
      * 
      * @return a MutableDateTime using the same millis
      */
+    @Pure
     MutableDateTime toMutableDateTime();
 
     /**
@@ -198,6 +220,7 @@ public interface ReadableDateTime extends ReadableInstant {
      * @throws IllegalArgumentException  if pattern is invalid
      * @see  org.joda.time.format.DateTimeFormat
      */
+    @Impure
     String toString(String pattern) throws IllegalArgumentException;
 
     /**
@@ -208,6 +231,7 @@ public interface ReadableDateTime extends ReadableInstant {
      * @throws IllegalArgumentException  if pattern is invalid
      * @see  org.joda.time.format.DateTimeFormat
      */
+    @Impure
     String toString(String pattern, Locale locale) throws IllegalArgumentException;
     
 }

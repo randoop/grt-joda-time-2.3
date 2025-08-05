@@ -15,6 +15,8 @@
  */
 package org.joda.time.chrono;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.time.DateTimeField;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.ReadablePartial;
@@ -43,39 +45,48 @@ class ISOYearOfEraDateTimeField extends DecoratedDateTimeField {
     /**
      * Restricted constructor.
      */
+    @Impure
     private ISOYearOfEraDateTimeField() {
         super(GregorianChronology.getInstanceUTC().year(), DateTimeFieldType.yearOfEra());
     }
 
+    @Impure
     public int get(long instant) {
         int year = getWrappedField().get(instant);
         return year < 0 ? -year : year;
     }
 
+    @Impure
     public long add(long instant, int years) {
         return getWrappedField().add(instant, years);
     }
 
+    @Impure
     public long add(long instant, long years) {
         return getWrappedField().add(instant, years);
     }
 
+    @Impure
     public long addWrapField(long instant, int years) {
         return getWrappedField().addWrapField(instant, years);
     }
 
+    @Impure
     public int[] addWrapField(ReadablePartial instant, int fieldIndex, int[] values, int years) {
         return getWrappedField().addWrapField(instant, fieldIndex, values, years);
     }
 
+    @Impure
     public int getDifference(long minuendInstant, long subtrahendInstant) {
         return getWrappedField().getDifference(minuendInstant, subtrahendInstant);
     }
 
+    @Impure
     public long getDifferenceAsLong(long minuendInstant, long subtrahendInstant) {
         return getWrappedField().getDifferenceAsLong(minuendInstant, subtrahendInstant);
     }
 
+    @Impure
     public long set(long instant, int year) {
         FieldUtils.verifyValueBounds(this, year, 0, getMaximumValue());
         if (getWrappedField().get(instant) < 0) {
@@ -84,22 +95,27 @@ class ISOYearOfEraDateTimeField extends DecoratedDateTimeField {
         return super.set(instant, year);
     }
 
+    @Pure
     public int getMinimumValue() {
         return 0;
     }
 
+    @Impure
     public int getMaximumValue() {
         return getWrappedField().getMaximumValue();
     }
 
+    @Impure
     public long roundFloor(long instant) {
         return getWrappedField().roundFloor(instant);
     }
 
+    @Impure
     public long roundCeiling(long instant) {
         return getWrappedField().roundCeiling(instant);
     }
 
+    @Impure
     public long remainder(long instant) {
         return getWrappedField().remainder(instant);
     }
@@ -107,6 +123,7 @@ class ISOYearOfEraDateTimeField extends DecoratedDateTimeField {
     /**
      * Serialization singleton
      */
+    @Pure
     private Object readResolve() {
         return INSTANCE;
     }

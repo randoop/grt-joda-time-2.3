@@ -15,6 +15,9 @@
  */
 package org.joda.time.convert;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.time.Chronology;
 
 /**
@@ -36,6 +39,8 @@ class LongConverter extends AbstractConverter
     /**
      * Restricted constructor.
      */
+    @SideEffectFree
+    @Impure
     protected LongConverter() {
         super();
     }
@@ -50,6 +55,7 @@ class LongConverter extends AbstractConverter
      * @throws NullPointerException if the object is null
      * @throws ClassCastException if the object is an invalid type
      */
+    @Pure
     public long getInstantMillis(Object object, Chronology chrono) {
         return ((Long) object).longValue();
     }
@@ -63,6 +69,7 @@ class LongConverter extends AbstractConverter
      * @throws NullPointerException if the object is null
      * @throws ClassCastException if the object is an invalid type
      */
+    @Pure
     public long getDurationMillis(Object object) {
         return ((Long) object).longValue();
     }
@@ -73,6 +80,7 @@ class LongConverter extends AbstractConverter
      * 
      * @return Long.class
      */
+    @Pure
     public Class<?> getSupportedType() {
         return Long.class;
     }

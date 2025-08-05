@@ -15,6 +15,7 @@
  */
 package org.joda.time.tz;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.util.Set;
 
 import org.joda.time.DateTimeZone;
@@ -33,12 +34,14 @@ public interface Provider {
      *
      * @return null if not found
      */
+    @Impure
     DateTimeZone getZone(String id);
 
     /**
      * Returns an unmodifiable set of ids. All providers must at least
      * support id "UTC".
      */        
+    @Impure
     Set<String> getAvailableIDs();
 
 }

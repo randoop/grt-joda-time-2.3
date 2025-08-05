@@ -15,6 +15,8 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.Serializable;
 
 import org.joda.convert.FromString;
@@ -69,6 +71,7 @@ public class MutablePeriod
      * @param str  the string to parse, not null
      * @since 2.0
      */
+    @Impure
     @FromString
     public static MutablePeriod parse(String str) {
         return parse(str, ISOPeriodFormat.standard());
@@ -81,6 +84,7 @@ public class MutablePeriod
      * @param formatter  the formatter to use, not null
      * @since 2.0
      */
+    @Impure
     public static MutablePeriod parse(String str, PeriodFormatter formatter) {
         return formatter.parsePeriod(str).toMutablePeriod();
     }
@@ -89,6 +93,7 @@ public class MutablePeriod
     /**
      * Creates a zero-length period using the standard period type.
      */
+    @Impure
     public MutablePeriod() {
         super(0L, null, null);
     }
@@ -98,6 +103,7 @@ public class MutablePeriod
      *
      * @param type  which set of fields this period supports
      */
+    @Impure
     public MutablePeriod(PeriodType type) {
         super(0L, type, null);
     }
@@ -110,6 +116,7 @@ public class MutablePeriod
      * @param seconds  amount of seconds in this period
      * @param millis  amount of milliseconds in this period
      */
+    @Impure
     public MutablePeriod(int hours, int minutes, int seconds, int millis) {
         super(0, 0, 0, 0, hours, minutes, seconds, millis, PeriodType.standard());
     }
@@ -126,6 +133,7 @@ public class MutablePeriod
      * @param seconds  amount of seconds in this period
      * @param millis  amount of milliseconds in this period
      */
+    @Impure
     public MutablePeriod(int years, int months, int weeks, int days,
                   int hours, int minutes, int seconds, int millis) {
         super(years, months, weeks, days, hours, minutes, seconds, millis, PeriodType.standard());
@@ -145,6 +153,7 @@ public class MutablePeriod
      * @param type  which set of fields this period supports, null means AllType
      * @throws IllegalArgumentException if an unsupported field's value is non-zero
      */
+    @Impure
     public MutablePeriod(int years, int months, int weeks, int days,
                     int hours, int minutes, int seconds, int millis, PeriodType type) {
         super(years, months, weeks, days, hours, minutes, seconds, millis, type);
@@ -176,6 +185,7 @@ public class MutablePeriod
      *
      * @param duration  the duration, in milliseconds
      */
+    @Impure
     public MutablePeriod(long duration) {
         super(duration);
     }
@@ -196,6 +206,7 @@ public class MutablePeriod
      * @param duration  the duration, in milliseconds
      * @param type  which set of fields this period supports, null means standard
      */
+    @Impure
     public MutablePeriod(long duration, PeriodType type) {
         super(duration, type, null);
     }
@@ -217,6 +228,7 @@ public class MutablePeriod
      * @param duration  the duration, in milliseconds
      * @param chronology  the chronology to use to split the duration, null means ISO default
      */
+    @Impure
     public MutablePeriod(long duration, Chronology chronology) {
         super(duration, null, chronology);
     }
@@ -238,6 +250,7 @@ public class MutablePeriod
      * @param type  which set of fields this period supports, null means standard
      * @param chronology  the chronology to use to split the duration, null means ISO default
      */
+    @Impure
     public MutablePeriod(long duration, PeriodType type, Chronology chronology) {
         super(duration, type, chronology);
     }
@@ -249,6 +262,7 @@ public class MutablePeriod
      * @param startInstant  interval start, in milliseconds
      * @param endInstant  interval end, in milliseconds
      */
+    @Impure
     public MutablePeriod(long startInstant, long endInstant) {
         super(startInstant, endInstant, null, null);
     }
@@ -260,6 +274,7 @@ public class MutablePeriod
      * @param endInstant  interval end, in milliseconds
      * @param type  which set of fields this period supports, null means standard
      */
+    @Impure
     public MutablePeriod(long startInstant, long endInstant, PeriodType type) {
         super(startInstant, endInstant, type, null);
     }
@@ -272,6 +287,7 @@ public class MutablePeriod
      * @param endInstant  interval end, in milliseconds
      * @param chrono  the chronology to use, null means ISO in default zone
      */
+    @Impure
     public MutablePeriod(long startInstant, long endInstant, Chronology chrono) {
         super(startInstant, endInstant, null, chrono);
     }
@@ -284,6 +300,7 @@ public class MutablePeriod
      * @param type  which set of fields this period supports, null means standard
      * @param chrono  the chronology to use, null means ISO in default zone
      */
+    @Impure
     public MutablePeriod(long startInstant, long endInstant, PeriodType type, Chronology chrono) {
         super(startInstant, endInstant, type, chrono);
     }
@@ -298,6 +315,7 @@ public class MutablePeriod
      * @param startInstant  interval start, null means now
      * @param endInstant  interval end, null means now
      */
+    @Impure
     public MutablePeriod(ReadableInstant startInstant, ReadableInstant endInstant) {
         super(startInstant, endInstant, null);
     }
@@ -312,6 +330,7 @@ public class MutablePeriod
      * @param endInstant  interval end, null means now
      * @param type  which set of fields this period supports, null means AllType
      */
+    @Impure
     public MutablePeriod(ReadableInstant startInstant, ReadableInstant endInstant, PeriodType type) {
         super(startInstant, endInstant, type);
     }
@@ -322,6 +341,7 @@ public class MutablePeriod
      * @param startInstant  the interval start, null means now
      * @param duration  the duration of the interval, null means zero-length
      */
+    @Impure
     public MutablePeriod(ReadableInstant startInstant, ReadableDuration duration) {
         super(startInstant, duration, null);
     }
@@ -333,6 +353,7 @@ public class MutablePeriod
      * @param duration  the duration of the interval, null means zero-length
      * @param type  which set of fields this period supports, null means standard
      */
+    @Impure
     public MutablePeriod(ReadableInstant startInstant, ReadableDuration duration, PeriodType type) {
         super(startInstant, duration, type);
     }
@@ -343,6 +364,7 @@ public class MutablePeriod
      * @param duration  the duration of the interval, null means zero-length
      * @param endInstant  the interval end, null means now
      */
+    @Impure
     public MutablePeriod(ReadableDuration duration, ReadableInstant endInstant) {
         super(duration, endInstant, null);
     }
@@ -354,6 +376,7 @@ public class MutablePeriod
      * @param endInstant  the interval end, null means now
      * @param type  which set of fields this period supports, null means standard
      */
+    @Impure
     public MutablePeriod(ReadableDuration duration, ReadableInstant endInstant, PeriodType type) {
         super(duration, endInstant, type);
     }
@@ -370,6 +393,7 @@ public class MutablePeriod
      * @throws IllegalArgumentException if period is invalid
      * @throws UnsupportedOperationException if an unsupported field's value is non-zero
      */
+    @Impure
     public MutablePeriod(Object period) {
         super(period, null, null);
     }
@@ -387,6 +411,7 @@ public class MutablePeriod
      * @throws IllegalArgumentException if period is invalid
      * @throws UnsupportedOperationException if an unsupported field's value is non-zero
      */
+    @Impure
     public MutablePeriod(Object period, PeriodType type) {
         super(period, type, null);
     }
@@ -404,6 +429,7 @@ public class MutablePeriod
      * @throws IllegalArgumentException if period is invalid
      * @throws UnsupportedOperationException if an unsupported field's value is non-zero
      */
+    @Impure
     public MutablePeriod(Object period, Chronology chrono) {
         super(period, null, chrono);
     }
@@ -422,6 +448,7 @@ public class MutablePeriod
      * @throws IllegalArgumentException if period is invalid
      * @throws UnsupportedOperationException if an unsupported field's value is non-zero
      */
+    @Impure
     public MutablePeriod(Object period, PeriodType type, Chronology chrono) {
         super(period, type, chrono);
     }
@@ -430,6 +457,7 @@ public class MutablePeriod
     /**
      * Clears the period, setting all values back to zero.
      */
+    @Impure
     public void clear() {
         super.setValues(new int[size()]);
     }
@@ -441,6 +469,7 @@ public class MutablePeriod
      * @param value  the new value for the field
      * @throws IndexOutOfBoundsException if the index is invalid
      */
+    @Impure
     public void setValue(int index, int value) {
         super.setValue(index, value);
     }
@@ -454,6 +483,7 @@ public class MutablePeriod
      * @param value  the new value for the field
      * @throws IllegalArgumentException if the field is null or not supported
      */
+    @Impure
     public void set(DurationFieldType field, int value) {
         super.setField(field, value);
     }
@@ -464,6 +494,7 @@ public class MutablePeriod
      * @param period  the period to set, null means zero length period
      * @throws IllegalArgumentException if an unsupported field's value is non-zero
      */
+    @Impure
     public void setPeriod(ReadablePeriod period) {
         super.setPeriod(period);
     }
@@ -481,6 +512,7 @@ public class MutablePeriod
      * @param millis  amount of milliseconds in this period, which must be zero if unsupported
      * @throws IllegalArgumentException if an unsupported field's value is non-zero
      */
+    @Impure
     public void setPeriod(int years, int months, int weeks, int days,
                           int hours, int minutes, int seconds, int millis) {
         super.setPeriod(years, months, weeks, days, hours, minutes, seconds, millis);
@@ -493,6 +525,7 @@ public class MutablePeriod
      * @param interval  the interval to set, null means zero length
      * @throws ArithmeticException if the set exceeds the capacity of the period
      */
+    @Impure
     public void setPeriod(ReadableInterval interval) {
         if (interval == null) {
             setPeriod(0L);
@@ -512,6 +545,7 @@ public class MutablePeriod
      * @param end  the end instant, null means now
      * @throws ArithmeticException if the set exceeds the capacity of the period
      */
+    @Impure
     public void setPeriod(ReadableInstant start, ReadableInstant end) {
         if (start == end) {
             setPeriod(0L);
@@ -531,6 +565,7 @@ public class MutablePeriod
      * @param endInstant  interval end, in milliseconds
      * @throws ArithmeticException if the set exceeds the capacity of the period
      */
+    @Impure
     public void setPeriod(long startInstant, long endInstant) {
         setPeriod(startInstant, endInstant, null);
     }
@@ -543,6 +578,7 @@ public class MutablePeriod
      * @param chrono  the chronology to use, null means ISO chronology
      * @throws ArithmeticException if the set exceeds the capacity of the period
      */
+    @Impure
     public void setPeriod(long startInstant, long endInstant, Chronology chrono) {
         chrono = DateTimeUtils.getChronology(chrono);
         setValues(chrono.get(this, startInstant, endInstant));
@@ -559,6 +595,7 @@ public class MutablePeriod
      * @param duration  the duration to set, null means zero length
      * @throws ArithmeticException if the set exceeds the capacity of the period
      */
+    @Impure
     public void setPeriod(ReadableDuration duration) {
         setPeriod(duration, null);
     }
@@ -575,6 +612,7 @@ public class MutablePeriod
      * @param chrono  the chronology to use, null means ISO default
      * @throws ArithmeticException if the set exceeds the capacity of the period
      */
+    @Impure
     public void setPeriod(ReadableDuration duration, Chronology chrono) {
         long durationMillis = DateTimeUtils.getDurationMillis(duration);
         setPeriod(durationMillis, chrono);
@@ -591,6 +629,7 @@ public class MutablePeriod
      * @param duration  the duration, in milliseconds
      * @throws ArithmeticException if the set exceeds the capacity of the period
      */
+    @Impure
     public void setPeriod(long duration) {
         setPeriod(duration, null);
     }
@@ -606,6 +645,7 @@ public class MutablePeriod
      * @param chrono  the chronology to use, null means ISO chronology
      * @throws ArithmeticException if the set exceeds the capacity of the period
      */
+    @Impure
     public void setPeriod(long duration, Chronology chrono) {
         chrono = DateTimeUtils.getChronology(chrono);
         setValues(chrono.get(this, duration));
@@ -621,6 +661,7 @@ public class MutablePeriod
      * @param value  the value to add to the field
      * @throws IllegalArgumentException if the field is null or not supported
      */
+    @Impure
     public void add(DurationFieldType field, int value) {
         super.addField(field, value);
     }
@@ -633,6 +674,7 @@ public class MutablePeriod
      * not supported by this period
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     public void add(ReadablePeriod period) {
         super.addPeriod(period);
     }
@@ -652,6 +694,7 @@ public class MutablePeriod
      * not supported by this period
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     public void add(int years, int months, int weeks, int days,
                        int hours, int minutes, int seconds, int millis) {
         setPeriod(
@@ -673,6 +716,7 @@ public class MutablePeriod
      * @param interval  the interval to add, null means add nothing
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     public void add(ReadableInterval interval) {
         if (interval != null) {
             add(interval.toPeriod(getPeriodType()));
@@ -686,6 +730,7 @@ public class MutablePeriod
      * @param duration  the duration to add, null means add nothing
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     public void add(ReadableDuration duration) {
         if (duration != null) {
             add(new Period(duration.getMillis(), getPeriodType()));
@@ -703,6 +748,7 @@ public class MutablePeriod
      * @param duration  the duration, in milliseconds
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     public void add(long duration) {
         add(new Period(duration, getPeriodType()));
     }
@@ -719,6 +765,7 @@ public class MutablePeriod
      * @param chrono  the chronology to use, null means ISO default
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     public void add(long duration, Chronology chrono) {
         add(new Period(duration, getPeriodType(), chrono));
     }
@@ -732,6 +779,7 @@ public class MutablePeriod
      * @param period  the period to set, null ignored
      * @throws IllegalArgumentException if an unsupported field's value is non-zero
      */
+    @Impure
     public void mergePeriod(ReadablePeriod period) {
         super.mergePeriod(period);
     }
@@ -742,6 +790,8 @@ public class MutablePeriod
      * 
      * @return the number of years in the period, zero if unsupported
      */
+    @SideEffectFree
+    @Impure
     public int getYears() {
         return getPeriodType().getIndexedField(this, PeriodType.YEAR_INDEX);
     }
@@ -751,6 +801,8 @@ public class MutablePeriod
      * 
      * @return the number of months in the period, zero if unsupported
      */
+    @SideEffectFree
+    @Impure
     public int getMonths() {
         return getPeriodType().getIndexedField(this, PeriodType.MONTH_INDEX);
     }
@@ -760,6 +812,8 @@ public class MutablePeriod
      * 
      * @return the number of weeks in the period, zero if unsupported
      */
+    @SideEffectFree
+    @Impure
     public int getWeeks() {
         return getPeriodType().getIndexedField(this, PeriodType.WEEK_INDEX);
     }
@@ -769,6 +823,8 @@ public class MutablePeriod
      * 
      * @return the number of days in the period, zero if unsupported
      */
+    @SideEffectFree
+    @Impure
     public int getDays() {
         return getPeriodType().getIndexedField(this, PeriodType.DAY_INDEX);
     }
@@ -779,6 +835,8 @@ public class MutablePeriod
      * 
      * @return the number of hours in the period, zero if unsupported
      */
+    @SideEffectFree
+    @Impure
     public int getHours() {
         return getPeriodType().getIndexedField(this, PeriodType.HOUR_INDEX);
     }
@@ -788,6 +846,8 @@ public class MutablePeriod
      * 
      * @return the number of minutes in the period, zero if unsupported
      */
+    @SideEffectFree
+    @Impure
     public int getMinutes() {
         return getPeriodType().getIndexedField(this, PeriodType.MINUTE_INDEX);
     }
@@ -797,6 +857,8 @@ public class MutablePeriod
      * 
      * @return the number of seconds in the period, zero if unsupported
      */
+    @SideEffectFree
+    @Impure
     public int getSeconds() {
         return getPeriodType().getIndexedField(this, PeriodType.SECOND_INDEX);
     }
@@ -806,6 +868,8 @@ public class MutablePeriod
      * 
      * @return the number of millis in the period, zero if unsupported
      */
+    @SideEffectFree
+    @Impure
     public int getMillis() {
         return getPeriodType().getIndexedField(this, PeriodType.MILLI_INDEX);
     }
@@ -817,6 +881,7 @@ public class MutablePeriod
      * @param years  the number of years
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      */
+    @Impure
     public void setYears(int years) {
         super.setField(DurationFieldType.years(), years);
     }
@@ -828,6 +893,7 @@ public class MutablePeriod
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     public void addYears(int years) {
         super.addField(DurationFieldType.years(), years);
     }
@@ -839,6 +905,7 @@ public class MutablePeriod
      * @param months  the number of months
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      */
+    @Impure
     public void setMonths(int months) {
         super.setField(DurationFieldType.months(), months);
     }
@@ -850,6 +917,7 @@ public class MutablePeriod
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     public void addMonths(int months) {
         super.addField(DurationFieldType.months(), months);
     }
@@ -861,6 +929,7 @@ public class MutablePeriod
      * @param weeks  the number of weeks
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      */
+    @Impure
     public void setWeeks(int weeks) {
         super.setField(DurationFieldType.weeks(), weeks);
     }
@@ -872,6 +941,7 @@ public class MutablePeriod
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     public void addWeeks(int weeks) {
         super.addField(DurationFieldType.weeks(), weeks);
     }
@@ -883,6 +953,7 @@ public class MutablePeriod
      * @param days  the number of days
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      */
+    @Impure
     public void setDays(int days) {
         super.setField(DurationFieldType.days(), days);
     }
@@ -894,6 +965,7 @@ public class MutablePeriod
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     public void addDays(int days) {
         super.addField(DurationFieldType.days(), days);
     }
@@ -905,6 +977,7 @@ public class MutablePeriod
      * @param hours  the number of hours
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      */
+    @Impure
     public void setHours(int hours) {
         super.setField(DurationFieldType.hours(), hours);
     }
@@ -916,6 +989,7 @@ public class MutablePeriod
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     public void addHours(int hours) {
         super.addField(DurationFieldType.hours(), hours);
     }
@@ -927,6 +1001,7 @@ public class MutablePeriod
      * @param minutes  the number of minutes
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      */
+    @Impure
     public void setMinutes(int minutes) {
         super.setField(DurationFieldType.minutes(), minutes);
     }
@@ -938,6 +1013,7 @@ public class MutablePeriod
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     public void addMinutes(int minutes) {
         super.addField(DurationFieldType.minutes(), minutes);
     }
@@ -949,6 +1025,7 @@ public class MutablePeriod
      * @param seconds  the number of seconds
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      */
+    @Impure
     public void setSeconds(int seconds) {
         super.setField(DurationFieldType.seconds(), seconds);
     }
@@ -960,6 +1037,7 @@ public class MutablePeriod
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     public void addSeconds(int seconds) {
         super.addField(DurationFieldType.seconds(), seconds);
     }
@@ -971,6 +1049,7 @@ public class MutablePeriod
      * @param millis  the number of millis
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      */
+    @Impure
     public void setMillis(int millis) {
         super.setField(DurationFieldType.millis(), millis);
     }
@@ -982,6 +1061,7 @@ public class MutablePeriod
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     public void addMillis(int millis) {
         super.addField(DurationFieldType.millis(), millis);
     }
@@ -993,6 +1073,7 @@ public class MutablePeriod
      *
      * @return a clone of the this object.
      */
+    @SideEffectFree
     public MutablePeriod copy() {
         return (MutablePeriod) clone();
     }
@@ -1002,6 +1083,7 @@ public class MutablePeriod
      *
      * @return a clone of this object.
      */
+    @SideEffectFree
     public Object clone() {
         try {
             return super.clone();

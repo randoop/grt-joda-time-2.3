@@ -15,6 +15,9 @@
  */
 package org.joda.time.field;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.Serializable;
 import java.util.Locale;
 
@@ -51,6 +54,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
     /**
      * Constructor.
      */
+    @SideEffectFree
     public AbstractReadableInstantFieldProperty() {
         super();
     }
@@ -61,6 +65,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * 
      * @return the field
      */
+    @Pure
     public abstract DateTimeField getField();
 
     /**
@@ -68,6 +73,8 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * 
      * @return the field type
      */
+    @Pure
+    @Impure
     public DateTimeFieldType getFieldType() {
         return getField().getType();
     }
@@ -77,6 +84,8 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * 
      * @return the field name
      */
+    @Pure
+    @Impure
     public String getName() {
         return getField().getName();
     }
@@ -86,6 +95,8 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * 
      * @return the milliseconds
      */
+    @Pure
+    @Impure
     protected abstract long getMillis();
 
     /**
@@ -97,6 +108,8 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * @return the chronology
      * @since 1.4
      */
+    @Pure
+    @Impure
     protected Chronology getChronology() {
         throw new UnsupportedOperationException(
                 "The method getChronology() was added in v1.4 and needs " +
@@ -116,6 +129,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * @return the current value
      * @see DateTimeField#get
      */
+    @Impure
     public int get() {
         return getField().get(getMillis());
     }
@@ -132,6 +146,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * @see DateTimeField#get
      * @since 1.1
      */
+    @Impure
     public String getAsString() {
         return Integer.toString(get());
     }
@@ -147,6 +162,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * @return the current text value
      * @see DateTimeField#getAsText
      */
+    @Impure
     public String getAsText() {
         return getAsText(null);
     }
@@ -163,6 +179,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * @return the current text value
      * @see DateTimeField#getAsText
      */
+    @Impure
     public String getAsText(Locale locale) {
         return getField().getAsText(getMillis(), locale);
     }
@@ -178,6 +195,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * @return the current text value
      * @see DateTimeField#getAsShortText
      */
+    @Impure
     public String getAsShortText() {
         return getAsShortText(null);
     }
@@ -194,6 +212,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * @return the current text value
      * @see DateTimeField#getAsShortText
      */
+    @Impure
     public String getAsShortText(Locale locale) {
         return getField().getAsShortText(getMillis(), locale);
     }
@@ -209,6 +228,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * @return the difference in the units of this field
      * @see DateTimeField#getDifference
      */
+    @Impure
     public int getDifference(ReadableInstant instant) {
         if (instant == null) {
             return getField().getDifference(getMillis(), DateTimeUtils.currentTimeMillis());
@@ -226,6 +246,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * @return the difference in the units of this field
      * @see DateTimeField#getDifference
      */
+    @Impure
     public long getDifferenceAsLong(ReadableInstant instant) {
         if (instant == null) {
             return getField().getDifferenceAsLong(getMillis(), DateTimeUtils.currentTimeMillis());
@@ -240,6 +261,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      *
      * @return the duration of this field, or UnsupportedDurationField
      */
+    @Impure
     public DurationField getDurationField() {
         return getField().getDurationField();
     }
@@ -250,6 +272,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      *
      * @return the range duration of this field, or null if field has no range
      */
+    @Impure
     public DurationField getRangeDurationField() {
         return getField().getRangeDurationField();
     }
@@ -260,6 +283,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * @return true if a leap field
      * @see DateTimeField#isLeap
      */
+    @Impure
     public boolean isLeap() {
         return getField().isLeap(getMillis());
     }
@@ -270,6 +294,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * @return the amount by which the field is leap
      * @see DateTimeField#getLeapAmount
      */
+    @Impure
     public int getLeapAmount() {
         return getField().getLeapAmount(getMillis());
     }
@@ -278,6 +303,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * If this field were to leap, then it would be in units described by the
      * returned duration. If this field doesn't ever leap, null is returned.
      */
+    @Impure
     public DurationField getLeapDurationField() {
         return getField().getLeapDurationField();
     }
@@ -289,6 +315,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * @return the minimum value
      * @see DateTimeField#getMinimumValue
      */
+    @Impure
     public int getMinimumValueOverall() {
         return getField().getMinimumValue();
     }
@@ -299,6 +326,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * @return the minimum value
      * @see DateTimeField#getMinimumValue
      */
+    @Impure
     public int getMinimumValue() {
         return getField().getMinimumValue(getMillis());
     }
@@ -309,6 +337,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * @return the maximum value
      * @see DateTimeField#getMaximumValue
      */
+    @Impure
     public int getMaximumValueOverall() {
         return getField().getMaximumValue();
     }
@@ -319,6 +348,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * @return the maximum value
      * @see DateTimeField#getMaximumValue
      */
+    @Impure
     public int getMaximumValue() {
         return getField().getMaximumValue(getMillis());
     }
@@ -330,6 +360,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * @return the maximum length
      * @see DateTimeField#getMaximumTextLength
      */
+    @Impure
     public int getMaximumTextLength(Locale locale) {
         return getField().getMaximumTextLength(locale);
     }
@@ -341,6 +372,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * @return the maximum length
      * @see DateTimeField#getMaximumShortTextLength
      */
+    @Impure
     public int getMaximumShortTextLength(Locale locale) {
         return getField().getMaximumShortTextLength(locale);
     }
@@ -352,6 +384,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * @see DateTimeField#remainder
      * @return remainder duration, in milliseconds
      */
+    @Impure
     public long remainder() {
         return getField().remainder(getMillis());
     }
@@ -366,6 +399,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * @return the interval of this field
      * @since 1.2
      */
+    @Impure
     public Interval toInterval() {
         DateTimeField field = getField();
         long start = field.roundFloor(getMillis());
@@ -387,6 +421,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * @return negative value if this is less, 0 if equal, or positive value if greater
      * @throws IllegalArgumentException if the instant is null
      */
+    @Impure
     public int compareTo(ReadableInstant instant) {
         if (instant == null) {
             throw new IllegalArgumentException("The instant must not be null");
@@ -416,6 +451,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * @throws IllegalArgumentException if the partial is null
      * @throws IllegalArgumentException if the partial doesn't support this field
      */
+    @Impure
     public int compareTo(ReadablePartial partial) {
         if (partial == null) {
             throw new IllegalArgumentException("The partial must not be null");
@@ -438,6 +474,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * @param object  the object to compare to
      * @return true if equal
      */
+    @Impure
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -457,6 +494,7 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * 
      * @return the hashcode
      */
+    @Impure
     public int hashCode() {
         return get() * 17 + getFieldType().hashCode() + getChronology().hashCode();
     }
@@ -467,6 +505,8 @@ public abstract class AbstractReadableInstantFieldProperty implements Serializab
      * 
      * @return debugging string
      */
+    @Pure
+    @Impure
     public String toString() {
         return "Property[" + getName() + "]";
     }

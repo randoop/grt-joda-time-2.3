@@ -15,6 +15,8 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.Serializable;
 
 import org.joda.time.base.BaseInterval;
@@ -65,6 +67,7 @@ public final class Interval
      * @param str  the string to parse, not null
      * @since 2.0
      */
+    @Impure
     public static Interval parse(String str) {
         return new Interval(str);
     }
@@ -78,6 +81,7 @@ public final class Interval
      * @param endInstant  end of this interval, as milliseconds from 1970-01-01T00:00:00Z.
      * @throws IllegalArgumentException if the end is before the start
      */
+    @Impure
     public Interval(long startInstant, long endInstant) {
         super(startInstant, endInstant, null);
     }
@@ -92,6 +96,7 @@ public final class Interval
      * @throws IllegalArgumentException if the end is before the start
      * @since 1.5
      */
+    @Impure
     public Interval(long startInstant, long endInstant, DateTimeZone zone) {
         super(startInstant, endInstant, ISOChronology.getInstance(zone));
     }
@@ -105,6 +110,7 @@ public final class Interval
      * @param endInstant  end of this interval, as milliseconds from 1970-01-01T00:00:00Z.
      * @throws IllegalArgumentException if the end is before the start
      */
+    @Impure
     public Interval(long startInstant, long endInstant, Chronology chronology) {
         super(startInstant, endInstant, chronology);
     }
@@ -118,6 +124,7 @@ public final class Interval
      * @param end  end of this interval, null means now
      * @throws IllegalArgumentException if the end is before the start
      */
+    @Impure
     public Interval(ReadableInstant start, ReadableInstant end) {
         super(start, end);
     }
@@ -130,6 +137,7 @@ public final class Interval
      * @throws IllegalArgumentException if the end is before the start
      * @throws ArithmeticException if the end instant exceeds the capacity of a long
      */
+    @Impure
     public Interval(ReadableInstant start, ReadableDuration duration) {
         super(start, duration);
     }
@@ -142,6 +150,7 @@ public final class Interval
      * @throws IllegalArgumentException if the end is before the start
      * @throws ArithmeticException if the start instant exceeds the capacity of a long
      */
+    @Impure
     public Interval(ReadableDuration duration, ReadableInstant end) {
         super(duration, end);
     }
@@ -157,6 +166,7 @@ public final class Interval
      * @throws IllegalArgumentException if the end is before the start
      * @throws ArithmeticException if the end instant exceeds the capacity of a long
      */
+    @Impure
     public Interval(ReadableInstant start, ReadablePeriod period) {
         super(start, period);
     }
@@ -172,6 +182,7 @@ public final class Interval
      * @throws IllegalArgumentException if the end is before the start
      * @throws ArithmeticException if the start instant exceeds the capacity of a long
      */
+    @Impure
     public Interval(ReadablePeriod period, ReadableInstant end) {
         super(period, end);
     }
@@ -189,6 +200,7 @@ public final class Interval
      * @param interval  the time interval to copy
      * @throws IllegalArgumentException if the interval is invalid
      */
+    @Impure
     public Interval(Object interval) {
         super(interval, null);
     }
@@ -208,6 +220,7 @@ public final class Interval
      * @param chronology  the chronology to use, null means ISO default
      * @throws IllegalArgumentException if the interval is invalid
      */
+    @Impure
     public Interval(Object interval, Chronology chronology) {
         super(interval, chronology);
     }
@@ -219,6 +232,7 @@ public final class Interval
      *
      * @return <code>this</code>
      */
+    @Pure
     public Interval toInterval() {
         return this;
     }
@@ -247,6 +261,7 @@ public final class Interval
      * @return the overlap interval, null if no overlap
      * @since 1.1
      */
+    @Impure
     public Interval overlap(ReadableInterval interval) {
         interval = DateTimeUtils.getReadableInterval(interval);
         if (overlaps(interval) == false) {
@@ -282,6 +297,7 @@ public final class Interval
      * @return the gap interval, null if no gap
      * @since 1.1
      */
+    @Impure
     public Interval gap(ReadableInterval interval) {
         interval = DateTimeUtils.getReadableInterval(interval);
         long otherStart = interval.getStartMillis();
@@ -334,6 +350,7 @@ public final class Interval
      * @return true if the interval abuts
      * @since 1.1
      */
+    @Impure
     public boolean abuts(ReadableInterval interval) {
         if (interval == null) {
             long now = DateTimeUtils.currentTimeMillis();
@@ -351,6 +368,7 @@ public final class Interval
      * @param chronology  the chronology to use, null means ISO default
      * @return an interval with a different chronology
      */
+    @Impure
     public Interval withChronology(Chronology chronology) {
         if (getChronology() == chronology) {
             return this;
@@ -365,6 +383,7 @@ public final class Interval
      * @return an interval with the end from this interval and the specified start
      * @throws IllegalArgumentException if the resulting interval has end before start
      */
+    @Impure
     public Interval withStartMillis(long startInstant) {
         if (startInstant == getStartMillis()) {
             return this;
@@ -379,6 +398,7 @@ public final class Interval
      * @return an interval with the end from this interval and the specified start
      * @throws IllegalArgumentException if the resulting interval has end before start
      */
+    @Impure
     public Interval withStart(ReadableInstant start) {
         long startMillis = DateTimeUtils.getInstantMillis(start);
         return withStartMillis(startMillis);
@@ -391,6 +411,7 @@ public final class Interval
      * @return an interval with the start from this interval and the specified end
      * @throws IllegalArgumentException if the resulting interval has end before start
      */
+    @Impure
     public Interval withEndMillis(long endInstant) {
         if (endInstant == getEndMillis()) {
             return this;
@@ -405,6 +426,7 @@ public final class Interval
      * @return an interval with the start from this interval and the specified end
      * @throws IllegalArgumentException if the resulting interval has end before start
      */
+    @Impure
     public Interval withEnd(ReadableInstant end) {
         long endMillis = DateTimeUtils.getInstantMillis(end);
         return withEndMillis(endMillis);
@@ -418,6 +440,7 @@ public final class Interval
      * @return an interval with the start from this interval and a calculated end
      * @throws IllegalArgumentException if the duration is negative
      */
+    @Impure
     public Interval withDurationAfterStart(ReadableDuration duration) {
         long durationMillis = DateTimeUtils.getDurationMillis(duration);
         if (durationMillis == toDurationMillis()) {
@@ -436,6 +459,7 @@ public final class Interval
      * @return an interval with the start from this interval and a calculated end
      * @throws IllegalArgumentException if the duration is negative
      */
+    @Impure
     public Interval withDurationBeforeEnd(ReadableDuration duration) {
         long durationMillis = DateTimeUtils.getDurationMillis(duration);
         if (durationMillis == toDurationMillis()) {
@@ -455,6 +479,7 @@ public final class Interval
      * @return an interval with the start from this interval and a calculated end
      * @throws IllegalArgumentException if the period is negative
      */
+    @Impure
     public Interval withPeriodAfterStart(ReadablePeriod period) {
         if (period == null) {
             return withDurationAfterStart(null);
@@ -472,6 +497,7 @@ public final class Interval
      * @return an interval with the start from this interval and a calculated end
      * @throws IllegalArgumentException if the period is negative
      */
+    @Impure
     public Interval withPeriodBeforeEnd(ReadablePeriod period) {
         if (period == null) {
             return withDurationBeforeEnd(null);

@@ -15,6 +15,9 @@
  */
 package org.joda.time.format;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.IOException;
 import java.io.Writer;
 
@@ -33,6 +36,7 @@ public class FormatUtils {
     /**
      * Restricted constructor.
      */
+    @SideEffectFree
     private FormatUtils() {
     }
 
@@ -46,6 +50,7 @@ public class FormatUtils {
      * @param value value to convert to a string
      * @param size minumum amount of digits to append
      */
+    @Impure
     public static void appendPaddedInteger(StringBuffer buf, int value, int size) {
         if (value < 0) {
             buf.append('-');
@@ -101,6 +106,7 @@ public class FormatUtils {
      * @param value value to convert to a string
      * @param size minumum amount of digits to append
      */
+    @Impure
     public static void appendPaddedInteger(StringBuffer buf, long value, int size) {
         int intValue = (int)value;
         if (intValue == value) {
@@ -138,6 +144,7 @@ public class FormatUtils {
      * @param value value to convert to a string
      * @param size minumum amount of digits to append
      */
+    @Impure
     public static void writePaddedInteger(Writer out, int value, int size)
         throws IOException
     {
@@ -195,6 +202,7 @@ public class FormatUtils {
      * @param value value to convert to a string
      * @param size minumum amount of digits to append
      */
+    @Impure
     public static void writePaddedInteger(Writer out, long value, int size)
         throws IOException
     {
@@ -232,6 +240,7 @@ public class FormatUtils {
      * @param buf receives integer converted to a string
      * @param value value to convert to a string
      */
+    @Impure
     public static void appendUnpaddedInteger(StringBuffer buf, int value) {
         if (value < 0) {
             buf.append('-');
@@ -265,6 +274,7 @@ public class FormatUtils {
      * @param buf receives integer converted to a string
      * @param value value to convert to a string
      */
+    @Impure
     public static void appendUnpaddedInteger(StringBuffer buf, long value) {
         int intValue = (int)value;
         if (intValue == value) {
@@ -282,6 +292,7 @@ public class FormatUtils {
      * @param out receives integer converted to a string
      * @param value value to convert to a string
      */
+    @Impure
     public static void writeUnpaddedInteger(Writer out, int value)
         throws IOException
     {
@@ -317,6 +328,7 @@ public class FormatUtils {
      * @param out receives integer converted to a string
      * @param value value to convert to a string
      */
+    @Impure
     public static void writeUnpaddedInteger(Writer out, long value)
         throws IOException
     {
@@ -332,6 +344,7 @@ public class FormatUtils {
      * Calculates the number of decimal digits for the given value,
      * including the sign.
      */
+    @Impure
     public static int calculateDigitCount(long value) {
         if (value < 0) {
             if (value != Long.MIN_VALUE) {
@@ -348,11 +361,13 @@ public class FormatUtils {
                 ((int)(Math.log(value) / LOG_10) + 1)))));
     }
 
+    @Pure
     static int parseTwoDigits(String text, int position) {
         int value = text.charAt(position) - '0';
         return ((value << 3) + (value << 1)) + text.charAt(position + 1) - '0';
     }
 
+    @SideEffectFree
     static String createErrorMessage(final String text, final int errorPos) {
         int sampleLen = errorPos + 32;
         String sampleText;

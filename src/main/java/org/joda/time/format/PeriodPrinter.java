@@ -15,6 +15,7 @@
  */
 package org.joda.time.format;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Locale;
@@ -48,6 +49,7 @@ public interface PeriodPrinter {
      * @param locale  the locale to use
      * @return the estimated length
      */
+    @Impure
     int calculatePrintedLength(ReadablePeriod period, Locale locale);
 
     /**
@@ -59,6 +61,7 @@ public interface PeriodPrinter {
      * @param locale  the locale to use
      * @return amount of fields printed
      */
+    @Impure
     int countFieldsToPrint(ReadablePeriod period, int stopAt, Locale locale);
 
     //-----------------------------------------------------------------------
@@ -69,6 +72,7 @@ public interface PeriodPrinter {
      * @param period  the period to format
      * @param locale  the locale to use
      */
+    @Impure
     void printTo(StringBuffer buf, ReadablePeriod period, Locale locale);
 
     /**
@@ -78,6 +82,7 @@ public interface PeriodPrinter {
      * @param period  the period to format
      * @param locale  the locale to use
      */
+    @Impure
     void printTo(Writer out, ReadablePeriod period, Locale locale) throws IOException;
 
 }

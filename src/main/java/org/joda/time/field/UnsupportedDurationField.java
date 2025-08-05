@@ -15,6 +15,9 @@
  */
 package org.joda.time.field;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.Serializable;
 import java.util.HashMap;
 
@@ -44,6 +47,7 @@ public final class UnsupportedDurationField extends DurationField implements Ser
      * @param type  the type to obtain
      * @return the instance
      */
+    @Impure
     public static synchronized UnsupportedDurationField getInstance(DurationFieldType type) {
         UnsupportedDurationField field;
         if (cCache == null) {
@@ -67,6 +71,7 @@ public final class UnsupportedDurationField extends DurationField implements Ser
      * 
      * @param type  the type to use
      */
+    @Impure
     private UnsupportedDurationField(DurationFieldType type) {
         iType = type;
     }
@@ -75,10 +80,13 @@ public final class UnsupportedDurationField extends DurationField implements Ser
     // Design note: Simple Accessors return a suitable value, but methods
     // intended to perform calculations throw an UnsupportedOperationException.
 
+    @Pure
     public final DurationFieldType getType() {
         return iType;
     }
 
+    @Pure
+    @Impure
     public String getName() {
         return iType.getName();
     }
@@ -88,6 +96,7 @@ public final class UnsupportedDurationField extends DurationField implements Ser
      *
      * @return false always
      */
+    @Pure
     public boolean isSupported() {
         return false;
     }
@@ -97,6 +106,7 @@ public final class UnsupportedDurationField extends DurationField implements Ser
      * 
      * @return true always
      */
+    @Pure
     public boolean isPrecise() {
         return true;
     }
@@ -106,6 +116,8 @@ public final class UnsupportedDurationField extends DurationField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public int getValue(long duration) {
         throw unsupported();
     }
@@ -115,6 +127,8 @@ public final class UnsupportedDurationField extends DurationField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public long getValueAsLong(long duration) {
         throw unsupported();
     }
@@ -124,6 +138,8 @@ public final class UnsupportedDurationField extends DurationField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public int getValue(long duration, long instant) {
         throw unsupported();
     }
@@ -133,6 +149,8 @@ public final class UnsupportedDurationField extends DurationField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public long getValueAsLong(long duration, long instant) {
         throw unsupported();
     }
@@ -142,6 +160,8 @@ public final class UnsupportedDurationField extends DurationField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public long getMillis(int value) {
         throw unsupported();
     }
@@ -151,6 +171,8 @@ public final class UnsupportedDurationField extends DurationField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public long getMillis(long value) {
         throw unsupported();
     }
@@ -160,6 +182,8 @@ public final class UnsupportedDurationField extends DurationField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public long getMillis(int value, long instant) {
         throw unsupported();
     }
@@ -169,6 +193,8 @@ public final class UnsupportedDurationField extends DurationField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public long getMillis(long value, long instant) {
         throw unsupported();
     }
@@ -178,6 +204,8 @@ public final class UnsupportedDurationField extends DurationField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public long add(long instant, int value) {
         throw unsupported();
     }
@@ -187,6 +215,8 @@ public final class UnsupportedDurationField extends DurationField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public long add(long instant, long value) {
         throw unsupported();
     }
@@ -196,6 +226,8 @@ public final class UnsupportedDurationField extends DurationField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public int getDifference(long minuendInstant, long subtrahendInstant) {
         throw unsupported();
     }
@@ -205,6 +237,8 @@ public final class UnsupportedDurationField extends DurationField implements Ser
      *
      * @throws UnsupportedOperationException
      */
+    @SideEffectFree
+    @Impure
     public long getDifferenceAsLong(long minuendInstant, long subtrahendInstant) {
         throw unsupported();
     }
@@ -214,6 +248,7 @@ public final class UnsupportedDurationField extends DurationField implements Ser
      *
      * @return zero always
      */
+    @Pure
     public long getUnitMillis() {
         return 0;
     }
@@ -223,6 +258,7 @@ public final class UnsupportedDurationField extends DurationField implements Ser
      *
      * @return zero always
      */
+    @Pure
     public int compareTo(DurationField durationField) {
         return 0;
     }
@@ -234,6 +270,8 @@ public final class UnsupportedDurationField extends DurationField implements Ser
      * @param obj  the object to compare to
      * @return true if equal
      */
+    @Pure
+    @Impure
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -252,6 +290,8 @@ public final class UnsupportedDurationField extends DurationField implements Ser
      * 
      * @return the hashcode
      */
+    @Pure
+    @Impure
     public int hashCode() {
         return getName().hashCode();
     }
@@ -261,6 +301,8 @@ public final class UnsupportedDurationField extends DurationField implements Ser
      * 
      * @return debug string
      */
+    @Pure
+    @Impure
     public String toString() {
         return "UnsupportedDurationField[" + getName() + ']';
     }
@@ -268,10 +310,12 @@ public final class UnsupportedDurationField extends DurationField implements Ser
     /**
      * Ensure proper singleton serialization
      */
+    @Impure
     private Object readResolve() {
         return getInstance(iType);
     }
 
+    @SideEffectFree
     private UnsupportedOperationException unsupported() {
         return new UnsupportedOperationException(iType + " field is unsupported");
     }

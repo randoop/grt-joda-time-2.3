@@ -15,6 +15,8 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import org.joda.time.format.DateTimeFormat;
 
 /**
@@ -49,6 +51,7 @@ public class IllegalInstantException extends IllegalArgumentException {
      * 
      * @param message  the message
      */
+    @SideEffectFree
     public IllegalInstantException(String message) {
         super(message);
     }
@@ -59,10 +62,12 @@ public class IllegalInstantException extends IllegalArgumentException {
      * @param instantLocal  the local instant
      * @param zoneId  the time-zone ID, may be null
      */
+    @Impure
     public IllegalInstantException(long instantLocal, String zoneId) {
         super(createMessage(instantLocal, zoneId));
     }
 
+    @Impure
     private static String createMessage(long instantLocal, String zoneId) {
         String localDateTime = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS").print(new Instant(instantLocal));
         String zone = (zoneId != null ? " (" + zoneId + ")" : "");
@@ -76,6 +81,7 @@ public class IllegalInstantException extends IllegalArgumentException {
      * @param ex  the exception to check
      * @return true if an {@code IllegalInstantException}
      */
+    @Impure
     public static boolean isIllegalInstant(Throwable ex) {
         if (ex instanceof IllegalInstantException) {
             return true;

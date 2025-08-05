@@ -15,6 +15,9 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.convert.FromString;
 import org.joda.convert.ToString;
 import org.joda.time.base.BaseSingleFieldPeriod;
@@ -76,6 +79,8 @@ public final class Days extends BaseSingleFieldPeriod {
      * @param days  the number of days to obtain an instance for
      * @return the instance of Days
      */
+    @SideEffectFree
+    @Impure
     public static Days days(int days) {
         switch (days) {
             case 0:
@@ -114,6 +119,7 @@ public final class Days extends BaseSingleFieldPeriod {
      * @return the period in days
      * @throws IllegalArgumentException if the instants are null or invalid
      */
+    @Impure
     public static Days daysBetween(ReadableInstant start, ReadableInstant end) {
         int amount = BaseSingleFieldPeriod.between(start, end, DurationFieldType.days());
         return Days.days(amount);
@@ -131,6 +137,7 @@ public final class Days extends BaseSingleFieldPeriod {
      * @return the period in days
      * @throws IllegalArgumentException if the partials are null or invalid
      */
+    @Impure
     public static Days daysBetween(ReadablePartial start, ReadablePartial end) {
         if (start instanceof LocalDate && end instanceof LocalDate)   {
             Chronology chrono = DateTimeUtils.getChronology(start.getChronology());
@@ -151,6 +158,7 @@ public final class Days extends BaseSingleFieldPeriod {
      * @return the period in days
      * @throws IllegalArgumentException if the partials are null or invalid
      */
+    @Impure
     public static Days daysIn(ReadableInterval interval) {
         if (interval == null)   {
             return Days.ZERO;
@@ -179,6 +187,7 @@ public final class Days extends BaseSingleFieldPeriod {
      * @return the period in days
      * @throws IllegalArgumentException if the period contains imprecise duration values
      */
+    @Impure
     public static Days standardDaysIn(ReadablePeriod period) {
         int amount = BaseSingleFieldPeriod.standardPeriodIn(period, DateTimeConstants.MILLIS_PER_DAY);
         return Days.days(amount);
@@ -195,6 +204,7 @@ public final class Days extends BaseSingleFieldPeriod {
      * @return the period in days
      * @throws IllegalArgumentException if the string format is invalid
      */
+    @Impure
     @FromString
     public static Days parseDays(String periodStr) {
         if (periodStr == null) {
@@ -212,6 +222,8 @@ public final class Days extends BaseSingleFieldPeriod {
      *
      * @param days  the number of days to represent
      */
+    @SideEffectFree
+    @Impure
     private Days(int days) {
         super(days);
     }
@@ -221,6 +233,8 @@ public final class Days extends BaseSingleFieldPeriod {
      * 
      * @return the singleton instance
      */
+    @SideEffectFree
+    @Impure
     private Object readResolve() {
         return Days.days(getValue());
     }
@@ -231,6 +245,8 @@ public final class Days extends BaseSingleFieldPeriod {
      *
      * @return the period type
      */
+    @Pure
+    @Impure
     public DurationFieldType getFieldType() {
         return DurationFieldType.days();
     }
@@ -240,6 +256,7 @@ public final class Days extends BaseSingleFieldPeriod {
      *
      * @return the period type
      */
+    @Impure
     public PeriodType getPeriodType() {
         return PeriodType.days();
     }
@@ -257,6 +274,8 @@ public final class Days extends BaseSingleFieldPeriod {
      * 
      * @return a period representing the number of weeks for this number of days
      */
+    @SideEffectFree
+    @Impure
     public Weeks toStandardWeeks() {
         return Weeks.weeks(getValue() / DateTimeConstants.DAYS_PER_WEEK);
     }
@@ -274,6 +293,8 @@ public final class Days extends BaseSingleFieldPeriod {
      * @return a period representing the number of hours for this number of days
      * @throws ArithmeticException if the number of hours is too large to be represented
      */
+    @SideEffectFree
+    @Impure
     public Hours toStandardHours() {
         return Hours.hours(FieldUtils.safeMultiply(getValue(), DateTimeConstants.HOURS_PER_DAY));
     }
@@ -292,6 +313,8 @@ public final class Days extends BaseSingleFieldPeriod {
      * @return a period representing the number of minutes for this number of days
      * @throws ArithmeticException if the number of minutes is too large to be represented
      */
+    @SideEffectFree
+    @Impure
     public Minutes toStandardMinutes() {
         return Minutes.minutes(FieldUtils.safeMultiply(getValue(), DateTimeConstants.MINUTES_PER_DAY));
     }
@@ -310,6 +333,8 @@ public final class Days extends BaseSingleFieldPeriod {
      * @return a period representing the number of seconds for this number of days
      * @throws ArithmeticException if the number of seconds is too large to be represented
      */
+    @SideEffectFree
+    @Impure
     public Seconds toStandardSeconds() {
         return Seconds.seconds(FieldUtils.safeMultiply(getValue(), DateTimeConstants.SECONDS_PER_DAY));
     }
@@ -328,6 +353,8 @@ public final class Days extends BaseSingleFieldPeriod {
      * 
      * @return a duration equivalent to this number of days
      */
+    @SideEffectFree
+    @Impure
     public Duration toStandardDuration() {
         long days = getValue();  // assign to a long
         return new Duration(days * DateTimeConstants.MILLIS_PER_DAY);
@@ -339,6 +366,8 @@ public final class Days extends BaseSingleFieldPeriod {
      *
      * @return the number of days in the period
      */
+    @Pure
+    @Impure
     public int getDays() {
         return getValue();
     }
@@ -353,6 +382,8 @@ public final class Days extends BaseSingleFieldPeriod {
      * @return the new period plus the specified number of days
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Days plus(int days) {
         if (days == 0) {
             return this;
@@ -369,6 +400,8 @@ public final class Days extends BaseSingleFieldPeriod {
      * @return the new period plus the specified number of days
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Days plus(Days days) {
         if (days == null) {
             return this;
@@ -386,6 +419,8 @@ public final class Days extends BaseSingleFieldPeriod {
      * @return the new period minus the specified number of days
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Days minus(int days) {
         return plus(FieldUtils.safeNegate(days));
     }
@@ -399,6 +434,8 @@ public final class Days extends BaseSingleFieldPeriod {
      * @return the new period minus the specified number of days
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Days minus(Days days) {
         if (days == null) {
             return this;
@@ -416,6 +453,8 @@ public final class Days extends BaseSingleFieldPeriod {
      * @return the new period multiplied by the specified scalar
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Days multipliedBy(int scalar) {
         return Days.days(FieldUtils.safeMultiply(getValue(), scalar));
     }
@@ -430,6 +469,8 @@ public final class Days extends BaseSingleFieldPeriod {
      * @return the new period divided by the specified divisor
      * @throws ArithmeticException if the divisor is zero
      */
+    @SideEffectFree
+    @Impure
     public Days dividedBy(int divisor) {
         if (divisor == 1) {
             return this;
@@ -444,6 +485,8 @@ public final class Days extends BaseSingleFieldPeriod {
      * @return the new period with a negated value
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Days negated() {
         return Days.days(FieldUtils.safeNegate(getValue()));
     }
@@ -455,6 +498,8 @@ public final class Days extends BaseSingleFieldPeriod {
      * @param other  the other period, null means zero
      * @return true if this days instance is greater than the specified one
      */
+    @Pure
+    @Impure
     public boolean isGreaterThan(Days other) {
         if (other == null) {
             return getValue() > 0;
@@ -468,6 +513,8 @@ public final class Days extends BaseSingleFieldPeriod {
      * @param other  the other period, null means zero
      * @return true if this days instance is less than the specified one
      */
+    @Pure
+    @Impure
     public boolean isLessThan(Days other) {
         if (other == null) {
             return getValue() < 0;
@@ -483,6 +530,8 @@ public final class Days extends BaseSingleFieldPeriod {
      *
      * @return the value as an ISO8601 string
      */
+    @SideEffectFree
+    @Impure
     @ToString
     public String toString() {
         return "P" + String.valueOf(getValue()) + "D";

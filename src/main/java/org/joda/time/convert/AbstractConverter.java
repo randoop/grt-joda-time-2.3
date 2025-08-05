@@ -15,6 +15,9 @@
  */
 package org.joda.time.convert;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import org.joda.time.Chronology;
 import org.joda.time.DateTimeUtils;
 import org.joda.time.DateTimeZone;
@@ -34,6 +37,7 @@ public abstract class AbstractConverter implements Converter {
     /**
      * Restricted constructor.
      */
+    @SideEffectFree
     protected AbstractConverter() {
         super();
     }
@@ -48,6 +52,7 @@ public abstract class AbstractConverter implements Converter {
      * @param chrono  the chronology to use, which is always non-null
      * @return the millisecond value
      */
+    @Impure
     public long getInstantMillis(Object object, Chronology chrono) {
         return DateTimeUtils.currentTimeMillis();
     }
@@ -63,6 +68,7 @@ public abstract class AbstractConverter implements Converter {
      * @param zone  the specified zone to use, null means default zone
      * @return the chronology, never null
      */
+    @Impure
     public Chronology getChronology(Object object, DateTimeZone zone) {
         return ISOChronology.getInstance(zone);
     }
@@ -78,6 +84,7 @@ public abstract class AbstractConverter implements Converter {
      * @param chrono  the chronology to use, null means ISO default
      * @return the chronology, never null
      */
+    @Impure
     public Chronology getChronology(Object object, Chronology chrono) {
         return DateTimeUtils.getChronology(chrono);
     }
@@ -97,6 +104,7 @@ public abstract class AbstractConverter implements Converter {
      * @return the array of field values that match the fieldSource, must be non-null valid
      * @throws ClassCastException if the object is invalid
      */
+    @Impure
     public int[] getPartialValues(ReadablePartial fieldSource, Object object, Chronology chrono) {
         long instant = getInstantMillis(object, chrono);
         return chrono.get(fieldSource, instant);
@@ -118,6 +126,7 @@ public abstract class AbstractConverter implements Converter {
      * @throws ClassCastException if the object is invalid
      * @since 1.3
      */
+    @Impure
     public int[] getPartialValues(ReadablePartial fieldSource,
             Object object, Chronology chrono, DateTimeFormatter parser) {
         return getPartialValues(fieldSource, object, chrono);
@@ -130,6 +139,7 @@ public abstract class AbstractConverter implements Converter {
      * @param object  the object to examine
      * @return the period type, never null
      */
+    @Impure
     public PeriodType getPeriodType(Object object) {
         return PeriodType.standard();
     }
@@ -144,6 +154,7 @@ public abstract class AbstractConverter implements Converter {
      * @param chrono  the chronology to use, may be null
      * @return true if the input is a ReadableInterval
      */
+    @Pure
     public boolean isReadableInterval(Object object, Chronology chrono) {
         return false;
     }
@@ -154,6 +165,8 @@ public abstract class AbstractConverter implements Converter {
      * 
      * @return a debugging string
      */
+    @Pure
+    @Impure
     public String toString() {
         return "Converter[" + (getSupportedType() == null ? "null" : getSupportedType().getName()) + "]";
     }

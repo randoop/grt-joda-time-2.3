@@ -14,6 +14,9 @@
  *  limitations under the License.
  */
 package org.joda.time;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 
 /**
  * Defines an instant in the datetime continuum.
@@ -43,6 +46,7 @@ public interface ReadableInstant extends Comparable<ReadableInstant> {
      *
      * @return the value as milliseconds
      */
+    @Pure
     long getMillis();
 
     /**
@@ -53,6 +57,8 @@ public interface ReadableInstant extends Comparable<ReadableInstant> {
      * 
      * @return the Chronology, never null
      */
+    @Pure
+    @Impure
     Chronology getChronology();
 
     /**
@@ -60,6 +66,7 @@ public interface ReadableInstant extends Comparable<ReadableInstant> {
      * 
      * @return the DateTimeZone that the instant is using, never null
      */
+    @Impure
     DateTimeZone getZone();
 
     /**
@@ -71,6 +78,7 @@ public interface ReadableInstant extends Comparable<ReadableInstant> {
      * @return the value of that field
      * @throws IllegalArgumentException if the field type is null
      */
+    @Impure
     int get(DateTimeFieldType type);
 
     /**
@@ -79,6 +87,7 @@ public interface ReadableInstant extends Comparable<ReadableInstant> {
      * @param field  the field type to check, may be null which returns false
      * @return true if the field is supported
      */
+    @Impure
     boolean isSupported(DateTimeFieldType field);
 
     //-----------------------------------------------------------------------
@@ -91,6 +100,8 @@ public interface ReadableInstant extends Comparable<ReadableInstant> {
      *
      * @return the value as an <code>Instant</code> object
      */
+    @SideEffectFree
+    @Impure
     Instant toInstant();
 
     //-----------------------------------------------------------------------
@@ -117,6 +128,7 @@ public interface ReadableInstant extends Comparable<ReadableInstant> {
      * @param instant  an instant to check against, null means now
      * @return true if the instant is equal to the instant passed in
      */
+    @Impure
     boolean isEqual(ReadableInstant instant);
 
     /**
@@ -126,6 +138,7 @@ public interface ReadableInstant extends Comparable<ReadableInstant> {
      * @param instant  an instant to check against, null means now
      * @return true if the instant is after the instant passed in
      */
+    @Impure
     boolean isAfter(ReadableInstant instant);
 
     /**
@@ -135,6 +148,7 @@ public interface ReadableInstant extends Comparable<ReadableInstant> {
      * @param instant  an instant to check against, null means now
      * @return true if the instant is before the instant passed in
      */
+    @Impure
     boolean isBefore(ReadableInstant instant);
 
     //-----------------------------------------------------------------------
@@ -151,6 +165,8 @@ public interface ReadableInstant extends Comparable<ReadableInstant> {
      * @return true if millisecond and chronology are equal, false if
      *  not or the instant is null or of an incorrect type
      */
+    @Pure
+    @Impure
     boolean equals(Object readableInstant);
 
     /**
@@ -165,6 +181,8 @@ public interface ReadableInstant extends Comparable<ReadableInstant> {
      *
      * @return a hash code as defined above
      */
+    @Pure
+    @Impure
     int hashCode();
 
     //-----------------------------------------------------------------------
@@ -176,6 +194,7 @@ public interface ReadableInstant extends Comparable<ReadableInstant> {
      *
      * @return the value as an ISO8601 string
      */
+    @Impure
     String toString();
 
 }

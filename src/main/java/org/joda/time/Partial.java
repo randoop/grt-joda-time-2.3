@@ -15,6 +15,9 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -99,6 +102,7 @@ public final class Partial
      * <p>
      * The constructor uses the default ISO chronology.
      */
+    @Impure
     public Partial() {
         this((Chronology) null);
     }
@@ -119,6 +123,7 @@ public final class Partial
      *
      * @param chrono  the chronology, null means ISO
      */
+    @Impure
     public Partial(Chronology chrono) {
         super();
         iChronology = DateTimeUtils.getChronology(chrono).withUTC();
@@ -135,6 +140,7 @@ public final class Partial
      * @param value  the value to store
      * @throws IllegalArgumentException if the type or value is invalid
      */
+    @Impure
     public Partial(DateTimeFieldType type, int value) {
         this(type, value, null);
     }
@@ -149,6 +155,7 @@ public final class Partial
      * @param chronology  the chronology, null means ISO
      * @throws IllegalArgumentException if the type or value is invalid
      */
+    @Impure
     public Partial(DateTimeFieldType type, int value, Chronology chronology) {
         super();
         chronology = DateTimeUtils.getChronology(chronology).withUTC();
@@ -171,6 +178,7 @@ public final class Partial
      * @param values  the values to store, not null
      * @throws IllegalArgumentException if the types or values are invalid
      */
+    @Impure
     public Partial(DateTimeFieldType[] types, int[] values) {
         this(types, values, null);
     }
@@ -186,6 +194,7 @@ public final class Partial
      * @param chronology  the chronology, null means ISO
      * @throws IllegalArgumentException if the types or values are invalid
      */
+    @Impure
     public Partial(DateTimeFieldType[] types, int[] values, Chronology chronology) {
         super();
         chronology = DateTimeUtils.getChronology(chronology).withUTC();
@@ -254,6 +263,7 @@ public final class Partial
      * <p>
      * This is most useful when copying from a YearMonthDay or TimeOfDay.
      */
+    @Impure
     public Partial(ReadablePartial partial) {
         super();
         if (partial == null) {
@@ -276,6 +286,8 @@ public final class Partial
      * @param values  the values to store
      * @throws IllegalArgumentException if the types or values are invalid
      */
+    @SideEffectFree
+    @Impure
     Partial(Partial partial, int[] values) {
         super();
         iChronology = partial.iChronology;
@@ -292,6 +304,8 @@ public final class Partial
      * @param values  the values to store
      * @throws IllegalArgumentException if the types or values are invalid
      */
+    @SideEffectFree
+    @Impure
     Partial(Chronology chronology, DateTimeFieldType[] types, int[] values) {
         super();
         iChronology = chronology;
@@ -305,6 +319,7 @@ public final class Partial
      * 
      * @return the field count
      */
+    @Pure
     public int size() {
         return iTypes.length;
     }
@@ -317,6 +332,7 @@ public final class Partial
      * 
      * @return the chronology, never null
      */
+    @Pure
     public Chronology getChronology() {
         return iChronology;
     }
@@ -329,6 +345,7 @@ public final class Partial
      * @return the field
      * @throws IndexOutOfBoundsException if the index is invalid
      */
+    @Impure
     protected DateTimeField getField(int index, Chronology chrono) {
         return iTypes[index].getField(chrono);
     }
@@ -340,6 +357,7 @@ public final class Partial
      * @return the field at the specified index
      * @throws IndexOutOfBoundsException if the index is invalid
      */
+    @Pure
     public DateTimeFieldType getFieldType(int index) {
         return iTypes[index];
     }
@@ -352,6 +370,7 @@ public final class Partial
      *
      * @return the array of field types (cloned), largest to smallest
      */
+    @SideEffectFree
     public DateTimeFieldType[] getFieldTypes() {
         return (DateTimeFieldType[]) iTypes.clone();
     }
@@ -364,6 +383,7 @@ public final class Partial
      * @return the value
      * @throws IndexOutOfBoundsException if the index is invalid
      */
+    @Pure
     public int getValue(int index) {
         return iValues[index];
     }
@@ -377,6 +397,7 @@ public final class Partial
      *
      * @return the current values of each field (cloned), largest to smallest
      */
+    @SideEffectFree
     public int[] getValues() {
         return (int[]) iValues.clone();
     }
@@ -396,6 +417,7 @@ public final class Partial
      * @return a copy of this datetime with a different chronology
      * @throws IllegalArgumentException if the values are invalid for the new chronology
      */
+    @Impure
     public Partial withChronologyRetainFields(Chronology newChronology) {
         newChronology = DateTimeUtils.getChronology(newChronology);
         newChronology = newChronology.withUTC();
@@ -423,6 +445,7 @@ public final class Partial
      * @return a copy of this instance with the field set
      * @throws IllegalArgumentException if the value is null or invalid
      */
+    @Impure
     public Partial with(DateTimeFieldType fieldType, int value) {
         if (fieldType == null) {
             throw new IllegalArgumentException("The field type must not be null");
@@ -480,6 +503,7 @@ public final class Partial
      * @param fieldType  the field type to remove, may be null
      * @return a copy of this instance with the field removed
      */
+    @Impure
     public Partial without(DateTimeFieldType fieldType) {
         int index = indexOf(fieldType);
         if (index != -1) {
@@ -511,6 +535,7 @@ public final class Partial
      * @return a copy of this instance with the field set
      * @throws IllegalArgumentException if the value is null or invalid
      */
+    @Impure
     public Partial withField(DateTimeFieldType fieldType, int value) {
         int index = indexOfSupported(fieldType);
         if (value == getValue(index)) {
@@ -535,6 +560,7 @@ public final class Partial
      * @throws IllegalArgumentException if the value is null or invalid
      * @throws ArithmeticException if the new datetime exceeds the capacity
      */
+    @Impure
     public Partial withFieldAdded(DurationFieldType fieldType, int amount) {
         int index = indexOfSupported(fieldType);
         if (amount == 0) {
@@ -559,6 +585,7 @@ public final class Partial
      * @throws IllegalArgumentException if the value is null or invalid
      * @throws ArithmeticException if the new datetime exceeds the capacity
      */
+    @Impure
     public Partial withFieldAddWrapped(DurationFieldType fieldType, int amount) {
         int index = indexOfSupported(fieldType);
         if (amount == 0) {
@@ -584,6 +611,7 @@ public final class Partial
      * @return a copy of this instance with the period added
      * @throws ArithmeticException if the new datetime exceeds the capacity
      */
+    @Impure
     public Partial withPeriodAdded(ReadablePeriod period, int scalar) {
         if (period == null || scalar == 0) {
             return this;
@@ -609,6 +637,7 @@ public final class Partial
      * @return a copy of this instance with the period added
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public Partial plus(ReadablePeriod period) {
         return withPeriodAdded(period, 1);
     }
@@ -622,6 +651,7 @@ public final class Partial
      * @return a copy of this instance with the period taken away
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public Partial minus(ReadablePeriod period) {
         return withPeriodAdded(period, -1);
     }
@@ -637,6 +667,7 @@ public final class Partial
      * @return the property object
      * @throws IllegalArgumentException if the field is null or unsupported
      */
+    @Impure
     public Property property(DateTimeFieldType type) {
         return new Property(this, indexOfSupported(type));
     }
@@ -651,6 +682,7 @@ public final class Partial
      * @param instant  an instant to check against, null means now in default zone
      * @return true if this partial matches the specified instant
      */
+    @Impure
     public boolean isMatch(ReadableInstant instant) {
         long millis = DateTimeUtils.getInstantMillis(instant);
         Chronology chrono = DateTimeUtils.getInstantChronology(instant);
@@ -675,6 +707,7 @@ public final class Partial
      * @throws IllegalArgumentException if the fields of the two partials do not match
      * @since 1.5
      */
+    @Impure
     public boolean isMatch(ReadablePartial partial) {
         if (partial == null) {
             throw new IllegalArgumentException("The partial must not be null");
@@ -700,6 +733,7 @@ public final class Partial
      * @return a formatter suitable for the fields in this partial, null
      *  if none is suitable
      */
+    @Impure
     public DateTimeFormatter getFormatter() {
         DateTimeFormatter[] f = iFormatter;
         if (f == null) {
@@ -733,6 +767,7 @@ public final class Partial
      * 
      * @return ISO8601 formatted string
      */
+    @Impure
     public String toString() {
         DateTimeFormatter[] f = iFormatter;
         if (f == null) {
@@ -758,6 +793,7 @@ public final class Partial
      *
      * @return a toString format that lists all the fields
      */
+    @Impure
     public String toStringList() {
         int size = size();
         StringBuilder buf = new StringBuilder(20 * size);
@@ -781,6 +817,7 @@ public final class Partial
      * @param pattern  the pattern specification, null means use <code>toString</code>
      * @see org.joda.time.format.DateTimeFormat
      */
+    @Impure
     public String toString(String pattern) {
         if (pattern == null) {
             return toString();
@@ -796,6 +833,7 @@ public final class Partial
      * @param locale  Locale to use, null means default
      * @see org.joda.time.format.DateTimeFormat
      */
+    @Impure
     public String toString(String pattern, Locale locale) {
         if (pattern == null) {
             return toString();
@@ -828,6 +866,8 @@ public final class Partial
          * @param partial  the partial instance
          * @param fieldIndex  the index in the partial
          */
+        @SideEffectFree
+        @Impure
         Property(Partial partial, int fieldIndex) {
             super();
             iPartial = partial;
@@ -839,6 +879,7 @@ public final class Partial
          * 
          * @return the field
          */
+        @Impure
         public DateTimeField getField() {
             return iPartial.getField(iFieldIndex);
         }
@@ -848,6 +889,7 @@ public final class Partial
          * 
          * @return the partial
          */
+        @Pure
         protected ReadablePartial getReadablePartial() {
             return iPartial;
         }
@@ -857,6 +899,7 @@ public final class Partial
          * 
          * @return the partial
          */
+        @Pure
         public Partial getPartial() {
             return iPartial;
         }
@@ -866,6 +909,8 @@ public final class Partial
          * 
          * @return the field value
          */
+        @Pure
+        @Impure
         public int get() {
             return iPartial.getValue(iFieldIndex);
         }
@@ -888,6 +933,7 @@ public final class Partial
          * @return a copy of the Partial with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
+        @Impure
         public Partial addToCopy(int valueToAdd) {
             int[] newValues = iPartial.getValues();
             newValues = getField().add(iPartial, iFieldIndex, newValues, valueToAdd);
@@ -912,6 +958,7 @@ public final class Partial
          * @return a copy of the Partial with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
+        @Impure
         public Partial addWrapFieldToCopy(int valueToAdd) {
             int[] newValues = iPartial.getValues();
             newValues = getField().addWrapField(iPartial, iFieldIndex, newValues, valueToAdd);
@@ -929,6 +976,7 @@ public final class Partial
          * @return a copy of the Partial with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
+        @Impure
         public Partial setCopy(int value) {
             int[] newValues = iPartial.getValues();
             newValues = getField().set(iPartial, iFieldIndex, newValues, value);
@@ -946,6 +994,7 @@ public final class Partial
          * @return a copy of the Partial with the field value changed
          * @throws IllegalArgumentException if the text value isn't valid
          */
+        @Impure
         public Partial setCopy(String text, Locale locale) {
             int[] newValues = iPartial.getValues();
             newValues = getField().set(iPartial, iFieldIndex, newValues, text, locale);
@@ -962,6 +1011,7 @@ public final class Partial
          * @return a copy of the Partial with the field value changed
          * @throws IllegalArgumentException if the text value isn't valid
          */
+        @Impure
         public Partial setCopy(String text) {
             return setCopy(text, null);
         }
@@ -976,6 +1026,7 @@ public final class Partial
          * @return a copy of the Partial with this field set to its maximum
          * @since 1.2
          */
+        @Impure
         public Partial withMaximumValue() {
             return setCopy(getMaximumValue());
         }
@@ -989,6 +1040,7 @@ public final class Partial
          * @return a copy of the Partial with this field set to its minimum
          * @since 1.2
          */
+        @Impure
         public Partial withMinimumValue() {
             return setCopy(getMinimumValue());
         }

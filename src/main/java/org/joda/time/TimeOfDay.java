@@ -15,6 +15,9 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
@@ -111,6 +114,7 @@ public final class TimeOfDay
      * @throws IllegalArgumentException if the time is invalid for the ISO chronology
      * @since 1.2
      */
+    @Impure
     public static TimeOfDay fromCalendarFields(Calendar calendar) {
         if (calendar == null) {
             throw new IllegalArgumentException("The calendar must not be null");
@@ -141,6 +145,7 @@ public final class TimeOfDay
      * @throws IllegalArgumentException if the date is invalid for the ISO chronology
      * @since 1.2
      */
+    @Impure
     public static TimeOfDay fromDateFields(Date date) {
         if (date == null) {
             throw new IllegalArgumentException("The date must not be null");
@@ -164,6 +169,7 @@ public final class TimeOfDay
      *
      * @param millisOfDay  the number of milliseconds into a day to convert
      */
+    @Impure
     public static TimeOfDay fromMillisOfDay(long millisOfDay) {
         return fromMillisOfDay(millisOfDay, null);
     }
@@ -179,6 +185,7 @@ public final class TimeOfDay
      * @param millisOfDay  the number of milliseconds into a day to convert
      * @param chrono  the chronology, null means ISO chronology
      */
+    @Impure
     public static TimeOfDay fromMillisOfDay(long millisOfDay, Chronology chrono) {
         chrono = DateTimeUtils.getChronology(chrono);
         chrono = chrono.withUTC();
@@ -195,6 +202,7 @@ public final class TimeOfDay
      * being initialised. Once the constructor is complete, all further calculations
      * are performed without reference to a timezone (by switching to UTC).
      */
+    @Impure
     public TimeOfDay() {
         super();
     }
@@ -210,6 +218,7 @@ public final class TimeOfDay
      * @param zone  the zone to use, null means default zone
      * @since 1.1
      */
+    @Impure
     public TimeOfDay(DateTimeZone zone) {
         super(ISOChronology.getInstance(zone));
     }
@@ -224,6 +233,7 @@ public final class TimeOfDay
      *
      * @param chronology  the chronology, null means ISOChronology in the default zone
      */
+    @Impure
     public TimeOfDay(Chronology chronology) {
         super(chronology);
     }
@@ -238,6 +248,7 @@ public final class TimeOfDay
      *
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z
      */
+    @Impure
     public TimeOfDay(long instant) {
         super(instant);
     }
@@ -253,6 +264,7 @@ public final class TimeOfDay
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z
      * @param chronology  the chronology, null means ISOChronology in the default zone
      */
+    @Impure
     public TimeOfDay(long instant, Chronology chronology) {
         super(instant, chronology);
     }
@@ -273,6 +285,7 @@ public final class TimeOfDay
      * @param instant  the datetime object, null means now
      * @throws IllegalArgumentException if the instant is invalid
      */
+    @Impure
     public TimeOfDay(Object instant) {
         super(instant, null, ISODateTimeFormat.timeParser());
     }
@@ -298,6 +311,7 @@ public final class TimeOfDay
      * @param chronology  the chronology, null means ISO default
      * @throws IllegalArgumentException if the instant is invalid
      */
+    @Impure
     public TimeOfDay(Object instant, Chronology chronology) {
         super(instant, DateTimeUtils.getChronology(chronology), ISODateTimeFormat.timeParser());
     }
@@ -313,6 +327,7 @@ public final class TimeOfDay
      * @param hourOfDay  the hour of the day
      * @param minuteOfHour  the minute of the hour
      */
+    @Impure
     public TimeOfDay(int hourOfDay, int minuteOfHour) {
         this(hourOfDay, minuteOfHour, 0, 0, null);
     }
@@ -328,6 +343,7 @@ public final class TimeOfDay
      * @param minuteOfHour  the minute of the hour
      * @param chronology  the chronology, null means ISOChronology in the default zone
      */
+    @Impure
     public TimeOfDay(int hourOfDay, int minuteOfHour, Chronology chronology) {
         this(hourOfDay, minuteOfHour, 0, 0, chronology);
     }
@@ -344,6 +360,7 @@ public final class TimeOfDay
      * @param minuteOfHour  the minute of the hour
      * @param secondOfMinute  the second of the minute
      */
+    @Impure
     public TimeOfDay(int hourOfDay, int minuteOfHour, int secondOfMinute) {
         this(hourOfDay, minuteOfHour, secondOfMinute, 0, null);
     }
@@ -360,6 +377,7 @@ public final class TimeOfDay
      * @param secondOfMinute  the second of the minute
      * @param chronology  the chronology, null means ISOChronology in the default zone
      */
+    @Impure
     public TimeOfDay(int hourOfDay, int minuteOfHour, int secondOfMinute, Chronology chronology) {
         this(hourOfDay, minuteOfHour, secondOfMinute, 0, chronology);
     }
@@ -377,6 +395,7 @@ public final class TimeOfDay
      * @param secondOfMinute  the second of the minute
      * @param millisOfSecond  the millisecond of the second
      */
+    @Impure
     public TimeOfDay(int hourOfDay, int minuteOfHour, int secondOfMinute, int millisOfSecond) {
         this(hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond, null);
     }
@@ -394,6 +413,7 @@ public final class TimeOfDay
      * @param millisOfSecond  the millisecond of the second
      * @param chronology  the chronology, null means ISOChronology in the default zone
      */
+    @Impure
     public TimeOfDay(int hourOfDay, int minuteOfHour,
             int secondOfMinute, int millisOfSecond, Chronology chronology) {
         super(new int[] {hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond}, chronology);
@@ -405,6 +425,8 @@ public final class TimeOfDay
      * @param partial  the partial to base this new instance on
      * @param values  the new set of values
      */
+    @SideEffectFree
+    @Impure
     TimeOfDay(TimeOfDay partial, int[] values) {
         super(partial, values);
     }
@@ -415,6 +437,7 @@ public final class TimeOfDay
      * @param partial  the partial to base this new instance on
      * @param chrono  the new chronology
      */
+    @Impure
     TimeOfDay(TimeOfDay partial, Chronology chrono) {
         super(partial, chrono);
     }
@@ -425,6 +448,7 @@ public final class TimeOfDay
      * 
      * @return the field count
      */
+    @Pure
     public int size() {
         return 4;
     }
@@ -438,6 +462,7 @@ public final class TimeOfDay
      * @param chrono  the chronology to use
      * @return the field
      */
+    @Impure
     protected DateTimeField getField(int index, Chronology chrono) {
         switch (index) {
             case HOUR_OF_DAY:
@@ -460,6 +485,7 @@ public final class TimeOfDay
      * @return the field at the specified index
      * @throws IndexOutOfBoundsException if the index is invalid
      */
+    @Pure
     public DateTimeFieldType getFieldType(int index) {
         return FIELD_TYPES[index];
     }
@@ -471,6 +497,7 @@ public final class TimeOfDay
      *
      * @return the array of field types (cloned), largest to smallest
      */
+    @SideEffectFree
     public DateTimeFieldType[] getFieldTypes() {
         return (DateTimeFieldType[]) FIELD_TYPES.clone();
     }
@@ -490,6 +517,7 @@ public final class TimeOfDay
      * @return a copy of this datetime with a different chronology
      * @throws IllegalArgumentException if the values are invalid for the new chronology
      */
+    @Impure
     public TimeOfDay withChronologyRetainFields(Chronology newChronology) {
         newChronology = DateTimeUtils.getChronology(newChronology);
         newChronology = newChronology.withUTC();
@@ -520,6 +548,7 @@ public final class TimeOfDay
      * @return a copy of this instance with the field set
      * @throws IllegalArgumentException if the value is null or invalid
      */
+    @Impure
     public TimeOfDay withField(DateTimeFieldType fieldType, int value) {
         int index = indexOfSupported(fieldType);
         if (value == getValue(index)) {
@@ -549,6 +578,7 @@ public final class TimeOfDay
      * @throws IllegalArgumentException if the value is null or invalid
      * @throws ArithmeticException if the new datetime exceeds the capacity
      */
+    @Impure
     public TimeOfDay withFieldAdded(DurationFieldType fieldType, int amount) {
         int index = indexOfSupported(fieldType);
         if (amount == 0) {
@@ -576,6 +606,7 @@ public final class TimeOfDay
      * @return a copy of this instance with the period added
      * @throws ArithmeticException if the new datetime exceeds the capacity
      */
+    @Impure
     public TimeOfDay withPeriodAdded(ReadablePeriod period, int scalar) {
         if (period == null || scalar == 0) {
             return this;
@@ -607,6 +638,7 @@ public final class TimeOfDay
      * @return a copy of this instance with the period added
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public TimeOfDay plus(ReadablePeriod period) {
         return withPeriodAdded(period, 1);
     }
@@ -628,6 +660,7 @@ public final class TimeOfDay
      * @return the new time plus the increased hours
      * @since 1.1
      */
+    @Impure
     public TimeOfDay plusHours(int hours) {
         return withFieldAdded(DurationFieldType.hours(), hours);
     }
@@ -648,6 +681,7 @@ public final class TimeOfDay
      * @return the new time plus the increased minutes
      * @since 1.1
      */
+    @Impure
     public TimeOfDay plusMinutes(int minutes) {
         return withFieldAdded(DurationFieldType.minutes(), minutes);
     }
@@ -668,6 +702,7 @@ public final class TimeOfDay
      * @return the new time plus the increased seconds
      * @since 1.1
      */
+    @Impure
     public TimeOfDay plusSeconds(int seconds) {
         return withFieldAdded(DurationFieldType.seconds(), seconds);
     }
@@ -688,6 +723,7 @@ public final class TimeOfDay
      * @return the new time plus the increased millis
      * @since 1.1
      */
+    @Impure
     public TimeOfDay plusMillis(int millis) {
         return withFieldAdded(DurationFieldType.millis(), millis);
     }
@@ -707,6 +743,7 @@ public final class TimeOfDay
      * @return a copy of this instance with the period taken away
      * @throws ArithmeticException if the new time exceeds capacity
      */
+    @Impure
     public TimeOfDay minus(ReadablePeriod period) {
         return withPeriodAdded(period, -1);
     }
@@ -728,6 +765,7 @@ public final class TimeOfDay
      * @return the new time minus the increased hours
      * @since 1.1
      */
+    @Impure
     public TimeOfDay minusHours(int hours) {
         return withFieldAdded(DurationFieldType.hours(), FieldUtils.safeNegate(hours));
     }
@@ -748,6 +786,7 @@ public final class TimeOfDay
      * @return the new time minus the increased minutes
      * @since 1.1
      */
+    @Impure
     public TimeOfDay minusMinutes(int minutes) {
         return withFieldAdded(DurationFieldType.minutes(), FieldUtils.safeNegate(minutes));
     }
@@ -768,6 +807,7 @@ public final class TimeOfDay
      * @return the new time minus the increased seconds
      * @since 1.1
      */
+    @Impure
     public TimeOfDay minusSeconds(int seconds) {
         return withFieldAdded(DurationFieldType.seconds(), FieldUtils.safeNegate(seconds));
     }
@@ -788,6 +828,7 @@ public final class TimeOfDay
      * @return the new time minus the increased millis
      * @since 1.1
      */
+    @Impure
     public TimeOfDay minusMillis(int millis) {
         return withFieldAdded(DurationFieldType.millis(), FieldUtils.safeNegate(millis));
     }
@@ -801,6 +842,7 @@ public final class TimeOfDay
      * @return the property object
      * @throws IllegalArgumentException if the field is null or unsupported
      */
+    @Impure
     public Property property(DateTimeFieldType type) {
         return new Property(this, indexOfSupported(type));
     }
@@ -812,6 +854,7 @@ public final class TimeOfDay
      * @return a LocalTime with the same time and chronology
      * @since 1.3
      */
+    @Impure
     public LocalTime toLocalTime() {
         return new LocalTime(getHourOfDay(), getMinuteOfHour(),
                 getSecondOfMinute(), getMillisOfSecond(), getChronology());
@@ -825,6 +868,7 @@ public final class TimeOfDay
      *
      * @return this date as a datetime with the time as the current time
      */
+    @Impure
     public DateTime toDateTimeToday() {
         return toDateTimeToday(null);
     }
@@ -840,6 +884,7 @@ public final class TimeOfDay
      * @param zone  the zone to use, null means default
      * @return this date as a datetime with the time as the current time
      */
+    @Impure
     public DateTime toDateTimeToday(DateTimeZone zone) {
         Chronology chrono = getChronology().withZone(zone);
         long instantMillis = DateTimeUtils.currentTimeMillis();
@@ -853,6 +898,8 @@ public final class TimeOfDay
      *
      * @return the hour of day
      */
+    @Pure
+    @Impure
     public int getHourOfDay() {
         return getValue(HOUR_OF_DAY);
     }
@@ -862,6 +909,8 @@ public final class TimeOfDay
      *
      * @return the minute of hour
      */
+    @Pure
+    @Impure
     public int getMinuteOfHour() {
         return getValue(MINUTE_OF_HOUR);
     }
@@ -871,6 +920,8 @@ public final class TimeOfDay
      *
      * @return the second of minute
      */
+    @Pure
+    @Impure
     public int getSecondOfMinute() {
         return getValue(SECOND_OF_MINUTE);
     }
@@ -880,6 +931,8 @@ public final class TimeOfDay
      *
      * @return the millis of second
      */
+    @Pure
+    @Impure
     public int getMillisOfSecond() {
         return getValue(MILLIS_OF_SECOND);
     }
@@ -897,6 +950,7 @@ public final class TimeOfDay
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public TimeOfDay withHourOfDay(int hour) {
         int[] newValues = getValues();
         newValues = getChronology().hourOfDay().set(this, HOUR_OF_DAY, newValues, hour);
@@ -915,6 +969,7 @@ public final class TimeOfDay
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public TimeOfDay withMinuteOfHour(int minute) {
         int[] newValues = getValues();
         newValues = getChronology().minuteOfHour().set(this, MINUTE_OF_HOUR, newValues, minute);
@@ -933,6 +988,7 @@ public final class TimeOfDay
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public TimeOfDay withSecondOfMinute(int second) {
         int[] newValues = getValues();
         newValues = getChronology().secondOfMinute().set(this, SECOND_OF_MINUTE, newValues, second);
@@ -951,6 +1007,7 @@ public final class TimeOfDay
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public TimeOfDay withMillisOfSecond(int millis) {
         int[] newValues = getValues();
         newValues = getChronology().millisOfSecond().set(this, MILLIS_OF_SECOND, newValues, millis);
@@ -963,6 +1020,8 @@ public final class TimeOfDay
      * 
      * @return the hour of day property
      */
+    @SideEffectFree
+    @Impure
     public Property hourOfDay() {
         return new Property(this, HOUR_OF_DAY);
     }
@@ -972,6 +1031,8 @@ public final class TimeOfDay
      * 
      * @return the minute of hour property
      */
+    @SideEffectFree
+    @Impure
     public Property minuteOfHour() {
         return new Property(this, MINUTE_OF_HOUR);
     }
@@ -981,6 +1042,8 @@ public final class TimeOfDay
      * 
      * @return the second of minute property
      */
+    @SideEffectFree
+    @Impure
     public Property secondOfMinute() {
         return new Property(this, SECOND_OF_MINUTE);
     }
@@ -990,6 +1053,8 @@ public final class TimeOfDay
      * 
      * @return the millis of second property
      */
+    @SideEffectFree
+    @Impure
     public Property millisOfSecond() {
         return new Property(this, MILLIS_OF_SECOND);
     }
@@ -1000,6 +1065,7 @@ public final class TimeOfDay
      * 
      * @return ISO8601 formatted string
      */
+    @Impure
     public String toString() {
         return ISODateTimeFormat.tTime().print(this);
     }
@@ -1031,6 +1097,8 @@ public final class TimeOfDay
          * @param partial  the partial instance
          * @param fieldIndex  the index in the partial
          */
+        @SideEffectFree
+        @Impure
         Property(TimeOfDay partial, int fieldIndex) {
             super();
             iTimeOfDay = partial;
@@ -1042,6 +1110,7 @@ public final class TimeOfDay
          * 
          * @return the field
          */
+        @Impure
         public DateTimeField getField() {
             return iTimeOfDay.getField(iFieldIndex);
         }
@@ -1051,6 +1120,7 @@ public final class TimeOfDay
          * 
          * @return the partial
          */
+        @Pure
         protected ReadablePartial getReadablePartial() {
             return iTimeOfDay;
         }
@@ -1060,6 +1130,7 @@ public final class TimeOfDay
          * 
          * @return the partial
          */
+        @Pure
         public TimeOfDay getTimeOfDay() {
             return iTimeOfDay;
         }
@@ -1069,6 +1140,8 @@ public final class TimeOfDay
          * 
          * @return the field value
          */
+        @Pure
+        @Impure
         public int get() {
             return iTimeOfDay.getValue(iFieldIndex);
         }
@@ -1093,6 +1166,7 @@ public final class TimeOfDay
          * @return a copy of the TimeOfDay with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
+        @Impure
         public TimeOfDay addToCopy(int valueToAdd) {
             int[] newValues = iTimeOfDay.getValues();
             newValues = getField().addWrapPartial(iTimeOfDay, iFieldIndex, newValues, valueToAdd);
@@ -1119,6 +1193,7 @@ public final class TimeOfDay
          * @return a copy of the TimeOfDay with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
+        @Impure
         public TimeOfDay addNoWrapToCopy(int valueToAdd) {
             int[] newValues = iTimeOfDay.getValues();
             newValues = getField().add(iTimeOfDay, iFieldIndex, newValues, valueToAdd);
@@ -1143,6 +1218,7 @@ public final class TimeOfDay
          * @return a copy of the TimeOfDay with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
+        @Impure
         public TimeOfDay addWrapFieldToCopy(int valueToAdd) {
             int[] newValues = iTimeOfDay.getValues();
             newValues = getField().addWrapField(iTimeOfDay, iFieldIndex, newValues, valueToAdd);
@@ -1160,6 +1236,7 @@ public final class TimeOfDay
          * @return a copy of the TimeOfDay with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
+        @Impure
         public TimeOfDay setCopy(int value) {
             int[] newValues = iTimeOfDay.getValues();
             newValues = getField().set(iTimeOfDay, iFieldIndex, newValues, value);
@@ -1177,6 +1254,7 @@ public final class TimeOfDay
          * @return a copy of the TimeOfDay with the field value changed
          * @throws IllegalArgumentException if the text value isn't valid
          */
+        @Impure
         public TimeOfDay setCopy(String text, Locale locale) {
             int[] newValues = iTimeOfDay.getValues();
             newValues = getField().set(iTimeOfDay, iFieldIndex, newValues, text, locale);
@@ -1193,6 +1271,7 @@ public final class TimeOfDay
          * @return a copy of the TimeOfDay with the field value changed
          * @throws IllegalArgumentException if the text value isn't valid
          */
+        @Impure
         public TimeOfDay setCopy(String text) {
             return setCopy(text, null);
         }
@@ -1207,6 +1286,7 @@ public final class TimeOfDay
          * @return a copy of the TimeOfDay with this field set to its maximum
          * @since 1.2
          */
+        @Impure
         public TimeOfDay withMaximumValue() {
             return setCopy(getMaximumValue());
         }
@@ -1220,6 +1300,7 @@ public final class TimeOfDay
          * @return a copy of the TimeOfDay with this field set to its minimum
          * @since 1.2
          */
+        @Impure
         public TimeOfDay withMinimumValue() {
             return setCopy(getMinimumValue());
         }

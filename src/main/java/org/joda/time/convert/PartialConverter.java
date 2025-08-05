@@ -15,6 +15,7 @@
  */
 package org.joda.time.convert;
 
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.time.Chronology;
 import org.joda.time.DateTimeZone;
 import org.joda.time.ReadablePartial;
@@ -42,6 +43,7 @@ public interface PartialConverter extends Converter {
      * @throws ClassCastException if the object is invalid
      * @since 1.3
      */
+    @Impure
     Chronology getChronology(Object object, DateTimeZone zone);
 
     /**
@@ -53,6 +55,7 @@ public interface PartialConverter extends Converter {
      * @return the chronology, not converted to UTC/local time zone, must be non-null valid
      * @throws ClassCastException if the object is invalid
      */
+    @Impure
     Chronology getChronology(Object object, Chronology chrono);
 
     /**
@@ -67,6 +70,7 @@ public interface PartialConverter extends Converter {
      * @return the array of field values that match the fieldSource, must be non-null valid
      * @throws ClassCastException if the object is invalid
      */
+    @Impure
     int[] getPartialValues(ReadablePartial fieldSource, Object object, Chronology chrono);
 
     /**
@@ -83,6 +87,7 @@ public interface PartialConverter extends Converter {
      * @throws ClassCastException if the object is invalid
      * @since 1.3
      */
+    @Impure
     int[] getPartialValues(ReadablePartial fieldSource, Object object, Chronology chrono,
                            DateTimeFormatter parser);
 

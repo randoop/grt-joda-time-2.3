@@ -15,6 +15,8 @@
  */
 package org.joda.time.field;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.DurationField;
 import org.joda.time.DurationFieldType;
@@ -52,18 +54,23 @@ public abstract class ImpreciseDateTimeField extends BaseDateTimeField {
      * @param type  the field type
      * @param unitMillis  the average duration unit milliseconds
      */
+    @Impure
     public ImpreciseDateTimeField(DateTimeFieldType type, long unitMillis) {
         super(type);
         iUnitMillis = unitMillis;
         iDurationField = new LinkedDurationField(type.getDurationType());
     }
 
+    @Impure
     public abstract int get(long instant);
 
+    @Impure
     public abstract long set(long instant, int value);
 
+    @Impure
     public abstract long add(long instant, int value);
 
+    @Impure
     public abstract long add(long instant, long value);
 
     /**
@@ -88,6 +95,7 @@ public abstract class ImpreciseDateTimeField extends BaseDateTimeField {
      * subtract off the minuend
      * @return the difference in the units of this field
      */
+    @Impure
     public int getDifference(long minuendInstant, long subtrahendInstant) {
         return FieldUtils.safeToInt(getDifferenceAsLong(minuendInstant, subtrahendInstant));
     }
@@ -115,6 +123,7 @@ public abstract class ImpreciseDateTimeField extends BaseDateTimeField {
      * subtract off the minuend
      * @return the difference in the units of this field
      */
+    @Impure
     public long getDifferenceAsLong(long minuendInstant, long subtrahendInstant) {
         if (minuendInstant < subtrahendInstant) {
             return -getDifferenceAsLong(subtrahendInstant, minuendInstant);
@@ -134,14 +143,19 @@ public abstract class ImpreciseDateTimeField extends BaseDateTimeField {
         return difference;
     }
 
+    @Pure
     public final DurationField getDurationField() {
         return iDurationField;
     }
 
+    @Pure
+    @Impure
     public abstract DurationField getRangeDurationField();
 
+    @Impure
     public abstract long roundFloor(long instant);
 
+    @Pure
     protected final long getDurationUnitMillis() {
         return iUnitMillis;
     }
@@ -149,49 +163,60 @@ public abstract class ImpreciseDateTimeField extends BaseDateTimeField {
     private final class LinkedDurationField extends BaseDurationField {
         private static final long serialVersionUID = -203813474600094134L;
 
+        @Impure
         LinkedDurationField(DurationFieldType type) {
             super(type);
         }
     
+        @Pure
         public boolean isPrecise() {
             return false;
         }
     
+        @Pure
         public long getUnitMillis() {
             return iUnitMillis;
         }
 
+        @Impure
         public int getValue(long duration, long instant) {
             return ImpreciseDateTimeField.this
                 .getDifference(instant + duration, instant);
         }
 
+        @Impure
         public long getValueAsLong(long duration, long instant) {
             return ImpreciseDateTimeField.this
                 .getDifferenceAsLong(instant + duration, instant);
         }
         
+        @Impure
         public long getMillis(int value, long instant) {
             return ImpreciseDateTimeField.this.add(instant, value) - instant;
         }
 
+        @Impure
         public long getMillis(long value, long instant) {
             return ImpreciseDateTimeField.this.add(instant, value) - instant;
         }
 
+        @Impure
         public long add(long instant, int value) {
             return ImpreciseDateTimeField.this.add(instant, value);
         }
         
+        @Impure
         public long add(long instant, long value) {
             return ImpreciseDateTimeField.this.add(instant, value);
         }
         
+        @Impure
         public int getDifference(long minuendInstant, long subtrahendInstant) {
             return ImpreciseDateTimeField.this
                 .getDifference(minuendInstant, subtrahendInstant);
         }
         
+        @Impure
         public long getDifferenceAsLong(long minuendInstant, long subtrahendInstant) {
             return ImpreciseDateTimeField.this
                 .getDifferenceAsLong(minuendInstant, subtrahendInstant);

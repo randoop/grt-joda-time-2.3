@@ -15,6 +15,9 @@
  */
 package org.joda.time.base;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.Serializable;
 import java.util.Locale;
 
@@ -61,6 +64,7 @@ public abstract class BasePartial
      * being initialised. Once the constructor is complete, all further calculations
      * are performed without reference to a timezone (by switching to UTC).
      */
+    @Impure
     protected BasePartial() {
         this(DateTimeUtils.currentTimeMillis(), null);
     }
@@ -75,6 +79,7 @@ public abstract class BasePartial
      *
      * @param chronology  the chronology, null means ISOChronology in the default zone
      */
+    @Impure
     protected BasePartial(Chronology chronology) {
         this(DateTimeUtils.currentTimeMillis(), chronology);
     }
@@ -89,6 +94,7 @@ public abstract class BasePartial
      *
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z
      */
+    @Impure
     protected BasePartial(long instant) {
         this(instant, null);
     }
@@ -104,6 +110,7 @@ public abstract class BasePartial
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z
      * @param chronology  the chronology, null means ISOChronology in the default zone
      */
+    @Impure
     protected BasePartial(long instant, Chronology chronology) {
         super();
         chronology = DateTimeUtils.getChronology(chronology);
@@ -127,6 +134,7 @@ public abstract class BasePartial
      * @param chronology  the chronology, null means use converter
      * @throws IllegalArgumentException if the date is invalid
      */
+    @Impure
     protected BasePartial(Object instant, Chronology chronology) {
         super();
         PartialConverter converter = ConverterManager.getInstance().getPartialConverter(instant);
@@ -154,6 +162,7 @@ public abstract class BasePartial
      * @throws IllegalArgumentException if the date is invalid
      * @since 1.3
      */
+    @Impure
     protected BasePartial(Object instant, Chronology chronology, DateTimeFormatter parser) {
         super();
         PartialConverter converter = ConverterManager.getInstance().getPartialConverter(instant);
@@ -176,6 +185,7 @@ public abstract class BasePartial
      * @param chronology  the chronology, null means ISOChronology in the default zone
      * @throws IllegalArgumentException if the values are invalid
      */
+    @Impure
     protected BasePartial(int[] values, Chronology chronology) {
         super();
         chronology = DateTimeUtils.getChronology(chronology);
@@ -192,6 +202,8 @@ public abstract class BasePartial
      * @param base  the base partial
      * @param values  the new set of values, not cloned, null means use base
      */
+    @SideEffectFree
+    @Impure
     protected BasePartial(BasePartial base, int[] values) {
         super();
         iChronology = base.iChronology;
@@ -207,6 +219,7 @@ public abstract class BasePartial
      * @param base  the base partial
      * @param chrono  the chronology to use, null means use base
      */
+    @Impure
     protected BasePartial(BasePartial base, Chronology chrono) {
         super();
         iChronology = chrono.withUTC();
@@ -221,6 +234,7 @@ public abstract class BasePartial
      * @return the value
      * @throws IndexOutOfBoundsException if the index is invalid
      */
+    @Pure
     public int getValue(int index) {
         return iValues[index];
     }
@@ -233,6 +247,7 @@ public abstract class BasePartial
      *
      * @return the current values of each field (cloned), largest to smallest
      */
+    @SideEffectFree
     public int[] getValues() {
         return (int[]) iValues.clone();
     }
@@ -245,6 +260,7 @@ public abstract class BasePartial
      * 
      * @return the chronology, never null
      */
+    @Pure
     public Chronology getChronology() {
         return iChronology;
     }
@@ -261,6 +277,7 @@ public abstract class BasePartial
      * @param value  the value to set
      * @throws IndexOutOfBoundsException if the index is invalid
      */
+    @Impure
     protected void setValue(int index, int value) {
         DateTimeField field = getField(index);
         int[] values = field.set(this, index, iValues, value);
@@ -276,6 +293,7 @@ public abstract class BasePartial
      * 
      * @param values  the array of values
      */
+    @Impure
     protected void setValues(int[] values) {
         getChronology().validate(this, values);
         System.arraycopy(values, 0, iValues, 0, iValues.length);
@@ -288,6 +306,7 @@ public abstract class BasePartial
      * @param pattern  the pattern specification, null means use <code>toString</code>
      * @see org.joda.time.format.DateTimeFormat
      */
+    @Impure
     public String toString(String pattern) {
         if (pattern == null) {
             return toString();
@@ -302,6 +321,7 @@ public abstract class BasePartial
      * @param locale  Locale to use, null means default
      * @see org.joda.time.format.DateTimeFormat
      */
+    @Impure
     public String toString(String pattern, Locale locale) throws IllegalArgumentException {
         if (pattern == null) {
             return toString();

@@ -14,6 +14,7 @@
  *  limitations under the License.
  */
 package org.joda.time;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * Defines a duration of time that can be queried and modified using datetime fields.
@@ -30,6 +31,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
     /**
      * Clears the period, setting all values back to zero.
      */
+    @Impure
     void clear();
 
     /**
@@ -39,6 +41,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * @param value  the new value for the field
      * @throws IndexOutOfBoundsException if the index is invalid
      */
+    @Impure
     void setValue(int index, int value);
 
     /**
@@ -50,6 +53,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * @param value  the new value for the field
      * @throws IllegalArgumentException if the field is null or not supported
      */
+    @Impure
     void set(DurationFieldType field, int value);
 
     /**
@@ -58,6 +62,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * @param period  the period to set, null means zero length period
      * @throws IllegalArgumentException if an unsupported field's value is non-zero
      */
+    @Impure
     void setPeriod(ReadablePeriod period);
 
     /**
@@ -73,6 +78,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * @param millis  amount of milliseconds in this period, which must be zero if unsupported
      * @throws IllegalArgumentException if an unsupported field's value is non-zero
      */
+    @Impure
     void setPeriod(int years, int months, int weeks, int days,
                        int hours, int minutes, int seconds, int millis);
 
@@ -82,6 +88,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * 
      * @param interval  the interval to set, null means zero length
      */
+    @Impure
     void setPeriod(ReadableInterval interval);
 
     //-----------------------------------------------------------------------
@@ -94,6 +101,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * @param value  the value to add to the field
      * @throws IllegalArgumentException if the field is null or not supported
      */
+    @Impure
     void add(DurationFieldType field, int value);
 
     /**
@@ -104,6 +112,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * not supported by this period
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     void add(ReadablePeriod period);
 
     /**
@@ -121,6 +130,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * not supported by this period
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     void add(int years, int months, int weeks, int days,
                     int hours, int minutes, int seconds, int millis);
 
@@ -131,6 +141,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * @param interval  the interval to add, null means add nothing
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     void add(ReadableInterval interval);
 
     //-----------------------------------------------------------------------
@@ -140,6 +151,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * @param years  the number of years
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      */
+    @Impure
     void setYears(int years);
 
     /**
@@ -149,6 +161,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     void addYears(int years);
 
     //-----------------------------------------------------------------------
@@ -158,6 +171,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * @param months  the number of months
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      */
+    @Impure
     void setMonths(int months);
 
     /**
@@ -167,6 +181,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     void addMonths(int months);
 
     //-----------------------------------------------------------------------
@@ -176,6 +191,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * @param weeks  the number of weeks
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      */
+    @Impure
     void setWeeks(int weeks);
 
     /**
@@ -185,6 +201,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     void addWeeks(int weeks);
 
     //-----------------------------------------------------------------------
@@ -194,6 +211,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * @param days  the number of days
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      */
+    @Impure
     void setDays(int days);
 
     /**
@@ -203,6 +221,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     void addDays(int days);
 
     //-----------------------------------------------------------------------
@@ -212,6 +231,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * @param hours  the number of hours
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      */
+    @Impure
     void setHours(int hours);
 
     /**
@@ -221,6 +241,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     void addHours(int hours);
 
     //-----------------------------------------------------------------------
@@ -230,6 +251,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * @param minutes  the number of minutes
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      */
+    @Impure
     void setMinutes(int minutes);
 
     /**
@@ -239,6 +261,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     void addMinutes(int minutes);
 
     //-----------------------------------------------------------------------
@@ -248,6 +271,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * @param seconds  the number of seconds
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      */
+    @Impure
     void setSeconds(int seconds);
 
     /**
@@ -257,6 +281,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     void addSeconds(int seconds);
 
     //-----------------------------------------------------------------------
@@ -266,6 +291,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * @param millis  the number of millis
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      */
+    @Impure
     void setMillis(int millis);
 
     /**
@@ -275,6 +301,7 @@ public interface ReadWritablePeriod extends ReadablePeriod {
      * @throws IllegalArgumentException if field is not supported and the value is non-zero
      * @throws ArithmeticException if the addition exceeds the capacity of the period
      */
+    @Impure
     void addMillis(int millis);
 
 }

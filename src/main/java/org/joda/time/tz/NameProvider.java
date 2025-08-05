@@ -15,6 +15,7 @@
  */
 package org.joda.time.tz;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.util.Locale;
 
 /**
@@ -31,6 +32,7 @@ public interface NameProvider {
      * @param id time zone id
      * @param nameKey time zone name key
      */
+    @Impure
     String getShortName(Locale locale, String id, String nameKey);
     
     /**
@@ -40,5 +42,6 @@ public interface NameProvider {
      * @param id time zone id
      * @param nameKey time zone name key
      */
+    @Impure
     String getName(Locale locale, String id, String nameKey);
 }

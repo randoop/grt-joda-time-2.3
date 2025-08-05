@@ -15,6 +15,8 @@
  */
 package org.joda.time.base;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import org.joda.convert.ToString;
 import org.joda.time.DurationFieldType;
 import org.joda.time.MutablePeriod;
@@ -41,6 +43,7 @@ public abstract class AbstractPeriod implements ReadablePeriod {
     /**
      * Constructor.
      */
+    @SideEffectFree
     protected AbstractPeriod() {
         super();
     }
@@ -52,6 +55,7 @@ public abstract class AbstractPeriod implements ReadablePeriod {
      * @return the number of fields supported
      * @since 2.0 (previously on BasePeriod)
      */
+    @Impure
     public int size() {
         return getPeriodType().size();
     }
@@ -64,6 +68,7 @@ public abstract class AbstractPeriod implements ReadablePeriod {
      * @throws IndexOutOfBoundsException if the index is invalid
      * @since 2.0 (previously on BasePeriod)
      */
+    @Impure
     public DurationFieldType getFieldType(int index) {
         return getPeriodType().getFieldType(index);
     }
@@ -75,6 +80,7 @@ public abstract class AbstractPeriod implements ReadablePeriod {
      *
      * @return the fields supported in an array that may be altered, largest to smallest
      */
+    @Impure
     public DurationFieldType[] getFieldTypes() {
         DurationFieldType[] result = new DurationFieldType[size()];
         for (int i = 0; i < result.length; i++) {
@@ -91,6 +97,7 @@ public abstract class AbstractPeriod implements ReadablePeriod {
      *
      * @return the current values of each field in an array that may be altered, largest to smallest
      */
+    @Impure
     public int[] getValues() {
         int[] result = new int[size()];
         for (int i = 0; i < result.length; i++) {
@@ -109,6 +116,7 @@ public abstract class AbstractPeriod implements ReadablePeriod {
      * @param type  the field type to query, null returns zero
      * @return the value of that field, zero if field not supported
      */
+    @Impure
     public int get(DurationFieldType type) {
         int index = indexOf(type);
         if (index == -1) {
@@ -123,6 +131,7 @@ public abstract class AbstractPeriod implements ReadablePeriod {
      * @param type  the type to check, may be null which returns false
      * @return true if the field is supported
      */
+    @Impure
     public boolean isSupported(DurationFieldType type) {
         return getPeriodType().isSupported(type);
     }
@@ -133,6 +142,7 @@ public abstract class AbstractPeriod implements ReadablePeriod {
      * @param type  the type to check, may be null which returns -1
      * @return the index of -1 if not supported
      */
+    @Impure
     public int indexOf(DurationFieldType type) {
         return getPeriodType().indexOf(type);
     }
@@ -143,6 +153,7 @@ public abstract class AbstractPeriod implements ReadablePeriod {
      * 
      * @return a Period using the same field set and values
      */
+    @Impure
     public Period toPeriod() {
         return new Period(this);
     }
@@ -154,6 +165,7 @@ public abstract class AbstractPeriod implements ReadablePeriod {
      * 
      * @return a MutablePeriod using the same field set and values
      */
+    @Impure
     public MutablePeriod toMutablePeriod() {
         return new MutablePeriod(this);
     }
@@ -179,6 +191,7 @@ public abstract class AbstractPeriod implements ReadablePeriod {
      * @return true if all the field values are equal, false if
      *  not or the period is null or of an incorrect type
      */
+    @Impure
     public boolean equals(Object period) {
         if (this == period) {
             return true;
@@ -203,6 +216,7 @@ public abstract class AbstractPeriod implements ReadablePeriod {
      *
      * @return a hash code
      */
+    @Impure
     public int hashCode() {
         int total = 17;
         for (int i = 0, isize = size(); i < isize; i++) {
@@ -223,6 +237,7 @@ public abstract class AbstractPeriod implements ReadablePeriod {
      *
      * @return the value as an ISO8601 string
      */
+    @Impure
     @ToString
     public String toString() {
         return ISOPeriodFormat.standard().print(this);
@@ -236,6 +251,7 @@ public abstract class AbstractPeriod implements ReadablePeriod {
      * @return the formatted string
      * @since 1.5
      */
+    @Impure
     public String toString(PeriodFormatter formatter) {
         if (formatter == null) {
             return toString();

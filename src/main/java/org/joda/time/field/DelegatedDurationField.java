@@ -15,6 +15,9 @@
  */
 package org.joda.time.field;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.Serializable;
 
 import org.joda.time.DurationField;
@@ -46,6 +49,7 @@ public class DelegatedDurationField extends DurationField implements Serializabl
      * 
      * @param field  the base field
      */
+    @Impure
     protected DelegatedDurationField(DurationField field) {
         this(field, null);
     }
@@ -56,6 +60,7 @@ public class DelegatedDurationField extends DurationField implements Serializabl
      * @param field  the base field
      * @param type  the field type to use
      */
+    @Impure
     protected DelegatedDurationField(DurationField field, DurationFieldType type) {
         super();
         if (field == null) {
@@ -71,14 +76,18 @@ public class DelegatedDurationField extends DurationField implements Serializabl
      * 
      * @return the wrapped DurationField
      */
+    @Pure
     public final DurationField getWrappedField() {
         return iField;
     }
 
+    @Pure
     public DurationFieldType getType() {
         return iType;
     }
 
+    @Pure
+    @Impure
     public String getName() {
         return iType.getName();
     }
@@ -86,70 +95,87 @@ public class DelegatedDurationField extends DurationField implements Serializabl
     /**
      * Returns true if this field is supported.
      */
+    @Impure
     public boolean isSupported() {
         return iField.isSupported();
     }
 
+    @Impure
     public boolean isPrecise() {
         return iField.isPrecise();
     }
     
+    @Impure
     public int getValue(long duration) {
         return iField.getValue(duration);
     }
 
+    @Impure
     public long getValueAsLong(long duration) {
         return iField.getValueAsLong(duration);
     }
 
+    @Impure
     public int getValue(long duration, long instant) {
         return iField.getValue(duration, instant);
     }
 
+    @Impure
     public long getValueAsLong(long duration, long instant) {
         return iField.getValueAsLong(duration, instant);
     }
 
+    @Impure
     public long getMillis(int value) {
         return iField.getMillis(value);
     }
 
+    @Impure
     public long getMillis(long value) {
         return iField.getMillis(value);
     }
 
+    @Impure
     public long getMillis(int value, long instant) {
         return iField.getMillis(value, instant);
     }
 
+    @Impure
     public long getMillis(long value, long instant) {
         return iField.getMillis(value, instant);
     }
 
+    @Impure
     public long add(long instant, int value) {
         return iField.add(instant, value);
     }
 
+    @Impure
     public long add(long instant, long value) {
         return iField.add(instant, value);
     }
 
+    @Impure
     public int getDifference(long minuendInstant, long subtrahendInstant) {
         return iField.getDifference(minuendInstant, subtrahendInstant);
     }
 
+    @Impure
     public long getDifferenceAsLong(long minuendInstant, long subtrahendInstant) {
         return iField.getDifferenceAsLong(minuendInstant, subtrahendInstant);
     }
 
+    @Impure
     public long getUnitMillis() {
         return iField.getUnitMillis();
     }
 
+    @Pure
     public int compareTo(DurationField durationField) {
         return iField.compareTo(durationField);
     }
 
+    @Pure
     public boolean equals(Object obj) {
         if (obj instanceof DelegatedDurationField) {
             return iField.equals(((DelegatedDurationField) obj).iField);
@@ -157,10 +183,12 @@ public class DelegatedDurationField extends DurationField implements Serializabl
         return false;
     }
 
+    @Pure
     public int hashCode() {
         return iField.hashCode() ^ iType.hashCode();
     }
 
+    @SideEffectFree
     public String toString() {
         return (iType == null) ? iField.toString() :
             ("DurationField[" + iType + ']');

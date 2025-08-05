@@ -15,6 +15,7 @@
  */
 package org.joda.time.convert;
 
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.time.Chronology;
 import org.joda.time.DateTimeZone;
 
@@ -39,6 +40,7 @@ public interface InstantConverter extends Converter {
      * @return the chronology, never null
      * @throws ClassCastException if the object is invalid
      */
+    @Impure
     Chronology getChronology(Object object, DateTimeZone zone);
 
     /**
@@ -53,6 +55,7 @@ public interface InstantConverter extends Converter {
      * @return the chronology, never null
      * @throws ClassCastException if the object is invalid
      */
+    @Impure
     Chronology getChronology(Object object, Chronology chrono);
 
     //-----------------------------------------------------------------------
@@ -67,6 +70,7 @@ public interface InstantConverter extends Converter {
      * @throws ClassCastException if the object is invalid
      * @throws IllegalArgumentException if object conversion fails
      */
+    @Impure
     long getInstantMillis(Object object, Chronology chrono);
 
 }

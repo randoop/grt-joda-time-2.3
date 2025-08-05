@@ -15,6 +15,8 @@
  */
 package org.joda.time.field;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import org.joda.time.DurationField;
 import org.joda.time.DurationFieldType;
 
@@ -43,6 +45,7 @@ public class ScaledDurationField extends DecoratedDurationField {
      * @param scalar  scalar, such as 100 years in a century
      * @throws IllegalArgumentException if scalar is zero or one.
      */
+    @Impure
     public ScaledDurationField(DurationField field, DurationFieldType type, int scalar) {
         super(field, type);
         if (scalar == 0 || scalar == 1) {
@@ -51,60 +54,73 @@ public class ScaledDurationField extends DecoratedDurationField {
         iScalar = scalar;
     }
 
+    @Impure
     public int getValue(long duration) {
         return getWrappedField().getValue(duration) / iScalar;
     }
 
+    @Impure
     public long getValueAsLong(long duration) {
         return getWrappedField().getValueAsLong(duration) / iScalar;
     }
 
+    @Impure
     public int getValue(long duration, long instant) {
         return getWrappedField().getValue(duration, instant) / iScalar;
     }
 
+    @Impure
     public long getValueAsLong(long duration, long instant) {
         return getWrappedField().getValueAsLong(duration, instant) / iScalar;
     }
 
+    @Impure
     public long getMillis(int value) {
         long scaled = ((long) value) * ((long) iScalar);
         return getWrappedField().getMillis(scaled);
     }
 
+    @Impure
     public long getMillis(long value) {
         long scaled = FieldUtils.safeMultiply(value, iScalar);
         return getWrappedField().getMillis(scaled);
     }
 
+    @Impure
     public long getMillis(int value, long instant) {
         long scaled = ((long) value) * ((long) iScalar);
         return getWrappedField().getMillis(scaled, instant);
     }
 
+    @Impure
     public long getMillis(long value, long instant) {
         long scaled = FieldUtils.safeMultiply(value, iScalar);
         return getWrappedField().getMillis(scaled, instant);
     }
 
+    @Impure
     public long add(long instant, int value) {
         long scaled = ((long) value) * ((long) iScalar);
         return getWrappedField().add(instant, scaled);
     }
 
+    @Impure
     public long add(long instant, long value) {
         long scaled = FieldUtils.safeMultiply(value, iScalar);
         return getWrappedField().add(instant, scaled);
     }
 
+    @Impure
     public int getDifference(long minuendInstant, long subtrahendInstant) {
         return getWrappedField().getDifference(minuendInstant, subtrahendInstant) / iScalar;
     }
 
+    @Impure
     public long getDifferenceAsLong(long minuendInstant, long subtrahendInstant) {
         return getWrappedField().getDifferenceAsLong(minuendInstant, subtrahendInstant) / iScalar;
     }
 
+    @Impure
     public long getUnitMillis() {
         return getWrappedField().getUnitMillis() * iScalar;
     }
@@ -115,6 +131,7 @@ public class ScaledDurationField extends DecoratedDurationField {
      * 
      * @return the scalar
      */
+    @Pure
     public int getScalar() {
         return iScalar;
     }
@@ -126,6 +143,8 @@ public class ScaledDurationField extends DecoratedDurationField {
      * @param obj  the object to compare to
      * @return if equal
      */
+    @Pure
+    @Impure
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -143,6 +162,8 @@ public class ScaledDurationField extends DecoratedDurationField {
      * 
      * @return a suitable hashcode
      */
+    @Pure
+    @Impure
     public int hashCode() {
         long scalar = iScalar;
         int hash = (int) (scalar ^ (scalar >>> 32));

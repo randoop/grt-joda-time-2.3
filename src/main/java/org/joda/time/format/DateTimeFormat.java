@@ -15,6 +15,9 @@
  */
 package org.joda.time.format;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.DateFormat;
@@ -150,6 +153,7 @@ public class DateTimeFormat {
     /** Maps patterns to formatters via LRU, patterns don't vary by locale. */
     private static final Map<String, DateTimeFormatter> PATTERN_CACHE = new LinkedHashMap<String, DateTimeFormatter>(7) {
         private static final long serialVersionUID = 23L;
+        @Pure
         @Override
         protected boolean removeEldestEntry(final Map.Entry<String, DateTimeFormatter> eldest) {
             return size() > PATTERN_CACHE_SIZE;
@@ -177,6 +181,7 @@ public class DateTimeFormat {
      * @return the formatter
      * @throws IllegalArgumentException if the pattern is invalid
      */
+    @Impure
     public static DateTimeFormatter forPattern(String pattern) {
         return createFormatterForPattern(pattern);
     }
@@ -201,6 +206,7 @@ public class DateTimeFormat {
      * @return the formatter
      * @throws IllegalArgumentException if the style is invalid
      */
+    @Impure
     public static DateTimeFormatter forStyle(String style) {
         return createFormatterForStyle(style);
     }
@@ -219,6 +225,7 @@ public class DateTimeFormat {
      * @throws IllegalArgumentException if the style is invalid
      * @since 1.3
      */
+    @Impure
     public static String patternForStyle(String style, Locale locale) {
         DateTimeFormatter formatter = createFormatterForStyle(style);
         if (locale == null) {
@@ -237,6 +244,7 @@ public class DateTimeFormat {
      * 
      * @return the formatter
      */
+    @Impure
     public static DateTimeFormatter shortDate() {
         return createFormatterForStyleIndex(SHORT, NONE);
     }
@@ -249,6 +257,7 @@ public class DateTimeFormat {
      * 
      * @return the formatter
      */
+    @Impure
     public static DateTimeFormatter shortTime() {
         return createFormatterForStyleIndex(NONE, SHORT);
     }
@@ -261,6 +270,7 @@ public class DateTimeFormat {
      * 
      * @return the formatter
      */
+    @Impure
     public static DateTimeFormatter shortDateTime() {
         return createFormatterForStyleIndex(SHORT, SHORT);
     }
@@ -274,6 +284,7 @@ public class DateTimeFormat {
      * 
      * @return the formatter
      */
+    @Impure
     public static DateTimeFormatter mediumDate() {
         return createFormatterForStyleIndex(MEDIUM, NONE);
     }
@@ -286,6 +297,7 @@ public class DateTimeFormat {
      * 
      * @return the formatter
      */
+    @Impure
     public static DateTimeFormatter mediumTime() {
         return createFormatterForStyleIndex(NONE, MEDIUM);
     }
@@ -298,6 +310,7 @@ public class DateTimeFormat {
      * 
      * @return the formatter
      */
+    @Impure
     public static DateTimeFormatter mediumDateTime() {
         return createFormatterForStyleIndex(MEDIUM, MEDIUM);
     }
@@ -311,6 +324,7 @@ public class DateTimeFormat {
      * 
      * @return the formatter
      */
+    @Impure
     public static DateTimeFormatter longDate() {
         return createFormatterForStyleIndex(LONG, NONE);
     }
@@ -323,6 +337,7 @@ public class DateTimeFormat {
      * 
      * @return the formatter
      */
+    @Impure
     public static DateTimeFormatter longTime() {
         return createFormatterForStyleIndex(NONE, LONG);
     }
@@ -335,6 +350,7 @@ public class DateTimeFormat {
      * 
      * @return the formatter
      */
+    @Impure
     public static DateTimeFormatter longDateTime() {
         return createFormatterForStyleIndex(LONG, LONG);
     }
@@ -348,6 +364,7 @@ public class DateTimeFormat {
      * 
      * @return the formatter
      */
+    @Impure
     public static DateTimeFormatter fullDate() {
         return createFormatterForStyleIndex(FULL, NONE);
     }
@@ -360,6 +377,7 @@ public class DateTimeFormat {
      * 
      * @return the formatter
      */
+    @Impure
     public static DateTimeFormatter fullTime() {
         return createFormatterForStyleIndex(NONE, FULL);
     }
@@ -372,6 +390,7 @@ public class DateTimeFormat {
      * 
      * @return the formatter
      */
+    @Impure
     public static DateTimeFormatter fullDateTime() {
         return createFormatterForStyleIndex(FULL, FULL);
     }
@@ -384,6 +403,7 @@ public class DateTimeFormat {
      * @param pattern  pattern specification
      * @throws IllegalArgumentException if the pattern is invalid
      */
+    @Impure
     static void appendPatternTo(DateTimeFormatterBuilder builder, String pattern) {
         parsePatternTo(builder, pattern);
     }
@@ -407,6 +427,7 @@ public class DateTimeFormat {
      * @throws IllegalArgumentException if the pattern is invalid
      * @see #forPattern
      */
+    @Impure
     private static void parsePatternTo(DateTimeFormatterBuilder builder, String pattern) {
         int length = pattern.length();
         int[] indexRef = new int[1];
@@ -581,6 +602,7 @@ public class DateTimeFormat {
      *  location and the output is the location after parsing the token
      * @return the parsed token
      */
+    @Impure
     private static String parseToken(String pattern, int[] indexRef) {
         StringBuilder buf = new StringBuilder();
 
@@ -639,6 +661,7 @@ public class DateTimeFormat {
      * @param token  the token to parse
      * @return true if numeric field
      */
+    @Pure
     private static boolean isNumericToken(String token) {
         int tokenLen = token.length();
         if (tokenLen > 0) {
@@ -681,6 +704,7 @@ public class DateTimeFormat {
      * @throws IllegalArgumentException if the pattern is invalid
      * @see #appendPatternTo
      */
+    @Impure
     private static DateTimeFormatter createFormatterForPattern(String pattern) {
         if (pattern == null || pattern.length() == 0) {
             throw new IllegalArgumentException("Invalid pattern specification");
@@ -708,6 +732,7 @@ public class DateTimeFormat {
      * @param style  two characters from the set {"S", "M", "L", "F", "-"}
      * @throws IllegalArgumentException if the style is invalid
      */
+    @Impure
     private static DateTimeFormatter createFormatterForStyle(String style) {
         if (style == null || style.length() != 2) {
             throw new IllegalArgumentException("Invalid style specification: " + style);
@@ -727,6 +752,7 @@ public class DateTimeFormat {
      * @param timeStyle  the time style
      * @return the formatter
      */
+    @Impure
     private static DateTimeFormatter createFormatterForStyleIndex(int dateStyle, int timeStyle) {
         int index = ((dateStyle << 2) + dateStyle) + timeStyle;
         // Should never happen but do a double check...
@@ -750,6 +776,8 @@ public class DateTimeFormat {
      * @param timeStyle  the time style
      * @return the formatter
      */
+    @SideEffectFree
+    @Impure
     private static DateTimeFormatter createDateTimeFormatter(int dateStyle, int timeStyle){
         int type = DATETIME;
         if (dateStyle == NONE) {
@@ -767,6 +795,7 @@ public class DateTimeFormat {
      * @param ch  the Joda style code
      * @return the JDK style code
      */
+    @Pure
     private static int selectStyle(char ch) {
         switch (ch) {
         case 'S':
@@ -794,6 +823,7 @@ public class DateTimeFormat {
         private final int iTimeStyle;
         private final int iType;
 
+        @SideEffectFree
         StyleFormatter(int dateStyle, int timeStyle, int type) {
             super();
             iDateStyle = dateStyle;
@@ -801,10 +831,12 @@ public class DateTimeFormat {
             iType = type;
         }
 
+        @Pure
         public int estimatePrintedLength() {
             return 40;  // guess
         }
 
+        @Impure
         public void printTo(
                 StringBuffer buf, long instant, Chronology chrono,
                 int displayOffset, DateTimeZone displayZone, Locale locale) {
@@ -812,6 +844,7 @@ public class DateTimeFormat {
             p.printTo(buf, instant, chrono, displayOffset, displayZone, locale);
         }
 
+        @Impure
         public void printTo(
                 Writer out, long instant, Chronology chrono,
                 int displayOffset, DateTimeZone displayZone, Locale locale) throws IOException {
@@ -819,25 +852,30 @@ public class DateTimeFormat {
             p.printTo(out, instant, chrono, displayOffset, displayZone, locale);
         }
 
+        @Impure
         public void printTo(StringBuffer buf, ReadablePartial partial, Locale locale) {
             DateTimePrinter p = getFormatter(locale).getPrinter();
             p.printTo(buf, partial, locale);
         }
 
+        @Impure
         public void printTo(Writer out, ReadablePartial partial, Locale locale) throws IOException {
             DateTimePrinter p = getFormatter(locale).getPrinter();
             p.printTo(out, partial, locale);
         }
 
+        @Pure
         public int estimateParsedLength() {
             return 40;  // guess
         }
 
+        @Impure
         public int parseInto(DateTimeParserBucket bucket, String text, int position) {
             DateTimeParser p = getFormatter(bucket.getLocale()).getParser();
             return p.parseInto(bucket, text, position);
         }
 
+        @Impure
         private DateTimeFormatter getFormatter(Locale locale) {
             locale = (locale == null ? Locale.getDefault() : locale);
             String key = Integer.toString(iType + (iDateStyle << 4) + (iTimeStyle << 8)) + locale.toString();
@@ -853,6 +891,7 @@ public class DateTimeFormat {
             return f;
         }
 
+        @Impure
         String getPattern(Locale locale) {
             DateFormat f = null;
             switch (iType) {

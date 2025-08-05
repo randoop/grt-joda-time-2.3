@@ -14,6 +14,9 @@
  *  limitations under the License.
  */
 package org.joda.time.convert;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 
 /**
  * A set of converters, which allows exact converters to be quickly
@@ -29,6 +32,7 @@ class ConverterSet {
     // power of 2, at least one null slot.
     private Entry[] iSelectEntries;
 
+    @SideEffectFree
     ConverterSet(Converter[] converters) {
         // Since this is a package private constructor, we trust ourselves not
         // to alter the array outside this class.
@@ -44,6 +48,7 @@ class ConverterSet {
      * @throws IllegalStateException if multiple converters match the type
      * equally well
      */
+    @Impure
     Converter select(Class<?> type) throws IllegalStateException {
         // Check the hashtable first.
         Entry[] entries = iSelectEntries;
@@ -114,6 +119,7 @@ class ConverterSet {
     /**
      * Returns the amount of converters in the set.
      */
+    @Pure
     int size() {
         return iConverters.length;
     }
@@ -121,6 +127,7 @@ class ConverterSet {
     /**
      * Copies all the converters in the set to the given array.
      */
+    @SideEffectFree
     void copyInto(Converter[] converters) {
         System.arraycopy(iConverters, 0, converters, 0, iConverters.length);
     }
@@ -135,6 +142,7 @@ class ConverterSet {
      * @param removed  if not null, element 0 is set to the removed converter
      * @throws NullPointerException if converter is null
      */
+    @Impure
     ConverterSet add(Converter converter, Converter[] removed) {
         Converter[] converters = iConverters;
         int length = converters.length;
@@ -187,6 +195,7 @@ class ConverterSet {
      * @param removed  if not null, element 0 is set to the removed converter
      * @throws NullPointerException if converter is null
      */
+    @Impure
     ConverterSet remove(Converter converter, Converter[] removed) {
         Converter[] converters = iConverters;
         int length = converters.length;
@@ -212,6 +221,7 @@ class ConverterSet {
      * @param removed if not null, element 0 is set to the removed converter
      * @throws IndexOutOfBoundsException if the index is invalid
      */
+    @Impure
     ConverterSet remove(final int index, Converter[] removed) {
         Converter[] converters = iConverters;
         int length = converters.length;
@@ -239,6 +249,7 @@ class ConverterSet {
      * Returns the closest matching converter for the given type, but not very
      * efficiently.
      */
+    @Impure
     private static Converter selectSlow(ConverterSet set, Class<?> type) {
         Converter[] converters = set.iConverters;
         int length = converters.length;
@@ -319,6 +330,7 @@ class ConverterSet {
         final Class<?> iType;
         final Converter iConverter;
 
+        @SideEffectFree
         Entry(Class<?> type, Converter converter) {
             iType = type;
             iConverter = converter;

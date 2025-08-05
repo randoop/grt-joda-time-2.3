@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 package org.joda.time;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * Defines a time period specified in terms of individual duration fields
@@ -48,6 +50,7 @@ public interface ReadablePeriod {
      *
      * @return the period type
      */
+    @Impure
     PeriodType getPeriodType();
 
     /**
@@ -55,6 +58,7 @@ public interface ReadablePeriod {
      *
      * @return the number of fields supported
      */
+    @Impure
     int size();
 
     /**
@@ -64,6 +68,7 @@ public interface ReadablePeriod {
      * @return the field at the specified index
      * @throws IndexOutOfBoundsException if the index is invalid
      */
+    @Impure
     DurationFieldType getFieldType(int index);
 
     /**
@@ -73,6 +78,8 @@ public interface ReadablePeriod {
      * @return the value of the field at the specified index
      * @throws IndexOutOfBoundsException if the index is invalid
      */
+    @SideEffectFree
+    @Impure
     int getValue(int index);
 
     /**
@@ -84,6 +91,7 @@ public interface ReadablePeriod {
      * @param field  the field type to query, null returns zero
      * @return the value of that field, zero if field not supported
      */
+    @Impure
     int get(DurationFieldType field);
 
     /**
@@ -92,6 +100,7 @@ public interface ReadablePeriod {
      * @param field  the field to check, may be null which returns false
      * @return true if the field is supported
      */
+    @Impure
     boolean isSupported(DurationFieldType field);
 
     //-----------------------------------------------------------------------
@@ -102,6 +111,7 @@ public interface ReadablePeriod {
      * 
      * @return a Duration using the same field set and values
      */
+    @Impure
     Period toPeriod();
 
     /**
@@ -111,6 +121,7 @@ public interface ReadablePeriod {
      * 
      * @return a MutablePeriod using the same field set and values
      */
+    @Impure
     MutablePeriod toMutablePeriod();
 
     //-----------------------------------------------------------------------
@@ -135,6 +146,7 @@ public interface ReadablePeriod {
      * @return true if all the field values and types are equal, false if
      *  not or the period is null or of an incorrect type
      */
+    @Impure
     boolean equals(Object readablePeriod);
 
     /**
@@ -151,6 +163,7 @@ public interface ReadablePeriod {
      *
      * @return a hash code
      */
+    @Impure
     int hashCode();
 
     //-----------------------------------------------------------------------
@@ -162,6 +175,7 @@ public interface ReadablePeriod {
      *
      * @return the value as an ISO8601 style string
      */
+    @Impure
     String toString();
 
 }

@@ -15,6 +15,9 @@
  */
 package org.joda.time.convert;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.time.Chronology;
 import org.joda.time.DateTimeUtils;
 import org.joda.time.ReadWritableInterval;
@@ -38,6 +41,8 @@ class ReadableIntervalConverter extends AbstractConverter
     /**
      * Restricted constructor.
      */
+    @SideEffectFree
+    @Impure
     protected ReadableIntervalConverter() {
         super();
     }
@@ -48,6 +53,8 @@ class ReadableIntervalConverter extends AbstractConverter
      * 
      * @param object  the interval
      */
+    @Pure
+    @Impure
     public long getDurationMillis(Object object) {
         return (((ReadableInterval) object)).toDurationMillis();
     }
@@ -60,6 +67,7 @@ class ReadableIntervalConverter extends AbstractConverter
      * @param object  the interval to set from
      * @param chrono  the chronology to use
      */
+    @Impure
     public void setInto(ReadWritablePeriod writablePeriod, Object object, Chronology chrono) {
         ReadableInterval interval = (ReadableInterval) object;
         chrono = (chrono != null ? chrono : DateTimeUtils.getIntervalChronology(interval));
@@ -82,6 +90,7 @@ class ReadableIntervalConverter extends AbstractConverter
      * @return true if the input is a ReadableInterval
      * @throws ClassCastException if the object is invalid
      */
+    @Pure
     public boolean isReadableInterval(Object object, Chronology chrono) {
         return true;
     }
@@ -95,6 +104,7 @@ class ReadableIntervalConverter extends AbstractConverter
      * @param chrono  the chronology to use, may be null
      * @throws ClassCastException if the object is invalid
      */
+    @Impure
     public void setInto(ReadWritableInterval writableInterval, Object object, Chronology chrono) {
         ReadableInterval input = (ReadableInterval) object;
         writableInterval.setInterval(input);
@@ -109,6 +119,7 @@ class ReadableIntervalConverter extends AbstractConverter
     /**
      * Returns ReadableInterval.class.
      */
+    @Pure
     public Class<?> getSupportedType() {
         return ReadableInterval.class;
     }

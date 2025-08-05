@@ -15,6 +15,9 @@
  */
 package org.joda.time.convert;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.time.Chronology;
 import org.joda.time.PeriodType;
 import org.joda.time.ReadWritablePeriod;
@@ -38,6 +41,8 @@ class ReadablePeriodConverter extends AbstractConverter
     /**
      * Restricted constructor.
      */
+    @SideEffectFree
+    @Impure
     protected ReadablePeriodConverter() {
         super();
     }
@@ -54,6 +59,7 @@ class ReadablePeriodConverter extends AbstractConverter
      * @throws ClassCastException if the object is an invalid type
      * @throws IllegalArgumentException if the object is invalid
      */
+    @Impure
     public void setInto(ReadWritablePeriod duration, Object object, Chronology chrono) {
         duration.setPeriod((ReadablePeriod) object);
     }
@@ -66,6 +72,7 @@ class ReadablePeriodConverter extends AbstractConverter
      * @throws NullPointerException if the object is null
      * @throws ClassCastException if the object is an invalid type
      */
+    @Impure
     public PeriodType getPeriodType(Object object) {
         ReadablePeriod period = (ReadablePeriod) object;
         return period.getPeriodType();
@@ -77,6 +84,7 @@ class ReadablePeriodConverter extends AbstractConverter
      * 
      * @return ReadablePeriod.class
      */
+    @Pure
     public Class<?> getSupportedType() {
         return ReadablePeriod.class;
     }

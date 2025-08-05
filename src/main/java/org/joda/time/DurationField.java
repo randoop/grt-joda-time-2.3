@@ -14,6 +14,9 @@
  *  limitations under the License.
  */
 package org.joda.time;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * Defines the calculation engine for duration fields.
@@ -34,6 +37,8 @@ public abstract class DurationField implements Comparable<DurationField> {
      * 
      * @return field type
      */
+    @Pure
+    @Impure
     public abstract DurationFieldType getType();
 
     /**
@@ -43,6 +48,8 @@ public abstract class DurationField implements Comparable<DurationField> {
      * 
      * @return field name
      */
+    @Pure
+    @Impure
     public abstract String getName();
 
     /**
@@ -50,6 +57,7 @@ public abstract class DurationField implements Comparable<DurationField> {
      * 
      * @return true if this field is supported
      */
+    @Impure
     public abstract boolean isSupported();
 
     /**
@@ -60,6 +68,7 @@ public abstract class DurationField implements Comparable<DurationField> {
      * @return true if precise
      * @see #getUnitMillis()
      */
+    @Impure
     public abstract boolean isPrecise();
     
     /**
@@ -73,6 +82,7 @@ public abstract class DurationField implements Comparable<DurationField> {
      * @return the unit size of this field, in milliseconds
      * @see #isPrecise()
      */
+    @Impure
     public abstract long getUnitMillis();
 
     //------------------------------------------------------------------------
@@ -85,6 +95,7 @@ public abstract class DurationField implements Comparable<DurationField> {
      * negative
      * @throws ArithmeticException if the value is too large for an int
      */
+    @Impure
     public abstract int getValue(long duration);
 
     /**
@@ -95,6 +106,7 @@ public abstract class DurationField implements Comparable<DurationField> {
      * @return the value of the field, in the units of the field, which may be
      * negative
      */
+    @Impure
     public abstract long getValueAsLong(long duration);
 
     /**
@@ -111,6 +123,7 @@ public abstract class DurationField implements Comparable<DurationField> {
      * negative
      * @throws ArithmeticException if the value is too large for an int
      */
+    @Impure
     public abstract int getValue(long duration, long instant);
 
     /**
@@ -126,6 +139,7 @@ public abstract class DurationField implements Comparable<DurationField> {
      * @return the value of the field, in the units of the field, which may be
      * negative
      */
+    @Impure
     public abstract long getValueAsLong(long duration, long instant);
 
     //------------------------------------------------------------------------
@@ -137,6 +151,7 @@ public abstract class DurationField implements Comparable<DurationField> {
      * @return the milliseconds that the field represents, which may be
      * negative
      */
+    @Impure
     public abstract long getMillis(int value);
 
     /**
@@ -147,6 +162,7 @@ public abstract class DurationField implements Comparable<DurationField> {
      * @return the milliseconds that the field represents, which may be
      * negative
      */
+    @Impure
     public abstract long getMillis(long value);
 
     /**
@@ -162,6 +178,7 @@ public abstract class DurationField implements Comparable<DurationField> {
      * @return the millisecond duration that the field represents, which may be
      * negative
      */
+    @Impure
     public abstract long getMillis(int value, long instant);
 
     /**
@@ -177,6 +194,7 @@ public abstract class DurationField implements Comparable<DurationField> {
      * @return the millisecond duration that the field represents, which may be
      * negative
      */
+    @Impure
     public abstract long getMillis(long value, long instant);
 
     /**
@@ -186,6 +204,7 @@ public abstract class DurationField implements Comparable<DurationField> {
      * @param value  the value to add, in the units of the field
      * @return the updated milliseconds
      */
+    @Impure
     public abstract long add(long instant, int value);
 
     /**
@@ -195,6 +214,7 @@ public abstract class DurationField implements Comparable<DurationField> {
      * @param value  the value to add, in the units of the field
      * @return the updated milliseconds
      */
+    @Impure
     public abstract long add(long instant, long value);
 
     /**
@@ -205,6 +225,7 @@ public abstract class DurationField implements Comparable<DurationField> {
      * @return the updated milliseconds
      * @since 1.1
      */
+    @Impure
     public long subtract(long instant, int value) {
         if (value == Integer.MIN_VALUE) {
             return subtract(instant, (long) value);
@@ -220,6 +241,7 @@ public abstract class DurationField implements Comparable<DurationField> {
      * @return the updated milliseconds
      * @since 1.1
      */
+    @Impure
     public long subtract(long instant, long value) {
         if (value == Long.MIN_VALUE) {
             throw new ArithmeticException("Long.MIN_VALUE cannot be negated");
@@ -246,6 +268,7 @@ public abstract class DurationField implements Comparable<DurationField> {
      * subtract off the minuend
      * @return the difference in the units of this field
      */
+    @Impure
     public abstract int getDifference(long minuendInstant, long subtrahendInstant);
 
     /**
@@ -267,6 +290,7 @@ public abstract class DurationField implements Comparable<DurationField> {
      * subtract off the minuend
      * @return the difference in the units of this field
      */
+    @Impure
     public abstract long getDifferenceAsLong(long minuendInstant, long subtrahendInstant);
 
     // Adding this definition would be backwards incompatible with earlier subclasses
@@ -315,6 +339,8 @@ public abstract class DurationField implements Comparable<DurationField> {
      * 
      * @return debug string
      */
+    @SideEffectFree
+    @Impure
     public abstract String toString();
     
 }

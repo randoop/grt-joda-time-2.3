@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 package org.joda.time.convert;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * DurationConverter defines how an object is converted to a millisecond duration.
@@ -31,6 +33,8 @@ public interface DurationConverter extends Converter {
      * @return the millisecond duration
      * @throws ClassCastException if the object is invalid
      */
+    @SideEffectFree
+    @Impure
     long getDurationMillis(Object object);
 
 }

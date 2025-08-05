@@ -15,6 +15,8 @@
  */
 package org.joda.time.chrono;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.DurationField;
 import org.joda.time.field.FieldUtils;
@@ -42,19 +44,23 @@ class BasicYearDateTimeField extends ImpreciseDateTimeField {
      * 
      * @param chronology  the chronology this field belogs to
      */
+    @Impure
     BasicYearDateTimeField(BasicChronology chronology) {
         super(DateTimeFieldType.year(), chronology.getAverageMillisPerYear());
         iChronology = chronology;
     }
 
+    @Pure
     public boolean isLenient() {
         return false;
     }
 
+    @Impure
     public int get(long instant) {
         return iChronology.getYear(instant);
     }
 
+    @Impure
     public long add(long instant, int years) {
         if (years == 0) {
             return instant;
@@ -64,10 +70,12 @@ class BasicYearDateTimeField extends ImpreciseDateTimeField {
         return set(instant, newYear);
     }
 
+    @Impure
     public long add(long instant, long years) {
         return add(instant, FieldUtils.safeToInt(years));
     }
 
+    @Impure
     public long addWrapField(long instant, int years) {
         if (years == 0) {
             return instant;
@@ -79,12 +87,14 @@ class BasicYearDateTimeField extends ImpreciseDateTimeField {
         return set(instant, wrappedYear);
     }
 
+    @Impure
     public long set(long instant, int year) {
         FieldUtils.verifyValueBounds
             (this, year, iChronology.getMinYear(), iChronology.getMaxYear());
         return iChronology.setYear(instant, year);
     }
 
+    @Impure
     public long getDifferenceAsLong(long minuendInstant, long subtrahendInstant) {
         if (minuendInstant < subtrahendInstant) {
             return -iChronology.getYearDifference(subtrahendInstant, minuendInstant);
@@ -92,14 +102,17 @@ class BasicYearDateTimeField extends ImpreciseDateTimeField {
         return iChronology.getYearDifference(minuendInstant, subtrahendInstant);
     }
 
+    @Pure
     public DurationField getRangeDurationField() {
         return null;
     }
 
+    @Impure
     public boolean isLeap(long instant) {
         return iChronology.isLeapYear(get(instant));
     }
 
+    @Impure
     public int getLeapAmount(long instant) {
         if (iChronology.isLeapYear(get(instant))) {
             return 1;
@@ -108,22 +121,30 @@ class BasicYearDateTimeField extends ImpreciseDateTimeField {
         }
     }
 
+    @Pure
+    @Impure
     public DurationField getLeapDurationField() {
         return iChronology.days();
     }
 
+    @Pure
+    @Impure
     public int getMinimumValue() {
         return iChronology.getMinYear();
     }
 
+    @Pure
+    @Impure
     public int getMaximumValue() {
         return iChronology.getMaxYear();
     }
 
+    @Impure
     public long roundFloor(long instant) {
         return iChronology.getYearMillis(get(instant));
     }
 
+    @Impure
     public long roundCeiling(long instant) {
         int year = get(instant);
         long yearStartMillis = iChronology.getYearMillis(year);
@@ -134,6 +155,7 @@ class BasicYearDateTimeField extends ImpreciseDateTimeField {
         return instant;
     }
 
+    @Impure
     public long remainder(long instant) {
         return instant - roundFloor(instant);
     }
@@ -141,6 +163,8 @@ class BasicYearDateTimeField extends ImpreciseDateTimeField {
     /**
      * Serialization singleton
      */
+    @Pure
+    @Impure
     private Object readResolve() {
         return iChronology.year();
     }

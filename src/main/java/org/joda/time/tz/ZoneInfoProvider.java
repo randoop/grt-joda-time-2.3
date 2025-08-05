@@ -15,6 +15,7 @@
  */
 package org.joda.time.tz;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -53,6 +54,7 @@ public class ZoneInfoProvider implements Provider {
      *
      * @throws IOException if directory or map file cannot be read
      */
+    @Impure
     public ZoneInfoProvider(File fileDir) throws IOException {
         if (fileDir == null) {
             throw new IllegalArgumentException("No file directory provided");
@@ -78,6 +80,7 @@ public class ZoneInfoProvider implements Provider {
      *
      * @throws IOException if directory or map file cannot be read
      */
+    @Impure
     public ZoneInfoProvider(String resourcePath) throws IOException {
         this(resourcePath, null, false);
     }
@@ -90,6 +93,7 @@ public class ZoneInfoProvider implements Provider {
      * use system ClassLoader.
      * @throws IOException if directory or map file cannot be read
      */
+    @Impure
     public ZoneInfoProvider(String resourcePath, ClassLoader loader)
         throws IOException
     {
@@ -100,6 +104,7 @@ public class ZoneInfoProvider implements Provider {
      * @param favorSystemLoader when true, use the system class loader if
      * loader null. When false, use the current class loader if loader is null.
      */
+    @Impure
     private ZoneInfoProvider(String resourcePath,
                              ClassLoader loader, boolean favorSystemLoader) 
         throws IOException
@@ -132,6 +137,7 @@ public class ZoneInfoProvider implements Provider {
      * @param id  the id to load
      * @return the loaded zone
      */
+    @Impure
     public DateTimeZone getZone(String id) {
         if (id == null) {
             return null;
@@ -167,6 +173,7 @@ public class ZoneInfoProvider implements Provider {
      * 
      * @return the zone ids
      */
+    @Impure
     public Set<String> getAvailableIDs() {
         // Return a copy of the keys rather than an umodifiable collection.
         // This prevents ConcurrentModificationExceptions from being thrown by
@@ -179,6 +186,7 @@ public class ZoneInfoProvider implements Provider {
      * 
      * @param ex  the exception
      */
+    @Impure
     protected void uncaughtException(Exception ex) {
         Thread t = Thread.currentThread();
         t.getThreadGroup().uncaughtException(t, ex);
@@ -191,6 +199,7 @@ public class ZoneInfoProvider implements Provider {
      * @return the input stream
      * @throws IOException if an error occurs
      */
+    @Impure
     @SuppressWarnings("resource")
     private InputStream openResource(String name) throws IOException {
         InputStream in;
@@ -221,6 +230,7 @@ public class ZoneInfoProvider implements Provider {
      * @param id  the id to load
      * @return the zone
      */
+    @Impure
     private DateTimeZone loadZoneData(String id) {
         InputStream in = null;
         try {
@@ -249,6 +259,7 @@ public class ZoneInfoProvider implements Provider {
      * @param in  the input stream
      * @return the map
      */
+    @Impure
     private static Map<String, Object> loadZoneInfoMap(InputStream in) throws IOException {
         Map<String, Object> map = new ConcurrentHashMap<String, Object>();
         DataInputStream din = new DataInputStream(in);
@@ -270,6 +281,7 @@ public class ZoneInfoProvider implements Provider {
      * @param din  the input stream
      * @param zimap  gets filled with string id to string id mappings
      */
+    @Impure
     private static void readZoneInfoMap(DataInputStream din, Map<String, Object> zimap) throws IOException {
         // Read the string pool.
         int size = din.readUnsignedShort();

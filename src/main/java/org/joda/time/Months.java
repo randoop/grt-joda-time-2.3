@@ -15,6 +15,9 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.convert.FromString;
 import org.joda.convert.ToString;
 import org.joda.time.base.BaseSingleFieldPeriod;
@@ -86,6 +89,8 @@ public final class Months extends BaseSingleFieldPeriod {
      * @param months  the number of months to obtain an instance for
      * @return the instance of Months
      */
+    @SideEffectFree
+    @Impure
     public static Months months(int months) {
         switch (months) {
             case 0:
@@ -134,6 +139,7 @@ public final class Months extends BaseSingleFieldPeriod {
      * @return the period in months
      * @throws IllegalArgumentException if the instants are null or invalid
      */
+    @Impure
     public static Months monthsBetween(ReadableInstant start, ReadableInstant end) {
         int amount = BaseSingleFieldPeriod.between(start, end, DurationFieldType.months());
         return Months.months(amount);
@@ -151,6 +157,7 @@ public final class Months extends BaseSingleFieldPeriod {
      * @return the period in months
      * @throws IllegalArgumentException if the partials are null or invalid
      */
+    @Impure
     public static Months monthsBetween(ReadablePartial start, ReadablePartial end) {
         if (start instanceof LocalDate && end instanceof LocalDate)   {
             Chronology chrono = DateTimeUtils.getChronology(start.getChronology());
@@ -171,6 +178,7 @@ public final class Months extends BaseSingleFieldPeriod {
      * @return the period in months
      * @throws IllegalArgumentException if the partials are null or invalid
      */
+    @Impure
     public static Months monthsIn(ReadableInterval interval) {
         if (interval == null)   {
             return Months.ZERO;
@@ -190,6 +198,7 @@ public final class Months extends BaseSingleFieldPeriod {
      * @return the period in months
      * @throws IllegalArgumentException if the string format is invalid
      */
+    @Impure
     @FromString
     public static Months parseMonths(String periodStr) {
         if (periodStr == null) {
@@ -207,6 +216,8 @@ public final class Months extends BaseSingleFieldPeriod {
      *
      * @param months  the number of months to represent
      */
+    @SideEffectFree
+    @Impure
     private Months(int months) {
         super(months);
     }
@@ -216,6 +227,8 @@ public final class Months extends BaseSingleFieldPeriod {
      * 
      * @return the singleton instance
      */
+    @SideEffectFree
+    @Impure
     private Object readResolve() {
         return Months.months(getValue());
     }
@@ -226,6 +239,8 @@ public final class Months extends BaseSingleFieldPeriod {
      *
      * @return the period type
      */
+    @Pure
+    @Impure
     public DurationFieldType getFieldType() {
         return DurationFieldType.months();
     }
@@ -235,6 +250,7 @@ public final class Months extends BaseSingleFieldPeriod {
      *
      * @return the period type
      */
+    @Impure
     public PeriodType getPeriodType() {
         return PeriodType.months();
     }
@@ -245,6 +261,8 @@ public final class Months extends BaseSingleFieldPeriod {
      *
      * @return the number of months in the period
      */
+    @Pure
+    @Impure
     public int getMonths() {
         return getValue();
     }
@@ -259,6 +277,8 @@ public final class Months extends BaseSingleFieldPeriod {
      * @return the new period plus the specified number of months
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Months plus(int months) {
         if (months == 0) {
             return this;
@@ -275,6 +295,8 @@ public final class Months extends BaseSingleFieldPeriod {
      * @return the new period plus the specified number of months
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Months plus(Months months) {
         if (months == null) {
             return this;
@@ -292,6 +314,8 @@ public final class Months extends BaseSingleFieldPeriod {
      * @return the new period minus the specified number of months
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Months minus(int months) {
         return plus(FieldUtils.safeNegate(months));
     }
@@ -305,6 +329,8 @@ public final class Months extends BaseSingleFieldPeriod {
      * @return the new period minus the specified number of months
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Months minus(Months months) {
         if (months == null) {
             return this;
@@ -322,6 +348,8 @@ public final class Months extends BaseSingleFieldPeriod {
      * @return the new period multiplied by the specified scalar
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Months multipliedBy(int scalar) {
         return Months.months(FieldUtils.safeMultiply(getValue(), scalar));
     }
@@ -336,6 +364,8 @@ public final class Months extends BaseSingleFieldPeriod {
      * @return the new period divided by the specified divisor
      * @throws ArithmeticException if the divisor is zero
      */
+    @SideEffectFree
+    @Impure
     public Months dividedBy(int divisor) {
         if (divisor == 1) {
             return this;
@@ -350,6 +380,8 @@ public final class Months extends BaseSingleFieldPeriod {
      * @return the new period with a negated value
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Months negated() {
         return Months.months(FieldUtils.safeNegate(getValue()));
     }
@@ -361,6 +393,8 @@ public final class Months extends BaseSingleFieldPeriod {
      * @param other  the other period, null means zero
      * @return true if this months instance is greater than the specified one
      */
+    @Pure
+    @Impure
     public boolean isGreaterThan(Months other) {
         if (other == null) {
             return getValue() > 0;
@@ -374,6 +408,8 @@ public final class Months extends BaseSingleFieldPeriod {
      * @param other  the other period, null means zero
      * @return true if this months instance is less than the specified one
      */
+    @Pure
+    @Impure
     public boolean isLessThan(Months other) {
         if (other == null) {
             return getValue() < 0;
@@ -389,6 +425,8 @@ public final class Months extends BaseSingleFieldPeriod {
      *
      * @return the value as an ISO8601 string
      */
+    @SideEffectFree
+    @Impure
     @ToString
     public String toString() {
         return "P" + String.valueOf(getValue()) + "M";

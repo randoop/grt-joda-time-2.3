@@ -15,6 +15,8 @@
  */
 package org.joda.time.tz;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.text.DateFormatSymbols;
 import java.util.HashMap;
 import java.util.Locale;
@@ -36,19 +38,23 @@ public class DefaultNameProvider implements NameProvider {
     // locale -> (id -> (nameKey -> [shortName, name]))
     private HashMap<Locale, Map<String, Map<String, Object>>> iByLocaleCache = createCache();
 
+    @SideEffectFree
     public DefaultNameProvider() {
     }
 
+    @Impure
     public String getShortName(Locale locale, String id, String nameKey) {
         String[] nameSet = getNameSet(locale, id, nameKey);
         return nameSet == null ? null : nameSet[0];
     }
     
+    @Impure
     public String getName(Locale locale, String id, String nameKey) {
         String[] nameSet = getNameSet(locale, id, nameKey);
         return nameSet == null ? null : nameSet[1];
     }
 
+    @Impure
     private synchronized String[] getNameSet(Locale locale, String id, String nameKey) {
         if (locale == null || id == null || nameKey == null) {
             return null;
@@ -95,6 +101,7 @@ public class DefaultNameProvider implements NameProvider {
         return (String[]) byNameKeyCache.get(nameKey);
     }
 
+    @Impure
     private HashMap createCache() {
         return new HashMap(7);
     }

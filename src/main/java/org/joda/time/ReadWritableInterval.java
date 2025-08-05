@@ -14,6 +14,7 @@
  *  limitations under the License.
  */
 package org.joda.time;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * Writable interface for an interval.
@@ -31,6 +32,7 @@ public interface ReadWritableInterval extends ReadableInterval {
      * @param endInstant  the start of the time interval
      * @throws IllegalArgumentException if the end is before the start
      */
+    @Impure
     void setInterval(long startInstant, long endInstant);
 
     /**
@@ -39,6 +41,7 @@ public interface ReadWritableInterval extends ReadableInterval {
      * @param interval  the interval to copy
      * @throws IllegalArgumentException if the end is before the start
      */
+    @Impure
     void setInterval(ReadableInterval interval);
 
     /**
@@ -48,6 +51,7 @@ public interface ReadWritableInterval extends ReadableInterval {
      * @param endInstant  the start of the time interval
      * @throws IllegalArgumentException if the end is before the start
      */
+    @Impure
     void setInterval(ReadableInstant startInstant, ReadableInstant endInstant);
 
     //-----------------------------------------------------------------------
@@ -56,6 +60,7 @@ public interface ReadWritableInterval extends ReadableInterval {
      *
      * @param chrono  the chronology to use, null means ISO default
      */
+    @Impure
     void setChronology(Chronology chrono);
 
     //-----------------------------------------------------------------------
@@ -66,6 +71,7 @@ public interface ReadWritableInterval extends ReadableInterval {
      *  millisecond instant from 1970-01-01T00:00:00Z
      * @throws IllegalArgumentException if the end is before the start
      */
+    @Impure
     void setStartMillis(long millisInstant);
 
     /**
@@ -74,6 +80,7 @@ public interface ReadWritableInterval extends ReadableInterval {
      * @param instant  the start of the time interval
      * @throws IllegalArgumentException if the end is before the start
      */
+    @Impure
     void setStart(ReadableInstant instant);
 
     //-----------------------------------------------------------------------
@@ -84,6 +91,7 @@ public interface ReadWritableInterval extends ReadableInterval {
      *  millisecond instant from 1970-01-01T00:00:00Z
      * @throws IllegalArgumentException if the end is before the start
      */
+    @Impure
     void setEndMillis(long millisInstant);
 
     /** 
@@ -92,6 +100,7 @@ public interface ReadWritableInterval extends ReadableInterval {
      * @param instant  the end of the time interval
      * @throws IllegalArgumentException if the end is before the start
      */
+    @Impure
     void setEnd(ReadableInstant instant);
 
     //-----------------------------------------------------------------------
@@ -102,6 +111,7 @@ public interface ReadWritableInterval extends ReadableInterval {
      * @throws IllegalArgumentException if the end is before the start
      * @throws ArithmeticException if the end instant exceeds the capacity of a long
      */
+    @Impure
     void setDurationAfterStart(ReadableDuration duration);
 
     /**
@@ -111,6 +121,7 @@ public interface ReadWritableInterval extends ReadableInterval {
      * @throws IllegalArgumentException if the end is before the start
      * @throws ArithmeticException if the start instant exceeds the capacity of a long
      */
+    @Impure
     void setDurationBeforeEnd(ReadableDuration duration);
 
     //-----------------------------------------------------------------------
@@ -121,6 +132,7 @@ public interface ReadWritableInterval extends ReadableInterval {
      * @throws IllegalArgumentException if the end is before the start
      * @throws ArithmeticException if the end instant exceeds the capacity of a long
      */
+    @Impure
     void setPeriodAfterStart(ReadablePeriod period);
 
     /**
@@ -130,6 +142,7 @@ public interface ReadWritableInterval extends ReadableInterval {
      * @throws IllegalArgumentException if the end is before the start
      * @throws ArithmeticException if the start instant exceeds the capacity of a long
      */
+    @Impure
     void setPeriodBeforeEnd(ReadablePeriod period);
 
 }

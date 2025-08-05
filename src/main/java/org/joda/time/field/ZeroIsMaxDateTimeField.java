@@ -15,6 +15,8 @@
  */
 package org.joda.time.field;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import org.joda.time.DateTimeField;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.DurationField;
@@ -42,6 +44,7 @@ public final class ZeroIsMaxDateTimeField extends DecoratedDateTimeField {
      * @param type  the field type this field will actually use
      * @throws IllegalArgumentException if wrapped field's minimum value is not zero
      */
+    @Impure
     public ZeroIsMaxDateTimeField(DateTimeField field, DateTimeFieldType type) {
         super(field, type);
         if (field.getMinimumValue() != 0) {
@@ -49,6 +52,7 @@ public final class ZeroIsMaxDateTimeField extends DecoratedDateTimeField {
         }
     }
 
+    @Impure
     public int get(long instant) {
         int value = getWrappedField().get(instant);
         if (value == 0) {
@@ -57,30 +61,37 @@ public final class ZeroIsMaxDateTimeField extends DecoratedDateTimeField {
         return value;
     }
 
+    @Impure
     public long add(long instant, int value) {
         return getWrappedField().add(instant, value);
     }
 
+    @Impure
     public long add(long instant, long value) {
         return getWrappedField().add(instant, value);
     }
 
+    @Impure
     public long addWrapField(long instant, int value) {
         return getWrappedField().addWrapField(instant, value);
     }
 
+    @Impure
     public int[] addWrapField(ReadablePartial instant, int fieldIndex, int[] values, int valueToAdd) {
         return getWrappedField().addWrapField(instant, fieldIndex, values, valueToAdd);
     }
 
+    @Impure
     public int getDifference(long minuendInstant, long subtrahendInstant) {
         return getWrappedField().getDifference(minuendInstant, subtrahendInstant);
     }
 
+    @Impure
     public long getDifferenceAsLong(long minuendInstant, long subtrahendInstant) {
         return getWrappedField().getDifferenceAsLong(minuendInstant, subtrahendInstant);
     }
 
+    @Impure
     public long set(long instant, int value) {
         int max = getMaximumValue();
         FieldUtils.verifyValueBounds(this, value, 1, max);
@@ -90,14 +101,17 @@ public final class ZeroIsMaxDateTimeField extends DecoratedDateTimeField {
         return getWrappedField().set(instant, value);
     }
 
+    @Impure
     public boolean isLeap(long instant) {
         return getWrappedField().isLeap(instant);
     }
 
+    @Impure
     public int getLeapAmount(long instant) {
         return getWrappedField().getLeapAmount(instant);
     }
 
+    @Impure
     public DurationField getLeapDurationField() {
         return getWrappedField().getLeapDurationField();
     }
@@ -107,6 +121,7 @@ public final class ZeroIsMaxDateTimeField extends DecoratedDateTimeField {
      * 
      * @return the minimum value of 1
      */
+    @Pure
     public int getMinimumValue() {
         return 1;
     }
@@ -116,6 +131,7 @@ public final class ZeroIsMaxDateTimeField extends DecoratedDateTimeField {
      * 
      * @return the minimum value of 1
      */
+    @Pure
     public int getMinimumValue(long instant) {
         return 1;
     }
@@ -125,6 +141,7 @@ public final class ZeroIsMaxDateTimeField extends DecoratedDateTimeField {
      * 
      * @return the minimum value of 1
      */
+    @Pure
     public int getMinimumValue(ReadablePartial instant) {
         return 1;
     }
@@ -134,6 +151,7 @@ public final class ZeroIsMaxDateTimeField extends DecoratedDateTimeField {
      * 
      * @return the minimum value of 1
      */
+    @Pure
     public int getMinimumValue(ReadablePartial instant, int[] values) {
         return 1;
     }
@@ -144,6 +162,7 @@ public final class ZeroIsMaxDateTimeField extends DecoratedDateTimeField {
      * 
      * @return the maximum value
      */
+    @Impure
     public int getMaximumValue() {
         return getWrappedField().getMaximumValue() + 1;
     }
@@ -154,6 +173,7 @@ public final class ZeroIsMaxDateTimeField extends DecoratedDateTimeField {
      * 
      * @return the maximum value
      */
+    @Impure
     public int getMaximumValue(long instant) {
         return getWrappedField().getMaximumValue(instant) + 1;
     }
@@ -164,6 +184,7 @@ public final class ZeroIsMaxDateTimeField extends DecoratedDateTimeField {
      * 
      * @return the maximum value
      */
+    @Impure
     public int getMaximumValue(ReadablePartial instant) {
         return getWrappedField().getMaximumValue(instant) + 1;
     }
@@ -174,30 +195,37 @@ public final class ZeroIsMaxDateTimeField extends DecoratedDateTimeField {
      * 
      * @return the maximum value
      */
+    @Impure
     public int getMaximumValue(ReadablePartial instant, int[] values) {
         return getWrappedField().getMaximumValue(instant, values) + 1;
     }
 
+    @Impure
     public long roundFloor(long instant) {
         return getWrappedField().roundFloor(instant);
     }
 
+    @Impure
     public long roundCeiling(long instant) {
         return getWrappedField().roundCeiling(instant);
     }
 
+    @Impure
     public long roundHalfFloor(long instant) {
         return getWrappedField().roundHalfFloor(instant);
     }
 
+    @Impure
     public long roundHalfCeiling(long instant) {
         return getWrappedField().roundHalfCeiling(instant);
     }
 
+    @Impure
     public long roundHalfEven(long instant) {
         return getWrappedField().roundHalfEven(instant);
     }
 
+    @Impure
     public long remainder(long instant) {
         return getWrappedField().remainder(instant);
     }

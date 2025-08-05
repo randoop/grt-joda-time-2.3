@@ -15,6 +15,9 @@
  */
 package org.joda.time.chrono;
 
+import org.checkerframework.dataflow.qual.Deterministic;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import java.util.Locale;
 
 import org.joda.time.DateTimeConstants;
@@ -47,28 +50,34 @@ final class BasicSingleEraDateTimeField extends BaseDateTimeField {
     /**
      * Restricted constructor.
      */
+    @Impure
     BasicSingleEraDateTimeField(String text) {
         super(DateTimeFieldType.era());
         iEraText = text;
     }
 
     /** @inheritDoc */
+    @Pure
     public boolean isLenient() {
         return false;
     }
 
     /** @inheritDoc */
+    @Pure
     public int get(long instant) {
         return ERA_VALUE;
     }
 
     /** @inheritDoc */
+    @Impure
     public long set(long instant, int era) {
         FieldUtils.verifyValueBounds(this, era, ERA_VALUE, ERA_VALUE);
         return instant;
     }
 
     /** @inheritDoc */
+    @Deterministic
+    @Impure
     public long set(long instant, String text, Locale locale) {
         if (iEraText.equals(text) == false && "1".equals(text) == false) {
             throw new IllegalFieldValueException(DateTimeFieldType.era(), text);
@@ -77,56 +86,67 @@ final class BasicSingleEraDateTimeField extends BaseDateTimeField {
     }
 
     /** @inheritDoc */
+    @Pure
     public long roundFloor(long instant) {
         return Long.MIN_VALUE;
     }
 
     /** @inheritDoc */
+    @Pure
     public long roundCeiling(long instant) {
         return Long.MAX_VALUE;
     }
 
     /** @inheritDoc */
+    @Pure
     public long roundHalfFloor(long instant) {
         return Long.MIN_VALUE;
     }
 
     /** @inheritDoc */
+    @Pure
     public long roundHalfCeiling(long instant) {
         return Long.MIN_VALUE;
     }
 
     /** @inheritDoc */
+    @Pure
     public long roundHalfEven(long instant) {
         return Long.MIN_VALUE;
     }
 
     /** @inheritDoc */
+    @Impure
     public DurationField getDurationField() {
         return UnsupportedDurationField.getInstance(DurationFieldType.eras());
     }
 
     /** @inheritDoc */
+    @Pure
     public DurationField getRangeDurationField() {
         return null;
     }
 
     /** @inheritDoc */
+    @Pure
     public int getMinimumValue() {
         return ERA_VALUE;
     }
 
     /** @inheritDoc */
+    @Pure
     public int getMaximumValue() {
         return ERA_VALUE;
     }
 
     /** @inheritDoc */
+    @Pure
     public String getAsText(int fieldValue, Locale locale) {
         return iEraText;
     }
 
     /** @inheritDoc */
+    @Pure
     public int getMaximumTextLength(Locale locale) {
         return iEraText.length();
     }

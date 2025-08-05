@@ -15,6 +15,9 @@
  */
 package org.joda.time.convert;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.time.Chronology;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
@@ -46,6 +49,8 @@ class StringConverter extends AbstractConverter
     /**
      * Restricted constructor.
      */
+    @SideEffectFree
+    @Impure
     protected StringConverter() {
         super();
     }
@@ -59,6 +64,7 @@ class StringConverter extends AbstractConverter
      * @return the millisecond value
      * @throws IllegalArgumentException if the value if invalid
      */
+    @Impure
     public long getInstantMillis(Object object, Chronology chrono) {
         String str = (String) object;
         DateTimeFormatter p = ISODateTimeFormat.dateTimeParser();
@@ -80,6 +86,7 @@ class StringConverter extends AbstractConverter
      * @throws IllegalArgumentException if the value if invalid
      * @since 1.3
      */
+    @Impure
     public int[] getPartialValues(ReadablePartial fieldSource, Object object, Chronology chrono, DateTimeFormatter parser) {
         if (parser.getZone() != null) {
             chrono = chrono.withZone(parser.getZone());
@@ -96,6 +103,8 @@ class StringConverter extends AbstractConverter
      * @param object  the String to convert, must not be null
      * @throws ClassCastException if the object is invalid
      */
+    @SideEffectFree
+    @Impure
     public long getDurationMillis(Object object) {
         // parse here because duration could be bigger than the int supported
         // by the period parser
@@ -158,6 +167,7 @@ class StringConverter extends AbstractConverter
      * @return the millisecond duration
      * @throws ClassCastException if the object is invalid
      */
+    @Impure
     public void setInto(ReadWritablePeriod period, Object object, Chronology chrono) {
         String str = (String) object;
         PeriodFormatter parser = ISOPeriodFormat.standard();
@@ -180,6 +190,7 @@ class StringConverter extends AbstractConverter
      * @param object  the String to convert, must not be null
      * @param chrono  the chronology to use, may be null
      */
+    @Impure
     public void setInto(ReadWritableInterval writableInterval, Object object, Chronology chrono) {
         String str = (String) object;
 
@@ -243,6 +254,7 @@ class StringConverter extends AbstractConverter
      * 
      * @return String.class
      */
+    @Pure
     public Class<?> getSupportedType() {
         return String.class;
     }

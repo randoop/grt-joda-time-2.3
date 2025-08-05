@@ -15,6 +15,8 @@
  */
 package org.joda.time.format;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Locale;
@@ -49,6 +51,7 @@ public interface DateTimePrinter {
      * 
      * @return the estimated length
      */
+    @Pure
     int estimatePrintedLength();
 
     //-----------------------------------------------------------------------
@@ -64,6 +67,7 @@ public interface DateTimePrinter {
      * @param displayZone  the time zone to use, null means local time
      * @param locale  the locale to use, null means default locale
      */
+    @Impure
     void printTo(StringBuffer buf, long instant, Chronology chrono,
                  int displayOffset, DateTimeZone displayZone, Locale locale);
 
@@ -79,6 +83,7 @@ public interface DateTimePrinter {
      * @param displayZone  the time zone to use, null means local time
      * @param locale  the locale to use, null means default locale
      */
+    @Impure
     void printTo(Writer out, long instant, Chronology chrono,
                  int displayOffset, DateTimeZone displayZone, Locale locale) throws IOException;
 
@@ -90,6 +95,7 @@ public interface DateTimePrinter {
      * @param partial  partial to format, not null
      * @param locale  the locale to use, null means default locale
      */
+    @Impure
     void printTo(StringBuffer buf, ReadablePartial partial, Locale locale);
 
     /**
@@ -99,6 +105,7 @@ public interface DateTimePrinter {
      * @param partial  partial to format, not null
      * @param locale  the locale to use, null means default locale
      */
+    @Impure
     void printTo(Writer out, ReadablePartial partial, Locale locale) throws IOException;
 
 }

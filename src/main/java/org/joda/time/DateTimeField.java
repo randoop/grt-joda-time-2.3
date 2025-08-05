@@ -15,6 +15,8 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.Locale;
 
 /**
@@ -37,6 +39,7 @@ public abstract class DateTimeField {
      * 
      * @return field type
      */
+    @Pure
     public abstract DateTimeFieldType getType();
 
     /**
@@ -49,6 +52,8 @@ public abstract class DateTimeField {
      * 
      * @return field name
      */
+    @Pure
+    @Impure
     public abstract String getName();
 
     /**
@@ -56,6 +61,7 @@ public abstract class DateTimeField {
      * 
      * @return true if this field is supported
      */
+    @Impure
     public abstract boolean isSupported();
 
     /**
@@ -65,6 +71,7 @@ public abstract class DateTimeField {
      * 
      * @return true if this field is lenient
      */
+    @Impure
     public abstract boolean isLenient();
 
     // Main access API
@@ -75,6 +82,7 @@ public abstract class DateTimeField {
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z to query
      * @return the value of the field, in the units of the field
      */
+    @Impure
     public abstract int get(long instant);
 
     /**
@@ -85,6 +93,7 @@ public abstract class DateTimeField {
      * @param locale the locale to use for selecting a text symbol, null for default
      * @return the text value of the field
      */
+    @Impure
     public abstract String getAsText(long instant, Locale locale);
 
     /**
@@ -93,6 +102,7 @@ public abstract class DateTimeField {
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z to query
      * @return the text value of the field
      */
+    @Impure
     public abstract String getAsText(long instant);
 
     /**
@@ -104,6 +114,7 @@ public abstract class DateTimeField {
      * @param locale  the locale to use for selecting a text symbol, null for default
      * @return the text value of the field
      */
+    @Impure
     public abstract String getAsText(ReadablePartial partial, int fieldValue, Locale locale);
 
     /**
@@ -114,6 +125,7 @@ public abstract class DateTimeField {
      * @param locale  the locale to use for selecting a text symbol, null for default
      * @return the text value of the field
      */
+    @Impure
     public abstract String getAsText(ReadablePartial partial, Locale locale);
 
     /**
@@ -124,6 +136,7 @@ public abstract class DateTimeField {
      * @param locale the locale to use for selecting a text symbol, null for default
      * @return the text value of the field
      */
+    @Impure
     public abstract String getAsText(int fieldValue, Locale locale);
 
     /**
@@ -134,6 +147,7 @@ public abstract class DateTimeField {
      * @param locale the locale to use for selecting a text symbol, null for default
      * @return the short text value of the field
      */
+    @Impure
     public abstract String getAsShortText(long instant, Locale locale);
 
     /**
@@ -143,6 +157,7 @@ public abstract class DateTimeField {
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z to query
      * @return the short text value of the field
      */
+    @Impure
     public abstract String getAsShortText(long instant);
 
     /**
@@ -154,6 +169,7 @@ public abstract class DateTimeField {
      * @param locale  the locale to use for selecting a text symbol, null for default
      * @return the text value of the field
      */
+    @Impure
     public abstract String getAsShortText(ReadablePartial partial, int fieldValue, Locale locale);
 
     /**
@@ -164,6 +180,7 @@ public abstract class DateTimeField {
      * @param locale  the locale to use for selecting a text symbol, null for default
      * @return the text value of the field
      */
+    @Impure
     public abstract String getAsShortText(ReadablePartial partial, Locale locale);
 
     /**
@@ -174,6 +191,7 @@ public abstract class DateTimeField {
      * @param locale the locale to use for selecting a text symbol, null for default
      * @return the text value of the field
      */
+    @Impure
     public abstract String getAsShortText(int fieldValue, Locale locale);
 
     /**
@@ -197,6 +215,7 @@ public abstract class DateTimeField {
      * @param value  the value to add, in the units of the field
      * @return the updated milliseconds
      */
+    @Impure
     public abstract long add(long instant, int value);
 
     /**
@@ -209,6 +228,7 @@ public abstract class DateTimeField {
      * @throws IllegalArgumentException if value is too large
      * @see #add(long,int)
      */
+    @Impure
     public abstract long add(long instant, long value);
 
     /**
@@ -238,6 +258,7 @@ public abstract class DateTimeField {
      * @return the passed in values
      * @throws IllegalArgumentException if the value is invalid or the maximum instant is reached
      */
+    @Impure
     public abstract int[] add(ReadablePartial instant, int fieldIndex, int[] values, int valueToAdd);
 
     /**
@@ -267,6 +288,7 @@ public abstract class DateTimeField {
      * @return the passed in values
      * @throws IllegalArgumentException if the value is invalid or the maximum instant is reached
      */
+    @Impure
     public abstract int[] addWrapPartial(ReadablePartial instant, int fieldIndex, int[] values, int valueToAdd);
 
     /**
@@ -290,6 +312,7 @@ public abstract class DateTimeField {
      * @param value  the value to add, in the units of the field
      * @return the updated milliseconds
      */
+    @Impure
     public abstract long addWrapField(long instant, int value) ;
 
     /**
@@ -316,6 +339,7 @@ public abstract class DateTimeField {
      * @return the passed in values
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public abstract int[] addWrapField(ReadablePartial instant, int fieldIndex, int[] values, int valueToAdd);
 
     /**
@@ -337,6 +361,7 @@ public abstract class DateTimeField {
      * subtract off the minuend
      * @return the difference in the units of this field
      */
+    @Impure
     public abstract int getDifference(long minuendInstant, long subtrahendInstant);
 
     /**
@@ -358,6 +383,7 @@ public abstract class DateTimeField {
      * subtract off the minuend
      * @return the difference in the units of this field
      */
+    @Impure
     public abstract long getDifferenceAsLong(long minuendInstant, long subtrahendInstant);
 
     /**
@@ -376,6 +402,7 @@ public abstract class DateTimeField {
      * @return the updated milliseconds
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public abstract long set(long instant, int value);
 
     /**
@@ -396,6 +423,7 @@ public abstract class DateTimeField {
      * @return the passed in values
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public abstract int[] set(ReadablePartial instant, int fieldIndex, int[] values, int newValue);
 
     /**
@@ -413,6 +441,7 @@ public abstract class DateTimeField {
      * @return the updated milliseconds
      * @throws IllegalArgumentException if the text value is invalid
      */
+    @Impure
     public abstract long set(long instant, String text, Locale locale);
 
     /**
@@ -428,6 +457,7 @@ public abstract class DateTimeField {
      * @return the updated milliseconds
      * @throws IllegalArgumentException if the text value is invalid
      */
+    @Impure
     public abstract long set(long instant, String text);
 
     /**
@@ -447,6 +477,7 @@ public abstract class DateTimeField {
      * @return the passed in values
      * @throws IllegalArgumentException if the text value is invalid
      */
+    @Impure
     public abstract int[] set(ReadablePartial instant, int fieldIndex, int[] values, String text, Locale locale);
 
     // Extra information API
@@ -458,6 +489,7 @@ public abstract class DateTimeField {
      * @return the duration of this field, or UnsupportedDurationField if field
      * has no duration
      */
+    @Impure
     public abstract DurationField getDurationField();
 
     /**
@@ -466,6 +498,7 @@ public abstract class DateTimeField {
      *
      * @return the range duration of this field, or null if field has no range
      */
+    @Impure
     public abstract DurationField getRangeDurationField();
 
     /**
@@ -477,6 +510,7 @@ public abstract class DateTimeField {
      * @param instant  the instant to check for leap status
      * @return true if the field is 'leap'
      */
+    @Impure
     public abstract boolean isLeap(long instant);
 
     /**
@@ -488,6 +522,7 @@ public abstract class DateTimeField {
      * @param instant  the instant to check for leap status
      * @return the amount, in units of the leap duration field, that the field is leap
      */
+    @Impure
     public abstract int getLeapAmount(long instant);
 
     /**
@@ -496,6 +531,7 @@ public abstract class DateTimeField {
      * 
      * @return the leap duration field if field can be leap, null if it can't
      */
+    @Impure
     public abstract DurationField getLeapDurationField();
 
     /**
@@ -504,6 +540,7 @@ public abstract class DateTimeField {
      * @return the minimum valid value for this field, in the units of the
      * field
      */
+    @Impure
     public abstract int getMinimumValue();
 
     /**
@@ -512,6 +549,7 @@ public abstract class DateTimeField {
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z to query
      * @return the minimum value for this field, in the units of the field
      */
+    @Impure
     public abstract int getMinimumValue(long instant);
 
     /**
@@ -520,6 +558,7 @@ public abstract class DateTimeField {
      * @param instant  the partial instant to query
      * @return the minimum value for this field, in the units of the field
      */
+    @Impure
     public abstract int getMinimumValue(ReadablePartial instant);
 
     /**
@@ -530,6 +569,7 @@ public abstract class DateTimeField {
      * @param values  the values to use
      * @return the minimum value for this field, in the units of the field
      */
+    @Impure
     public abstract int getMinimumValue(ReadablePartial instant, int[] values);
 
     /**
@@ -538,6 +578,7 @@ public abstract class DateTimeField {
      * @return the maximum valid value for this field, in the units of the
      * field
      */
+    @Impure
     public abstract int getMaximumValue();
 
     /**
@@ -546,6 +587,7 @@ public abstract class DateTimeField {
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z to query
      * @return the maximum value for this field, in the units of the field
      */
+    @Impure
     public abstract int getMaximumValue(long instant);
 
     /**
@@ -554,6 +596,7 @@ public abstract class DateTimeField {
      * @param instant  the partial instant to query
      * @return the maximum value for this field, in the units of the field
      */
+    @Impure
     public abstract int getMaximumValue(ReadablePartial instant);
 
     /**
@@ -564,6 +607,7 @@ public abstract class DateTimeField {
      * @param values  the values to use
      * @return the maximum value for this field, in the units of the field
      */
+    @Impure
     public abstract int getMaximumValue(ReadablePartial instant, int[] values);
 
     /**
@@ -572,6 +616,7 @@ public abstract class DateTimeField {
      * @param locale  the locale to use for selecting a text symbol
      * @return the maximum text length
      */
+    @Impure
     public abstract int getMaximumTextLength(Locale locale);
 
     /**
@@ -580,6 +625,7 @@ public abstract class DateTimeField {
      * @param locale  the locale to use for selecting a text symbol
      * @return the maximum short text length
      */
+    @Impure
     public abstract int getMaximumShortTextLength(Locale locale);
 
     // Calculation API
@@ -596,6 +642,7 @@ public abstract class DateTimeField {
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z to round
      * @return rounded milliseconds
      */
+    @Impure
     public abstract long roundFloor(long instant);
 
     /**
@@ -610,6 +657,7 @@ public abstract class DateTimeField {
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z to round
      * @return rounded milliseconds
      */
+    @Impure
     public abstract long roundCeiling(long instant);
 
     /**
@@ -621,6 +669,7 @@ public abstract class DateTimeField {
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z to round
      * @return rounded milliseconds
      */
+    @Impure
     public abstract long roundHalfFloor(long instant);
 
     /**
@@ -632,6 +681,7 @@ public abstract class DateTimeField {
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z to round
      * @return rounded milliseconds
      */
+    @Impure
     public abstract long roundHalfCeiling(long instant);
 
     /**
@@ -647,6 +697,7 @@ public abstract class DateTimeField {
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z to round
      * @return rounded milliseconds
      */
+    @Impure
     public abstract long roundHalfEven(long instant);
 
     /**
@@ -661,6 +712,7 @@ public abstract class DateTimeField {
      * remainder
      * @return remainder duration, in milliseconds
      */
+    @Impure
     public abstract long remainder(long instant);
 
     /**
@@ -668,6 +720,8 @@ public abstract class DateTimeField {
      * 
      * @return debug string
      */
+    @Pure
+    @Impure
     public abstract String toString();
     
 }

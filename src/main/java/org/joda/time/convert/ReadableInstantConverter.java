@@ -15,6 +15,9 @@
  */
 package org.joda.time.convert;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.time.Chronology;
 import org.joda.time.DateTimeUtils;
 import org.joda.time.DateTimeZone;
@@ -38,6 +41,8 @@ class ReadableInstantConverter extends AbstractConverter
     /**
      * Restricted constructor.
      */
+    @SideEffectFree
+    @Impure
     protected ReadableInstantConverter() {
         super();
     }
@@ -54,6 +59,7 @@ class ReadableInstantConverter extends AbstractConverter
      * @param zone  the specified zone to use, null means default zone
      * @return the chronology, never null
      */
+    @Impure
     public Chronology getChronology(Object object, DateTimeZone zone) {
         Chronology chrono = ((ReadableInstant) object).getChronology();
         if (chrono == null) {
@@ -79,6 +85,7 @@ class ReadableInstantConverter extends AbstractConverter
      * @param chrono  the chronology to use, null means use that from object
      * @return the chronology, never null
      */
+    @Impure
     public Chronology getChronology(Object object, Chronology chrono) {
         if (chrono == null) {
             chrono = ((ReadableInstant) object).getChronology();
@@ -96,6 +103,8 @@ class ReadableInstantConverter extends AbstractConverter
      * @throws NullPointerException if the object is null
      * @throws ClassCastException if the object is an invalid type
      */
+    @Pure
+    @Impure
     public long getInstantMillis(Object object, Chronology chrono) {
         return ((ReadableInstant) object).getMillis();
     }
@@ -106,6 +115,7 @@ class ReadableInstantConverter extends AbstractConverter
      * 
      * @return ReadableInstant.class
      */
+    @Pure
     public Class<?> getSupportedType() {
         return ReadableInstant.class;
     }

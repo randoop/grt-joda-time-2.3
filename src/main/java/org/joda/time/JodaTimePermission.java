@@ -15,6 +15,7 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.security.BasicPermission;
 
 /**
@@ -53,6 +54,7 @@ public class JodaTimePermission extends BasicPermission {
      * 
      * @param name  the permission name
      */
+    @Impure
     public JodaTimePermission(String name) {
         super(name);
     }

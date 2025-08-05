@@ -15,6 +15,9 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.convert.FromString;
 import org.joda.convert.ToString;
 import org.joda.time.base.BaseSingleFieldPeriod;
@@ -78,6 +81,8 @@ public final class Hours extends BaseSingleFieldPeriod {
      * @param hours  the number of hours to obtain an instance for
      * @return the instance of Hours
      */
+    @SideEffectFree
+    @Impure
     public static Hours hours(int hours) {
         switch (hours) {
             case 0:
@@ -117,6 +122,7 @@ public final class Hours extends BaseSingleFieldPeriod {
      * @return the period in hours
      * @throws IllegalArgumentException if the instants are null or invalid
      */
+    @Impure
     public static Hours hoursBetween(ReadableInstant start, ReadableInstant end) {
         int amount = BaseSingleFieldPeriod.between(start, end, DurationFieldType.hours());
         return Hours.hours(amount);
@@ -134,6 +140,7 @@ public final class Hours extends BaseSingleFieldPeriod {
      * @return the period in hours
      * @throws IllegalArgumentException if the partials are null or invalid
      */
+    @Impure
     public static Hours hoursBetween(ReadablePartial start, ReadablePartial end) {
         if (start instanceof LocalTime && end instanceof LocalTime)   {
             Chronology chrono = DateTimeUtils.getChronology(start.getChronology());
@@ -153,6 +160,7 @@ public final class Hours extends BaseSingleFieldPeriod {
      * @return the period in hours
      * @throws IllegalArgumentException if the partials are null or invalid
      */
+    @Impure
     public static Hours hoursIn(ReadableInterval interval) {
         if (interval == null)   {
             return Hours.ZERO;
@@ -181,6 +189,7 @@ public final class Hours extends BaseSingleFieldPeriod {
      * @return the period in hours
      * @throws IllegalArgumentException if the period contains imprecise duration values
      */
+    @Impure
     public static Hours standardHoursIn(ReadablePeriod period) {
         int amount = BaseSingleFieldPeriod.standardPeriodIn(period, DateTimeConstants.MILLIS_PER_HOUR);
         return Hours.hours(amount);
@@ -197,6 +206,7 @@ public final class Hours extends BaseSingleFieldPeriod {
      * @return the period in hours
      * @throws IllegalArgumentException if the string format is invalid
      */
+    @Impure
     @FromString
     public static Hours parseHours(String periodStr) {
         if (periodStr == null) {
@@ -214,6 +224,8 @@ public final class Hours extends BaseSingleFieldPeriod {
      *
      * @param hours  the number of hours to represent
      */
+    @SideEffectFree
+    @Impure
     private Hours(int hours) {
         super(hours);
     }
@@ -223,6 +235,8 @@ public final class Hours extends BaseSingleFieldPeriod {
      * 
      * @return the singleton instance
      */
+    @SideEffectFree
+    @Impure
     private Object readResolve() {
         return Hours.hours(getValue());
     }
@@ -233,6 +247,8 @@ public final class Hours extends BaseSingleFieldPeriod {
      *
      * @return the period type
      */
+    @Pure
+    @Impure
     public DurationFieldType getFieldType() {
         return DurationFieldType.hours();
     }
@@ -242,6 +258,7 @@ public final class Hours extends BaseSingleFieldPeriod {
      *
      * @return the period type
      */
+    @Impure
     public PeriodType getPeriodType() {
         return PeriodType.hours();
     }
@@ -260,6 +277,8 @@ public final class Hours extends BaseSingleFieldPeriod {
      * 
      * @return a period representing the number of whole weeks for this number of hours
      */
+    @SideEffectFree
+    @Impure
     public Weeks toStandardWeeks() {
         return Weeks.weeks(getValue() / DateTimeConstants.HOURS_PER_WEEK);
     }
@@ -276,6 +295,8 @@ public final class Hours extends BaseSingleFieldPeriod {
      * 
      * @return a period representing the number of whole days for this number of hours
      */
+    @SideEffectFree
+    @Impure
     public Days toStandardDays() {
         return Days.days(getValue() / DateTimeConstants.HOURS_PER_DAY);
     }
@@ -292,6 +313,8 @@ public final class Hours extends BaseSingleFieldPeriod {
      * @return a period representing the number of minutes for this number of hours
      * @throws ArithmeticException if the number of minutes is too large to be represented
      */
+    @SideEffectFree
+    @Impure
     public Minutes toStandardMinutes() {
         return Minutes.minutes(FieldUtils.safeMultiply(getValue(), DateTimeConstants.MINUTES_PER_HOUR));
     }
@@ -309,6 +332,8 @@ public final class Hours extends BaseSingleFieldPeriod {
      * @return a period representing the number of seconds for this number of hours
      * @throws ArithmeticException if the number of seconds is too large to be represented
      */
+    @SideEffectFree
+    @Impure
     public Seconds toStandardSeconds() {
         return Seconds.seconds(FieldUtils.safeMultiply(getValue(), DateTimeConstants.SECONDS_PER_HOUR));
     }
@@ -327,6 +352,8 @@ public final class Hours extends BaseSingleFieldPeriod {
      *
      * @return a duration equivalent to this number of hours
      */
+    @SideEffectFree
+    @Impure
     public Duration toStandardDuration() {
         long hours = getValue();  // assign to a long
         return new Duration(hours * DateTimeConstants.MILLIS_PER_HOUR);
@@ -338,6 +365,8 @@ public final class Hours extends BaseSingleFieldPeriod {
      *
      * @return the number of hours in the period
      */
+    @Pure
+    @Impure
     public int getHours() {
         return getValue();
     }
@@ -352,6 +381,8 @@ public final class Hours extends BaseSingleFieldPeriod {
      * @return the new period plus the specified number of hours
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Hours plus(int hours) {
         if (hours == 0) {
             return this;
@@ -368,6 +399,8 @@ public final class Hours extends BaseSingleFieldPeriod {
      * @return the new period plus the specified number of hours
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Hours plus(Hours hours) {
         if (hours == null) {
             return this;
@@ -385,6 +418,8 @@ public final class Hours extends BaseSingleFieldPeriod {
      * @return the new period minus the specified number of hours
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Hours minus(int hours) {
         return plus(FieldUtils.safeNegate(hours));
     }
@@ -398,6 +433,8 @@ public final class Hours extends BaseSingleFieldPeriod {
      * @return the new period minus the specified number of hours
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Hours minus(Hours hours) {
         if (hours == null) {
             return this;
@@ -415,6 +452,8 @@ public final class Hours extends BaseSingleFieldPeriod {
      * @return the new period multiplied by the specified scalar
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Hours multipliedBy(int scalar) {
         return Hours.hours(FieldUtils.safeMultiply(getValue(), scalar));
     }
@@ -429,6 +468,8 @@ public final class Hours extends BaseSingleFieldPeriod {
      * @return the new period divided by the specified divisor
      * @throws ArithmeticException if the divisor is zero
      */
+    @SideEffectFree
+    @Impure
     public Hours dividedBy(int divisor) {
         if (divisor == 1) {
             return this;
@@ -443,6 +484,8 @@ public final class Hours extends BaseSingleFieldPeriod {
      * @return the new period with a negated value
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Hours negated() {
         return Hours.hours(FieldUtils.safeNegate(getValue()));
     }
@@ -454,6 +497,8 @@ public final class Hours extends BaseSingleFieldPeriod {
      * @param other  the other period, null means zero
      * @return true if this hours instance is greater than the specified one
      */
+    @Pure
+    @Impure
     public boolean isGreaterThan(Hours other) {
         if (other == null) {
             return getValue() > 0;
@@ -467,6 +512,8 @@ public final class Hours extends BaseSingleFieldPeriod {
      * @param other  the other period, null means zero
      * @return true if this hours instance is less than the specified one
      */
+    @Pure
+    @Impure
     public boolean isLessThan(Hours other) {
         if (other == null) {
             return getValue() < 0;
@@ -482,6 +529,8 @@ public final class Hours extends BaseSingleFieldPeriod {
      *
      * @return the value as an ISO8601 string
      */
+    @SideEffectFree
+    @Impure
     @ToString
     public String toString() {
         return "PT" + String.valueOf(getValue()) + "H";

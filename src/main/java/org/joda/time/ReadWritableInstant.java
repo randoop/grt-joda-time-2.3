@@ -14,6 +14,7 @@
  *  limitations under the License.
  */
 package org.joda.time;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * Defines an instant in the datetime continuum that can be queried and modified.
@@ -35,6 +36,7 @@ public interface ReadWritableInstant extends ReadableInstant {
      * instant to
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void setMillis(long instant);
 
     /**
@@ -45,6 +47,7 @@ public interface ReadWritableInstant extends ReadableInstant {
      * 
      * @param instant  the instant to use, null means now
      */
+    @Impure
     void setMillis(ReadableInstant instant);
 
     /**
@@ -53,6 +56,7 @@ public interface ReadWritableInstant extends ReadableInstant {
      * @param chronology  the chronology to use, null means ISOChronology in default zone
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void setChronology(Chronology chronology);
 
     /**
@@ -69,6 +73,7 @@ public interface ReadWritableInstant extends ReadableInstant {
      * @param zone  the time zone to use, null means default zone
      * @see #setZoneRetainFields
      */
+    @Impure
     void setZone(DateTimeZone zone);
 
     /**
@@ -82,6 +87,7 @@ public interface ReadWritableInstant extends ReadableInstant {
      * @param zone  the time zone to use, null means default zone
      * @see #setZone
      */
+    @Impure
     void setZoneRetainFields(DateTimeZone zone);
 
     //-----------------------------------------------------------------------
@@ -93,6 +99,7 @@ public interface ReadWritableInstant extends ReadableInstant {
      * @param duration  the millis to add
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void add(long duration);
 
     /**
@@ -103,6 +110,7 @@ public interface ReadWritableInstant extends ReadableInstant {
      * @param duration  the duration to add, null means add zero
      * @throws ArithmeticException if the result exceeds the capacity of the instant
      */
+    @Impure
     void add(ReadableDuration duration);
 
     /**
@@ -114,6 +122,7 @@ public interface ReadWritableInstant extends ReadableInstant {
      * @param scalar  direction and amount to add, which may be negative
      * @throws ArithmeticException if the result exceeds the capacity of the instant
      */
+    @Impure
     void add(ReadableDuration duration, int scalar);
 
     /**
@@ -124,6 +133,7 @@ public interface ReadWritableInstant extends ReadableInstant {
      * @param period  the period to add, null means add zero
      * @throws ArithmeticException if the result exceeds the capacity of the instant
      */
+    @Impure
     void add(ReadablePeriod period);
 
     /**
@@ -135,6 +145,7 @@ public interface ReadWritableInstant extends ReadableInstant {
      * @param scalar  direction and amount to add, which may be negative
      * @throws ArithmeticException if the result exceeds the capacity of the instant
      */
+    @Impure
     void add(ReadablePeriod period, int scalar);
 
     //-----------------------------------------------------------------------
@@ -145,6 +156,7 @@ public interface ReadWritableInstant extends ReadableInstant {
      * @param value  the value to set the field to
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void set(DateTimeFieldType type, int value);
 
     /**
@@ -154,6 +166,7 @@ public interface ReadWritableInstant extends ReadableInstant {
      * @param amount  the amount to add of this duration
      * @throws ArithmeticException if the result exceeds the capacity of the instant
      */
+    @Impure
     void add(DurationFieldType type, int amount);
 
 }

@@ -15,6 +15,9 @@
  */
 package org.joda.time.base;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.Serializable;
 
 import org.joda.time.Chronology;
@@ -55,9 +58,11 @@ public abstract class BasePeriod
     private static final long serialVersionUID = -2110953284060001145L;
     /** Serialization version */
     private static final ReadablePeriod DUMMY_PERIOD = new AbstractPeriod() {
+        @Pure
         public int getValue(int index) {
             return 0;
         }
+        @Impure
         public PeriodType getPeriodType() {
             return PeriodType.time();
         }
@@ -84,6 +89,7 @@ public abstract class BasePeriod
      * @throws IllegalArgumentException if period type is invalid
      * @throws IllegalArgumentException if an unsupported field's value is non-zero
      */
+    @Impure
     protected BasePeriod(int years, int months, int weeks, int days,
                          int hours, int minutes, int seconds, int millis,
                          PeriodType type) {
@@ -102,6 +108,7 @@ public abstract class BasePeriod
      * @param chrono  the chronology to use, null means ISO default
      * @throws IllegalArgumentException if period type is invalid
      */
+    @Impure
     protected BasePeriod(long startInstant, long endInstant, PeriodType type, Chronology chrono) {
         super();
         type = checkPeriodType(type);
@@ -118,6 +125,7 @@ public abstract class BasePeriod
      * @param type  which set of fields this period supports, null means standard
      * @throws IllegalArgumentException if period type is invalid
      */
+    @Impure
     protected BasePeriod(ReadableInstant startInstant, ReadableInstant endInstant, PeriodType type) {
         super();
         type = checkPeriodType(type);
@@ -151,6 +159,7 @@ public abstract class BasePeriod
      * @throws IllegalArgumentException if the partials are null or invalid
      * @since 1.1
      */
+    @Impure
     protected BasePeriod(ReadablePartial start, ReadablePartial end, PeriodType type) {
         super();
         if (start == null || end == null) {
@@ -190,6 +199,7 @@ public abstract class BasePeriod
      * @param duration  the duration of the interval, null means zero-length
      * @param type  which set of fields this period supports, null means standard
      */
+    @Impure
     protected BasePeriod(ReadableInstant startInstant, ReadableDuration duration, PeriodType type) {
         super();
         type = checkPeriodType(type);
@@ -208,6 +218,7 @@ public abstract class BasePeriod
      * @param endInstant  the interval end, null means now
      * @param type  which set of fields this period supports, null means standard
      */
+    @Impure
     protected BasePeriod(ReadableDuration duration, ReadableInstant endInstant, PeriodType type) {
         super();
         type = checkPeriodType(type);
@@ -227,6 +238,7 @@ public abstract class BasePeriod
      *
      * @param duration  the duration, in milliseconds
      */
+    @Impure
     protected BasePeriod(long duration) {
         super();
         // bug [3264409]
@@ -250,6 +262,7 @@ public abstract class BasePeriod
      * @param chrono  the chronology to use, null means ISO default
      * @throws IllegalArgumentException if period type is invalid
      */
+    @Impure
     protected BasePeriod(long duration, PeriodType type, Chronology chrono) {
         super();
         type = checkPeriodType(type);
@@ -267,6 +280,7 @@ public abstract class BasePeriod
      * @throws IllegalArgumentException if period is invalid
      * @throws IllegalArgumentException if an unsupported field's value is non-zero
      */
+    @Impure
     protected BasePeriod(Object period, PeriodType type, Chronology chrono) {
         super();
         PeriodConverter converter = ConverterManager.getInstance().getPeriodConverter(period);
@@ -289,6 +303,8 @@ public abstract class BasePeriod
      * @param values  the values to use, not null, not cloned
      * @param type  which set of fields this period supports, not null
      */
+    @SideEffectFree
+    @Impure
     protected BasePeriod(int[] values, PeriodType type) {
         super();
         iType = type;
@@ -304,6 +320,7 @@ public abstract class BasePeriod
      * @return the validated type to use, not null
      * @throws IllegalArgumentException if the period type is invalid
      */
+    @Impure
     protected PeriodType checkPeriodType(PeriodType type) {
         return DateTimeUtils.getPeriodType(type);
     }
@@ -314,6 +331,7 @@ public abstract class BasePeriod
      *
      * @return the period type
      */
+    @Pure
     public PeriodType getPeriodType() {
         return iType;
     }
@@ -325,6 +343,7 @@ public abstract class BasePeriod
      * @return the value of the field at the specified index
      * @throws IndexOutOfBoundsException if the index is invalid
      */
+    @Pure
     public int getValue(int index) {
         return iValues[index];
     }
@@ -346,6 +365,7 @@ public abstract class BasePeriod
      * @return the total length of the period as a duration relative to the start instant
      * @throws ArithmeticException if the millis exceeds the capacity of the duration
      */
+    @Impure
     public Duration toDurationFrom(ReadableInstant startInstant) {
         long startMillis = DateTimeUtils.getInstantMillis(startInstant);
         Chronology chrono = DateTimeUtils.getInstantChronology(startInstant);
@@ -370,6 +390,7 @@ public abstract class BasePeriod
      * @return the total length of the period as a duration relative to the end instant
      * @throws ArithmeticException if the millis exceeds the capacity of the duration
      */
+    @Impure
     public Duration toDurationTo(ReadableInstant endInstant) {
         long endMillis = DateTimeUtils.getInstantMillis(endInstant);
         Chronology chrono = DateTimeUtils.getInstantChronology(endInstant);
@@ -386,6 +407,7 @@ public abstract class BasePeriod
      * @param values  the array to update
      * @param newValue  the new value to store if successful
      */
+    @Impure
     private void checkAndUpdate(DurationFieldType type, int[] values, int newValue) {
         int index = indexOf(type);
         if (index == -1) {
@@ -405,6 +427,7 @@ public abstract class BasePeriod
      * @param period  the period to copy from, not null
      * @throws IllegalArgumentException if an unsupported field's value is non-zero
      */
+    @Impure
     protected void setPeriod(ReadablePeriod period) {
         if (period == null) {
             setValues(new int[size()]);
@@ -416,6 +439,7 @@ public abstract class BasePeriod
     /**
      * Private method called from constructor.
      */
+    @Impure
     private void setPeriodInternal(ReadablePeriod period) {
         int[] newValues = new int[size()];
         for (int i = 0, isize = period.size(); i < isize; i++) {
@@ -439,6 +463,7 @@ public abstract class BasePeriod
      * @param millis  amount of milliseconds in this period, which must be zero if unsupported
      * @throws IllegalArgumentException if an unsupported field's value is non-zero
      */
+    @Impure
     protected void setPeriod(int years, int months, int weeks, int days,
                              int hours, int minutes, int seconds, int millis) {
         int[] newValues = setPeriodInternal(years, months, weeks, days, hours, minutes, seconds, millis);
@@ -448,6 +473,7 @@ public abstract class BasePeriod
     /**
      * Private method called from constructor.
      */
+    @Impure
     private int[] setPeriodInternal(int years, int months, int weeks, int days,
                                    int hours, int minutes, int seconds, int millis) {
         int[] newValues = new int[size()];
@@ -470,6 +496,7 @@ public abstract class BasePeriod
      * @param value  the value to set
      * @throws IllegalArgumentException if field is is null or not supported.
      */
+    @Impure
     protected void setField(DurationFieldType field, int value) {
         setFieldInto(iValues, field, value);
     }
@@ -482,6 +509,7 @@ public abstract class BasePeriod
      * @param value  the value to set
      * @throws IllegalArgumentException if field is null or not supported.
      */
+    @Impure
     protected void setFieldInto(int[] values, DurationFieldType field, int value) {
         int index = indexOf(field);
         if (index == -1) {
@@ -501,6 +529,7 @@ public abstract class BasePeriod
      * @param value  the value to set
      * @throws IllegalArgumentException if field is is null or not supported.
      */
+    @Impure
     protected void addField(DurationFieldType field, int value) {
         addFieldInto(iValues, field, value);
     }
@@ -513,6 +542,7 @@ public abstract class BasePeriod
      * @param value  the value to set
      * @throws IllegalArgumentException if field is is null or not supported.
      */
+    @Impure
     protected void addFieldInto(int[] values, DurationFieldType field, int value) {
         int index = indexOf(field);
         if (index == -1) {
@@ -531,6 +561,7 @@ public abstract class BasePeriod
      * @param period  the period to add from, not null
      * @throws IllegalArgumentException if an unsupported field's value is non-zero
      */
+    @Impure
     protected void mergePeriod(ReadablePeriod period) {
         if (period != null) {
             setValues(mergePeriodInto(getValues(), period));
@@ -545,6 +576,7 @@ public abstract class BasePeriod
      * @return the updated values
      * @throws IllegalArgumentException if an unsupported field's value is non-zero
      */
+    @Impure
     protected int[] mergePeriodInto(int[] values, ReadablePeriod period) {
         for (int i = 0, isize = period.size(); i < isize; i++) {
             DurationFieldType type = period.getFieldType(i);
@@ -560,6 +592,7 @@ public abstract class BasePeriod
      * @param period  the period to add from, not null
      * @throws IllegalArgumentException if an unsupported field's value is non-zero
      */
+    @Impure
     protected void addPeriod(ReadablePeriod period) {
         if (period != null) {
             setValues(addPeriodInto(getValues(), period));
@@ -574,6 +607,7 @@ public abstract class BasePeriod
      * @return the updated values
      * @throws IllegalArgumentException if an unsupported field's value is non-zero
      */
+    @Impure
     protected int[] addPeriodInto(int[] values, ReadablePeriod period) {
         for (int i = 0, isize = period.size(); i < isize; i++) {
             DurationFieldType type = period.getFieldType(i);
@@ -599,6 +633,7 @@ public abstract class BasePeriod
      * @param value  the value to set
      * @throws IndexOutOfBoundsException if the index is invalid
      */
+    @Impure
     protected void setValue(int index, int value) {
         iValues[index] = value;
     }
@@ -612,6 +647,7 @@ public abstract class BasePeriod
      * 
      * @param values  the array of values
      */
+    @SideEffectFree
     protected void setValues(int[] values) {
         System.arraycopy(values, 0, iValues, 0, iValues.length);
     }

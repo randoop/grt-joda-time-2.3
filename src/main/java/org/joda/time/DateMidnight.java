@@ -15,6 +15,9 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -91,6 +94,7 @@ public final class DateMidnight
      * @return the current date, not null
      * @since 2.0
      */
+    @Impure
     public static DateMidnight now() {
         return new DateMidnight();
     }
@@ -104,6 +108,7 @@ public final class DateMidnight
      * @return the current date, not null
      * @since 2.0
      */
+    @Impure
     public static DateMidnight now(DateTimeZone zone) {
         if (zone == null) {
             throw new NullPointerException("Zone must not be null");
@@ -120,6 +125,7 @@ public final class DateMidnight
      * @return the current date, not null
      * @since 2.0
      */
+    @Impure
     public static DateMidnight now(Chronology chronology) {
         if (chronology == null) {
             throw new NullPointerException("Chronology must not be null");
@@ -136,6 +142,7 @@ public final class DateMidnight
      * @param str  the string to parse, not null
      * @since 2.0
      */
+    @Impure
     @FromString
     public static DateMidnight parse(String str) {
         return parse(str, ISODateTimeFormat.dateTimeParser().withOffsetParsed());
@@ -148,6 +155,7 @@ public final class DateMidnight
      * @param formatter  the formatter to use, not null
      * @since 2.0
      */
+    @Impure
     public static DateMidnight parse(String str, DateTimeFormatter formatter) {
         return formatter.parseDateTime(str).toDateMidnight();
     }
@@ -160,6 +168,7 @@ public final class DateMidnight
      * 
      * @see #now()
      */
+    @Impure
     public DateMidnight() {
         super();
     }
@@ -174,6 +183,7 @@ public final class DateMidnight
      * @param zone  the time zone, null means default zone
      * @see #now(DateTimeZone)
      */
+    @Impure
     public DateMidnight(DateTimeZone zone) {
         super(zone);
     }
@@ -189,6 +199,7 @@ public final class DateMidnight
      * @param chronology  the chronology, null means ISOChronology in default zone
      * @see #now(Chronology)
      */
+    @Impure
     public DateMidnight(Chronology chronology) {
         super(chronology);
     }
@@ -201,6 +212,7 @@ public final class DateMidnight
      *
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z
      */
+    @Impure
     public DateMidnight(long instant) {
         super(instant);
     }
@@ -215,6 +227,7 @@ public final class DateMidnight
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z
      * @param zone  the time zone, null means default zone
      */
+    @Impure
     public DateMidnight(long instant, DateTimeZone zone) {
         super(instant, zone);
     }
@@ -230,6 +243,7 @@ public final class DateMidnight
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z
      * @param chronology  the chronology, null means ISOChronology in default zone
      */
+    @Impure
     public DateMidnight(long instant, Chronology chronology) {
         super(instant, chronology);
     }
@@ -252,6 +266,7 @@ public final class DateMidnight
      * @param instant  the datetime object, null means now
      * @throws IllegalArgumentException if the instant is invalid
      */
+    @Impure
     public DateMidnight(Object instant) {
         super(instant, (Chronology) null);
     }
@@ -277,6 +292,7 @@ public final class DateMidnight
      * @param zone  the time zone, null means default time zone
      * @throws IllegalArgumentException if the instant is invalid
      */
+    @Impure
     public DateMidnight(Object instant, DateTimeZone zone) {
         super(instant, zone);
     }
@@ -299,6 +315,7 @@ public final class DateMidnight
      * @param chronology  the chronology, null means ISOChronology in default zone
      * @throws IllegalArgumentException if the instant is invalid
      */
+    @Impure
     public DateMidnight(Object instant, Chronology chronology) {
         super(instant, DateTimeUtils.getChronology(chronology));
     }
@@ -313,6 +330,7 @@ public final class DateMidnight
      * @param monthOfYear  the month of the year, from 1 to 12
      * @param dayOfMonth  the day of the month, from 1 to 31
      */
+    @Impure
     public DateMidnight(int year, int monthOfYear, int dayOfMonth) {
         super(year, monthOfYear, dayOfMonth, 0, 0, 0, 0);
     }
@@ -329,6 +347,7 @@ public final class DateMidnight
      * @param dayOfMonth  the day of the month, from 1 to 31
      * @param zone  the time zone, null means default time zone
      */
+    @Impure
     public DateMidnight(int year, int monthOfYear, int dayOfMonth, DateTimeZone zone) {
         super(year, monthOfYear, dayOfMonth, 0, 0, 0, 0, zone);
     }
@@ -346,6 +365,7 @@ public final class DateMidnight
      * @param dayOfMonth  the day of the month, valid values defined by the chronology
      * @param chronology  the chronology, null means ISOChronology in default zone
      */
+    @Impure
     public DateMidnight(int year, int monthOfYear, int dayOfMonth, Chronology chronology) {
         super(year, monthOfYear, dayOfMonth, 0, 0, 0, 0, chronology);
     }
@@ -357,6 +377,7 @@ public final class DateMidnight
      * @param chronology  the chronology to use, not null
      * @return the updated instant, rounded to midnight
      */
+    @Impure
     protected long checkInstant(long instant, Chronology chronology) {
         return chronology.dayOfMonth().roundFloor(instant);
     }
@@ -372,6 +393,7 @@ public final class DateMidnight
      * @param newMillis  the new millis, from 1970-01-01T00:00:00Z
      * @return a copy of this instant with different millis
      */
+    @Impure
     public DateMidnight withMillis(long newMillis) {
         Chronology chrono = getChronology();
         newMillis = checkInstant(newMillis, chrono);
@@ -399,6 +421,7 @@ public final class DateMidnight
      * @param newChronology  the new chronology
      * @return a copy of this instant with a different chronology
      */
+    @Impure
     public DateMidnight withChronology(Chronology newChronology) {
         return (newChronology == getChronology() ? this : new DateMidnight(getMillis(), newChronology));
     }
@@ -411,6 +434,7 @@ public final class DateMidnight
      * @param newZone  the new time zone, null means default
      * @return a copy of this instant with a different time zone
      */
+    @Impure
     public DateMidnight withZoneRetainFields(DateTimeZone newZone) {
         newZone = DateTimeUtils.getZone(newZone);
         DateTimeZone originalZone = DateTimeUtils.getZone(getZone());
@@ -435,6 +459,7 @@ public final class DateMidnight
      * @return a copy of this datetime with a different set of fields
      * @throws IllegalArgumentException if any value is invalid
      */
+    @Impure
     public DateMidnight withFields(ReadablePartial partial) {
         if (partial == null) {
             return this;
@@ -461,6 +486,7 @@ public final class DateMidnight
      * @return a copy of this datetime with the field set
      * @throws IllegalArgumentException if the value is null or invalid
      */
+    @Impure
     public DateMidnight withField(DateTimeFieldType fieldType, int value) {
         if (fieldType == null) {
             throw new IllegalArgumentException("Field must not be null");
@@ -487,6 +513,7 @@ public final class DateMidnight
      * @throws IllegalArgumentException if the value is null or invalid
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public DateMidnight withFieldAdded(DurationFieldType fieldType, int amount) {
         if (fieldType == null) {
             throw new IllegalArgumentException("Field must not be null");
@@ -509,6 +536,7 @@ public final class DateMidnight
      * @return a copy of this datetime with the duration added
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public DateMidnight withDurationAdded(long durationToAdd, int scalar) {
         if (durationToAdd == 0 || scalar == 0) {
             return this;
@@ -527,6 +555,7 @@ public final class DateMidnight
      * @return a copy of this datetime with the duration added
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public DateMidnight withDurationAdded(ReadableDuration durationToAdd, int scalar) {
         if (durationToAdd == null || scalar == 0) {
             return this;
@@ -549,6 +578,7 @@ public final class DateMidnight
      * @return a copy of this datetime with the period added
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public DateMidnight withPeriodAdded(ReadablePeriod period, int scalar) {
         if (period == null || scalar == 0) {
             return this;
@@ -567,6 +597,7 @@ public final class DateMidnight
      * @return a copy of this datetime with the duration added
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public DateMidnight plus(long duration) {
         return withDurationAdded(duration, 1);
     }
@@ -580,6 +611,7 @@ public final class DateMidnight
      * @return a copy of this datetime with the duration added
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public DateMidnight plus(ReadableDuration duration) {
         return withDurationAdded(duration, 1);
     }
@@ -597,6 +629,7 @@ public final class DateMidnight
      * @return a copy of this datetime with the period added
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public DateMidnight plus(ReadablePeriod period) {
         return withPeriodAdded(period, 1);
     }
@@ -618,6 +651,7 @@ public final class DateMidnight
      * @return the new datetime plus the increased years
      * @since 1.1
      */
+    @Impure
     public DateMidnight plusYears(int years) {
         if (years == 0) {
             return this;
@@ -642,6 +676,7 @@ public final class DateMidnight
      * @return the new datetime plus the increased months
      * @since 1.1
      */
+    @Impure
     public DateMidnight plusMonths(int months) {
         if (months == 0) {
             return this;
@@ -666,6 +701,7 @@ public final class DateMidnight
      * @return the new datetime plus the increased weeks
      * @since 1.1
      */
+    @Impure
     public DateMidnight plusWeeks(int weeks) {
         if (weeks == 0) {
             return this;
@@ -690,6 +726,7 @@ public final class DateMidnight
      * @return the new datetime plus the increased days
      * @since 1.1
      */
+    @Impure
     public DateMidnight plusDays(int days) {
         if (days == 0) {
             return this;
@@ -708,6 +745,7 @@ public final class DateMidnight
      * @return a copy of this datetime with the duration taken away
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public DateMidnight minus(long duration) {
         return withDurationAdded(duration, -1);
     }
@@ -721,6 +759,7 @@ public final class DateMidnight
      * @return a copy of this datetime with the duration taken away
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public DateMidnight minus(ReadableDuration duration) {
         return withDurationAdded(duration, -1);
     }
@@ -738,6 +777,7 @@ public final class DateMidnight
      * @return a copy of this datetime with the period taken away
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public DateMidnight minus(ReadablePeriod period) {
         return withPeriodAdded(period, -1);
     }
@@ -759,6 +799,7 @@ public final class DateMidnight
      * @return the new datetime minus the increased years
      * @since 1.1
      */
+    @Impure
     public DateMidnight minusYears(int years) {
         if (years == 0) {
             return this;
@@ -783,6 +824,7 @@ public final class DateMidnight
      * @return the new datetime minus the increased months
      * @since 1.1
      */
+    @Impure
     public DateMidnight minusMonths(int months) {
         if (months == 0) {
             return this;
@@ -807,6 +849,7 @@ public final class DateMidnight
      * @return the new datetime minus the increased weeks
      * @since 1.1
      */
+    @Impure
     public DateMidnight minusWeeks(int weeks) {
         if (weeks == 0) {
             return this;
@@ -831,6 +874,7 @@ public final class DateMidnight
      * @return the new datetime minus the increased days
      * @since 1.1
      */
+    @Impure
     public DateMidnight minusDays(int days) {
         if (days == 0) {
             return this;
@@ -847,6 +891,7 @@ public final class DateMidnight
      * @return the property object
      * @throws IllegalArgumentException if the field is null or unsupported
      */
+    @Impure
     public Property property(DateTimeFieldType type) {
         if (type == null) {
             throw new IllegalArgumentException("The DateTimeFieldType must not be null");
@@ -866,6 +911,7 @@ public final class DateMidnight
      * @return a YearMonthDay using the same millis and chronology
      * @deprecated Use LocalDate instead of YearMonthDay
      */
+    @Impure
     @Deprecated
     public YearMonthDay toYearMonthDay() {
         return new YearMonthDay(getMillis(), getChronology());
@@ -878,6 +924,7 @@ public final class DateMidnight
      * @return a LocalDate with the same date and chronology
      * @since 1.3
      */
+    @Impure
     public LocalDate toLocalDate() {
         return new LocalDate(getMillis(), getChronology());
     }
@@ -891,6 +938,7 @@ public final class DateMidnight
      * 
      * @return an interval over the day
      */
+    @Impure
     public Interval toInterval() {
         Chronology chrono = getChronology();
         long start = getMillis();
@@ -911,6 +959,7 @@ public final class DateMidnight
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateMidnight withEra(int era) {
         return withMillis(getChronology().era().set(getMillis(), era));
     }
@@ -927,6 +976,7 @@ public final class DateMidnight
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateMidnight withCenturyOfEra(int centuryOfEra) {
         return withMillis(getChronology().centuryOfEra().set(getMillis(), centuryOfEra));
     }
@@ -943,6 +993,7 @@ public final class DateMidnight
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateMidnight withYearOfEra(int yearOfEra) {
         return withMillis(getChronology().yearOfEra().set(getMillis(), yearOfEra));
     }
@@ -959,6 +1010,7 @@ public final class DateMidnight
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateMidnight withYearOfCentury(int yearOfCentury) {
         return withMillis(getChronology().yearOfCentury().set(getMillis(), yearOfCentury));
     }
@@ -975,6 +1027,7 @@ public final class DateMidnight
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateMidnight withYear(int year) {
         return withMillis(getChronology().year().set(getMillis(), year));
     }
@@ -997,6 +1050,7 @@ public final class DateMidnight
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateMidnight withWeekyear(int weekyear) {
         return withMillis(getChronology().weekyear().set(getMillis(), weekyear));
     }
@@ -1013,6 +1067,7 @@ public final class DateMidnight
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateMidnight withMonthOfYear(int monthOfYear) {
         return withMillis(getChronology().monthOfYear().set(getMillis(), monthOfYear));
     }
@@ -1034,6 +1089,7 @@ public final class DateMidnight
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateMidnight withWeekOfWeekyear(int weekOfWeekyear) {
         return withMillis(getChronology().weekOfWeekyear().set(getMillis(), weekOfWeekyear));
     }
@@ -1050,6 +1106,7 @@ public final class DateMidnight
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateMidnight withDayOfYear(int dayOfYear) {
         return withMillis(getChronology().dayOfYear().set(getMillis(), dayOfYear));
     }
@@ -1066,6 +1123,7 @@ public final class DateMidnight
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateMidnight withDayOfMonth(int dayOfMonth) {
         return withMillis(getChronology().dayOfMonth().set(getMillis(), dayOfMonth));
     }
@@ -1082,6 +1140,7 @@ public final class DateMidnight
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateMidnight withDayOfWeek(int dayOfWeek) {
         return withMillis(getChronology().dayOfWeek().set(getMillis(), dayOfWeek));
     }
@@ -1093,6 +1152,7 @@ public final class DateMidnight
      * 
      * @return the era property
      */
+    @Impure
     public Property era() {
         return new Property(this, getChronology().era());
     }
@@ -1102,6 +1162,7 @@ public final class DateMidnight
      * 
      * @return the year of era property
      */
+    @Impure
     public Property centuryOfEra() {
         return new Property(this, getChronology().centuryOfEra());
     }
@@ -1111,6 +1172,7 @@ public final class DateMidnight
      * 
      * @return the year of era property
      */
+    @Impure
     public Property yearOfCentury() {
         return new Property(this, getChronology().yearOfCentury());
     }
@@ -1120,6 +1182,7 @@ public final class DateMidnight
      * 
      * @return the year of era property
      */
+    @Impure
     public Property yearOfEra() {
         return new Property(this, getChronology().yearOfEra());
     }
@@ -1129,6 +1192,7 @@ public final class DateMidnight
      * 
      * @return the year property
      */
+    @Impure
     public Property year() {
         return new Property(this, getChronology().year());
     }
@@ -1138,6 +1202,7 @@ public final class DateMidnight
      * 
      * @return the year of a week based year property
      */
+    @Impure
     public Property weekyear() {
         return new Property(this, getChronology().weekyear());
     }
@@ -1147,6 +1212,7 @@ public final class DateMidnight
      * 
      * @return the month of year property
      */
+    @Impure
     public Property monthOfYear() {
         return new Property(this, getChronology().monthOfYear());
     }
@@ -1156,6 +1222,7 @@ public final class DateMidnight
      * 
      * @return the week of a week based year property
      */
+    @Impure
     public Property weekOfWeekyear() {
         return new Property(this, getChronology().weekOfWeekyear());
     }
@@ -1165,6 +1232,7 @@ public final class DateMidnight
      * 
      * @return the day of year property
      */
+    @Impure
     public Property dayOfYear() {
         return new Property(this, getChronology().dayOfYear());
     }
@@ -1174,6 +1242,7 @@ public final class DateMidnight
      * 
      * @return the day of month property
      */
+    @Impure
     public Property dayOfMonth() {
         return new Property(this, getChronology().dayOfMonth());
     }
@@ -1183,6 +1252,7 @@ public final class DateMidnight
      * 
      * @return the day of week property
      */
+    @Impure
     public Property dayOfWeek() {
         return new Property(this, getChronology().dayOfWeek());
     }
@@ -1232,6 +1302,8 @@ public final class DateMidnight
          * @param instant  the instant to set
          * @param field  the field to use
          */
+        @SideEffectFree
+        @Impure
         Property(DateMidnight instant, DateTimeField field) {
             super();
             iInstant = instant;
@@ -1241,6 +1313,7 @@ public final class DateMidnight
         /**
          * Writes the property in a safe serialization format.
          */
+        @Impure
         private void writeObject(ObjectOutputStream oos) throws IOException {
             oos.writeObject(iInstant);
             oos.writeObject(iField.getType());
@@ -1249,6 +1322,7 @@ public final class DateMidnight
         /**
          * Reads the property from a safe serialization format.
          */
+        @Impure
         private void readObject(ObjectInputStream oos) throws IOException, ClassNotFoundException {
             iInstant = (DateMidnight) oos.readObject();
             DateTimeFieldType type = (DateTimeFieldType) oos.readObject();
@@ -1261,6 +1335,7 @@ public final class DateMidnight
          * 
          * @return the field
          */
+        @Pure
         public DateTimeField getField() {
             return iField;
         }
@@ -1270,6 +1345,8 @@ public final class DateMidnight
          * 
          * @return the milliseconds
          */
+        @Pure
+        @Impure
         protected long getMillis() {
             return iInstant.getMillis();
         }
@@ -1280,6 +1357,8 @@ public final class DateMidnight
          * @return the chronology
          * @since 1.4
          */
+        @Pure
+        @Impure
         protected Chronology getChronology() {
             return iInstant.getChronology();
         }
@@ -1289,6 +1368,7 @@ public final class DateMidnight
          * 
          * @return the datetime
          */
+        @Pure
         public DateMidnight getDateMidnight() {
             return iInstant;
         }
@@ -1306,6 +1386,7 @@ public final class DateMidnight
          * @return a copy of the DateMidnight with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
+        @Impure
         public DateMidnight addToCopy(int value) {
             return iInstant.withMillis(iField.add(iInstant.getMillis(), value));
         }
@@ -1322,6 +1403,7 @@ public final class DateMidnight
          * @return a copy of the DateMidnight with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
+        @Impure
         public DateMidnight addToCopy(long value) {
             return iInstant.withMillis(iField.add(iInstant.getMillis(), value));
         }
@@ -1340,6 +1422,7 @@ public final class DateMidnight
          * @return a copy of the DateMidnight with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
+        @Impure
         public DateMidnight addWrapFieldToCopy(int value) {
             return iInstant.withMillis(iField.addWrapField(iInstant.getMillis(), value));
         }
@@ -1357,6 +1440,7 @@ public final class DateMidnight
          * @return a copy of the DateMidnight with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
+        @Impure
         public DateMidnight setCopy(int value) {
             return iInstant.withMillis(iField.set(iInstant.getMillis(), value));
         }
@@ -1374,6 +1458,7 @@ public final class DateMidnight
          * @return a copy of the DateMidnight with the field value changed
          * @throws IllegalArgumentException if the text value isn't valid
          */
+        @Impure
         public DateMidnight setCopy(String text, Locale locale) {
             return iInstant.withMillis(iField.set(iInstant.getMillis(), text, locale));
         }
@@ -1390,6 +1475,7 @@ public final class DateMidnight
          * @return a copy of the DateMidnight with the field value changed
          * @throws IllegalArgumentException if the text value isn't valid
          */
+        @Impure
         public DateMidnight setCopy(String text) {
             return setCopy(text, null);
         }
@@ -1410,6 +1496,7 @@ public final class DateMidnight
          * @return a copy of the DateMidnight with this field set to its maximum
          * @since 1.2
          */
+        @Impure
         public DateMidnight withMaximumValue() {
             return setCopy(getMaximumValue());
         }
@@ -1423,6 +1510,7 @@ public final class DateMidnight
          * @return a copy of the DateMidnight with this field set to its minimum
          * @since 1.2
          */
+        @Impure
         public DateMidnight withMinimumValue() {
             return setCopy(getMinimumValue());
         }
@@ -1433,6 +1521,7 @@ public final class DateMidnight
          *
          * @return a copy of the DateMidnight with the field value changed
          */
+        @Impure
         public DateMidnight roundFloorCopy() {
             return iInstant.withMillis(iField.roundFloor(iInstant.getMillis()));
         }
@@ -1442,6 +1531,7 @@ public final class DateMidnight
          *
          * @return a copy of the DateMidnight with the field value changed
          */
+        @Impure
         public DateMidnight roundCeilingCopy() {
             return iInstant.withMillis(iField.roundCeiling(iInstant.getMillis()));
         }
@@ -1452,6 +1542,7 @@ public final class DateMidnight
          *
          * @return a copy of the DateMidnight with the field value changed
          */
+        @Impure
         public DateMidnight roundHalfFloorCopy() {
             return iInstant.withMillis(iField.roundHalfFloor(iInstant.getMillis()));
         }
@@ -1462,6 +1553,7 @@ public final class DateMidnight
          *
          * @return a copy of the DateMidnight with the field value changed
          */
+        @Impure
         public DateMidnight roundHalfCeilingCopy() {
             return iInstant.withMillis(iField.roundHalfCeiling(iInstant.getMillis()));
         }
@@ -1472,6 +1564,7 @@ public final class DateMidnight
          *
          * @return a copy of the DateMidnight with the field value changed
          */
+        @Impure
         public DateMidnight roundHalfEvenCopy() {
             return iInstant.withMillis(iField.roundHalfEven(iInstant.getMillis()));
         }

@@ -15,6 +15,9 @@
  */
 package org.joda.time.tz;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -66,6 +69,7 @@ public class ZoneInfoCompiler {
     static Chronology cLenientISO;
 
     static ThreadLocal<Boolean> cVerbose = new ThreadLocal<Boolean>() {
+        @Pure
         protected Boolean initialValue() {
             return Boolean.FALSE;
         }
@@ -75,6 +79,7 @@ public class ZoneInfoCompiler {
      * Gets a flag indicating that verbose logging is required.
      * @return true to log verbosely
      */
+    @Impure
     public static boolean verbose() {
         return cVerbose.get();
     }
@@ -91,6 +96,7 @@ public class ZoneInfoCompiler {
      *   -verbose            Output verbosely (default false)
      * </pre>
      */
+    @Impure
     public static void main(String[] args) throws Exception {
         if (args.length == 0) {
             printUsage();
@@ -137,6 +143,7 @@ public class ZoneInfoCompiler {
         zic.compile(outputDir, sources);
     }
 
+    @Impure
     private static void printUsage() {
         System.out.println("Usage: java org.joda.time.tz.ZoneInfoCompiler <options> <source files>");
         System.out.println("where possible options include:");
@@ -145,6 +152,7 @@ public class ZoneInfoCompiler {
         System.out.println("  -verbose            Output verbosely (default false)");
     }
 
+    @Impure
     static DateTimeOfYear getStartOfYear() {
         if (cStartOfYear == null) {
             cStartOfYear = new DateTimeOfYear();
@@ -152,6 +160,7 @@ public class ZoneInfoCompiler {
         return cStartOfYear;
     }
 
+    @Impure
     static Chronology getLenientISOChronology() {
         if (cLenientISO == null) {
             cLenientISO = LenientChronology.getInstance(ISOChronology.getInstanceUTC());
@@ -162,6 +171,7 @@ public class ZoneInfoCompiler {
     /**
      * @param zimap maps string ids to DateTimeZone objects.
      */
+    @Impure
     static void writeZoneInfoMap(DataOutputStream dout, Map<String, DateTimeZone> zimap) throws IOException {
         // Build the string pool.
         Map<String, Short> idToIndex = new HashMap<String, Short>(zimap.size());
@@ -205,6 +215,7 @@ public class ZoneInfoCompiler {
         }
     }
 
+    @SideEffectFree
     static int parseYear(String str, int def) {
         str = str.toLowerCase();
         if (str.equals("minimum") || str.equals("min")) {
@@ -217,20 +228,24 @@ public class ZoneInfoCompiler {
         return Integer.parseInt(str);
     }
 
+    @Impure
     static int parseMonth(String str) {
         DateTimeField field = ISOChronology.getInstanceUTC().monthOfYear();
         return field.get(field.set(0, str, Locale.ENGLISH));
     }
 
+    @Impure
     static int parseDayOfWeek(String str) {
         DateTimeField field = ISOChronology.getInstanceUTC().dayOfWeek();
         return field.get(field.set(0, str, Locale.ENGLISH));
     }
     
+    @Pure
     static String parseOptional(String str) {
         return (str.equals("-")) ? null : str;
     }
 
+    @Impure
     static int parseTime(String str) {
         DateTimeFormatter p = ISODateTimeFormat.hourMinuteSecondFraction();
         MutableDateTime mdt = new MutableDateTime(0, getLenientISOChronology());
@@ -249,6 +264,7 @@ public class ZoneInfoCompiler {
         return millis;
     }
 
+    @Pure
     static char parseZoneChar(char c) {
         switch (c) {
         case 's': case 'S':
@@ -266,6 +282,7 @@ public class ZoneInfoCompiler {
     /**
      * @return false if error.
      */
+    @Impure
     static boolean test(String id, DateTimeZone tz) {
         if (!id.equals(tz.getID())) {
             return true;
@@ -364,6 +381,7 @@ public class ZoneInfoCompiler {
      * @param outputDir optional directory to write compiled data files to
      * @param sources optional list of source files to parse
      */
+    @Impure
     public Map<String, DateTimeZone> compile(File outputDir, File[] sources) throws IOException {
         if (sources != null) {
             for (int i=0; i<sources.length; i++) {
@@ -461,6 +479,7 @@ public class ZoneInfoCompiler {
         return map;
     }
 
+    @Impure
     public void parseDataFile(BufferedReader in) throws IOException {
         Zone zone = null;
         String line;
@@ -527,6 +546,7 @@ public class ZoneInfoCompiler {
         public final int iMillisOfDay;
         public final char iZoneChar;
 
+        @SideEffectFree
         DateTimeOfYear() {
             iMonthOfYear = 1;
             iDayOfMonth = 1;
@@ -536,6 +556,7 @@ public class ZoneInfoCompiler {
             iZoneChar = 'w';
         }
 
+        @Impure
         DateTimeOfYear(StringTokenizer st) {
             int month = 1;
             int day = 1;
@@ -606,6 +627,7 @@ public class ZoneInfoCompiler {
         /**
          * Adds a recurring savings rule to the builder.
          */
+        @Impure
         public void addRecurring(DateTimeZoneBuilder builder, String nameKey,
                                  int saveMillis, int fromYear, int toYear)
         {
@@ -622,6 +644,7 @@ public class ZoneInfoCompiler {
         /**
          * Adds a cutover to the builder.
          */
+        @Impure
         public void addCutover(DateTimeZoneBuilder builder, int year) {
             builder.addCutover(year,
                                iZoneChar,
@@ -632,6 +655,7 @@ public class ZoneInfoCompiler {
                                iMillisOfDay);
         }
 
+        @Pure
         public String toString() {
             return
                 "MonthOfYear: " + iMonthOfYear + "\n" +
@@ -652,6 +676,7 @@ public class ZoneInfoCompiler {
         public final int iSaveMillis;
         public final String iLetterS;
 
+        @Impure
         Rule(StringTokenizer st) {
             iName = st.nextToken().intern();
             iFromYear = parseYear(st.nextToken(), 0);
@@ -668,12 +693,14 @@ public class ZoneInfoCompiler {
         /**
          * Adds a recurring savings rule to the builder.
          */
+        @Impure
         public void addRecurring(DateTimeZoneBuilder builder, String nameFormat) {
             String nameKey = formatName(nameFormat);
             iDateTimeOfYear.addRecurring
                 (builder, nameKey, iSaveMillis, iFromYear, iToYear);
         }
 
+        @SideEffectFree
         private String formatName(String nameFormat) {
             int index = nameFormat.indexOf('/');
             if (index > 0) {
@@ -699,6 +726,7 @@ public class ZoneInfoCompiler {
             return name.intern();
         }
 
+        @Pure
         public String toString() {
             return
                 "[Rule]\n" + 
@@ -715,11 +743,13 @@ public class ZoneInfoCompiler {
     private static class RuleSet {
         private List<Rule> iRules;
 
+        @Impure
         RuleSet(Rule rule) {
             iRules = new ArrayList<Rule>();
             iRules.add(rule);
         }
 
+        @Impure
         void addRule(Rule rule) {
             if (!(rule.iName.equals(iRules.get(0).iName))) {
                 throw new IllegalArgumentException("Rule name mismatch");
@@ -730,6 +760,7 @@ public class ZoneInfoCompiler {
         /**
          * Adds recurring savings rules to the builder.
          */
+        @Impure
         public void addRecurring(DateTimeZoneBuilder builder, String nameFormat) {
             for (int i=0; i<iRules.size(); i++) {
                 Rule rule = iRules.get(i);
@@ -748,10 +779,12 @@ public class ZoneInfoCompiler {
 
         private Zone iNext;
 
+        @Impure
         Zone(StringTokenizer st) {
             this(st.nextToken(), st);
         }
 
+        @Impure
         private Zone(String name, StringTokenizer st) {
             iName = name.intern();
             iOffsetMillis = parseTime(st.nextToken());
@@ -772,6 +805,7 @@ public class ZoneInfoCompiler {
             iUntilDateTimeOfYear = dtOfYear;
         }
 
+        @Impure
         void chain(StringTokenizer st) {
             if (iNext != null) {
                 iNext.chain(st);
@@ -791,10 +825,12 @@ public class ZoneInfoCompiler {
         /**
          * Adds zone info to the builder.
          */
+        @Impure
         public void addToBuilder(DateTimeZoneBuilder builder, Map<String, RuleSet> ruleSets) {
             addToBuilder(this, builder, ruleSets);
         }
 
+        @Impure
         private static void addToBuilder(Zone zone,
                                          DateTimeZoneBuilder builder,
                                          Map<String, RuleSet> ruleSets)
@@ -828,6 +864,7 @@ public class ZoneInfoCompiler {
             }
         }
 
+        @SideEffectFree
         public String toString() {
             String str =
                 "[Zone]\n" + 

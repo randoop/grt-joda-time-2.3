@@ -15,6 +15,9 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -85,6 +88,7 @@ public final class DateTime
      * @return the current date-time, not null
      * @since 2.0
      */
+    @Impure
     public static DateTime now() {
         return new DateTime();
     }
@@ -97,6 +101,7 @@ public final class DateTime
      * @return the current date-time, not null
      * @since 2.0
      */
+    @Impure
     public static DateTime now(DateTimeZone zone) {
         if (zone == null) {
             throw new NullPointerException("Zone must not be null");
@@ -112,6 +117,7 @@ public final class DateTime
      * @return the current date-time, not null
      * @since 2.0
      */
+    @Impure
     public static DateTime now(Chronology chronology) {
         if (chronology == null) {
             throw new NullPointerException("Chronology must not be null");
@@ -128,6 +134,7 @@ public final class DateTime
      * @param str  the string to parse, not null
      * @since 2.0
      */
+    @Impure
     @FromString
     public static DateTime parse(String str) {
         return parse(str, ISODateTimeFormat.dateTimeParser().withOffsetParsed());
@@ -140,6 +147,7 @@ public final class DateTime
      * @param formatter  the formatter to use, not null
      * @since 2.0
      */
+    @Impure
     public static DateTime parse(String str, DateTimeFormatter formatter) {
         return formatter.parseDateTime(str);
     }
@@ -151,6 +159,7 @@ public final class DateTime
      * 
      * @see #now()
      */
+    @Impure
     public DateTime() {
         super();
     }
@@ -164,6 +173,7 @@ public final class DateTime
      * @param zone  the time zone, null means default zone
      * @see #now(DateTimeZone)
      */
+    @Impure
     public DateTime(DateTimeZone zone) {
         super(zone);
     }
@@ -178,6 +188,7 @@ public final class DateTime
      * @param chronology  the chronology, null means ISOChronology in default zone
      * @see #now(Chronology)
      */
+    @Impure
     public DateTime(Chronology chronology) {
         super(chronology);
     }
@@ -189,6 +200,7 @@ public final class DateTime
      *
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z
      */
+    @Impure
     public DateTime(long instant) {
         super(instant);
     }
@@ -202,6 +214,7 @@ public final class DateTime
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z
      * @param zone  the time zone, null means default zone
      */
+    @Impure
     public DateTime(long instant, DateTimeZone zone) {
         super(instant, zone);
     }
@@ -216,6 +229,7 @@ public final class DateTime
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z
      * @param chronology  the chronology, null means ISOChronology in default zone
      */
+    @Impure
     public DateTime(long instant, Chronology chronology) {
         super(instant, chronology);
     }
@@ -237,6 +251,7 @@ public final class DateTime
      * @param instant  the datetime object, null means now
      * @throws IllegalArgumentException if the instant is invalid
      */
+    @Impure
     public DateTime(Object instant) {
         super(instant, (Chronology) null);
     }
@@ -261,6 +276,7 @@ public final class DateTime
      * @param zone  the time zone, null means default time zone
      * @throws IllegalArgumentException if the instant is invalid
      */
+    @Impure
     public DateTime(Object instant, DateTimeZone zone) {
         super(instant, zone);
     }
@@ -282,6 +298,7 @@ public final class DateTime
      * @param chronology  the chronology, null means ISO in default zone
      * @throws IllegalArgumentException if the instant is invalid
      */
+    @Impure
     public DateTime(Object instant, Chronology chronology) {
         super(instant, DateTimeUtils.getChronology(chronology));
     }
@@ -298,6 +315,7 @@ public final class DateTime
      * @param minuteOfHour  the minute of the hour, from 0 to 59
      * @since 2.0
      */
+    @Impure
     public DateTime(
             int year,
             int monthOfYear,
@@ -321,6 +339,7 @@ public final class DateTime
      * @param zone  the time zone, null means default time zone
      * @since 2.0
      */
+    @Impure
     public DateTime(
             int year,
             int monthOfYear,
@@ -347,6 +366,7 @@ public final class DateTime
      * @param chronology  the chronology, null means ISOChronology in default zone
      * @since 2.0
      */
+    @Impure
     public DateTime(
             int year,
             int monthOfYear,
@@ -371,6 +391,7 @@ public final class DateTime
      * @param secondOfMinute  the second of the minute, from 0 to 59
      * @since 2.0
      */
+    @Impure
     public DateTime(
             int year,
             int monthOfYear,
@@ -396,6 +417,7 @@ public final class DateTime
      * @param zone  the time zone, null means default time zone
      * @since 2.0
      */
+    @Impure
     public DateTime(
             int year,
             int monthOfYear,
@@ -424,6 +446,7 @@ public final class DateTime
      * @param chronology  the chronology, null means ISOChronology in default zone
      * @since 2.0
      */
+    @Impure
     public DateTime(
             int year,
             int monthOfYear,
@@ -449,6 +472,7 @@ public final class DateTime
      * @param secondOfMinute  the second of the minute, from 0 to 59
      * @param millisOfSecond  the millisecond of the second, from 0 to 999
      */
+    @Impure
     public DateTime(
             int year,
             int monthOfYear,
@@ -475,6 +499,7 @@ public final class DateTime
      * @param millisOfSecond  the millisecond of the second, from 0 to 999
      * @param zone  the time zone, null means default time zone
      */
+    @Impure
     public DateTime(
             int year,
             int monthOfYear,
@@ -504,6 +529,7 @@ public final class DateTime
      * @param millisOfSecond  the millisecond of the second, valid values defined by the chronology
      * @param chronology  the chronology, null means ISOChronology in default zone
      */
+    @Impure
     public DateTime(
             int year,
             int monthOfYear,
@@ -523,6 +549,7 @@ public final class DateTime
      * 
      * @return <code>this</code>
      */
+    @Pure
     public DateTime toDateTime() {
         return this;
     }
@@ -533,6 +560,7 @@ public final class DateTime
      * 
      * @return a DateTime using the same millis
      */
+    @Impure
     public DateTime toDateTimeISO() {
         if (getChronology() == ISOChronology.getInstance()) {
             return this;
@@ -546,6 +574,7 @@ public final class DateTime
      * @param zone time zone to apply, or default if null
      * @return a DateTime using the same millis
      */
+    @Impure
     public DateTime toDateTime(DateTimeZone zone) {
         zone = DateTimeUtils.getZone(zone);
         if (getZone() == zone) {
@@ -560,6 +589,7 @@ public final class DateTime
      * @param chronology chronology to apply, or ISOChronology if null
      * @return a DateTime using the same millis
      */
+    @Impure
     public DateTime toDateTime(Chronology chronology) {
         chronology = DateTimeUtils.getChronology(chronology);
         if (getChronology() == chronology) {
@@ -578,6 +608,7 @@ public final class DateTime
      * @param newMillis  the new millis, from 1970-01-01T00:00:00Z
      * @return a copy of this datetime with different millis
      */
+    @Impure
     public DateTime withMillis(long newMillis) {
         return (newMillis == getMillis() ? this : new DateTime(newMillis, getChronology()));
     }
@@ -591,6 +622,7 @@ public final class DateTime
      * @param newChronology  the new chronology, null means ISO default
      * @return a copy of this datetime with a different chronology
      */
+    @Impure
     public DateTime withChronology(Chronology newChronology) {
         newChronology = DateTimeUtils.getChronology(newChronology);
         return (newChronology == getChronology() ? this : new DateTime(getMillis(), newChronology));
@@ -614,6 +646,7 @@ public final class DateTime
      * @return a copy of this datetime with a different time zone
      * @see #withZoneRetainFields
      */
+    @Impure
     public DateTime withZone(DateTimeZone newZone) {
         return withChronology(getChronology().withZone(newZone));
     }
@@ -635,6 +668,7 @@ public final class DateTime
      * @return a copy of this datetime with a different time zone
      * @see #withZone
      */
+    @Impure
     public DateTime withZoneRetainFields(DateTimeZone newZone) {
         newZone = DateTimeUtils.getZone(newZone);
         DateTimeZone originalZone = DateTimeUtils.getZone(getZone());
@@ -661,6 +695,7 @@ public final class DateTime
      *
      * @return a copy of this datetime with the earliest valid offset for the local datetime
      */
+    @Impure
     public DateTime withEarlierOffsetAtOverlap() {
         long newMillis = getZone().adjustOffset(getMillis(), false);
         return withMillis(newMillis);
@@ -681,6 +716,7 @@ public final class DateTime
      *
      * @return a copy of this datetime with the latest valid offset for the local datetime
      */
+    @Impure
     public DateTime withLaterOffsetAtOverlap() {
         long newMillis = getZone().adjustOffset(getMillis(), true);
         return withMillis(newMillis);
@@ -705,6 +741,7 @@ public final class DateTime
      * @return a copy of this datetime with a different date
      * @throws IllegalArgumentException if any value if invalid
      */
+    @Impure
     public DateTime withDate(int year, int monthOfYear, int dayOfMonth) {
         Chronology chrono = getChronology();
         long instant = getMillis();
@@ -733,6 +770,7 @@ public final class DateTime
      * @return a copy of this datetime with a different time
      * @throws IllegalArgumentException if any value if invalid
      */
+    @Impure
     public DateTime withTime(int hourOfDay, int minuteOfHour, int secondOfMinute, int millisOfSecond) {
         Chronology chrono = getChronology();
         long instant = getMillis();
@@ -755,6 +793,7 @@ public final class DateTime
      *
      * @return a copy of this datetime with the time set to the start of the day, not null
      */
+    @Impure
     public DateTime withTimeAtStartOfDay() {
         return toLocalDate().toDateTimeAtStartOfDay(getZone());
     }
@@ -772,6 +811,7 @@ public final class DateTime
      * @return a copy of this datetime with a different set of fields
      * @throws IllegalArgumentException if any value is invalid
      */
+    @Impure
     public DateTime withFields(ReadablePartial partial) {
         if (partial == null) {
             return this;
@@ -798,6 +838,7 @@ public final class DateTime
      * @return a copy of this datetime with the field set
      * @throws IllegalArgumentException if the value is null or invalid
      */
+    @Impure
     public DateTime withField(DateTimeFieldType fieldType, int value) {
         if (fieldType == null) {
             throw new IllegalArgumentException("Field must not be null");
@@ -824,6 +865,7 @@ public final class DateTime
      * @throws IllegalArgumentException if the value is null or invalid
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public DateTime withFieldAdded(DurationFieldType fieldType, int amount) {
         if (fieldType == null) {
             throw new IllegalArgumentException("Field must not be null");
@@ -846,6 +888,7 @@ public final class DateTime
      * @return a copy of this datetime with the duration added
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public DateTime withDurationAdded(long durationToAdd, int scalar) {
         if (durationToAdd == 0 || scalar == 0) {
             return this;
@@ -864,6 +907,7 @@ public final class DateTime
      * @return a copy of this datetime with the duration added
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public DateTime withDurationAdded(ReadableDuration durationToAdd, int scalar) {
         if (durationToAdd == null || scalar == 0) {
             return this;
@@ -886,6 +930,7 @@ public final class DateTime
      * @return a copy of this datetime with the period added
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public DateTime withPeriodAdded(ReadablePeriod period, int scalar) {
         if (period == null || scalar == 0) {
             return this;
@@ -905,6 +950,7 @@ public final class DateTime
      * @return a copy of this datetime with the duration added
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public DateTime plus(long duration) {
         return withDurationAdded(duration, 1);
     }
@@ -919,6 +965,7 @@ public final class DateTime
      * @return a copy of this datetime with the duration added
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public DateTime plus(ReadableDuration duration) {
         return withDurationAdded(duration, 1);
     }
@@ -945,6 +992,7 @@ public final class DateTime
      * @return a copy of this datetime with the period added
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public DateTime plus(ReadablePeriod period) {
         return withPeriodAdded(period, 1);
     }
@@ -972,6 +1020,7 @@ public final class DateTime
      * @return the new datetime plus the increased years
      * @since 1.1
      */
+    @Impure
     public DateTime plusYears(int years) {
         if (years == 0) {
             return this;
@@ -1002,6 +1051,7 @@ public final class DateTime
      * @return the new datetime plus the increased months
      * @since 1.1
      */
+    @Impure
     public DateTime plusMonths(int months) {
         if (months == 0) {
             return this;
@@ -1028,6 +1078,7 @@ public final class DateTime
      * @return the new datetime plus the increased weeks
      * @since 1.1
      */
+    @Impure
     public DateTime plusWeeks(int weeks) {
         if (weeks == 0) {
             return this;
@@ -1063,6 +1114,7 @@ public final class DateTime
      * @return the new datetime plus the increased days
      * @since 1.1
      */
+    @Impure
     public DateTime plusDays(int days) {
         if (days == 0) {
             return this;
@@ -1094,6 +1146,7 @@ public final class DateTime
      * @return the new datetime plus the increased hours
      * @since 1.1
      */
+    @Impure
     public DateTime plusHours(int hours) {
         if (hours == 0) {
             return this;
@@ -1121,6 +1174,7 @@ public final class DateTime
      * @return the new datetime plus the increased minutes
      * @since 1.1
      */
+    @Impure
     public DateTime plusMinutes(int minutes) {
         if (minutes == 0) {
             return this;
@@ -1148,6 +1202,7 @@ public final class DateTime
      * @return the new datetime plus the increased seconds
      * @since 1.1
      */
+    @Impure
     public DateTime plusSeconds(int seconds) {
         if (seconds == 0) {
             return this;
@@ -1174,6 +1229,7 @@ public final class DateTime
      * @return the new datetime plus the increased millis
      * @since 1.1
      */
+    @Impure
     public DateTime plusMillis(int millis) {
         if (millis == 0) {
             return this;
@@ -1193,6 +1249,7 @@ public final class DateTime
      * @return a copy of this datetime with the duration taken away
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public DateTime minus(long duration) {
         return withDurationAdded(duration, -1);
     }
@@ -1207,6 +1264,7 @@ public final class DateTime
      * @return a copy of this datetime with the duration taken away
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public DateTime minus(ReadableDuration duration) {
         return withDurationAdded(duration, -1);
     }
@@ -1234,6 +1292,7 @@ public final class DateTime
      * @return a copy of this datetime with the period taken away
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public DateTime minus(ReadablePeriod period) {
         return withPeriodAdded(period, -1);
     }
@@ -1261,6 +1320,7 @@ public final class DateTime
      * @return the new datetime minus the increased years
      * @since 1.1
      */
+    @Impure
     public DateTime minusYears(int years) {
         if (years == 0) {
             return this;
@@ -1291,6 +1351,7 @@ public final class DateTime
      * @return the new datetime minus the increased months
      * @since 1.1
      */
+    @Impure
     public DateTime minusMonths(int months) {
         if (months == 0) {
             return this;
@@ -1317,6 +1378,7 @@ public final class DateTime
      * @return the new datetime minus the increased weeks
      * @since 1.1
      */
+    @Impure
     public DateTime minusWeeks(int weeks) {
         if (weeks == 0) {
             return this;
@@ -1352,6 +1414,7 @@ public final class DateTime
      * @return the new datetime minus the increased days
      * @since 1.1
      */
+    @Impure
     public DateTime minusDays(int days) {
         if (days == 0) {
             return this;
@@ -1384,6 +1447,7 @@ public final class DateTime
      * @return the new datetime minus the increased hours
      * @since 1.1
      */
+    @Impure
     public DateTime minusHours(int hours) {
         if (hours == 0) {
             return this;
@@ -1411,6 +1475,7 @@ public final class DateTime
      * @return the new datetime minus the increased minutes
      * @since 1.1
      */
+    @Impure
     public DateTime minusMinutes(int minutes) {
         if (minutes == 0) {
             return this;
@@ -1438,6 +1503,7 @@ public final class DateTime
      * @return the new datetime minus the increased seconds
      * @since 1.1
      */
+    @Impure
     public DateTime minusSeconds(int seconds) {
         if (seconds == 0) {
             return this;
@@ -1465,6 +1531,7 @@ public final class DateTime
      * @return the new datetime minus the increased millis
      * @since 1.1
      */
+    @Impure
     public DateTime minusMillis(int millis) {
         if (millis == 0) {
             return this;
@@ -1481,6 +1548,7 @@ public final class DateTime
      * @return the property object
      * @throws IllegalArgumentException if the field is null or unsupported
      */
+    @Impure
     public Property property(DateTimeFieldType type) {
         if (type == null) {
             throw new IllegalArgumentException("The DateTimeFieldType must not be null");
@@ -1500,6 +1568,7 @@ public final class DateTime
      * @return a DateMidnight using the same millis and chronology
      * @deprecated DateMidnight is deprecated
      */
+    @Impure
     @Deprecated
     public DateMidnight toDateMidnight() {
         return new DateMidnight(getMillis(), getChronology());
@@ -1512,6 +1581,7 @@ public final class DateTime
      * @return a YearMonthDay using the same millis and chronology
      * @deprecated Use LocalDate instead of YearMonthDay
      */
+    @Impure
     @Deprecated
     public YearMonthDay toYearMonthDay() {
         return new YearMonthDay(getMillis(), getChronology());
@@ -1524,6 +1594,7 @@ public final class DateTime
      * @return a TimeOfDay using the same millis and chronology
      * @deprecated Use LocalTime instead of TimeOfDay
      */
+    @Impure
     @Deprecated
     public TimeOfDay toTimeOfDay() {
         return new TimeOfDay(getMillis(), getChronology());
@@ -1536,6 +1607,7 @@ public final class DateTime
      * @return a LocalDateTime with the same datetime and chronology
      * @since 1.3
      */
+    @Impure
     public LocalDateTime toLocalDateTime() {
         return new LocalDateTime(getMillis(), getChronology());
     }
@@ -1547,6 +1619,7 @@ public final class DateTime
      * @return a LocalDate with the same date and chronology
      * @since 1.3
      */
+    @Impure
     public LocalDate toLocalDate() {
         return new LocalDate(getMillis(), getChronology());
     }
@@ -1558,6 +1631,7 @@ public final class DateTime
      * @return a LocalTime with the same time and chronology
      * @since 1.3
      */
+    @Impure
     public LocalTime toLocalTime() {
         return new LocalTime(getMillis(), getChronology());
     }
@@ -1575,6 +1649,7 @@ public final class DateTime
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateTime withEra(int era) {
         return withMillis(getChronology().era().set(getMillis(), era));
     }
@@ -1591,6 +1666,7 @@ public final class DateTime
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateTime withCenturyOfEra(int centuryOfEra) {
         return withMillis(getChronology().centuryOfEra().set(getMillis(), centuryOfEra));
     }
@@ -1607,6 +1683,7 @@ public final class DateTime
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateTime withYearOfEra(int yearOfEra) {
         return withMillis(getChronology().yearOfEra().set(getMillis(), yearOfEra));
     }
@@ -1623,6 +1700,7 @@ public final class DateTime
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateTime withYearOfCentury(int yearOfCentury) {
         return withMillis(getChronology().yearOfCentury().set(getMillis(), yearOfCentury));
     }
@@ -1639,6 +1717,7 @@ public final class DateTime
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateTime withYear(int year) {
         return withMillis(getChronology().year().set(getMillis(), year));
     }
@@ -1661,6 +1740,7 @@ public final class DateTime
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateTime withWeekyear(int weekyear) {
         return withMillis(getChronology().weekyear().set(getMillis(), weekyear));
     }
@@ -1677,6 +1757,7 @@ public final class DateTime
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateTime withMonthOfYear(int monthOfYear) {
         return withMillis(getChronology().monthOfYear().set(getMillis(), monthOfYear));
     }
@@ -1698,6 +1779,7 @@ public final class DateTime
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateTime withWeekOfWeekyear(int weekOfWeekyear) {
         return withMillis(getChronology().weekOfWeekyear().set(getMillis(), weekOfWeekyear));
     }
@@ -1714,6 +1796,7 @@ public final class DateTime
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateTime withDayOfYear(int dayOfYear) {
         return withMillis(getChronology().dayOfYear().set(getMillis(), dayOfYear));
     }
@@ -1730,6 +1813,7 @@ public final class DateTime
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateTime withDayOfMonth(int dayOfMonth) {
         return withMillis(getChronology().dayOfMonth().set(getMillis(), dayOfMonth));
     }
@@ -1746,6 +1830,7 @@ public final class DateTime
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateTime withDayOfWeek(int dayOfWeek) {
         return withMillis(getChronology().dayOfWeek().set(getMillis(), dayOfWeek));
     }
@@ -1763,6 +1848,7 @@ public final class DateTime
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateTime withHourOfDay(int hour) {
         return withMillis(getChronology().hourOfDay().set(getMillis(), hour));
     }
@@ -1779,6 +1865,7 @@ public final class DateTime
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateTime withMinuteOfHour(int minute) {
         return withMillis(getChronology().minuteOfHour().set(getMillis(), minute));
     }
@@ -1795,6 +1882,7 @@ public final class DateTime
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateTime withSecondOfMinute(int second) {
         return withMillis(getChronology().secondOfMinute().set(getMillis(), second));
     }
@@ -1811,6 +1899,7 @@ public final class DateTime
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateTime withMillisOfSecond(int millis) {
         return withMillis(getChronology().millisOfSecond().set(getMillis(), millis));
     }
@@ -1827,6 +1916,7 @@ public final class DateTime
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public DateTime withMillisOfDay(int millis) {
         return withMillis(getChronology().millisOfDay().set(getMillis(), millis));
     }
@@ -1838,6 +1928,7 @@ public final class DateTime
      * 
      * @return the era property
      */
+    @Impure
     public Property era() {
         return new Property(this, getChronology().era());
     }
@@ -1847,6 +1938,7 @@ public final class DateTime
      * 
      * @return the year of era property
      */
+    @Impure
     public Property centuryOfEra() {
         return new Property(this, getChronology().centuryOfEra());
     }
@@ -1856,6 +1948,7 @@ public final class DateTime
      * 
      * @return the year of era property
      */
+    @Impure
     public Property yearOfCentury() {
         return new Property(this, getChronology().yearOfCentury());
     }
@@ -1865,6 +1958,7 @@ public final class DateTime
      * 
      * @return the year of era property
      */
+    @Impure
     public Property yearOfEra() {
         return new Property(this, getChronology().yearOfEra());
     }
@@ -1874,6 +1968,7 @@ public final class DateTime
      * 
      * @return the year property
      */
+    @Impure
     public Property year() {
         return new Property(this, getChronology().year());
     }
@@ -1883,6 +1978,7 @@ public final class DateTime
      * 
      * @return the year of a week based year property
      */
+    @Impure
     public Property weekyear() {
         return new Property(this, getChronology().weekyear());
     }
@@ -1892,6 +1988,7 @@ public final class DateTime
      * 
      * @return the month of year property
      */
+    @Impure
     public Property monthOfYear() {
         return new Property(this, getChronology().monthOfYear());
     }
@@ -1901,6 +1998,7 @@ public final class DateTime
      * 
      * @return the week of a week based year property
      */
+    @Impure
     public Property weekOfWeekyear() {
         return new Property(this, getChronology().weekOfWeekyear());
     }
@@ -1910,6 +2008,7 @@ public final class DateTime
      * 
      * @return the day of year property
      */
+    @Impure
     public Property dayOfYear() {
         return new Property(this, getChronology().dayOfYear());
     }
@@ -1919,6 +2018,7 @@ public final class DateTime
      * 
      * @return the day of month property
      */
+    @Impure
     public Property dayOfMonth() {
         return new Property(this, getChronology().dayOfMonth());
     }
@@ -1928,6 +2028,7 @@ public final class DateTime
      * 
      * @return the day of week property
      */
+    @Impure
     public Property dayOfWeek() {
         return new Property(this, getChronology().dayOfWeek());
     }
@@ -1939,6 +2040,7 @@ public final class DateTime
      * 
      * @return the hour of day property
      */
+    @Impure
     public Property hourOfDay() {
         return new Property(this, getChronology().hourOfDay());
     }
@@ -1948,6 +2050,7 @@ public final class DateTime
      * 
      * @return the minute of day property
      */
+    @Impure
     public Property minuteOfDay() {
         return new Property(this, getChronology().minuteOfDay());
     }
@@ -1957,6 +2060,7 @@ public final class DateTime
      * 
      * @return the minute of hour property
      */
+    @Impure
     public Property minuteOfHour() {
         return new Property(this, getChronology().minuteOfHour());
     }
@@ -1966,6 +2070,7 @@ public final class DateTime
      * 
      * @return the second of day property
      */
+    @Impure
     public Property secondOfDay() {
         return new Property(this, getChronology().secondOfDay());
     }
@@ -1975,6 +2080,7 @@ public final class DateTime
      * 
      * @return the second of minute property
      */
+    @Impure
     public Property secondOfMinute() {
         return new Property(this, getChronology().secondOfMinute());
     }
@@ -1984,6 +2090,7 @@ public final class DateTime
      * 
      * @return the millis of day property
      */
+    @Impure
     public Property millisOfDay() {
         return new Property(this, getChronology().millisOfDay());
     }
@@ -1993,6 +2100,7 @@ public final class DateTime
      * 
      * @return the millis of second property
      */
+    @Impure
     public Property millisOfSecond() {
         return new Property(this, getChronology().millisOfSecond());
     }
@@ -2043,6 +2151,8 @@ public final class DateTime
          * @param instant  the instant to set
          * @param field  the field to use
          */
+        @SideEffectFree
+        @Impure
         Property(DateTime instant, DateTimeField field) {
             super();
             iInstant = instant;
@@ -2052,6 +2162,7 @@ public final class DateTime
         /**
          * Writes the property in a safe serialization format.
          */
+        @Impure
         private void writeObject(ObjectOutputStream oos) throws IOException {
             oos.writeObject(iInstant);
             oos.writeObject(iField.getType());
@@ -2060,6 +2171,7 @@ public final class DateTime
         /**
          * Reads the property from a safe serialization format.
          */
+        @Impure
         private void readObject(ObjectInputStream oos) throws IOException, ClassNotFoundException {
             iInstant = (DateTime) oos.readObject();
             DateTimeFieldType type = (DateTimeFieldType) oos.readObject();
@@ -2072,6 +2184,7 @@ public final class DateTime
          * 
          * @return the field
          */
+        @Pure
         public DateTimeField getField() {
             return iField;
         }
@@ -2081,6 +2194,8 @@ public final class DateTime
          * 
          * @return the milliseconds
          */
+        @Pure
+        @Impure
         protected long getMillis() {
             return iInstant.getMillis();
         }
@@ -2091,6 +2206,8 @@ public final class DateTime
          * @return the chronology
          * @since 1.4
          */
+        @Pure
+        @Impure
         protected Chronology getChronology() {
             return iInstant.getChronology();
         }
@@ -2100,6 +2217,7 @@ public final class DateTime
          * 
          * @return the datetime
          */
+        @Pure
         public DateTime getDateTime() {
             return iInstant;
         }
@@ -2117,6 +2235,7 @@ public final class DateTime
          * @return a copy of the DateTime with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
+        @Impure
         public DateTime addToCopy(int value) {
             return iInstant.withMillis(iField.add(iInstant.getMillis(), value));
         }
@@ -2133,6 +2252,7 @@ public final class DateTime
          * @return a copy of the DateTime with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
+        @Impure
         public DateTime addToCopy(long value) {
             return iInstant.withMillis(iField.add(iInstant.getMillis(), value));
         }
@@ -2151,6 +2271,7 @@ public final class DateTime
          * @return a copy of the DateTime with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
+        @Impure
         public DateTime addWrapFieldToCopy(int value) {
             return iInstant.withMillis(iField.addWrapField(iInstant.getMillis(), value));
         }
@@ -2168,6 +2289,7 @@ public final class DateTime
          * @return a copy of the DateTime with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
+        @Impure
         public DateTime setCopy(int value) {
             return iInstant.withMillis(iField.set(iInstant.getMillis(), value));
         }
@@ -2185,6 +2307,7 @@ public final class DateTime
          * @return a copy of the DateTime with the field value changed
          * @throws IllegalArgumentException if the text value isn't valid
          */
+        @Impure
         public DateTime setCopy(String text, Locale locale) {
             return iInstant.withMillis(iField.set(iInstant.getMillis(), text, locale));
         }
@@ -2201,6 +2324,7 @@ public final class DateTime
          * @return a copy of the DateTime with the field value changed
          * @throws IllegalArgumentException if the text value isn't valid
          */
+        @Impure
         public DateTime setCopy(String text) {
             return setCopy(text, null);
         }
@@ -2228,6 +2352,7 @@ public final class DateTime
          * @return a copy of the DateTime with this field set to its maximum
          * @since 1.2
          */
+        @Impure
         public DateTime withMaximumValue() {
             try {
                 return setCopy(getMaximumValue());
@@ -2257,6 +2382,7 @@ public final class DateTime
          * @return a copy of the DateTime with this field set to its minimum
          * @since 1.2
          */
+        @Impure
         public DateTime withMinimumValue() {
             try {
                 return setCopy(getMinimumValue());
@@ -2276,6 +2402,7 @@ public final class DateTime
          *
          * @return a copy of the DateTime with the field value changed
          */
+        @Impure
         public DateTime roundFloorCopy() {
             return iInstant.withMillis(iField.roundFloor(iInstant.getMillis()));
         }
@@ -2285,6 +2412,7 @@ public final class DateTime
          *
          * @return a copy of the DateTime with the field value changed
          */
+        @Impure
         public DateTime roundCeilingCopy() {
             return iInstant.withMillis(iField.roundCeiling(iInstant.getMillis()));
         }
@@ -2295,6 +2423,7 @@ public final class DateTime
          *
          * @return a copy of the DateTime with the field value changed
          */
+        @Impure
         public DateTime roundHalfFloorCopy() {
             return iInstant.withMillis(iField.roundHalfFloor(iInstant.getMillis()));
         }
@@ -2305,6 +2434,7 @@ public final class DateTime
          *
          * @return a copy of the DateTime with the field value changed
          */
+        @Impure
         public DateTime roundHalfCeilingCopy() {
             return iInstant.withMillis(iField.roundHalfCeiling(iInstant.getMillis()));
         }
@@ -2316,6 +2446,7 @@ public final class DateTime
          *
          * @return a copy of the DateTime with the field value changed
          */
+        @Impure
         public DateTime roundHalfEvenCopy() {
             return iInstant.withMillis(iField.roundHalfEven(iInstant.getMillis()));
         }

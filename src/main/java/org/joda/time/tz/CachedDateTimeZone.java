@@ -15,6 +15,9 @@
  */
 package org.joda.time.tz;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
 import org.joda.time.DateTimeZone;
 
 /**
@@ -64,6 +67,8 @@ public class CachedDateTimeZone extends DateTimeZone {
     /**
      * Returns a new CachedDateTimeZone unless given zone is already cached.
      */
+    @SideEffectFree
+    @Impure
     public static CachedDateTimeZone forZone(DateTimeZone zone) {
         if (zone instanceof CachedDateTimeZone) {
             return (CachedDateTimeZone)zone;
@@ -83,6 +88,8 @@ public class CachedDateTimeZone extends DateTimeZone {
 
     private final Info[] iInfoCache = new Info[cInfoCacheMask + 1];
 
+    @SideEffectFree
+    @Impure
     private CachedDateTimeZone(DateTimeZone zone) {
         super(zone.getID());
         iZone = zone;
@@ -91,38 +98,47 @@ public class CachedDateTimeZone extends DateTimeZone {
     /**
      * Returns the DateTimeZone being wrapped.
      */
+    @Pure
     public DateTimeZone getUncachedZone() {
         return iZone;
     }
 
+    @Impure
     public String getNameKey(long instant) {
         return getInfo(instant).getNameKey(instant);
     }
 
+    @Impure
     public int getOffset(long instant) {
         return getInfo(instant).getOffset(instant);
     }
 
+    @Impure
     public int getStandardOffset(long instant) {
         return getInfo(instant).getStandardOffset(instant);
     }
 
+    @Impure
     public boolean isFixed() {
         return iZone.isFixed();
     }
 
+    @Impure
     public long nextTransition(long instant) {
         return iZone.nextTransition(instant);
     }
 
+    @Impure
     public long previousTransition(long instant) {
         return iZone.previousTransition(instant);
     }
 
+    @Pure
     public int hashCode() {
         return iZone.hashCode();
     }
 
+    @Pure
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -136,6 +152,7 @@ public class CachedDateTimeZone extends DateTimeZone {
     // Although accessed by multiple threads, this method doesn't need to be
     // synchronized.
 
+    @Impure
     private Info getInfo(long millis) {
         int period = (int)(millis >> 32);
         Info[] cache = iInfoCache;
@@ -148,6 +165,7 @@ public class CachedDateTimeZone extends DateTimeZone {
         return info;
     }
 
+    @Impure
     private Info createInfo(long millis) {
         long periodStart = millis & (0xffffffffL << 32);
         Info info = new Info(iZone, periodStart);
@@ -177,11 +195,13 @@ public class CachedDateTimeZone extends DateTimeZone {
         private int iOffset = Integer.MIN_VALUE;
         private int iStandardOffset = Integer.MIN_VALUE;
 
+        @SideEffectFree
         Info(DateTimeZone zone, long periodStart) {
             iPeriodStart = periodStart;
             iZoneRef = zone;
         }
 
+        @Impure
         public String getNameKey(long millis) {
             if (iNextInfo == null || millis < iNextInfo.iPeriodStart) {
                 if (iNameKey == null) {
@@ -192,6 +212,7 @@ public class CachedDateTimeZone extends DateTimeZone {
             return iNextInfo.getNameKey(millis);
         }
 
+        @Impure
         public int getOffset(long millis) {
             if (iNextInfo == null || millis < iNextInfo.iPeriodStart) {
                 if (iOffset == Integer.MIN_VALUE) {
@@ -202,6 +223,7 @@ public class CachedDateTimeZone extends DateTimeZone {
             return iNextInfo.getOffset(millis);
         }
 
+        @Impure
         public int getStandardOffset(long millis) {
             if (iNextInfo == null || millis < iNextInfo.iPeriodStart) {
                 if (iStandardOffset == Integer.MIN_VALUE) {

@@ -15,6 +15,9 @@
  */
 package org.joda.time.base;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.Serializable;
 
 import org.joda.time.Chronology;
@@ -64,6 +67,7 @@ public abstract class BaseSingleFieldPeriod
      * @return the period
      * @throws IllegalArgumentException if the instants are null or invalid
      */
+    @Impure
     protected static int between(ReadableInstant start, ReadableInstant end, DurationFieldType field) {
         if (start == null || end == null) {
             throw new IllegalArgumentException("ReadableInstant objects must not be null");
@@ -86,6 +90,7 @@ public abstract class BaseSingleFieldPeriod
      * @return the period
      * @throws IllegalArgumentException if the partials are null or invalid
      */
+    @Impure
     protected static int between(ReadablePartial start, ReadablePartial end, ReadablePeriod zeroInstance) {
         if (start == null || end == null) {
             throw new IllegalArgumentException("ReadablePartial objects must not be null");
@@ -126,6 +131,7 @@ public abstract class BaseSingleFieldPeriod
      * @param millisPerUnit  the number of milliseconds in one standard unit of this period
      * @throws IllegalArgumentException if the period contains imprecise duration values
      */
+    @Impure
     protected static int standardPeriodIn(ReadablePeriod period, long millisPerUnit) {
         if (period == null) {
             return 0;
@@ -153,6 +159,7 @@ public abstract class BaseSingleFieldPeriod
      *
      * @param period  the period to represent
      */
+    @SideEffectFree
     protected BaseSingleFieldPeriod(int period) {
         super();
         iPeriod = period;
@@ -164,6 +171,7 @@ public abstract class BaseSingleFieldPeriod
      *
      * @return the period value
      */
+    @Pure
     protected int getValue() {
         return iPeriod;
     }
@@ -174,6 +182,7 @@ public abstract class BaseSingleFieldPeriod
      *
      * @param value  the period value
      */
+    @Impure
     protected void setValue(int value) {
         iPeriod = value;
     }
@@ -184,6 +193,8 @@ public abstract class BaseSingleFieldPeriod
      *
      * @return the duration field type, not null
      */
+    @Pure
+    @Impure
     public abstract DurationFieldType getFieldType();
 
     /**
@@ -191,6 +202,7 @@ public abstract class BaseSingleFieldPeriod
      *
      * @return the period type, not null
      */
+    @Impure
     public abstract PeriodType getPeriodType();
 
     //-----------------------------------------------------------------------
@@ -199,6 +211,7 @@ public abstract class BaseSingleFieldPeriod
      *
      * @return the number of fields supported, which is one
      */
+    @Pure
     public int size() {
         return 1;
     }
@@ -213,6 +226,8 @@ public abstract class BaseSingleFieldPeriod
      * @return the field at the specified index
      * @throws IndexOutOfBoundsException if the index is invalid
      */
+    @SideEffectFree
+    @Impure
     public DurationFieldType getFieldType(int index) {
         if (index != 0) {
             throw new IndexOutOfBoundsException(String.valueOf(index));
@@ -229,6 +244,8 @@ public abstract class BaseSingleFieldPeriod
      * @return the value of the field at the specified index
      * @throws IndexOutOfBoundsException if the index is invalid
      */
+    @SideEffectFree
+    @Impure
     public int getValue(int index) {
         if (index != 0) {
             throw new IndexOutOfBoundsException(String.valueOf(index));
@@ -245,6 +262,8 @@ public abstract class BaseSingleFieldPeriod
      * @param type  the field type to query, null returns zero
      * @return the value of that field, zero if field not supported
      */
+    @Pure
+    @Impure
     public int get(DurationFieldType type) {
         if (type == getFieldType()) {
             return getValue();
@@ -258,6 +277,8 @@ public abstract class BaseSingleFieldPeriod
      * @param type  the type to check, may be null which returns false
      * @return true if the field is supported
      */
+    @Pure
+    @Impure
     public boolean isSupported(DurationFieldType type) {
         return (type == getFieldType());
     }
@@ -269,6 +290,7 @@ public abstract class BaseSingleFieldPeriod
      *
      * @return a <code>Period</code> representing the same number of days
      */
+    @Impure
     public Period toPeriod() {
         return Period.ZERO.withFields(this);
     }
@@ -281,6 +303,7 @@ public abstract class BaseSingleFieldPeriod
      * 
      * @return a MutablePeriod using the same field set and values
      */
+    @Impure
     public MutablePeriod toMutablePeriod() {
         MutablePeriod period = new MutablePeriod();
         period.add(this);
@@ -297,6 +320,7 @@ public abstract class BaseSingleFieldPeriod
      * @return true if all the field values are equal, false if
      *  not or the period is null or of an incorrect type
      */
+    @Impure
     public boolean equals(Object period) {
         if (this == period) {
             return true;
@@ -313,6 +337,8 @@ public abstract class BaseSingleFieldPeriod
      *
      * @return a hash code
      */
+    @Pure
+    @Impure
     public int hashCode() {
         int total = 17;
         total = 27 * total + getValue();
@@ -328,6 +354,8 @@ public abstract class BaseSingleFieldPeriod
      * @throws NullPointerException if the other period is null
      * @throws ClassCastException if the other period is of a different type
      */
+    @Pure
+    @Impure
     public int compareTo(BaseSingleFieldPeriod other) {
         if (other.getClass() != getClass()) {
             throw new ClassCastException(getClass() + " cannot be compared to " + other.getClass());

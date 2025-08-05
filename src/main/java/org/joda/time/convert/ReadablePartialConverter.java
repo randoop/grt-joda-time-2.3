@@ -15,6 +15,9 @@
  */
 package org.joda.time.convert;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.time.Chronology;
 import org.joda.time.DateTimeUtils;
 import org.joda.time.DateTimeZone;
@@ -37,6 +40,8 @@ class ReadablePartialConverter extends AbstractConverter
     /**
      * Restricted constructor.
      */
+    @SideEffectFree
+    @Impure
     protected ReadablePartialConverter() {
         super();
     }
@@ -49,6 +54,7 @@ class ReadablePartialConverter extends AbstractConverter
      * @param zone  the specified zone to use, null means default zone
      * @return the chronology, never null
      */
+    @Impure
     public Chronology getChronology(Object object, DateTimeZone zone) {
         return getChronology(object, (Chronology) null).withZone(zone);
     }
@@ -63,6 +69,7 @@ class ReadablePartialConverter extends AbstractConverter
      * @param chrono  the chronology to use, null means use that from object
      * @return the chronology, never null
      */
+    @Impure
     public Chronology getChronology(Object object, Chronology chrono) {
         if (chrono == null) {
             chrono = ((ReadablePartial) object).getChronology();
@@ -83,6 +90,7 @@ class ReadablePartialConverter extends AbstractConverter
      * @return the array of field values that match the fieldSource, must be non-null valid
      * @throws ClassCastException if the object is invalid
      */
+    @Impure
     public int[] getPartialValues(ReadablePartial fieldSource, Object object, Chronology chrono) {
         ReadablePartial input = (ReadablePartial) object;
         int size = fieldSource.size();
@@ -100,6 +108,7 @@ class ReadablePartialConverter extends AbstractConverter
      * 
      * @return ReadableInstant.class
      */
+    @Pure
     public Class<?> getSupportedType() {
         return ReadablePartial.class;
     }

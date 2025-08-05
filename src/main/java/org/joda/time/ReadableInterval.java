@@ -14,6 +14,9 @@
  *  limitations under the License.
  */
 package org.joda.time;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 
 /** 
  * Readable interface for an interval of time between two instants.
@@ -47,6 +50,7 @@ public interface ReadableInterval {
      *
      * @return the chronology of the interval
      */
+    @Pure
     Chronology getChronology();
 
     /**
@@ -55,6 +59,7 @@ public interface ReadableInterval {
      * @return the start of the time interval,
      *  millisecond instant from 1970-01-01T00:00:00Z
      */
+    @Pure
     long getStartMillis();
 
     /**
@@ -62,6 +67,7 @@ public interface ReadableInterval {
      *
      * @return the start of the time interval
      */
+    @Impure
     DateTime getStart();
 
     /** 
@@ -70,6 +76,7 @@ public interface ReadableInterval {
      * @return the end of the time interval,
      *  millisecond instant from 1970-01-01T00:00:00Z
      */
+    @Pure
     long getEndMillis();
 
     /** 
@@ -77,6 +84,7 @@ public interface ReadableInterval {
      *
      * @return the end of the time interval
      */
+    @Impure
     DateTime getEnd();
 
     //-----------------------------------------------------------------------
@@ -100,6 +108,7 @@ public interface ReadableInterval {
      * @param instant  the instant, null means now
      * @return true if this time interval contains the instant
      */
+    @Impure
     boolean contains(ReadableInstant instant);
     
     /**
@@ -134,6 +143,7 @@ public interface ReadableInterval {
      * @param interval  the time interval to compare to, null means a zero duration interval now
      * @return true if this time interval contains the time interval
      */
+    @Impure
     boolean contains(ReadableInterval interval);
     
     /**
@@ -177,6 +187,7 @@ public interface ReadableInterval {
      * @param interval  the time interval to compare to, null means a zero length interval now
      * @return true if the time intervals overlap
      */
+    @Impure
     boolean overlaps(ReadableInterval interval);
     
     //-----------------------------------------------------------------------
@@ -188,6 +199,7 @@ public interface ReadableInterval {
      * @param instant  the instant to compare to, null means now
      * @return true if this time interval is after the instant
      */
+    @Impure
     boolean isAfter(ReadableInstant instant);
     
     /**
@@ -198,6 +210,7 @@ public interface ReadableInterval {
      * @param interval  the interval to compare to, null means now
      * @return true if this time interval is after the interval specified
      */
+    @Impure
     boolean isAfter(ReadableInterval interval);
     
     /**
@@ -208,6 +221,7 @@ public interface ReadableInterval {
      * @param instant  the instant to compare to, null means now
      * @return true if this time interval is before the instant
      */
+    @Impure
     boolean isBefore(ReadableInstant instant);
     
     /**
@@ -218,6 +232,7 @@ public interface ReadableInterval {
      * @param interval  the interval to compare to, null means now
      * @return true if this time interval is before the interval specified
      */
+    @Impure
     boolean isBefore(ReadableInterval interval);
     
     //-----------------------------------------------------------------------
@@ -228,6 +243,7 @@ public interface ReadableInterval {
      *
      * @return the interval as an Interval object
      */
+    @Impure
     Interval toInterval();
 
     /**
@@ -237,6 +253,7 @@ public interface ReadableInterval {
      *
      * @return the time interval as a MutableInterval object
      */
+    @Impure
     MutableInterval toMutableInterval();
 
     //-----------------------------------------------------------------------
@@ -246,6 +263,8 @@ public interface ReadableInterval {
      * @return the millisecond duration of the time interval
      * @throws ArithmeticException if the duration exceeds the capacity of a long
      */
+    @SideEffectFree
+    @Impure
     Duration toDuration();
 
     /**
@@ -254,6 +273,8 @@ public interface ReadableInterval {
      * @return the millisecond duration of the time interval
      * @throws ArithmeticException if the duration exceeds the capacity of a long
      */
+    @Pure
+    @Impure
     long toDurationMillis();
 
     /**
@@ -265,6 +286,7 @@ public interface ReadableInterval {
      *
      * @return a time period derived from the interval
      */
+    @Impure
     Period toPeriod();
 
     /**
@@ -277,6 +299,7 @@ public interface ReadableInterval {
      * @param type  the requested type of the duration, null means standard
      * @return a time period derived from the interval
      */
+    @Impure
     Period toPeriod(PeriodType type);
 
     //-----------------------------------------------------------------------
@@ -291,6 +314,8 @@ public interface ReadableInterval {
      * @param readableInterval  a readable interval to check against
      * @return true if the start and end millis are equal
      */
+    @Pure
+    @Impure
     boolean equals(Object readableInterval);
 
     /**
@@ -306,6 +331,8 @@ public interface ReadableInterval {
      *
      * @return a hash code
      */
+    @Pure
+    @Impure
     int hashCode();
 
     //-----------------------------------------------------------------------
@@ -316,6 +343,7 @@ public interface ReadableInterval {
      *
      * @return the value as an ISO8601 string
      */
+    @Impure
     String toString();
 
 }

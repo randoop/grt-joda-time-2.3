@@ -15,6 +15,8 @@
  */
 package org.joda.time.chrono;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -80,6 +82,7 @@ public final class GJChronology extends AssembledChronology {
     /**
      * Convert a datetime from one chronology to another.
      */
+    @Impure
     private static long convertByYear(long instant, Chronology from, Chronology to) {
         return to.getDateTimeMillis
             (from.year().get(instant),
@@ -91,6 +94,7 @@ public final class GJChronology extends AssembledChronology {
     /**
      * Convert a datetime from one chronology to another.
      */
+    @Impure
     private static long convertByWeekyear(final long instant, Chronology from, Chronology to) {
         long newInstant;
         newInstant = to.weekyear().set(0, from.weekyear().get(instant));
@@ -120,6 +124,7 @@ public final class GJChronology extends AssembledChronology {
      *
      * <p>The time zone of the returned instance is UTC.
      */
+    @Impure
     public static GJChronology getInstanceUTC() {
         return getInstance(DateTimeZone.UTC, DEFAULT_CUTOVER, 4);
     }
@@ -136,6 +141,7 @@ public final class GJChronology extends AssembledChronology {
      *
      * <p>The returned chronology is in the default time zone.
      */
+    @Impure
     public static GJChronology getInstance() {
         return getInstance(DateTimeZone.getDefault(), DEFAULT_CUTOVER, 4);
     }
@@ -152,6 +158,7 @@ public final class GJChronology extends AssembledChronology {
      *
      * @param zone  the time zone to use, null is default
      */
+    @Impure
     public static GJChronology getInstance(DateTimeZone zone) {
         return getInstance(zone, DEFAULT_CUTOVER, 4);
     }
@@ -167,6 +174,7 @@ public final class GJChronology extends AssembledChronology {
      * @param zone  the time zone to use, null is default
      * @param gregorianCutover  the cutover to use, null means default
      */
+    @Impure
     public static GJChronology getInstance(
             DateTimeZone zone,
             ReadableInstant gregorianCutover) {
@@ -182,6 +190,7 @@ public final class GJChronology extends AssembledChronology {
      * @param gregorianCutover  the cutover to use, null means default
      * @param minDaysInFirstWeek  minimum number of days in first week of the year; default is 4
      */
+    @Impure
     public static synchronized GJChronology getInstance(
             DateTimeZone zone,
             ReadableInstant gregorianCutover,
@@ -241,6 +250,7 @@ public final class GJChronology extends AssembledChronology {
      * @param gregorianCutover  the cutover to use
      * @param minDaysInFirstWeek  minimum number of days in first week of the year; default is 4
      */
+    @Impure
     public static GJChronology getInstance(
             DateTimeZone zone,
             long gregorianCutover,
@@ -268,6 +278,7 @@ public final class GJChronology extends AssembledChronology {
      * @param gregorian chronology used at and after the cutover instant
      * @param cutoverInstant instant when the gregorian chronology began
      */
+    @Impure
     private GJChronology(JulianChronology julian,
                          GregorianChronology gregorian,
                          Instant cutoverInstant) {
@@ -277,6 +288,7 @@ public final class GJChronology extends AssembledChronology {
     /**
      * Called when applying a time zone.
      */
+    @Impure
     private GJChronology(Chronology base,
                          JulianChronology julian,
                          GregorianChronology gregorian,
@@ -287,10 +299,12 @@ public final class GJChronology extends AssembledChronology {
     /**
      * Serialization singleton
      */
+    @Impure
     private Object readResolve() {
         return getInstance(getZone(), iCutoverInstant, getMinimumDaysInFirstWeek());
     }
 
+    @Impure
     public DateTimeZone getZone() {
         Chronology base;
         if ((base = getBase()) != null) {
@@ -306,6 +320,7 @@ public final class GJChronology extends AssembledChronology {
      * 
      * @return the chronology in UTC
      */
+    @Impure
     public Chronology withUTC() {
         return withZone(DateTimeZone.UTC);
     }
@@ -316,6 +331,7 @@ public final class GJChronology extends AssembledChronology {
      * @param zone  the zone to get the chronology in, null is default
      * @return the chronology
      */
+    @Impure
     public Chronology withZone(DateTimeZone zone) {
         if (zone == null) {
             zone = DateTimeZone.getDefault();
@@ -326,6 +342,7 @@ public final class GJChronology extends AssembledChronology {
         return getInstance(zone, iCutoverInstant, getMinimumDaysInFirstWeek());
     }
 
+    @Impure
     public long getDateTimeMillis(int year, int monthOfYear, int dayOfMonth,
                                   int millisOfDay)
         throws IllegalArgumentException
@@ -350,6 +367,7 @@ public final class GJChronology extends AssembledChronology {
         return instant;
     }
 
+    @Impure
     public long getDateTimeMillis(int year, int monthOfYear, int dayOfMonth,
                                   int hourOfDay, int minuteOfHour,
                                   int secondOfMinute, int millisOfSecond)
@@ -396,6 +414,7 @@ public final class GJChronology extends AssembledChronology {
      * Gets the cutover instant between Gregorian and Julian chronologies.
      * @return the cutover instant
      */
+    @Pure
     public Instant getGregorianCutover() {
         return iCutoverInstant;
     }
@@ -405,6 +424,8 @@ public final class GJChronology extends AssembledChronology {
      * 
      * @return the minimum days
      */
+    @Pure
+    @Impure
     public int getMinimumDaysInFirstWeek() {
         return iGregorianChronology.getMinimumDaysInFirstWeek();
     }
@@ -417,6 +438,7 @@ public final class GJChronology extends AssembledChronology {
      * @return true if equal
      * @since 1.6
      */
+    @Impure
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -436,6 +458,7 @@ public final class GJChronology extends AssembledChronology {
      * @return the hash code
      * @since 1.6
      */
+    @Impure
     public int hashCode() {
         return "GJ".hashCode() * 11 + getZone().hashCode() +
                 getMinimumDaysInFirstWeek() + iCutoverInstant.hashCode();
@@ -448,6 +471,7 @@ public final class GJChronology extends AssembledChronology {
      * 
      * @return a debugging string
      */
+    @Impure
     public String toString() {
         StringBuffer sb = new StringBuffer(60);
         sb.append("GJChronology");
@@ -474,6 +498,7 @@ public final class GJChronology extends AssembledChronology {
         return sb.toString();
     }
 
+    @Impure
     protected void assemble(Fields fields) {
         Object[] params = (Object[])getParam();
 
@@ -584,18 +609,22 @@ public final class GJChronology extends AssembledChronology {
         }
     }
 
+    @Impure
     long julianToGregorianByYear(long instant) {
         return convertByYear(instant, iJulianChronology, iGregorianChronology);
     }
 
+    @Impure
     long gregorianToJulianByYear(long instant) {
         return convertByYear(instant, iGregorianChronology, iJulianChronology);
     }
 
+    @Impure
     long julianToGregorianByWeekyear(long instant) {
         return convertByWeekyear(instant, iJulianChronology, iGregorianChronology);
     }
 
+    @Impure
     long gregorianToJulianByWeekyear(long instant) {
         return convertByWeekyear(instant, iGregorianChronology, iJulianChronology);
     }
@@ -622,6 +651,7 @@ public final class GJChronology extends AssembledChronology {
          * @param gregorianField field from the chronology used at and after the cutover
          * @param cutoverMillis  the millis of the cutover
          */
+        @Impure
         CutoverField(DateTimeField julianField, DateTimeField gregorianField, long cutoverMillis) {
             this(julianField, gregorianField, cutoverMillis, false);
         }
@@ -632,6 +662,7 @@ public final class GJChronology extends AssembledChronology {
          * @param cutoverMillis  the millis of the cutover
          * @param convertByWeekyear
          */
+        @Impure
         CutoverField(DateTimeField julianField, DateTimeField gregorianField,
                      long cutoverMillis, boolean convertByWeekyear) {
             super(gregorianField.getType());
@@ -650,10 +681,12 @@ public final class GJChronology extends AssembledChronology {
             iRangeDurationField = rangeField;
         }
 
+        @Pure
         public boolean isLenient() {
             return false;
         }
 
+        @Impure
         public int get(long instant) {
             if (instant >= iCutover) {
                 return iGregorianField.get(instant);
@@ -662,6 +695,7 @@ public final class GJChronology extends AssembledChronology {
             }
         }
 
+        @Impure
         public String getAsText(long instant, Locale locale) {
             if (instant >= iCutover) {
                 return iGregorianField.getAsText(instant, locale);
@@ -670,10 +704,12 @@ public final class GJChronology extends AssembledChronology {
             }
         }
 
+        @Impure
         public String getAsText(int fieldValue, Locale locale) {
             return iGregorianField.getAsText(fieldValue, locale);
         }
 
+        @Impure
         public String getAsShortText(long instant, Locale locale) {
             if (instant >= iCutover) {
                 return iGregorianField.getAsShortText(instant, locale);
@@ -682,18 +718,22 @@ public final class GJChronology extends AssembledChronology {
             }
         }
 
+        @Impure
         public String getAsShortText(int fieldValue, Locale locale) {
             return iGregorianField.getAsShortText(fieldValue, locale);
         }
 
+        @Impure
         public long add(long instant, int value) {
             return iGregorianField.add(instant, value);
         }
 
+        @Impure
         public long add(long instant, long value) {
             return iGregorianField.add(instant, value);
         }
 
+        @Impure
         public int[] add(ReadablePartial partial, int fieldIndex, int[] values, int valueToAdd) {
             // overridden as superclass algorithm can't handle
             // 2004-02-29 + 48 months -> 2008-02-29 type dates
@@ -712,14 +752,17 @@ public final class GJChronology extends AssembledChronology {
             }
         }
 
+        @Impure
         public int getDifference(long minuendInstant, long subtrahendInstant) {
             return iGregorianField.getDifference(minuendInstant, subtrahendInstant);
         }
 
+        @Impure
         public long getDifferenceAsLong(long minuendInstant, long subtrahendInstant) {
             return iGregorianField.getDifferenceAsLong(minuendInstant, subtrahendInstant);
         }
 
+        @Impure
         public long set(long instant, int value) {
             if (instant >= iCutover) {
                 instant = iGregorianField.set(instant, value);
@@ -751,6 +794,7 @@ public final class GJChronology extends AssembledChronology {
             return instant;
         }
 
+        @Impure
         public long set(long instant, String text, Locale locale) {
             if (instant >= iCutover) {
                 instant = iGregorianField.set(instant, text, locale);
@@ -774,14 +818,17 @@ public final class GJChronology extends AssembledChronology {
             return instant;
         }
 
+        @Pure
         public DurationField getDurationField() {
             return iDurationField;
         }
 
+        @Pure
         public DurationField getRangeDurationField() {
             return iRangeDurationField;
         }
 
+        @Impure
         public boolean isLeap(long instant) {
             if (instant >= iCutover) {
                 return iGregorianField.isLeap(instant);
@@ -790,6 +837,7 @@ public final class GJChronology extends AssembledChronology {
             }
         }
 
+        @Impure
         public int getLeapAmount(long instant) {
             if (instant >= iCutover) {
                 return iGregorianField.getLeapAmount(instant);
@@ -798,25 +846,30 @@ public final class GJChronology extends AssembledChronology {
             }
         }
 
+        @Impure
         public DurationField getLeapDurationField() {
             return iGregorianField.getLeapDurationField();
         }
 
 
+        @Impure
         public int getMinimumValue() {
             // For all precise fields, the Julian and Gregorian limits are
             // identical. Choose Julian to tighten up the year limits.
             return iJulianField.getMinimumValue();
         }
 
+        @Impure
         public int getMinimumValue(ReadablePartial partial) {
             return iJulianField.getMinimumValue(partial);
         }
 
+        @Impure
         public int getMinimumValue(ReadablePartial partial, int[] values) {
             return iJulianField.getMinimumValue(partial, values);
         }
 
+        @Impure
         public int getMinimumValue(long instant) {
             if (instant < iCutover) {
                 return iJulianField.getMinimumValue(instant);
@@ -834,12 +887,14 @@ public final class GJChronology extends AssembledChronology {
             return min;
         }
 
+        @Impure
         public int getMaximumValue() {
             // For all precise fields, the Julian and Gregorian limits are
             // identical.
             return iGregorianField.getMaximumValue();
         }
 
+        @Impure
         public int getMaximumValue(long instant) {
             if (instant >= iCutover) {
                 return iGregorianField.getMaximumValue(instant);
@@ -857,11 +912,13 @@ public final class GJChronology extends AssembledChronology {
             return max;
         }
 
+        @Impure
         public int getMaximumValue(ReadablePartial partial) {
             long instant = GJChronology.getInstanceUTC().set(partial, 0L);
             return getMaximumValue(instant);
         }
 
+        @Impure
         public int getMaximumValue(ReadablePartial partial, int[] values) {
             Chronology chrono = GJChronology.getInstanceUTC();
             long instant = 0L;
@@ -874,6 +931,7 @@ public final class GJChronology extends AssembledChronology {
             return getMaximumValue(instant);
         }
 
+        @Impure
         public long roundFloor(long instant) {
             if (instant >= iCutover) {
                 instant = iGregorianField.roundFloor(instant);
@@ -889,6 +947,7 @@ public final class GJChronology extends AssembledChronology {
             return instant;
         }
 
+        @Impure
         public long roundCeiling(long instant) {
             if (instant >= iCutover) {
                 instant = iGregorianField.roundCeiling(instant);
@@ -904,16 +963,19 @@ public final class GJChronology extends AssembledChronology {
             return instant;
         }
 
+        @Impure
         public int getMaximumTextLength(Locale locale) {
             return Math.max(iJulianField.getMaximumTextLength(locale),
                             iGregorianField.getMaximumTextLength(locale));
         }
 
+        @Impure
         public int getMaximumShortTextLength(Locale locale) {
             return Math.max(iJulianField.getMaximumShortTextLength(locale),
                             iGregorianField.getMaximumShortTextLength(locale));
         }
 
+        @Impure
         protected long julianToGregorian(long instant) {
             if (iConvertByWeekyear) {
                 return julianToGregorianByWeekyear(instant);
@@ -922,6 +984,7 @@ public final class GJChronology extends AssembledChronology {
             }
         }
 
+        @Impure
         protected long gregorianToJulian(long instant) {
             if (iConvertByWeekyear) {
                 return gregorianToJulianByWeekyear(instant);
@@ -945,6 +1008,7 @@ public final class GJChronology extends AssembledChronology {
         /**
          * Creates a duration field that links back to this.
          */
+        @Impure
         ImpreciseCutoverField(DateTimeField julianField, DateTimeField gregorianField, long cutoverMillis) {
             this(julianField, gregorianField, null, cutoverMillis, false);
         }
@@ -954,6 +1018,7 @@ public final class GJChronology extends AssembledChronology {
          *
          * @param durationField shared duration field
          */
+        @Impure
         ImpreciseCutoverField(DateTimeField julianField, DateTimeField gregorianField,
                               DurationField durationField, long cutoverMillis)
         {
@@ -965,6 +1030,7 @@ public final class GJChronology extends AssembledChronology {
          *
          * @param durationField shared duration field
          */
+        @Impure
         ImpreciseCutoverField(DateTimeField julianField, DateTimeField gregorianField,
                               DurationField durationField,
                               long cutoverMillis, boolean convertByWeekyear)
@@ -976,6 +1042,7 @@ public final class GJChronology extends AssembledChronology {
             iDurationField = durationField;
         }
 
+        @Impure
         public long add(long instant, int value) {
             if (instant >= iCutover) {
                 instant = iGregorianField.add(instant, value);
@@ -1009,6 +1076,7 @@ public final class GJChronology extends AssembledChronology {
             return instant;
         }
         
+        @Impure
         public long add(long instant, long value) {
             if (instant >= iCutover) {
                 instant = iGregorianField.add(instant, value);
@@ -1042,6 +1110,7 @@ public final class GJChronology extends AssembledChronology {
             return instant;
         }
 
+        @Impure
         public int getDifference(long minuendInstant, long subtrahendInstant) {
             if (minuendInstant >= iCutover) {
                 if (subtrahendInstant >= iCutover) {
@@ -1062,6 +1131,7 @@ public final class GJChronology extends AssembledChronology {
             }
         }
 
+        @Impure
         public long getDifferenceAsLong(long minuendInstant, long subtrahendInstant) {
             if (minuendInstant >= iCutover) {
                 if (subtrahendInstant >= iCutover) {
@@ -1092,6 +1162,7 @@ public final class GJChronology extends AssembledChronology {
         // at the beginning or end of the year, then the minimum and maximum
         // values are not 1 and 12. I don't expect this case to ever occur.
 
+        @Impure
         public int getMinimumValue(long instant) {
             if (instant >= iCutover) {
                 return iGregorianField.getMinimumValue(instant);
@@ -1100,6 +1171,7 @@ public final class GJChronology extends AssembledChronology {
             }
         }
 
+        @Impure
         public int getMaximumValue(long instant) {
             if (instant >= iCutover) {
                 return iGregorianField.getMaximumValue(instant);
@@ -1118,23 +1190,28 @@ public final class GJChronology extends AssembledChronology {
 
         private final ImpreciseCutoverField iField;
 
+        @Impure
         LinkedDurationField(DurationField durationField, ImpreciseCutoverField dateTimeField) {
             super(durationField, durationField.getType());
             iField = dateTimeField;
         }
 
+        @Impure
         public long add(long instant, int value) {
             return iField.add(instant, value);
         }
 
+        @Impure
         public long add(long instant, long value) {
             return iField.add(instant, value);
         }
 
+        @Impure
         public int getDifference(long minuendInstant, long subtrahendInstant) {
             return iField.getDifference(minuendInstant, subtrahendInstant);
         }
 
+        @Impure
         public long getDifferenceAsLong(long minuendInstant, long subtrahendInstant) {
             return iField.getDifferenceAsLong(minuendInstant, subtrahendInstant);
         }

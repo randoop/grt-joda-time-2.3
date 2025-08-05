@@ -15,6 +15,7 @@
  */
 package org.joda.time.convert;
 
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.time.Chronology;
 import org.joda.time.PeriodType;
 import org.joda.time.ReadWritablePeriod;
@@ -37,6 +38,7 @@ public interface PeriodConverter extends Converter {
      * @param chrono  the chronology to use, must not be null
      * @throws ClassCastException if the object is invalid
      */
+    @Impure
     void setInto(ReadWritablePeriod period, Object object, Chronology chrono);
 
     /**
@@ -46,6 +48,7 @@ public interface PeriodConverter extends Converter {
      * @return the period type, never null
      * @throws ClassCastException if the object is invalid
      */
+    @Impure
     PeriodType getPeriodType(Object object);
 
 }

@@ -15,6 +15,8 @@
  */
 package org.joda.time.field;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.Serializable;
 
 import org.joda.time.DurationField;
@@ -43,6 +45,7 @@ public abstract class BaseDurationField extends DurationField implements Seriali
     /** A desriptive name for the field. */
     private final DurationFieldType iType;
 
+    @Impure
     protected BaseDurationField(DurationFieldType type) {
         super();
         if (type == null) {
@@ -51,10 +54,13 @@ public abstract class BaseDurationField extends DurationField implements Seriali
         iType = type;
     }
 
+    @Pure
     public final DurationFieldType getType() {
         return iType;
     }
 
+    @Pure
+    @Impure
     public final String getName() {
         return iType.getName();
     }
@@ -62,6 +68,7 @@ public abstract class BaseDurationField extends DurationField implements Seriali
     /**
      * @return true always
      */
+    @Pure
     public final boolean isSupported() {
         return true;
     }
@@ -75,6 +82,7 @@ public abstract class BaseDurationField extends DurationField implements Seriali
      * @return the value of the field, in the units of the field, which may be
      * negative
      */
+    @Impure
     public int getValue(long duration) {
         return FieldUtils.safeToInt(getValueAsLong(duration));
     }
@@ -87,6 +95,7 @@ public abstract class BaseDurationField extends DurationField implements Seriali
      * @return the value of the field, in the units of the field, which may be
      * negative
      */
+    @Impure
     public long getValueAsLong(long duration) {
         return duration / getUnitMillis();
     }
@@ -107,6 +116,7 @@ public abstract class BaseDurationField extends DurationField implements Seriali
      * @return the value of the field, in the units of the field, which may be
      * negative
      */
+    @Impure
     public int getValue(long duration, long instant) {
         return FieldUtils.safeToInt(getValueAsLong(duration, instant));
     }
@@ -119,6 +129,7 @@ public abstract class BaseDurationField extends DurationField implements Seriali
      * @return the milliseconds that the field represents, which may be
      * negative
      */
+    @Impure
     public long getMillis(int value) {
         return value * getUnitMillis();  // safe
     }
@@ -131,17 +142,20 @@ public abstract class BaseDurationField extends DurationField implements Seriali
      * @return the milliseconds that the field represents, which may be
      * negative
      */
+    @Impure
     public long getMillis(long value) {
         return FieldUtils.safeMultiply(value, getUnitMillis());
     }
 
     // Calculation API
     //------------------------------------------------------------------------
+    @Impure
     public int getDifference(long minuendInstant, long subtrahendInstant) {
         return FieldUtils.safeToInt(getDifferenceAsLong(minuendInstant, subtrahendInstant));
     }
 
     //------------------------------------------------------------------------
+    @Impure
     public int compareTo(DurationField otherField) {
         long otherMillis = otherField.getUnitMillis();
         long thisMillis = getUnitMillis();
@@ -161,6 +175,8 @@ public abstract class BaseDurationField extends DurationField implements Seriali
      * 
      * @return debug string
      */
+    @Pure
+    @Impure
     public String toString() {
         return "DurationField[" + getName() + ']';
     }

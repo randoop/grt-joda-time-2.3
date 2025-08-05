@@ -15,6 +15,9 @@
  */
 package org.joda.time.base;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.Serializable;
 
 import org.joda.time.Chronology;
@@ -57,6 +60,8 @@ public abstract class BaseDuration
      *
      * @param duration  the duration, in milliseconds
      */
+    @SideEffectFree
+    @Impure
     protected BaseDuration(long duration) {
         super();
         iMillis = duration;
@@ -69,6 +74,8 @@ public abstract class BaseDuration
      * @param endInstant  interval end, in milliseconds
      * @throws ArithmeticException if the duration exceeds a 64 bit long
      */
+    @SideEffectFree
+    @Impure
     protected BaseDuration(long startInstant, long endInstant) {
         super();
         iMillis = FieldUtils.safeAdd(endInstant, -startInstant);
@@ -81,6 +88,7 @@ public abstract class BaseDuration
      * @param end  interval end, null means now
      * @throws ArithmeticException if the duration exceeds a 64 bit long
      */
+    @Impure
     protected BaseDuration(ReadableInstant start, ReadableInstant end) {
         super();
         if (start == end) {
@@ -99,6 +107,7 @@ public abstract class BaseDuration
      * @param duration  duration to convert
      * @throws IllegalArgumentException if duration is invalid
      */
+    @Impure
     protected BaseDuration(Object duration) {
         super();
         DurationConverter converter = ConverterManager.getInstance().getDurationConverter(duration);
@@ -111,6 +120,7 @@ public abstract class BaseDuration
      *
      * @return the length of the duration in milliseconds.
      */
+    @Pure
     public long getMillis() {
         return iMillis;
     }
@@ -121,6 +131,7 @@ public abstract class BaseDuration
      * 
      * @param duration  the new length of the duration
      */
+    @Impure
     protected void setMillis(long duration) {
         iMillis = duration;
     }
@@ -140,6 +151,7 @@ public abstract class BaseDuration
      * @param type  the period type to use, null means standard
      * @return a Period created using the millisecond duration from this instance
      */
+    @Impure
     public Period toPeriod(PeriodType type) {
         return new Period(getMillis(), type);
     }
@@ -160,6 +172,7 @@ public abstract class BaseDuration
      * @param chrono  the chronology to use, null means ISO default
      * @return a Period created using the millisecond duration from this instance
      */
+    @Impure
     public Period toPeriod(Chronology chrono) {
         return new Period(getMillis(), chrono);
     }
@@ -181,6 +194,7 @@ public abstract class BaseDuration
      * @param chrono  the chronology to use, null means ISO default
      * @return a Period created using the millisecond duration from this instance
      */
+    @Impure
     public Period toPeriod(PeriodType type, Chronology chrono) {
         return new Period(getMillis(), type, chrono);
     }
@@ -196,6 +210,7 @@ public abstract class BaseDuration
      * @param startInstant  the instant to calculate the period from, null means now
      * @return a Period created using the millisecond duration from this instance
      */
+    @Impure
     public Period toPeriodFrom(ReadableInstant startInstant) {
         return new Period(startInstant, this);
     }
@@ -212,6 +227,7 @@ public abstract class BaseDuration
      * @param type  the period type determining how to split the duration into fields, null means All type
      * @return a Period created using the millisecond duration from this instance
      */
+    @Impure
     public Period toPeriodFrom(ReadableInstant startInstant, PeriodType type) {
         return new Period(startInstant, this, type);
     }
@@ -228,6 +244,7 @@ public abstract class BaseDuration
      * @param endInstant  the instant to calculate the period to, null means now
      * @return a Period created using the millisecond duration from this instance
      */
+    @Impure
     public Period toPeriodTo(ReadableInstant endInstant) {
         return new Period(this, endInstant);
     }
@@ -245,6 +262,7 @@ public abstract class BaseDuration
      * @param type  the period type determining how to split the duration into fields, null means All type
      * @return a Period created using the millisecond duration from this instance
      */
+    @Impure
     public Period toPeriodTo(ReadableInstant endInstant, PeriodType type) {
         return new Period(this, endInstant, type);
     }
@@ -255,6 +273,7 @@ public abstract class BaseDuration
      * @param startInstant  the instant to start the interval at, null means now
      * @return an Interval starting at the specified instant
      */
+    @Impure
     public Interval toIntervalFrom(ReadableInstant startInstant) {
         return new Interval(startInstant, this);
     }
@@ -265,6 +284,7 @@ public abstract class BaseDuration
      * @param endInstant  the instant to end the interval at, null means now
      * @return an Interval ending at the specified instant
      */
+    @Impure
     public Interval toIntervalTo(ReadableInstant endInstant) {
         return new Interval(this, endInstant);
     }

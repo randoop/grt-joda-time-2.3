@@ -15,6 +15,9 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.convert.FromString;
 import org.joda.convert.ToString;
 import org.joda.time.base.BaseSingleFieldPeriod;
@@ -68,6 +71,8 @@ public final class Years extends BaseSingleFieldPeriod {
      * @param years  the number of years to obtain an instance for
      * @return the instance of Years
      */
+    @SideEffectFree
+    @Impure
     public static Years years(int years) {
         switch (years) {
             case 0:
@@ -98,6 +103,7 @@ public final class Years extends BaseSingleFieldPeriod {
      * @return the period in years
      * @throws IllegalArgumentException if the instants are null or invalid
      */
+    @Impure
     public static Years yearsBetween(ReadableInstant start, ReadableInstant end) {
         int amount = BaseSingleFieldPeriod.between(start, end, DurationFieldType.years());
         return Years.years(amount);
@@ -115,6 +121,7 @@ public final class Years extends BaseSingleFieldPeriod {
      * @return the period in years
      * @throws IllegalArgumentException if the partials are null or invalid
      */
+    @Impure
     public static Years yearsBetween(ReadablePartial start, ReadablePartial end) {
         if (start instanceof LocalDate && end instanceof LocalDate)   {
             Chronology chrono = DateTimeUtils.getChronology(start.getChronology());
@@ -135,6 +142,7 @@ public final class Years extends BaseSingleFieldPeriod {
      * @return the period in years
      * @throws IllegalArgumentException if the partials are null or invalid
      */
+    @Impure
     public static Years yearsIn(ReadableInterval interval) {
         if (interval == null)   {
             return Years.ZERO;
@@ -154,6 +162,7 @@ public final class Years extends BaseSingleFieldPeriod {
      * @return the period in years
      * @throws IllegalArgumentException if the string format is invalid
      */
+    @Impure
     @FromString
     public static Years parseYears(String periodStr) {
         if (periodStr == null) {
@@ -171,6 +180,8 @@ public final class Years extends BaseSingleFieldPeriod {
      *
      * @param years  the number of years to represent
      */
+    @SideEffectFree
+    @Impure
     private Years(int years) {
         super(years);
     }
@@ -180,6 +191,8 @@ public final class Years extends BaseSingleFieldPeriod {
      * 
      * @return the singleton instance
      */
+    @SideEffectFree
+    @Impure
     private Object readResolve() {
         return Years.years(getValue());
     }
@@ -190,6 +203,8 @@ public final class Years extends BaseSingleFieldPeriod {
      *
      * @return the period type
      */
+    @Pure
+    @Impure
     public DurationFieldType getFieldType() {
         return DurationFieldType.years();
     }
@@ -199,6 +214,7 @@ public final class Years extends BaseSingleFieldPeriod {
      *
      * @return the period type
      */
+    @Impure
     public PeriodType getPeriodType() {
         return PeriodType.years();
     }
@@ -209,6 +225,8 @@ public final class Years extends BaseSingleFieldPeriod {
      *
      * @return the number of years in the period
      */
+    @Pure
+    @Impure
     public int getYears() {
         return getValue();
     }
@@ -223,6 +241,8 @@ public final class Years extends BaseSingleFieldPeriod {
      * @return the new period plus the specified number of years
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Years plus(int years) {
         if (years == 0) {
             return this;
@@ -239,6 +259,8 @@ public final class Years extends BaseSingleFieldPeriod {
      * @return the new period plus the specified number of years
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Years plus(Years years) {
         if (years == null) {
             return this;
@@ -256,6 +278,8 @@ public final class Years extends BaseSingleFieldPeriod {
      * @return the new period minus the specified number of years
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Years minus(int years) {
         return plus(FieldUtils.safeNegate(years));
     }
@@ -269,6 +293,8 @@ public final class Years extends BaseSingleFieldPeriod {
      * @return the new period minus the specified number of years
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Years minus(Years years) {
         if (years == null) {
             return this;
@@ -286,6 +312,8 @@ public final class Years extends BaseSingleFieldPeriod {
      * @return the new period multiplied by the specified scalar
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Years multipliedBy(int scalar) {
         return Years.years(FieldUtils.safeMultiply(getValue(), scalar));
     }
@@ -300,6 +328,8 @@ public final class Years extends BaseSingleFieldPeriod {
      * @return the new period divided by the specified divisor
      * @throws ArithmeticException if the divisor is zero
      */
+    @SideEffectFree
+    @Impure
     public Years dividedBy(int divisor) {
         if (divisor == 1) {
             return this;
@@ -314,6 +344,8 @@ public final class Years extends BaseSingleFieldPeriod {
      * @return the new period with a negated value
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Years negated() {
         return Years.years(FieldUtils.safeNegate(getValue()));
     }
@@ -325,6 +357,8 @@ public final class Years extends BaseSingleFieldPeriod {
      * @param other  the other period, null means zero
      * @return true if this years instance is greater than the specified one
      */
+    @Pure
+    @Impure
     public boolean isGreaterThan(Years other) {
         if (other == null) {
             return getValue() > 0;
@@ -338,6 +372,8 @@ public final class Years extends BaseSingleFieldPeriod {
      * @param other  the other period, null means zero
      * @return true if this years instance is less than the specified one
      */
+    @Pure
+    @Impure
     public boolean isLessThan(Years other) {
         if (other == null) {
             return getValue() < 0;
@@ -353,6 +389,8 @@ public final class Years extends BaseSingleFieldPeriod {
      *
      * @return the value as an ISO8601 string
      */
+    @SideEffectFree
+    @Impure
     @ToString
     public String toString() {
         return "P" + String.valueOf(getValue()) + "Y";

@@ -15,6 +15,8 @@
  */
 package org.joda.time.convert;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import org.joda.time.Chronology;
 import org.joda.time.ReadWritableInterval;
 
@@ -37,6 +39,7 @@ public interface IntervalConverter extends Converter {
      * @return true if the input is a ReadableInterval
      * @throws ClassCastException if the object is invalid
      */
+    @Pure
     boolean isReadableInterval(Object object, Chronology chrono);
 
     /**
@@ -48,6 +51,7 @@ public interface IntervalConverter extends Converter {
      * @param chrono  the chronology to use, may be null
      * @throws ClassCastException if the object is invalid
      */
+    @Impure
     void setInto(ReadWritableInterval writableInterval, Object object, Chronology chrono);
 
 }

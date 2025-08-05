@@ -15,6 +15,9 @@
  */
 package org.joda.time.format;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -63,6 +66,7 @@ public class ISODateTimeFormat {
      *
      * @since 1.1 (previously private)
      */
+    @SideEffectFree
     protected ISODateTimeFormat() {
         super();
     }
@@ -144,6 +148,7 @@ public class ISODateTimeFormat {
      * @throws IllegalArgumentException if there is no format for the fields
      * @since 1.1
      */
+    @Impure
     public static DateTimeFormatter forFields(
         Collection<DateTimeFieldType> fields,
         boolean extended,
@@ -206,6 +211,7 @@ public class ISODateTimeFormat {
      * @return true if reduced precision
      * @since 1.1
      */
+    @Impure
     private static boolean dateByMonth(
         DateTimeFormatterBuilder bld,
         Collection<DateTimeFieldType> fields,
@@ -274,6 +280,7 @@ public class ISODateTimeFormat {
      * @param strictISO  true to only allow ISO formats
      * @since 1.1
      */
+    @Impure
     private static boolean dateByOrdinal(
         DateTimeFormatterBuilder bld,
         Collection<DateTimeFieldType> fields,
@@ -311,6 +318,7 @@ public class ISODateTimeFormat {
      * @param strictISO  true to only allow ISO formats
      * @since 1.1
      */
+    @Impure
     private static boolean dateByWeek(
         DateTimeFormatterBuilder bld,
         Collection<DateTimeFieldType> fields,
@@ -381,6 +389,7 @@ public class ISODateTimeFormat {
      * @param datePresent  whether there was a date
      * @since 1.1
      */
+    @Impure
     private static void time(
         DateTimeFormatterBuilder bld,
         Collection<DateTimeFieldType> fields,
@@ -453,6 +462,7 @@ public class ISODateTimeFormat {
      * @param strictISO  true if only ISO formats allowed
      * @since 1.1
      */
+    @SideEffectFree
     private static void checkNotStrictISO(Collection<DateTimeFieldType> fields, boolean strictISO) {
         if (strictISO) {
             throw new IllegalArgumentException("No valid ISO8601 format for fields: " + fields);
@@ -467,6 +477,7 @@ public class ISODateTimeFormat {
      * @param sep  the separator
      * @since 1.1
      */
+    @Impure
     private static void appendSeparator(DateTimeFormatterBuilder bld, boolean extended) {
         if (extended) {
             bld.appendLiteral('-');
@@ -487,6 +498,7 @@ public class ISODateTimeFormat {
      * offset            = 'Z' | (('+' | '-') HH [':' mm [':' ss [('.' | ',') SSS]]])
      * </pre>
      */
+    @Pure
     public static DateTimeFormatter dateParser() {
         return Constants.dp;
     }
@@ -504,6 +516,7 @@ public class ISODateTimeFormat {
      * </pre>
      * @since 1.3
      */
+    @Pure
     public static DateTimeFormatter localDateParser() {
         return Constants.ldp;
     }
@@ -519,6 +532,7 @@ public class ISODateTimeFormat {
      * week-date-element = xxxx '-W' ww ['-' e]
      * </pre>
      */
+    @Pure
     public static DateTimeFormatter dateElementParser() {
         return Constants.dpe;
     }
@@ -537,6 +551,7 @@ public class ISODateTimeFormat {
      * offset         = 'Z' | (('+' | '-') HH [':' mm [':' ss [('.' | ',') SSS]]])
      * </pre>
      */
+    @Pure
     public static DateTimeFormatter timeParser() {
         return Constants.tp;
     }
@@ -556,6 +571,7 @@ public class ISODateTimeFormat {
      * </pre>
      * @since 1.3
      */
+    @Pure
     public static DateTimeFormatter localTimeParser() {
         return Constants.ltp;
     }
@@ -572,6 +588,7 @@ public class ISODateTimeFormat {
      * fraction       = ('.' | ',') digit+
      * </pre>
      */
+    @Pure
     public static DateTimeFormatter timeElementParser() {
         return Constants.tpe;
     }
@@ -596,6 +613,7 @@ public class ISODateTimeFormat {
      * offset            = 'Z' | (('+' | '-') HH [':' mm [':' ss [('.' | ',') SSS]]])
      * </pre>
      */
+    @Pure
     public static DateTimeFormatter dateTimeParser() {
         return Constants.dtp;
     }
@@ -619,6 +637,7 @@ public class ISODateTimeFormat {
      * </pre>
      * @since 1.3
      */
+    @Pure
     public static DateTimeFormatter dateOptionalTimeParser() {
         return Constants.dotp;
     }
@@ -643,6 +662,7 @@ public class ISODateTimeFormat {
      * </pre>
      * @since 1.3
      */
+    @Pure
     public static DateTimeFormatter localDateOptionalTimeParser() {
         return Constants.ldotp;
     }
@@ -654,6 +674,8 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for yyyy-MM-dd
      */
+    @Pure
+    @Impure
     public static DateTimeFormatter date() {
         return yearMonthDay();
     }
@@ -667,6 +689,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for HH:mm:ss.SSSZZ
      */
+    @Pure
     public static DateTimeFormatter time() {
         return Constants.t;
     }
@@ -679,6 +702,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for HH:mm:ssZZ
      */
+    @Pure
     public static DateTimeFormatter timeNoMillis() {
         return Constants.tx;
     }
@@ -692,6 +716,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for 'T'HH:mm:ss.SSSZZ
      */
+    @Pure
     public static DateTimeFormatter tTime() {
         return Constants.tt;
     }
@@ -705,6 +730,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for 'T'HH:mm:ssZZ
      */
+    @Pure
     public static DateTimeFormatter tTimeNoMillis() {
         return Constants.ttx;
     }
@@ -717,6 +743,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for yyyy-MM-dd'T'HH:mm:ss.SSSZZ
      */
+    @Pure
     public static DateTimeFormatter dateTime() {
         return Constants.dt;
     }
@@ -729,6 +756,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for yyyy-MM-dd'T'HH:mm:ssZZ
      */
+    @Pure
     public static DateTimeFormatter dateTimeNoMillis() {
         return Constants.dtx;
     }
@@ -740,6 +768,7 @@ public class ISODateTimeFormat {
      * @return a formatter for yyyy-DDD
      * @since 1.1
      */
+    @Pure
     public static DateTimeFormatter ordinalDate() {
         return Constants.od;
     }
@@ -753,6 +782,7 @@ public class ISODateTimeFormat {
      * @return a formatter for yyyy-DDD'T'HH:mm:ss.SSSZZ
      * @since 1.1
      */
+    @Pure
     public static DateTimeFormatter ordinalDateTime() {
         return Constants.odt;
     }
@@ -766,6 +796,7 @@ public class ISODateTimeFormat {
      * @return a formatter for yyyy-DDD'T'HH:mm:ssZZ
      * @since 1.1
      */
+    @Pure
     public static DateTimeFormatter ordinalDateTimeNoMillis() {
         return Constants.odtx;
     }
@@ -776,6 +807,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for xxxx-'W'ww-e
      */
+    @Pure
     public static DateTimeFormatter weekDate() {
         return Constants.wwd;
     }
@@ -788,6 +820,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for xxxx-'W'ww-e'T'HH:mm:ss.SSSZZ
      */
+    @Pure
     public static DateTimeFormatter weekDateTime() {
         return Constants.wdt;
     }
@@ -800,6 +833,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for xxxx-'W'ww-e'T'HH:mm:ssZZ
      */
+    @Pure
     public static DateTimeFormatter weekDateTimeNoMillis() {
         return Constants.wdtx;
     }
@@ -811,6 +845,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for yyyyMMdd
      */
+    @Pure
     public static DateTimeFormatter basicDate() {
         return Constants.bd;
     }
@@ -824,6 +859,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for HHmmss.SSSZ
      */
+    @Pure
     public static DateTimeFormatter basicTime() {
         return Constants.bt;
     }
@@ -836,6 +872,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for HHmmssZ
      */
+    @Pure
     public static DateTimeFormatter basicTimeNoMillis() {
         return Constants.btx;
     }
@@ -849,6 +886,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for 'T'HHmmss.SSSZ
      */
+    @Pure
     public static DateTimeFormatter basicTTime() {
         return Constants.btt;
     }
@@ -862,6 +900,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for 'T'HHmmssZ
      */
+    @Pure
     public static DateTimeFormatter basicTTimeNoMillis() {
         return Constants.bttx;
     }
@@ -874,6 +913,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for yyyyMMdd'T'HHmmss.SSSZ
      */
+    @Pure
     public static DateTimeFormatter basicDateTime() {
         return Constants.bdt;
     }
@@ -886,6 +926,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for yyyyMMdd'T'HHmmssZ
      */
+    @Pure
     public static DateTimeFormatter basicDateTimeNoMillis() {
         return Constants.bdtx;
     }
@@ -897,6 +938,7 @@ public class ISODateTimeFormat {
      * @return a formatter for yyyyDDD
      * @since 1.1
      */
+    @Pure
     public static DateTimeFormatter basicOrdinalDate() {
         return Constants.bod;
     }
@@ -910,6 +952,7 @@ public class ISODateTimeFormat {
      * @return a formatter for yyyyDDD'T'HHmmss.SSSZ
      * @since 1.1
      */
+    @Pure
     public static DateTimeFormatter basicOrdinalDateTime() {
         return Constants.bodt;
     }
@@ -923,6 +966,7 @@ public class ISODateTimeFormat {
      * @return a formatter for yyyyDDD'T'HHmmssZ
      * @since 1.1
      */
+    @Pure
     public static DateTimeFormatter basicOrdinalDateTimeNoMillis() {
         return Constants.bodtx;
     }
@@ -933,6 +977,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for xxxx'W'wwe
      */
+    @Pure
     public static DateTimeFormatter basicWeekDate() {
         return Constants.bwd;
     }
@@ -945,6 +990,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for xxxx'W'wwe'T'HHmmss.SSSZ
      */
+    @Pure
     public static DateTimeFormatter basicWeekDateTime() {
         return Constants.bwdt;
     }
@@ -957,6 +1003,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for xxxx'W'wwe'T'HHmmssZ
      */
+    @Pure
     public static DateTimeFormatter basicWeekDateTimeNoMillis() {
         return Constants.bwdtx;
     }
@@ -967,6 +1014,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for yyyy
      */
+    @Pure
     public static DateTimeFormatter year() {
         return Constants.ye;
     }
@@ -977,6 +1025,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for yyyy-MM
      */
+    @Pure
     public static DateTimeFormatter yearMonth() {
         return Constants.ym;
     }
@@ -987,6 +1036,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for yyyy-MM-dd
      */
+    @Pure
     public static DateTimeFormatter yearMonthDay() {
         return Constants.ymd;
     }
@@ -996,6 +1046,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for xxxx
      */
+    @Pure
     public static DateTimeFormatter weekyear() {
         return Constants.we;
     }
@@ -1006,6 +1057,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for xxxx-'W'ww
      */
+    @Pure
     public static DateTimeFormatter weekyearWeek() {
         return Constants.ww;
     }
@@ -1016,6 +1068,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for xxxx-'W'ww-e
      */
+    @Pure
     public static DateTimeFormatter weekyearWeekDay() {
         return Constants.wwd;
     }
@@ -1025,6 +1078,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for HH
      */
+    @Pure
     public static DateTimeFormatter hour() {
         return Constants.hde;
     }
@@ -1035,6 +1089,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for HH:mm
      */
+    @Pure
     public static DateTimeFormatter hourMinute() {
         return Constants.hm;
     }
@@ -1045,6 +1100,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for HH:mm:ss
      */
+    @Pure
     public static DateTimeFormatter hourMinuteSecond() {
         return Constants.hms;
     }
@@ -1057,6 +1113,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for HH:mm:ss.SSS
      */
+    @Pure
     public static DateTimeFormatter hourMinuteSecondMillis() {
         return Constants.hmsl;
     }
@@ -1069,6 +1126,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for HH:mm:ss.SSS
      */
+    @Pure
     public static DateTimeFormatter hourMinuteSecondFraction() {
         return Constants.hmsf;
     }
@@ -1079,6 +1137,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for yyyy-MM-dd'T'HH
      */
+    @Pure
     public static DateTimeFormatter dateHour() {
         return Constants.dh;
     }
@@ -1089,6 +1148,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for yyyy-MM-dd'T'HH:mm
      */
+    @Pure
     public static DateTimeFormatter dateHourMinute() {
         return Constants.dhm;
     }
@@ -1100,6 +1160,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for yyyy-MM-dd'T'HH:mm:ss
      */
+    @Pure
     public static DateTimeFormatter dateHourMinuteSecond() {
         return Constants.dhms;
     }
@@ -1112,6 +1173,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for yyyy-MM-dd'T'HH:mm:ss.SSS
      */
+    @Pure
     public static DateTimeFormatter dateHourMinuteSecondMillis() {
         return Constants.dhmsl;
     }
@@ -1124,6 +1186,7 @@ public class ISODateTimeFormat {
      * 
      * @return a formatter for yyyy-MM-dd'T'HH:mm:ss.SSS
      */
+    @Pure
     public static DateTimeFormatter dateHourMinuteSecondFraction() {
         return Constants.dhmsf;
     }
@@ -1208,6 +1271,7 @@ public class ISODateTimeFormat {
             ldotp = localDateOptionalTimeParser(); // local date optional time parser
 
         //-----------------------------------------------------------------------
+        @Impure
         private static DateTimeFormatter dateParser() {
             if (dp == null) {
                 DateTimeParser tOffset = new DateTimeFormatterBuilder()
@@ -1221,6 +1285,7 @@ public class ISODateTimeFormat {
             return dp;
         }
 
+        @Impure
         private static DateTimeFormatter localDateParser() {
             if (ldp == null) {
                 return dateElementParser().withZoneUTC();
@@ -1228,6 +1293,7 @@ public class ISODateTimeFormat {
             return ldp;
         }
 
+        @Impure
         private static DateTimeFormatter dateElementParser() {
             if (dpe == null) {
                 return new DateTimeFormatterBuilder()
@@ -1255,6 +1321,7 @@ public class ISODateTimeFormat {
             return dpe;
         }
 
+        @Impure
         private static DateTimeFormatter timeParser() {
             if (tp == null) {
                 return new DateTimeFormatterBuilder()
@@ -1266,6 +1333,7 @@ public class ISODateTimeFormat {
             return tp;
         }
 
+        @Impure
         private static DateTimeFormatter localTimeParser() {
             if (ltp == null) {
                 return new DateTimeFormatterBuilder()
@@ -1276,6 +1344,7 @@ public class ISODateTimeFormat {
             return ltp;
         }
 
+        @Impure
         private static DateTimeFormatter timeElementParser() {
             if (tpe == null) {
                 // Decimal point can be either '.' or ','
@@ -1329,6 +1398,7 @@ public class ISODateTimeFormat {
             return tpe;
         }
 
+        @Impure
         private static DateTimeFormatter dateTimeParser() {
             if (dtp == null) {
                 // This is different from the general time parser in that the 'T'
@@ -1345,6 +1415,7 @@ public class ISODateTimeFormat {
             return dtp;
         }
 
+        @Impure
         private static DateTimeFormatter dateOptionalTimeParser() {
             if (dotp == null) {
                 DateTimeParser timeOrOffset = new DateTimeFormatterBuilder()
@@ -1360,6 +1431,7 @@ public class ISODateTimeFormat {
             return dotp;
         }
 
+        @Impure
         private static DateTimeFormatter localDateOptionalTimeParser() {
             if (ldotp == null) {
                 DateTimeParser time = new DateTimeFormatterBuilder()
@@ -1375,6 +1447,7 @@ public class ISODateTimeFormat {
         }
 
         //-----------------------------------------------------------------------
+        @Impure
         private static DateTimeFormatter time() {
             if (t == null) {
                 return new DateTimeFormatterBuilder()
@@ -1385,6 +1458,7 @@ public class ISODateTimeFormat {
             return t;
         }
 
+        @Impure
         private static DateTimeFormatter timeNoMillis() {
             if (tx == null) {
                 return new DateTimeFormatterBuilder()
@@ -1395,6 +1469,7 @@ public class ISODateTimeFormat {
             return tx;
         }
 
+        @Impure
         private static DateTimeFormatter tTime() {
             if (tt == null) {
                 return new DateTimeFormatterBuilder()
@@ -1405,6 +1480,7 @@ public class ISODateTimeFormat {
             return tt;
         }
 
+        @Impure
         private static DateTimeFormatter tTimeNoMillis() {
             if (ttx == null) {
                 return new DateTimeFormatterBuilder()
@@ -1415,6 +1491,7 @@ public class ISODateTimeFormat {
             return ttx;
         }
 
+        @Impure
         private static DateTimeFormatter dateTime() {
             if (dt == null) {
                 return new DateTimeFormatterBuilder()
@@ -1425,6 +1502,7 @@ public class ISODateTimeFormat {
             return dt;
         }
 
+        @Impure
         private static DateTimeFormatter dateTimeNoMillis() {
             if (dtx == null) {
                 return new DateTimeFormatterBuilder()
@@ -1435,6 +1513,7 @@ public class ISODateTimeFormat {
             return dtx;
         }
 
+        @Impure
         private static DateTimeFormatter ordinalDate() {
             if (od == null) {
                 return new DateTimeFormatterBuilder()
@@ -1445,6 +1524,7 @@ public class ISODateTimeFormat {
             return od;
         }
 
+        @Impure
         private static DateTimeFormatter ordinalDateTime() {
             if (odt == null) {
                 return new DateTimeFormatterBuilder()
@@ -1455,6 +1535,7 @@ public class ISODateTimeFormat {
             return odt;
         }
 
+        @Impure
         private static DateTimeFormatter ordinalDateTimeNoMillis() {
             if (odtx == null) {
                 return new DateTimeFormatterBuilder()
@@ -1465,6 +1546,7 @@ public class ISODateTimeFormat {
             return odtx;
         }
 
+        @Impure
         private static DateTimeFormatter weekDateTime() {
             if (wdt == null) {
                 return new DateTimeFormatterBuilder()
@@ -1475,6 +1557,7 @@ public class ISODateTimeFormat {
             return wdt;
         }
 
+        @Impure
         private static DateTimeFormatter weekDateTimeNoMillis() {
             if (wdtx == null) {
                 return new DateTimeFormatterBuilder()
@@ -1486,6 +1569,7 @@ public class ISODateTimeFormat {
         }
 
         //-----------------------------------------------------------------------
+        @Impure
         private static DateTimeFormatter basicDate() {
             if (bd == null) {
                 return new DateTimeFormatterBuilder()
@@ -1497,6 +1581,7 @@ public class ISODateTimeFormat {
             return bd;
         }
 
+        @Impure
         private static DateTimeFormatter basicTime() {
             if (bt == null) {
                 return new DateTimeFormatterBuilder()
@@ -1511,6 +1596,7 @@ public class ISODateTimeFormat {
             return bt;
         }
 
+        @Impure
         private static DateTimeFormatter basicTimeNoMillis() {
             if (btx == null) {
                 return new DateTimeFormatterBuilder()
@@ -1523,6 +1609,7 @@ public class ISODateTimeFormat {
             return btx;
         }
 
+        @Impure
         private static DateTimeFormatter basicTTime() {
             if (btt == null) {
                 return new DateTimeFormatterBuilder()
@@ -1533,6 +1620,7 @@ public class ISODateTimeFormat {
             return btt;
         }
 
+        @Impure
         private static DateTimeFormatter basicTTimeNoMillis() {
             if (bttx == null) {
                 return new DateTimeFormatterBuilder()
@@ -1543,6 +1631,7 @@ public class ISODateTimeFormat {
             return bttx;
         }
 
+        @Impure
         private static DateTimeFormatter basicDateTime() {
             if (bdt == null) {
                 return new DateTimeFormatterBuilder()
@@ -1553,6 +1642,7 @@ public class ISODateTimeFormat {
             return bdt;
         }
 
+        @Impure
         private static DateTimeFormatter basicDateTimeNoMillis() {
             if (bdtx == null) {
                 return new DateTimeFormatterBuilder()
@@ -1563,6 +1653,7 @@ public class ISODateTimeFormat {
             return bdtx;
         }
 
+        @Impure
         private static DateTimeFormatter basicOrdinalDate() {
             if (bod == null) {
                 return new DateTimeFormatterBuilder()
@@ -1573,6 +1664,7 @@ public class ISODateTimeFormat {
             return bod;
         }
 
+        @Impure
         private static DateTimeFormatter basicOrdinalDateTime() {
             if (bodt == null) {
                 return new DateTimeFormatterBuilder()
@@ -1583,6 +1675,7 @@ public class ISODateTimeFormat {
             return bodt;
         }
 
+        @Impure
         private static DateTimeFormatter basicOrdinalDateTimeNoMillis() {
             if (bodtx == null) {
                 return new DateTimeFormatterBuilder()
@@ -1593,6 +1686,7 @@ public class ISODateTimeFormat {
             return bodtx;
         }
 
+        @Impure
         private static DateTimeFormatter basicWeekDate() {
             if (bwd == null) {
                 return new DateTimeFormatterBuilder()
@@ -1605,6 +1699,7 @@ public class ISODateTimeFormat {
             return bwd;
         }
 
+        @Impure
         private static DateTimeFormatter basicWeekDateTime() {
             if (bwdt == null) {
                 return new DateTimeFormatterBuilder()
@@ -1615,6 +1710,7 @@ public class ISODateTimeFormat {
             return bwdt;
         }
 
+        @Impure
         private static DateTimeFormatter basicWeekDateTimeNoMillis() {
             if (bwdtx == null) {
                 return new DateTimeFormatterBuilder()
@@ -1626,6 +1722,7 @@ public class ISODateTimeFormat {
         }
 
         //-----------------------------------------------------------------------
+        @Impure
         private static DateTimeFormatter yearMonth() {
             if (ym == null) {
                 return new DateTimeFormatterBuilder()
@@ -1636,6 +1733,7 @@ public class ISODateTimeFormat {
             return ym;
         }
 
+        @Impure
         private static DateTimeFormatter yearMonthDay() {
             if (ymd == null) {
                 return new DateTimeFormatterBuilder()
@@ -1647,6 +1745,7 @@ public class ISODateTimeFormat {
             return ymd;
         }
 
+        @Impure
         private static DateTimeFormatter weekyearWeek() {
             if (ww == null) {
                 return new DateTimeFormatterBuilder()
@@ -1657,6 +1756,7 @@ public class ISODateTimeFormat {
             return ww;
         }
 
+        @Impure
         private static DateTimeFormatter weekyearWeekDay() {
             if (wwd == null) {
                 return new DateTimeFormatterBuilder()
@@ -1668,6 +1768,7 @@ public class ISODateTimeFormat {
             return wwd;
         }
 
+        @Impure
         private static DateTimeFormatter hourMinute() {
             if (hm == null) {
                 return new DateTimeFormatterBuilder()
@@ -1678,6 +1779,7 @@ public class ISODateTimeFormat {
             return hm;
         }
 
+        @Impure
         private static DateTimeFormatter hourMinuteSecond() {
             if (hms == null) {
                 return new DateTimeFormatterBuilder()
@@ -1689,6 +1791,7 @@ public class ISODateTimeFormat {
             return hms;
         }
 
+        @Impure
         private static DateTimeFormatter hourMinuteSecondMillis() {
             if (hmsl == null) {
                 return new DateTimeFormatterBuilder()
@@ -1702,6 +1805,7 @@ public class ISODateTimeFormat {
             return hmsl;
         }
 
+        @Impure
         private static DateTimeFormatter hourMinuteSecondFraction() {
             if (hmsf == null) {
                 return new DateTimeFormatterBuilder()
@@ -1714,6 +1818,7 @@ public class ISODateTimeFormat {
             return hmsf;
         }
 
+        @Impure
         private static DateTimeFormatter dateHour() {
             if (dh == null) {
                 return new DateTimeFormatterBuilder()
@@ -1725,6 +1830,7 @@ public class ISODateTimeFormat {
             return dh;
         }
 
+        @Impure
         private static DateTimeFormatter dateHourMinute() {
             if (dhm == null) {
                 return new DateTimeFormatterBuilder()
@@ -1736,6 +1842,7 @@ public class ISODateTimeFormat {
             return dhm;
         }
 
+        @Impure
         private static DateTimeFormatter dateHourMinuteSecond() {
             if (dhms == null) {
                 return new DateTimeFormatterBuilder()
@@ -1747,6 +1854,7 @@ public class ISODateTimeFormat {
             return dhms;
         }
 
+        @Impure
         private static DateTimeFormatter dateHourMinuteSecondMillis() {
             if (dhmsl == null) {
                 return new DateTimeFormatterBuilder()
@@ -1758,6 +1866,7 @@ public class ISODateTimeFormat {
             return dhmsl;
         }
 
+        @Impure
         private static DateTimeFormatter dateHourMinuteSecondFraction() {
             if (dhmsf == null) {
                 return new DateTimeFormatterBuilder()
@@ -1770,6 +1879,7 @@ public class ISODateTimeFormat {
         }
 
         //-----------------------------------------------------------------------
+        @Impure
         private static DateTimeFormatter yearElement() {
             if (ye == null) {
                 return new DateTimeFormatterBuilder()
@@ -1779,6 +1889,7 @@ public class ISODateTimeFormat {
             return ye;
         }
     
+        @Impure
         private static DateTimeFormatter monthElement() {
             if (mye == null) {
                 return new DateTimeFormatterBuilder()
@@ -1789,6 +1900,7 @@ public class ISODateTimeFormat {
             return mye;
         }
     
+        @Impure
         private static DateTimeFormatter dayOfMonthElement() {
             if (dme == null) {
                 return new DateTimeFormatterBuilder()
@@ -1799,6 +1911,7 @@ public class ISODateTimeFormat {
             return dme;
         }
     
+        @Impure
         private static DateTimeFormatter weekyearElement() {
             if (we == null) {
                 return new DateTimeFormatterBuilder()
@@ -1808,6 +1921,7 @@ public class ISODateTimeFormat {
             return we;
         }
     
+        @Impure
         private static DateTimeFormatter weekElement() {
             if (wwe == null) {
                 return new DateTimeFormatterBuilder()
@@ -1818,6 +1932,7 @@ public class ISODateTimeFormat {
             return wwe;
         }
     
+        @Impure
         private static DateTimeFormatter dayOfWeekElement() {
             if (dwe == null) {
                 return new DateTimeFormatterBuilder()
@@ -1828,6 +1943,7 @@ public class ISODateTimeFormat {
             return dwe;
         }
     
+        @Impure
         private static DateTimeFormatter dayOfYearElement() {
             if (dye == null) {
                 return new DateTimeFormatterBuilder()
@@ -1838,6 +1954,7 @@ public class ISODateTimeFormat {
             return dye;
         }
         
+        @Impure
         private static DateTimeFormatter literalTElement() {
             if (lte == null) {
                 return new DateTimeFormatterBuilder()
@@ -1847,6 +1964,7 @@ public class ISODateTimeFormat {
             return lte;
         }
     
+        @Impure
         private static DateTimeFormatter hourElement() {
             if (hde == null) {
                 return new DateTimeFormatterBuilder()
@@ -1856,6 +1974,7 @@ public class ISODateTimeFormat {
             return hde;
         }
     
+        @Impure
         private static DateTimeFormatter minuteElement() {
             if (mhe == null) {
                 return new DateTimeFormatterBuilder()
@@ -1866,6 +1985,7 @@ public class ISODateTimeFormat {
             return mhe;
         }
     
+        @Impure
         private static DateTimeFormatter secondElement() {
             if (sme == null) {
                 return new DateTimeFormatterBuilder()
@@ -1876,6 +1996,7 @@ public class ISODateTimeFormat {
             return sme;
         }
     
+        @Impure
         private static DateTimeFormatter fractionElement() {
             if (fse == null) {
                 return new DateTimeFormatterBuilder()
@@ -1888,6 +2009,7 @@ public class ISODateTimeFormat {
             return fse;
         }
     
+        @Impure
         private static DateTimeFormatter offsetElement() {
             if (ze == null) {
                 return new DateTimeFormatterBuilder()

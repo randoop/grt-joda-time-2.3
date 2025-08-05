@@ -15,6 +15,9 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.convert.FromString;
 import org.joda.convert.ToString;
 import org.joda.time.base.BaseSingleFieldPeriod;
@@ -68,6 +71,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * @param weeks  the number of weeks to obtain an instance for
      * @return the instance of Weeks
      */
+    @SideEffectFree
+    @Impure
     public static Weeks weeks(int weeks) {
         switch (weeks) {
             case 0:
@@ -97,6 +102,7 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * @return the period in weeks
      * @throws IllegalArgumentException if the instants are null or invalid
      */
+    @Impure
     public static Weeks weeksBetween(ReadableInstant start, ReadableInstant end) {
         int amount = BaseSingleFieldPeriod.between(start, end, DurationFieldType.weeks());
         return Weeks.weeks(amount);
@@ -114,6 +120,7 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * @return the period in weeks
      * @throws IllegalArgumentException if the partials are null or invalid
      */
+    @Impure
     public static Weeks weeksBetween(ReadablePartial start, ReadablePartial end) {
         if (start instanceof LocalDate && end instanceof LocalDate)   {
             Chronology chrono = DateTimeUtils.getChronology(start.getChronology());
@@ -133,6 +140,7 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * @return the period in weeks
      * @throws IllegalArgumentException if the partials are null or invalid
      */
+    @Impure
     public static Weeks weeksIn(ReadableInterval interval) {
         if (interval == null)   {
             return Weeks.ZERO;
@@ -161,6 +169,7 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * @return the period in weeks
      * @throws IllegalArgumentException if the period contains imprecise duration values
      */
+    @Impure
     public static Weeks standardWeeksIn(ReadablePeriod period) {
         int amount = BaseSingleFieldPeriod.standardPeriodIn(period, DateTimeConstants.MILLIS_PER_WEEK);
         return Weeks.weeks(amount);
@@ -177,6 +186,7 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * @return the period in weeks
      * @throws IllegalArgumentException if the string format is invalid
      */
+    @Impure
     @FromString
     public static Weeks parseWeeks(String periodStr) {
         if (periodStr == null) {
@@ -194,6 +204,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      *
      * @param weeks  the number of weeks to represent
      */
+    @SideEffectFree
+    @Impure
     private Weeks(int weeks) {
         super(weeks);
     }
@@ -203,6 +215,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * 
      * @return the singleton instance
      */
+    @SideEffectFree
+    @Impure
     private Object readResolve() {
         return Weeks.weeks(getValue());
     }
@@ -213,6 +227,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      *
      * @return the period type
      */
+    @Pure
+    @Impure
     public DurationFieldType getFieldType() {
         return DurationFieldType.weeks();
     }
@@ -222,6 +238,7 @@ public final class Weeks extends BaseSingleFieldPeriod {
      *
      * @return the period type
      */
+    @Impure
     public PeriodType getPeriodType() {
         return PeriodType.weeks();
     }
@@ -240,6 +257,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * @return a period representing the number of days for this number of weeks
      * @throws ArithmeticException if the number of days is too large to be represented
      */
+    @SideEffectFree
+    @Impure
     public Days toStandardDays() {
         return Days.days(FieldUtils.safeMultiply(getValue(), DateTimeConstants.DAYS_PER_WEEK));
     }
@@ -258,6 +277,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * @return a period representing the number of hours for this number of weeks
      * @throws ArithmeticException if the number of hours is too large to be represented
      */
+    @SideEffectFree
+    @Impure
     public Hours toStandardHours() {
         return Hours.hours(FieldUtils.safeMultiply(getValue(), DateTimeConstants.HOURS_PER_WEEK));
     }
@@ -276,6 +297,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * @return a period representing the number of minutes for this number of weeks
      * @throws ArithmeticException if the number of minutes is too large to be represented
      */
+    @SideEffectFree
+    @Impure
     public Minutes toStandardMinutes() {
         return Minutes.minutes(FieldUtils.safeMultiply(getValue(), DateTimeConstants.MINUTES_PER_WEEK));
     }
@@ -295,6 +318,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * @return a period representing the number of seconds for this number of weeks
      * @throws ArithmeticException if the number of seconds is too large to be represented
      */
+    @SideEffectFree
+    @Impure
     public Seconds toStandardSeconds() {
         return Seconds.seconds(FieldUtils.safeMultiply(getValue(), DateTimeConstants.SECONDS_PER_WEEK));
     }
@@ -314,6 +339,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * 
      * @return a duration equivalent to this number of weeks
      */
+    @SideEffectFree
+    @Impure
     public Duration toStandardDuration() {
         long weeks = getValue();  // assign to a long
         return new Duration(weeks * DateTimeConstants.MILLIS_PER_WEEK);
@@ -325,6 +352,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      *
      * @return the number of weeks in the period
      */
+    @Pure
+    @Impure
     public int getWeeks() {
         return getValue();
     }
@@ -339,6 +368,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * @return the new period plus the specified number of weeks
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Weeks plus(int weeks) {
         if (weeks == 0) {
             return this;
@@ -355,6 +386,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * @return the new period plus the specified number of weeks
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Weeks plus(Weeks weeks) {
         if (weeks == null) {
             return this;
@@ -372,6 +405,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * @return the new period minus the specified number of weeks
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Weeks minus(int weeks) {
         return plus(FieldUtils.safeNegate(weeks));
     }
@@ -385,6 +420,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * @return the new period minus the specified number of weeks
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Weeks minus(Weeks weeks) {
         if (weeks == null) {
             return this;
@@ -402,6 +439,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * @return the new period multiplied by the specified scalar
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Weeks multipliedBy(int scalar) {
         return Weeks.weeks(FieldUtils.safeMultiply(getValue(), scalar));
     }
@@ -416,6 +455,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * @return the new period divided by the specified divisor
      * @throws ArithmeticException if the divisor is zero
      */
+    @SideEffectFree
+    @Impure
     public Weeks dividedBy(int divisor) {
         if (divisor == 1) {
             return this;
@@ -430,6 +471,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * @return the new period with a negated value
      * @throws ArithmeticException if the result overflows an int
      */
+    @SideEffectFree
+    @Impure
     public Weeks negated() {
         return Weeks.weeks(FieldUtils.safeNegate(getValue()));
     }
@@ -441,6 +484,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * @param other  the other period, null means zero
      * @return true if this weeks instance is greater than the specified one
      */
+    @Pure
+    @Impure
     public boolean isGreaterThan(Weeks other) {
         if (other == null) {
             return getValue() > 0;
@@ -454,6 +499,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      * @param other  the other period, null means zero
      * @return true if this weeks instance is less than the specified one
      */
+    @Pure
+    @Impure
     public boolean isLessThan(Weeks other) {
         if (other == null) {
             return getValue() < 0;
@@ -469,6 +516,8 @@ public final class Weeks extends BaseSingleFieldPeriod {
      *
      * @return the value as an ISO8601 string
      */
+    @SideEffectFree
+    @Impure
     @ToString
     public String toString() {
         return "P" + String.valueOf(getValue()) + "W";

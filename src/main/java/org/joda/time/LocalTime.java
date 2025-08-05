@@ -15,6 +15,9 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -114,6 +117,7 @@ public final class LocalTime
      * @return the current time, not null
      * @since 2.0
      */
+    @Impure
     public static LocalTime now() {
         return new LocalTime();
     }
@@ -127,6 +131,7 @@ public final class LocalTime
      * @return the current time, not null
      * @since 2.0
      */
+    @Impure
     public static LocalTime now(DateTimeZone zone) {
         if (zone == null) {
             throw new NullPointerException("Zone must not be null");
@@ -143,6 +148,7 @@ public final class LocalTime
      * @return the current time, not null
      * @since 2.0
      */
+    @Impure
     public static LocalTime now(Chronology chronology) {
         if (chronology == null) {
             throw new NullPointerException("Chronology must not be null");
@@ -159,6 +165,7 @@ public final class LocalTime
      * @param str  the string to parse, not null
      * @since 2.0
      */
+    @Impure
     @FromString
     public static LocalTime parse(String str) {
         return parse(str, ISODateTimeFormat.localTimeParser());
@@ -171,6 +178,7 @@ public final class LocalTime
      * @param formatter  the formatter to use, not null
      * @since 2.0
      */
+    @Impure
     public static LocalTime parse(String str, DateTimeFormatter formatter) {
         return formatter.parseLocalTime(str);
     }
@@ -186,6 +194,7 @@ public final class LocalTime
      *
      * @param millisOfDay  the number of milliseconds into a day to convert
      */
+    @Impure
     public static LocalTime fromMillisOfDay(long millisOfDay) {
         return fromMillisOfDay(millisOfDay, null);
     }
@@ -201,6 +210,7 @@ public final class LocalTime
      * @param millisOfDay  the number of milliseconds into a day to convert
      * @param chrono  the chronology, null means ISO chronology
      */
+    @Impure
     public static LocalTime fromMillisOfDay(long millisOfDay, Chronology chrono) {
         chrono = DateTimeUtils.getChronology(chrono).withUTC();
         return new LocalTime(millisOfDay, chrono);
@@ -230,6 +240,7 @@ public final class LocalTime
      * @throws IllegalArgumentException if the calendar is null
      * @throws IllegalArgumentException if the date is invalid for the ISO chronology
      */
+    @Impure
     public static LocalTime fromCalendarFields(Calendar calendar) {
         if (calendar == null) {
             throw new IllegalArgumentException("The calendar must not be null");
@@ -262,6 +273,7 @@ public final class LocalTime
      * @throws IllegalArgumentException if the calendar is null
      * @throws IllegalArgumentException if the date is invalid for the ISO chronology
      */
+    @Impure
     @SuppressWarnings("deprecation")
     public static LocalTime fromDateFields(Date date) {
         if (date == null) {
@@ -284,6 +296,7 @@ public final class LocalTime
      * 
      * @see #now()
      */
+    @Impure
     public LocalTime() {
         this(DateTimeUtils.currentTimeMillis(), ISOChronology.getInstance());
     }
@@ -298,6 +311,7 @@ public final class LocalTime
      * @param zone  the time zone, null means default zone
      * @see #now(DateTimeZone)
      */
+    @Impure
     public LocalTime(DateTimeZone zone) {
         this(DateTimeUtils.currentTimeMillis(), ISOChronology.getInstance(zone));
     }
@@ -312,6 +326,7 @@ public final class LocalTime
      * @param chronology  the chronology, null means ISOChronology in default zone
      * @see #now(Chronology)
      */
+    @Impure
     public LocalTime(Chronology chronology) {
         this(DateTimeUtils.currentTimeMillis(), chronology);
     }
@@ -325,6 +340,7 @@ public final class LocalTime
      *
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z
      */
+    @Impure
     public LocalTime(long instant) {
         this(instant, ISOChronology.getInstance());
     }
@@ -339,6 +355,7 @@ public final class LocalTime
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z
      * @param zone  the time zone, null means default zone
      */
+    @Impure
     public LocalTime(long instant, DateTimeZone zone) {
         this(instant, ISOChronology.getInstance(zone));
     }
@@ -353,6 +370,7 @@ public final class LocalTime
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z
      * @param chronology  the chronology, null means ISOChronology in default zone
      */
+    @Impure
     public LocalTime(long instant, Chronology chronology) {
         chronology = DateTimeUtils.getChronology(chronology);
         
@@ -379,6 +397,7 @@ public final class LocalTime
      * @param instant  the datetime object
      * @throws IllegalArgumentException if the instant is invalid
      */
+    @Impure
     public LocalTime(Object instant) {
         this(instant, (Chronology) null);
     }
@@ -401,6 +420,7 @@ public final class LocalTime
      * @param zone  the time zone
      * @throws IllegalArgumentException if the instant is invalid
      */
+    @Impure
     public LocalTime(Object instant, DateTimeZone zone) {
         PartialConverter converter = ConverterManager.getInstance().getPartialConverter(instant);
         Chronology chronology = converter.getChronology(instant, zone);
@@ -427,6 +447,7 @@ public final class LocalTime
      * @param chronology  the chronology
      * @throws IllegalArgumentException if the instant is invalid
      */
+    @Impure
     public LocalTime(Object instant, Chronology chronology) {
         PartialConverter converter = ConverterManager.getInstance().getPartialConverter(instant);
         chronology = converter.getChronology(instant, chronology);
@@ -444,6 +465,7 @@ public final class LocalTime
      * @param hourOfDay  the hour of the day, from 0 to 23
      * @param minuteOfHour  the minute of the hour, from 0 to 59
      */
+    @Impure
     public LocalTime(
             int hourOfDay,
             int minuteOfHour) {
@@ -458,6 +480,7 @@ public final class LocalTime
      * @param minuteOfHour  the minute of the hour, from 0 to 59
      * @param secondOfMinute  the second of the minute, from 0 to 59
      */
+    @Impure
     public LocalTime(
             int hourOfDay,
             int minuteOfHour,
@@ -474,6 +497,7 @@ public final class LocalTime
      * @param secondOfMinute  the second of the minute, from 0 to 59
      * @param millisOfSecond  the millisecond of the second, from 0 to 999
      */
+    @Impure
     public LocalTime(
             int hourOfDay,
             int minuteOfHour,
@@ -495,6 +519,7 @@ public final class LocalTime
      * @param millisOfSecond  the millisecond of the second, valid values defined by the chronology
      * @param chronology  the chronology, null means ISOChronology in default zone
      */
+    @Impure
     public LocalTime(
             int hourOfDay,
             int minuteOfHour,
@@ -513,6 +538,7 @@ public final class LocalTime
      * Handle broken serialization from other tools.
      * @return the resolved object, not null
      */
+    @Impure
     private Object readResolve() {
         if (iChronology == null) {
             return new LocalTime(iLocalMillis, ISOChronology.getInstanceUTC());
@@ -531,6 +557,7 @@ public final class LocalTime
      *
      * @return the field count, four
      */
+    @Pure
     public int size() {
         return 4;
     }
@@ -544,6 +571,7 @@ public final class LocalTime
      * @param chrono  the chronology to use
      * @return the field
      */
+    @Impure
     protected DateTimeField getField(int index, Chronology chrono) {
         switch (index) {
             case HOUR_OF_DAY:
@@ -570,6 +598,7 @@ public final class LocalTime
      * @return the value
      * @throws IndexOutOfBoundsException if the index is invalid
      */
+    @Impure
     public int getValue(int index) {
         switch (index) {
             case HOUR_OF_DAY:
@@ -600,6 +629,7 @@ public final class LocalTime
      * @return the value of that field
      * @throws IllegalArgumentException if the field type is null
      */
+    @Impure
     public int get(DateTimeFieldType fieldType) {
         if (fieldType == null) {
             throw new IllegalArgumentException("The DateTimeFieldType must not be null");
@@ -618,6 +648,7 @@ public final class LocalTime
      * @param type  a field type, usually obtained from DateTimeFieldType
      * @return true if the field type is supported
      */
+    @Impure
     public boolean isSupported(DateTimeFieldType type) {
         if (type == null) {
             return false;
@@ -636,6 +667,7 @@ public final class LocalTime
      * @param type  a duration type, usually obtained from DurationFieldType
      * @return true if the field type is supported
      */
+    @Impure
     public boolean isSupported(DurationFieldType type) {
         if (type == null) {
             return false;
@@ -656,6 +688,7 @@ public final class LocalTime
      * @return the number of milliseconds since 1970-01-01T00:00:00
      * @since 1.5 (previously private)
      */
+    @Pure
     protected long getLocalMillis() {
         return iLocalMillis;
     }
@@ -665,6 +698,7 @@ public final class LocalTime
      * 
      * @return the Chronology that the time is using
      */
+    @Pure
     public Chronology getChronology() {
         return iChronology;
     }
@@ -677,6 +711,7 @@ public final class LocalTime
      * @param partial  an object to check against
      * @return true if fields and values are equal
      */
+    @Pure
     public boolean equals(Object partial) {
         // override to perform faster
         if (this == partial) {
@@ -707,6 +742,7 @@ public final class LocalTime
      *  or if it has field types that don't match
      * @throws NullPointerException if the partial is null
      */
+    @Pure
     public int compareTo(ReadablePartial partial) {
         // override to perform faster
         if (this == partial) {
@@ -734,6 +770,7 @@ public final class LocalTime
      * @param newMillis  the new millis, from 1970-01-01T00:00:00
      * @return a copy of this time with different millis
      */
+    @Impure
     LocalTime withLocalMillis(long newMillis) {
         return (newMillis == getLocalMillis() ? this : new LocalTime(newMillis, getChronology()));
     }
@@ -752,6 +789,7 @@ public final class LocalTime
      * @return a copy of this time with a different set of fields
      * @throws IllegalArgumentException if any value is invalid
      */
+    @Impure
     public LocalTime withFields(ReadablePartial partial) {
         if (partial == null) {
             return this;
@@ -778,6 +816,7 @@ public final class LocalTime
      * @return a copy of this time with the field set
      * @throws IllegalArgumentException if the value is null or invalid
      */
+    @Impure
     public LocalTime withField(DateTimeFieldType fieldType, int value) {
         if (fieldType == null) {
             throw new IllegalArgumentException("Field must not be null");
@@ -811,6 +850,7 @@ public final class LocalTime
      * @throws IllegalArgumentException if the value is null or invalid
      * @throws ArithmeticException if the result exceeds the internal capacity
      */
+    @Impure
     public LocalTime withFieldAdded(DurationFieldType fieldType, int amount) {
         if (fieldType == null) {
             throw new IllegalArgumentException("Field must not be null");
@@ -841,6 +881,7 @@ public final class LocalTime
      * @return a copy of this time with the period added
      * @throws ArithmeticException if the result exceeds the internal capacity
      */
+    @Impure
     public LocalTime withPeriodAdded(ReadablePeriod period, int scalar) {
         if (period == null || scalar == 0) {
             return this;
@@ -863,6 +904,7 @@ public final class LocalTime
      * @return a copy of this time with the period added
      * @throws ArithmeticException if the result exceeds the internal capacity
      */
+    @Impure
     public LocalTime plus(ReadablePeriod period) {
         return withPeriodAdded(period, 1);
     }
@@ -883,6 +925,7 @@ public final class LocalTime
      * @param hours  the amount of hours to add, may be negative
      * @return the new LocalTime plus the increased hours
      */
+    @Impure
     public LocalTime plusHours(int hours) {
         if (hours == 0) {
             return this;
@@ -906,6 +949,7 @@ public final class LocalTime
      * @param minutes  the amount of minutes to add, may be negative
      * @return the new LocalTime plus the increased minutes
      */
+    @Impure
     public LocalTime plusMinutes(int minutes) {
         if (minutes == 0) {
             return this;
@@ -929,6 +973,7 @@ public final class LocalTime
      * @param seconds  the amount of seconds to add, may be negative
      * @return the new LocalTime plus the increased seconds
      */
+    @Impure
     public LocalTime plusSeconds(int seconds) {
         if (seconds == 0) {
             return this;
@@ -952,6 +997,7 @@ public final class LocalTime
      * @param millis  the amount of millis to add, may be negative
      * @return the new LocalTime plus the increased millis
      */
+    @Impure
     public LocalTime plusMillis(int millis) {
         if (millis == 0) {
             return this;
@@ -974,6 +1020,7 @@ public final class LocalTime
      * @return a copy of this time with the period taken away
      * @throws ArithmeticException if the result exceeds the internal capacity
      */
+    @Impure
     public LocalTime minus(ReadablePeriod period) {
         return withPeriodAdded(period, -1);
     }
@@ -994,6 +1041,7 @@ public final class LocalTime
      * @param hours  the amount of hours to subtract, may be negative
      * @return the new LocalTime minus the increased hours
      */
+    @Impure
     public LocalTime minusHours(int hours) {
         if (hours == 0) {
             return this;
@@ -1017,6 +1065,7 @@ public final class LocalTime
      * @param minutes  the amount of minutes to subtract, may be negative
      * @return the new LocalTime minus the increased minutes
      */
+    @Impure
     public LocalTime minusMinutes(int minutes) {
         if (minutes == 0) {
             return this;
@@ -1040,6 +1089,7 @@ public final class LocalTime
      * @param seconds  the amount of seconds to subtract, may be negative
      * @return the new LocalTime minus the increased seconds
      */
+    @Impure
     public LocalTime minusSeconds(int seconds) {
         if (seconds == 0) {
             return this;
@@ -1063,6 +1113,7 @@ public final class LocalTime
      * @param millis  the amount of millis to subtract, may be negative
      * @return the new LocalTime minus the increased millis
      */
+    @Impure
     public LocalTime minusMillis(int millis) {
         if (millis == 0) {
             return this;
@@ -1080,6 +1131,7 @@ public final class LocalTime
      * @return the property object
      * @throws IllegalArgumentException if the field is null or unsupported
      */
+    @Impure
     public Property property(DateTimeFieldType fieldType) {
         if (fieldType == null) {
             throw new IllegalArgumentException("The DateTimeFieldType must not be null");
@@ -1096,6 +1148,7 @@ public final class LocalTime
      *
      * @return the hour of day
      */
+    @Impure
     public int getHourOfDay() {
         return getChronology().hourOfDay().get(getLocalMillis());
     }
@@ -1105,6 +1158,7 @@ public final class LocalTime
      *
      * @return the minute of hour
      */
+    @Impure
     public int getMinuteOfHour() {
         return getChronology().minuteOfHour().get(getLocalMillis());
     }
@@ -1114,6 +1168,7 @@ public final class LocalTime
      *
      * @return the second of minute
      */
+    @Impure
     public int getSecondOfMinute() {
         return getChronology().secondOfMinute().get(getLocalMillis());
     }
@@ -1123,6 +1178,7 @@ public final class LocalTime
      *
      * @return the millis of second
      */
+    @Impure
     public int getMillisOfSecond() {
         return getChronology().millisOfSecond().get(getLocalMillis());
     }
@@ -1132,6 +1188,7 @@ public final class LocalTime
      *
      * @return the millis of day
      */
+    @Impure
     public int getMillisOfDay() {
         return getChronology().millisOfDay().get(getLocalMillis());
     }
@@ -1148,6 +1205,7 @@ public final class LocalTime
      * @return a copy of this object with the field set
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public LocalTime withHourOfDay(int hour) {
         return withLocalMillis(getChronology().hourOfDay().set(getLocalMillis(), hour));
     }
@@ -1163,6 +1221,7 @@ public final class LocalTime
      * @return a copy of this object with the field set
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public LocalTime withMinuteOfHour(int minute) {
         return withLocalMillis(getChronology().minuteOfHour().set(getLocalMillis(), minute));
     }
@@ -1178,6 +1237,7 @@ public final class LocalTime
      * @return a copy of this object with the field set
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public LocalTime withSecondOfMinute(int second) {
         return withLocalMillis(getChronology().secondOfMinute().set(getLocalMillis(), second));
     }
@@ -1193,6 +1253,7 @@ public final class LocalTime
      * @return a copy of this object with the field set
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public LocalTime withMillisOfSecond(int millis) {
         return withLocalMillis(getChronology().millisOfSecond().set(getLocalMillis(), millis));
     }
@@ -1208,6 +1269,7 @@ public final class LocalTime
      * @return a copy of this object with the field set
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     public LocalTime withMillisOfDay(int millis) {
         return withLocalMillis(getChronology().millisOfDay().set(getLocalMillis(), millis));
     }
@@ -1218,6 +1280,7 @@ public final class LocalTime
      * 
      * @return the hour of day property
      */
+    @Impure
     public Property hourOfDay() {
         return new Property(this, getChronology().hourOfDay());
     }
@@ -1227,6 +1290,7 @@ public final class LocalTime
      * 
      * @return the minute of hour property
      */
+    @Impure
     public Property minuteOfHour() {
         return new Property(this, getChronology().minuteOfHour());
     }
@@ -1236,6 +1300,7 @@ public final class LocalTime
      * 
      * @return the second of minute property
      */
+    @Impure
     public Property secondOfMinute() {
         return new Property(this, getChronology().secondOfMinute());
     }
@@ -1245,6 +1310,7 @@ public final class LocalTime
      * 
      * @return the millis of second property
      */
+    @Impure
     public Property millisOfSecond() {
         return new Property(this, getChronology().millisOfSecond());
     }
@@ -1254,6 +1320,7 @@ public final class LocalTime
      * 
      * @return the millis of day property
      */
+    @Impure
     public Property millisOfDay() {
         return new Property(this, getChronology().millisOfDay());
     }
@@ -1266,6 +1333,7 @@ public final class LocalTime
      *
      * @return this time as a datetime using todays date
      */
+    @Impure
     public DateTime toDateTimeToday() {
         return toDateTimeToday(null);
     }
@@ -1281,6 +1349,7 @@ public final class LocalTime
      * @param zone  the zone to use, null means default
      * @return this time as a datetime using todays date
      */
+    @Impure
     public DateTime toDateTimeToday(DateTimeZone zone) {
         Chronology chrono = getChronology().withZone(zone);
         long instantMillis = DateTimeUtils.currentTimeMillis();
@@ -1294,6 +1363,7 @@ public final class LocalTime
      * 
      * @return ISO8601 time formatted string.
      */
+    @Impure
     @ToString
     public String toString() {
         return ISODateTimeFormat.time().print(this);
@@ -1305,6 +1375,7 @@ public final class LocalTime
      * @param pattern  the pattern specification, null means use <code>toString</code>
      * @see org.joda.time.format.DateTimeFormat
      */
+    @Impure
     public String toString(String pattern) {
         if (pattern == null) {
             return toString();
@@ -1319,6 +1390,7 @@ public final class LocalTime
      * @param locale  Locale to use, null means default
      * @see org.joda.time.format.DateTimeFormat
      */
+    @Impure
     public String toString(String pattern, Locale locale) throws IllegalArgumentException {
         if (pattern == null) {
             return toString();
@@ -1369,6 +1441,8 @@ public final class LocalTime
          * @param instant  the instant to set
          * @param field  the field to use
          */
+        @SideEffectFree
+        @Impure
         Property(LocalTime instant, DateTimeField field) {
             super();
             iInstant = instant;
@@ -1378,6 +1452,7 @@ public final class LocalTime
         /**
          * Writes the property in a safe serialization format.
          */
+        @Impure
         private void writeObject(ObjectOutputStream oos) throws IOException {
             oos.writeObject(iInstant);
             oos.writeObject(iField.getType());
@@ -1386,6 +1461,7 @@ public final class LocalTime
         /**
          * Reads the property from a safe serialization format.
          */
+        @Impure
         private void readObject(ObjectInputStream oos) throws IOException, ClassNotFoundException {
             iInstant = (LocalTime) oos.readObject();
             DateTimeFieldType type = (DateTimeFieldType) oos.readObject();
@@ -1398,6 +1474,7 @@ public final class LocalTime
          * 
          * @return the field
          */
+        @Pure
         public DateTimeField getField() {
             return iField;
         }
@@ -1407,6 +1484,8 @@ public final class LocalTime
          * 
          * @return the milliseconds
          */
+        @Pure
+        @Impure
         protected long getMillis() {
             return iInstant.getLocalMillis();
         }
@@ -1417,6 +1496,8 @@ public final class LocalTime
          * @return the chronology
          * @since 1.4
          */
+        @Pure
+        @Impure
         protected Chronology getChronology() {
             return iInstant.getChronology();
         }
@@ -1426,6 +1507,7 @@ public final class LocalTime
          * 
          * @return the linked LocalTime
          */
+        @Pure
         public LocalTime getLocalTime() {
             return iInstant;
         }
@@ -1439,6 +1521,7 @@ public final class LocalTime
          * @param value  the value to add to the field in the copy
          * @return a copy of the LocalTime with the field value changed
          */
+        @Impure
         public LocalTime addCopy(int value) {
             return iInstant.withLocalMillis(iField.add(iInstant.getLocalMillis(), value));
         }
@@ -1453,6 +1536,7 @@ public final class LocalTime
          * @param value  the value to add to the field in the copy
          * @return a copy of the LocalTime with the field value changed
          */
+        @Impure
         public LocalTime addCopy(long value) {
             return iInstant.withLocalMillis(iField.add(iInstant.getLocalMillis(), value));
         }
@@ -1469,6 +1553,7 @@ public final class LocalTime
          * @return a copy of the LocalTime with the field value changed
          * @throws IllegalArgumentException if the result is invalid
          */
+        @Impure
         public LocalTime addNoWrapToCopy(int value) {
             long millis = iField.add(iInstant.getLocalMillis(), value);
             long rounded = iInstant.getChronology().millisOfDay().get(millis);
@@ -1489,6 +1574,7 @@ public final class LocalTime
          * @return a copy of the LocalTime with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
+        @Impure
         public LocalTime addWrapFieldToCopy(int value) {
             return iInstant.withLocalMillis(iField.addWrapField(iInstant.getLocalMillis(), value));
         }
@@ -1503,6 +1589,7 @@ public final class LocalTime
          * @return a copy of the LocalTime with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
+        @Impure
         public LocalTime setCopy(int value) {
             return iInstant.withLocalMillis(iField.set(iInstant.getLocalMillis(), value));
         }
@@ -1517,6 +1604,7 @@ public final class LocalTime
          * @return a copy of the LocalTime with the field value changed
          * @throws IllegalArgumentException if the text value isn't valid
          */
+        @Impure
         public LocalTime setCopy(String text, Locale locale) {
             return iInstant.withLocalMillis(iField.set(iInstant.getLocalMillis(), text, locale));
         }
@@ -1530,6 +1618,7 @@ public final class LocalTime
          * @return a copy of the LocalTime with the field value changed
          * @throws IllegalArgumentException if the text value isn't valid
          */
+        @Impure
         public LocalTime setCopy(String text) {
             return setCopy(text, null);
         }
@@ -1543,6 +1632,7 @@ public final class LocalTime
          *
          * @return a copy of the LocalTime with this field set to its maximum
          */
+        @Impure
         public LocalTime withMaximumValue() {
             return setCopy(getMaximumValue());
         }
@@ -1555,6 +1645,7 @@ public final class LocalTime
          *
          * @return a copy of the LocalTime with this field set to its minimum
          */
+        @Impure
         public LocalTime withMinimumValue() {
             return setCopy(getMinimumValue());
         }
@@ -1570,6 +1661,7 @@ public final class LocalTime
          *
          * @return a copy of the LocalTime with the field value changed
          */
+        @Impure
         public LocalTime roundFloorCopy() {
             return iInstant.withLocalMillis(iField.roundFloor(iInstant.getLocalMillis()));
         }
@@ -1584,6 +1676,7 @@ public final class LocalTime
          *
          * @return a copy of the LocalTime with the field value changed
          */
+        @Impure
         public LocalTime roundCeilingCopy() {
             return iInstant.withLocalMillis(iField.roundCeiling(iInstant.getLocalMillis()));
         }
@@ -1594,6 +1687,7 @@ public final class LocalTime
          *
          * @return a copy of the LocalTime with the field value changed
          */
+        @Impure
         public LocalTime roundHalfFloorCopy() {
             return iInstant.withLocalMillis(iField.roundHalfFloor(iInstant.getLocalMillis()));
         }
@@ -1604,6 +1698,7 @@ public final class LocalTime
          *
          * @return a copy of the LocalTime with the field value changed
          */
+        @Impure
         public LocalTime roundHalfCeilingCopy() {
             return iInstant.withLocalMillis(iField.roundHalfCeiling(iInstant.getLocalMillis()));
         }
@@ -1615,6 +1710,7 @@ public final class LocalTime
          *
          * @return a copy of the LocalTime with the field value changed
          */
+        @Impure
         public LocalTime roundHalfEvenCopy() {
             return iInstant.withLocalMillis(iField.roundHalfEven(iInstant.getLocalMillis()));
         }

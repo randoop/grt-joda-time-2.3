@@ -15,6 +15,9 @@
  */
 package org.joda.time.convert;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.time.Chronology;
 import org.joda.time.DateTimeUtils;
 import org.joda.time.Period;
@@ -41,6 +44,8 @@ class NullConverter extends AbstractConverter
     /**
      * Restricted constructor.
      */
+    @SideEffectFree
+    @Impure
     protected NullConverter() {
         super();
     }
@@ -52,6 +57,7 @@ class NullConverter extends AbstractConverter
      * @param object  the object to convert, which is null
      * @return the millisecond duration
      */
+    @Pure
     public long getDurationMillis(Object object) {
         return 0L;
     }
@@ -65,6 +71,7 @@ class NullConverter extends AbstractConverter
      * @param chrono  the chronology to use
      * @throws NullPointerException if the duration is null
      */
+    @Impure
     public void setInto(ReadWritablePeriod duration, Object object, Chronology chrono) {
         duration.setPeriod((Period) null);
     }
@@ -79,6 +86,7 @@ class NullConverter extends AbstractConverter
      * @param chrono  the chronology to use, may be null
      * @throws NullPointerException if the interval is null
      */
+    @Impure
     public void setInto(ReadWritableInterval writableInterval, Object object, Chronology chrono) {
         writableInterval.setChronology(chrono);
         long now = DateTimeUtils.currentTimeMillis();
@@ -91,6 +99,7 @@ class NullConverter extends AbstractConverter
      * 
      * @return null
      */
+    @Pure
     public Class<?> getSupportedType() {
         return null;
     }

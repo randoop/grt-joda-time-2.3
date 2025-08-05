@@ -15,6 +15,8 @@
  */
 package org.joda.time.chrono;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,6 +82,7 @@ public final class BuddhistChronology extends AssembledChronology {
      * <p>
      * The time zone of the returned instance is UTC.
      */
+    @Pure
     public static BuddhistChronology getInstanceUTC() {
         return INSTANCE_UTC;
     }
@@ -89,6 +92,7 @@ public final class BuddhistChronology extends AssembledChronology {
      * Sun's BuddhistCalendar class. This means that it follows the
      * GregorianJulian calendar rules with a cutover date.
      */
+    @Impure
     public static BuddhistChronology getInstance() {
         return getInstance(DateTimeZone.getDefault());
     }
@@ -100,6 +104,7 @@ public final class BuddhistChronology extends AssembledChronology {
      *
      * @param zone  the time zone to use, null is default
      */
+    @Impure
     public static synchronized BuddhistChronology getInstance(DateTimeZone zone) {
         if (zone == null) {
             zone = DateTimeZone.getDefault();
@@ -127,6 +132,7 @@ public final class BuddhistChronology extends AssembledChronology {
      *
      * @param param if non-null, then don't change the field set
      */
+    @Impure
     private BuddhistChronology(Chronology base, Object param) {
         super(base, param);
     }
@@ -134,6 +140,7 @@ public final class BuddhistChronology extends AssembledChronology {
     /**
      * Serialization singleton
      */
+    @Impure
     private Object readResolve() {
         Chronology base = getBase();
         return base == null ? getInstanceUTC() : getInstance(base.getZone());
@@ -146,6 +153,7 @@ public final class BuddhistChronology extends AssembledChronology {
      * 
      * @return the chronology in UTC
      */
+    @Pure
     public Chronology withUTC() {
         return INSTANCE_UTC;
     }
@@ -156,6 +164,7 @@ public final class BuddhistChronology extends AssembledChronology {
      * @param zone  the zone to get the chronology in, null is default
      * @return the chronology
      */
+    @Impure
     public Chronology withZone(DateTimeZone zone) {
         if (zone == null) {
             zone = DateTimeZone.getDefault();
@@ -174,6 +183,7 @@ public final class BuddhistChronology extends AssembledChronology {
      * @return true if equal
      * @since 1.6
      */
+    @Impure
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -191,6 +201,7 @@ public final class BuddhistChronology extends AssembledChronology {
      * @return the hash code
      * @since 1.6
      */
+    @Impure
     public int hashCode() {
         return "Buddhist".hashCode() * 11 + getZone().hashCode();
     }
@@ -202,6 +213,7 @@ public final class BuddhistChronology extends AssembledChronology {
      * 
      * @return a debugging string
      */
+    @Impure
     public String toString() {
         String str = "BuddhistChronology";
         DateTimeZone zone = getZone();
@@ -211,6 +223,7 @@ public final class BuddhistChronology extends AssembledChronology {
         return str;
     }
 
+    @Impure
     protected void assemble(Fields fields) {
         if (getParam() == null) {
             // julian chrono removed zero, but we need to put it back

@@ -15,6 +15,8 @@
  */
 package org.joda.time.chrono;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,6 +76,7 @@ public final class JulianChronology extends BasicGJChronology {
         INSTANCE_UTC = getInstance(DateTimeZone.UTC);
     }
 
+    @Impure
     static int adjustYearForSet(int year) {
         if (year <= 0) {
             if (year == 0) {
@@ -91,6 +94,7 @@ public final class JulianChronology extends BasicGJChronology {
      * 
      * @return a singleton UTC instance of the chronology
      */
+    @Pure
     public static JulianChronology getInstanceUTC() {
         return INSTANCE_UTC;
     }
@@ -100,6 +104,7 @@ public final class JulianChronology extends BasicGJChronology {
      * 
      * @return a chronology in the default time zone
      */
+    @Impure
     public static JulianChronology getInstance() {
         return getInstance(DateTimeZone.getDefault(), 4);
     }
@@ -110,6 +115,7 @@ public final class JulianChronology extends BasicGJChronology {
      * @param zone  the time zone to get the chronology in, null is default
      * @return a chronology in the specified time zone
      */
+    @Impure
     public static JulianChronology getInstance(DateTimeZone zone) {
         return getInstance(zone, 4);
     }
@@ -121,6 +127,7 @@ public final class JulianChronology extends BasicGJChronology {
      * @param minDaysInFirstWeek  minimum number of days in first week of the year; default is 4
      * @return a chronology in the specified time zone
      */
+    @Impure
     public static JulianChronology getInstance(DateTimeZone zone, int minDaysInFirstWeek) {
         if (zone == null) {
             zone = DateTimeZone.getDefault();
@@ -158,6 +165,7 @@ public final class JulianChronology extends BasicGJChronology {
     /**
      * Restricted constructor
      */
+    @Impure
     JulianChronology(Chronology base, Object param, int minDaysInFirstWeek) {
         super(base, param, minDaysInFirstWeek);
     }
@@ -165,6 +173,7 @@ public final class JulianChronology extends BasicGJChronology {
     /**
      * Serialization singleton
      */
+    @Impure
     private Object readResolve() {
         Chronology base = getBase();
         int minDays = getMinimumDaysInFirstWeek();
@@ -181,6 +190,7 @@ public final class JulianChronology extends BasicGJChronology {
      * 
      * @return the chronology in UTC
      */
+    @Pure
     public Chronology withUTC() {
         return INSTANCE_UTC;
     }
@@ -191,6 +201,7 @@ public final class JulianChronology extends BasicGJChronology {
      * @param zone  the zone to get the chronology in, null is default
      * @return the chronology
      */
+    @Impure
     public Chronology withZone(DateTimeZone zone) {
         if (zone == null) {
             zone = DateTimeZone.getDefault();
@@ -201,16 +212,20 @@ public final class JulianChronology extends BasicGJChronology {
         return getInstance(zone);
     }
 
+    @Impure
     long getDateMidnightMillis(int year, int monthOfYear, int dayOfMonth)
         throws IllegalArgumentException
     {
         return super.getDateMidnightMillis(adjustYearForSet(year), monthOfYear, dayOfMonth);
     }
 
+    @Pure
     boolean isLeapYear(int year) {
         return (year & 3) == 0;
     }
 
+    @Pure
+    @Impure
     long calculateFirstDayOfYearMillis(int year) {
         // Java epoch is 1970-01-01 Gregorian which is 1969-12-19 Julian.
         // Calculate relative to the nearest leap year and account for the
@@ -237,30 +252,37 @@ public final class JulianChronology extends BasicGJChronology {
         return millis - (366L + 352) * DateTimeConstants.MILLIS_PER_DAY;
     }
 
+    @Pure
     int getMinYear() {
         return MIN_YEAR;
     }
 
+    @Pure
     int getMaxYear() {
         return MAX_YEAR;
     }
 
+    @Pure
     long getAverageMillisPerYear() {
         return MILLIS_PER_YEAR;
     }
 
+    @Pure
     long getAverageMillisPerYearDividedByTwo() {
         return MILLIS_PER_YEAR / 2;
     }
 
+    @Pure
     long getAverageMillisPerMonth() {
         return MILLIS_PER_MONTH;
     }
 
+    @Pure
     long getApproxMillisAtEpochDividedByTwo() {
         return (1969L * MILLIS_PER_YEAR + 352L * DateTimeConstants.MILLIS_PER_DAY) / 2;
     }
 
+    @Impure
     protected void assemble(Fields fields) {
         if (getBase() == null) {
             super.assemble(fields);

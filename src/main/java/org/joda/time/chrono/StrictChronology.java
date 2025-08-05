@@ -15,6 +15,9 @@
  */
 package org.joda.time.chrono;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.time.Chronology;
 import org.joda.time.DateTimeField;
 import org.joda.time.DateTimeZone;
@@ -41,6 +44,7 @@ public final class StrictChronology extends AssembledChronology {
      * @param base the chronology to wrap
      * @throws IllegalArgumentException if chronology is null
      */
+    @Impure
     public static StrictChronology getInstance(Chronology base) {
         if (base == null) {
             throw new IllegalArgumentException("Must supply a chronology");
@@ -55,10 +59,12 @@ public final class StrictChronology extends AssembledChronology {
      *
      * @param base the chronology to wrap
      */
+    @Impure
     private StrictChronology(Chronology base) {
         super(base, null);
     }
 
+    @Impure
     public Chronology withUTC() {
         if (iWithUTC == null) {
             if (getZone() == DateTimeZone.UTC) {
@@ -70,6 +76,7 @@ public final class StrictChronology extends AssembledChronology {
         return iWithUTC;
     }
 
+    @Impure
     public Chronology withZone(DateTimeZone zone) {
         if (zone == null) {
             zone = DateTimeZone.getDefault();
@@ -83,6 +90,7 @@ public final class StrictChronology extends AssembledChronology {
         return StrictChronology.getInstance(getBase().withZone(zone));
     }
 
+    @Impure
     protected void assemble(Fields fields) {
         fields.year = convertField(fields.year);
         fields.yearOfEra = convertField(fields.yearOfEra);
@@ -110,6 +118,7 @@ public final class StrictChronology extends AssembledChronology {
         fields.halfdayOfDay = convertField(fields.halfdayOfDay);
     }
 
+    @Impure
     private static final DateTimeField convertField(DateTimeField field) {
         return StrictDateTimeField.getInstance(field);
     }
@@ -123,6 +132,8 @@ public final class StrictChronology extends AssembledChronology {
      * @return true if equal
      * @since 1.4
      */
+    @Pure
+    @Impure
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -140,6 +151,8 @@ public final class StrictChronology extends AssembledChronology {
      * @return the hashcode
      * @since 1.4
      */
+    @Pure
+    @Impure
     public int hashCode() {
         return 352831696 + getBase().hashCode() * 7;
     }
@@ -149,6 +162,8 @@ public final class StrictChronology extends AssembledChronology {
      * 
      * @return the debugging string
      */
+    @SideEffectFree
+    @Impure
     public String toString() {
         return "StrictChronology[" + getBase().toString() + ']';
     }

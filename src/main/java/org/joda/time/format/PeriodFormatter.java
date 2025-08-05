@@ -15,6 +15,9 @@
  */
 package org.joda.time.format;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Locale;
@@ -82,6 +85,7 @@ public class PeriodFormatter {
      * @param printer  the internal printer, null if cannot print
      * @param parser  the internal parser, null if cannot parse
      */
+    @SideEffectFree
     public PeriodFormatter(
             PeriodPrinter printer, PeriodParser parser) {
         super();
@@ -99,6 +103,7 @@ public class PeriodFormatter {
      * @param locale  the locale to use
      * @param type  the parse period type
      */
+    @SideEffectFree
     private PeriodFormatter(
             PeriodPrinter printer, PeriodParser parser,
             Locale locale, PeriodType type) {
@@ -115,6 +120,7 @@ public class PeriodFormatter {
      * 
      * @return true if this is a printer
      */
+    @Pure
     public boolean isPrinter() {
         return (iPrinter != null);
     }
@@ -124,6 +130,7 @@ public class PeriodFormatter {
      * 
      * @return the internal printer
      */
+    @Pure
     public PeriodPrinter getPrinter() {
         return iPrinter;
     }
@@ -133,6 +140,7 @@ public class PeriodFormatter {
      * 
      * @return true if this is a parser
      */
+    @Pure
     public boolean isParser() {
         return (iParser != null);
     }
@@ -142,6 +150,7 @@ public class PeriodFormatter {
      * 
      * @return the internal parser
      */
+    @Pure
     public PeriodParser getParser() {
         return iParser;
     }
@@ -157,6 +166,8 @@ public class PeriodFormatter {
      * @param locale  the locale to use
      * @return the new formatter
      */
+    @SideEffectFree
+    @Impure
     public PeriodFormatter withLocale(Locale locale) {
         if (locale == getLocale() || (locale != null && locale.equals(getLocale()))) {
             return this;
@@ -169,6 +180,7 @@ public class PeriodFormatter {
      * 
      * @return the locale to use
      */
+    @Pure
     public Locale getLocale() {
         return iLocale;
     }
@@ -183,6 +195,8 @@ public class PeriodFormatter {
      * @param type  the type to use in parsing
      * @return the new formatter
      */
+    @SideEffectFree
+    @Impure
     public PeriodFormatter withParseType(PeriodType type) {
         if (type == iParseType) {
             return this;
@@ -195,6 +209,7 @@ public class PeriodFormatter {
      * 
      * @return the parse type to use
      */
+    @Pure
     public PeriodType getParseType() {
         return iParseType;
     }
@@ -206,6 +221,7 @@ public class PeriodFormatter {
      * @param buf  the formatted period is appended to this buffer
      * @param period  the period to format, not null
      */
+    @Impure
     public void printTo(StringBuffer buf, ReadablePeriod period) {
         checkPrinter();
         checkPeriod(period);
@@ -219,6 +235,7 @@ public class PeriodFormatter {
      * @param out  the formatted period is written out
      * @param period  the period to format, not null
      */
+    @Impure
     public void printTo(Writer out, ReadablePeriod period) throws IOException {
         checkPrinter();
         checkPeriod(period);
@@ -232,6 +249,7 @@ public class PeriodFormatter {
      * @param period  the period to format, not null
      * @return the printed result
      */
+    @Impure
     public String print(ReadablePeriod period) {
         checkPrinter();
         checkPeriod(period);
@@ -247,6 +265,7 @@ public class PeriodFormatter {
      * 
      * @throws UnsupportedOperationException if printing is not supported
      */
+    @SideEffectFree
     private void checkPrinter() {
         if (iPrinter == null) {
             throw new UnsupportedOperationException("Printing not supported");
@@ -258,6 +277,7 @@ public class PeriodFormatter {
      * 
      * @throws IllegalArgumentException if the period is null
      */
+    @SideEffectFree
     private void checkPeriod(ReadablePeriod period) {
         if (period == null) {
             throw new IllegalArgumentException("Period must not be null");
@@ -284,6 +304,7 @@ public class PeriodFormatter {
      * operator (~) to get position of failure
      * @throws IllegalArgumentException if any field is out of range
      */
+    @Impure
     public int parseInto(ReadWritablePeriod period, String text, int position) {
         checkParser();
         checkPeriod(period);
@@ -298,6 +319,7 @@ public class PeriodFormatter {
      * @return parsed value in a Period object
      * @throws IllegalArgumentException if any field is out of range
      */
+    @Impure
     public Period parsePeriod(String text) {
         checkParser();
         
@@ -311,6 +333,7 @@ public class PeriodFormatter {
      * @return parsed value in a MutablePeriod object
      * @throws IllegalArgumentException if any field is out of range
      */
+    @Impure
     public MutablePeriod parseMutablePeriod(String text) {
         checkParser();
         
@@ -331,6 +354,7 @@ public class PeriodFormatter {
      * 
      * @throws UnsupportedOperationException if parsing is not supported
      */
+    @SideEffectFree
     private void checkParser() {
         if (iParser == null) {
             throw new UnsupportedOperationException("Parsing not supported");

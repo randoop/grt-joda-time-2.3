@@ -15,6 +15,9 @@
  */
 package org.joda.time.chrono;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -73,6 +76,7 @@ public final class ISOChronology extends AssembledChronology {
      * 
      * @return a singleton UTC instance of the chronology
      */
+    @Pure
     public static ISOChronology getInstanceUTC() {
         return INSTANCE_UTC;
     }
@@ -82,6 +86,7 @@ public final class ISOChronology extends AssembledChronology {
      * 
      * @return a chronology in the default time zone
      */
+    @Impure
     public static ISOChronology getInstance() {
         return getInstance(DateTimeZone.getDefault());
     }
@@ -92,6 +97,7 @@ public final class ISOChronology extends AssembledChronology {
      * @param zone  the time zone to get the chronology in, null is default
      * @return a chronology in the specified time zone
      */
+    @Impure
     public static ISOChronology getInstance(DateTimeZone zone) {
         if (zone == null) {
             zone = DateTimeZone.getDefault();
@@ -118,6 +124,7 @@ public final class ISOChronology extends AssembledChronology {
     /**
      * Restricted constructor
      */
+    @Impure
     private ISOChronology(Chronology base) {
         super(base, null);
     }
@@ -129,6 +136,7 @@ public final class ISOChronology extends AssembledChronology {
      * 
      * @return the chronology in UTC
      */
+    @Pure
     public Chronology withUTC() {
         return INSTANCE_UTC;
     }
@@ -139,6 +147,7 @@ public final class ISOChronology extends AssembledChronology {
      * @param zone  the zone to get the chronology in, null is default
      * @return the chronology
      */
+    @Impure
     public Chronology withZone(DateTimeZone zone) {
         if (zone == null) {
             zone = DateTimeZone.getDefault();
@@ -156,6 +165,7 @@ public final class ISOChronology extends AssembledChronology {
      * 
      * @return a debugging string
      */
+    @Impure
     public String toString() {
         String str = "ISOChronology";
         DateTimeZone zone = getZone();
@@ -165,6 +175,7 @@ public final class ISOChronology extends AssembledChronology {
         return str;
     }
 
+    @Impure
     protected void assemble(Fields fields) {
         if (getBase().getZone() == DateTimeZone.UTC) {
             // Use zero based century and year of century.
@@ -187,6 +198,7 @@ public final class ISOChronology extends AssembledChronology {
      * @return true if equal
      * @since 1.6
      */
+    @Impure
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -204,6 +216,7 @@ public final class ISOChronology extends AssembledChronology {
      * @return the hash code
      * @since 1.6
      */
+    @Impure
     public int hashCode() {
         return "ISO".hashCode() * 11 + getZone().hashCode();
     }
@@ -213,6 +226,7 @@ public final class ISOChronology extends AssembledChronology {
      * Serialize ISOChronology instances using a small stub. This reduces the
      * serialized size, and deserialized instances come from the cache.
      */
+    @Impure
     private Object writeReplace() {
         return new Stub(getZone());
     }
@@ -222,18 +236,22 @@ public final class ISOChronology extends AssembledChronology {
 
         private transient DateTimeZone iZone;
 
+        @SideEffectFree
         Stub(DateTimeZone zone) {
             iZone = zone;
         }
 
+        @Impure
         private Object readResolve() {
             return ISOChronology.getInstance(iZone);
         }
 
+        @Impure
         private void writeObject(ObjectOutputStream out) throws IOException {
             out.writeObject(iZone);
         }
 
+        @Impure
         private void readObject(ObjectInputStream in)
             throws IOException, ClassNotFoundException
         {

@@ -15,6 +15,9 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.Serializable;
 
 import org.joda.convert.FromString;
@@ -69,6 +72,7 @@ public final class Instant
      * @return the current instant, not null
      * @since 2.0
      */
+    @Impure
     public static Instant now() {
         return new Instant();
     }
@@ -82,6 +86,7 @@ public final class Instant
      * @param str  the string to parse, not null
      * @since 2.0
      */
+    @Impure
     @FromString
     public static Instant parse(String str) {
         return parse(str, ISODateTimeFormat.dateTimeParser());
@@ -94,6 +99,7 @@ public final class Instant
      * @param formatter  the formatter to use, not null
      * @since 2.0
      */
+    @Impure
     public static Instant parse(String str, DateTimeFormatter formatter) {
         return formatter.parseDateTime(str).toInstant();
     }
@@ -104,6 +110,7 @@ public final class Instant
      * 
      * @see #now()
      */
+    @Impure
     public Instant() {
         super();
         iMillis = DateTimeUtils.currentTimeMillis();
@@ -114,6 +121,8 @@ public final class Instant
      * 
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z
      */
+    @SideEffectFree
+    @Impure
     public Instant(long instant) {
         super();
         iMillis = instant;
@@ -128,6 +137,7 @@ public final class Instant
      * @param instant  the datetime object, null means now
      * @throws IllegalArgumentException if the instant is invalid
      */
+    @Impure
     public Instant(Object instant) {
         super();
         InstantConverter converter = ConverterManager.getInstance().getInstantConverter(instant);
@@ -140,6 +150,7 @@ public final class Instant
      * 
      * @return <code>this</code>
      */
+    @Pure
     public Instant toInstant() {
         return this;
     }
@@ -153,6 +164,8 @@ public final class Instant
      * @param newMillis  the new millis, from 1970-01-01T00:00:00Z
      * @return a copy of this instant with different millis
      */
+    @SideEffectFree
+    @Impure
     public Instant withMillis(long newMillis) {
         return (newMillis == iMillis ? this : new Instant(newMillis));
     }
@@ -167,6 +180,8 @@ public final class Instant
      * @return a copy of this instant with the duration added
      * @throws ArithmeticException if the new instant exceeds the capacity of a long
      */
+    @SideEffectFree
+    @Impure
     public Instant withDurationAdded(long durationToAdd, int scalar) {
         if (durationToAdd == 0 || scalar == 0) {
             return this;
@@ -185,6 +200,8 @@ public final class Instant
      * @return a copy of this instant with the duration added
      * @throws ArithmeticException if the new instant exceeds the capacity of a long
      */
+    @SideEffectFree
+    @Impure
     public Instant withDurationAdded(ReadableDuration durationToAdd, int scalar) {
         if (durationToAdd == null || scalar == 0) {
             return this;
@@ -202,6 +219,8 @@ public final class Instant
      * @return a copy of this instant with the duration added
      * @throws ArithmeticException if the new instant exceeds the capacity of a long
      */
+    @SideEffectFree
+    @Impure
     public Instant plus(long duration) {
         return withDurationAdded(duration, 1);
     }
@@ -215,6 +234,8 @@ public final class Instant
      * @return a copy of this instant with the duration added
      * @throws ArithmeticException if the new instant exceeds the capacity of a long
      */
+    @SideEffectFree
+    @Impure
     public Instant plus(ReadableDuration duration) {
         return withDurationAdded(duration, 1);
     }
@@ -229,6 +250,8 @@ public final class Instant
      * @return a copy of this instant with the duration taken away
      * @throws ArithmeticException if the new instant exceeds the capacity of a long
      */
+    @SideEffectFree
+    @Impure
     public Instant minus(long duration) {
         return withDurationAdded(duration, -1);
     }
@@ -242,6 +265,8 @@ public final class Instant
      * @return a copy of this instant with the duration taken away
      * @throws ArithmeticException if the new instant exceeds the capacity of a long
      */
+    @SideEffectFree
+    @Impure
     public Instant minus(ReadableDuration duration) {
         return withDurationAdded(duration, -1);
     }
@@ -252,6 +277,7 @@ public final class Instant
      * 
      * @return the number of milliseconds since 1970-01-01T00:00:00Z
      */
+    @Pure
     public long getMillis() {
         return iMillis;
     }
@@ -264,6 +290,8 @@ public final class Instant
      * 
      * @return ISO in the UTC zone
      */
+    @Pure
+    @Impure
     public Chronology getChronology() {
         return ISOChronology.getInstanceUTC();
     }
@@ -284,6 +312,7 @@ public final class Instant
      *
      * @return a DateTime using the same millis
      */
+    @Impure
     public DateTime toDateTime() {
         return new DateTime(getMillis(), ISOChronology.getInstance());
     }
@@ -310,6 +339,7 @@ public final class Instant
      * @return a DateTime using the same millis with ISOChronology
      * @deprecated Use toDateTime() as it is identical
      */
+    @Impure
     @Deprecated
     public DateTime toDateTimeISO() {
         return toDateTime();
@@ -330,6 +360,7 @@ public final class Instant
      *
      * @return a MutableDateTime using the same millis
      */
+    @Impure
     public MutableDateTime toMutableDateTime() {
         return new MutableDateTime(getMillis(), ISOChronology.getInstance());
     }
@@ -356,6 +387,7 @@ public final class Instant
      * @return a MutableDateTime using the same millis with ISOChronology
      * @deprecated Use toMutableDateTime() as it is identical
      */
+    @Impure
     @Deprecated
     public MutableDateTime toMutableDateTimeISO() {
         return toMutableDateTime();

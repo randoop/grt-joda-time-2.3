@@ -14,6 +14,7 @@
  *  limitations under the License.
  */
 package org.joda.time;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * Defines an instant in time that can be queried and modified using datetime fields.
@@ -37,6 +38,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param year  the year
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void setYear(int year);
 
     /**
@@ -45,6 +47,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param years  the years to add
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void addYears(int years);
 
     //-----------------------------------------------------------------------
@@ -54,6 +57,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param weekyear  the weekyear
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void setWeekyear(int weekyear);
 
     /**
@@ -62,6 +66,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param weekyears  the weekyears to add
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void addWeekyears(int weekyears);
 
     //-----------------------------------------------------------------------
@@ -71,6 +76,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param monthOfYear  the month of the year
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void setMonthOfYear(int monthOfYear);
 
     /**
@@ -79,6 +85,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param months  the months to add
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void addMonths(int months);
 
     //-----------------------------------------------------------------------
@@ -88,6 +95,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param weekOfWeekyear the week of the weekyear
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void setWeekOfWeekyear(int weekOfWeekyear);
 
     /**
@@ -96,6 +104,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param weeks  the weeks to add
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void addWeeks(int weeks);
 
     //-----------------------------------------------------------------------
@@ -105,6 +114,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param dayOfYear the day of the year
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void setDayOfYear(int dayOfYear);
 
     /**
@@ -113,6 +123,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param dayOfMonth  the day of the month
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void setDayOfMonth(int dayOfMonth);
 
     /**
@@ -121,6 +132,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param dayOfWeek  the day of the week
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void setDayOfWeek(int dayOfWeek);
 
     /**
@@ -129,6 +141,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param days  the days to add
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void addDays(int days);
 
     //-----------------------------------------------------------------------
@@ -138,6 +151,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param hourOfDay  the hour of day
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void setHourOfDay(int hourOfDay);
 
     /**
@@ -146,6 +160,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param hours  the hours to add
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void addHours(int hours);
     
     //-----------------------------------------------------------------------
@@ -155,6 +170,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param minuteOfDay  the minute of day
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void setMinuteOfDay(int minuteOfDay);
 
     /**
@@ -163,6 +179,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param minuteOfHour  the minute of hour
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void setMinuteOfHour(int minuteOfHour);
 
     /**
@@ -171,6 +188,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param minutes  the minutes to add
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void addMinutes(int minutes);
 
     //-----------------------------------------------------------------------
@@ -180,6 +198,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param secondOfDay  the second of day
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void setSecondOfDay(int secondOfDay);
 
     /**
@@ -188,6 +207,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param secondOfMinute  the second of minute
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void setSecondOfMinute(int secondOfMinute);
 
     /**
@@ -196,6 +216,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param seconds  the seconds to add
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void addSeconds(int seconds);
 
     //-----------------------------------------------------------------------
@@ -205,6 +226,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param millisOfDay  the millis of day
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void setMillisOfDay(int millisOfDay);
 
     /**
@@ -213,6 +235,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param millisOfSecond  the millis of second
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void setMillisOfSecond(int millisOfSecond);
 
     /**
@@ -223,6 +246,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param millis  the milliseconds to add
      * @throws IllegalArgumentException if the value is invalid
      */
+    @Impure
     void addMillis(int millis);
 
     /**
@@ -234,6 +258,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param dayOfMonth  the day of the month
      * @throws IllegalArgumentException if any value is invalid
      */
+    @Impure
     void setDate(int year, int monthOfYear, int dayOfMonth);
 
     /**
@@ -246,6 +271,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param millisOfSecond  the millisecond of the second
      * @throws IllegalArgumentException if any value is invalid
      */
+    @Impure
     void setTime(int hour, int minuteOfHour, int secondOfMinute, int millisOfSecond);
 
     /**
@@ -260,6 +286,7 @@ public interface ReadWritableDateTime extends ReadableDateTime, ReadWritableInst
      * @param millisOfSecond  the millisecond of the second
      * @throws IllegalArgumentException if any value is invalid
      */
+    @Impure
     void setDateTime(
         int year, int monthOfYear, int dayOfMonth,
         int hourOfDay, int minuteOfHour, int secondOfMinute, int millisOfSecond);

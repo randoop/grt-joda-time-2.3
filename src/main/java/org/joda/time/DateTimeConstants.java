@@ -14,6 +14,7 @@
  *  limitations under the License.
  */
 package org.joda.time;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 
 /**
  * DateTimeConstants is a non-instantiable class of constants used in
@@ -166,6 +167,7 @@ public class DateTimeConstants {
     /**
      * Restrictive constructor
      */
+    @SideEffectFree
     protected DateTimeConstants() {
     }
 

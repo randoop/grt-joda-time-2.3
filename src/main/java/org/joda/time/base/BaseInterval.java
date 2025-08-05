@@ -15,6 +15,8 @@
  */
 package org.joda.time.base;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.Serializable;
 
 import org.joda.time.Chronology;
@@ -67,6 +69,7 @@ public abstract class BaseInterval
      * @param chrono  the chronology to use, null is ISO default
      * @throws IllegalArgumentException if the end is before the start
      */
+    @Impure
     protected BaseInterval(long startInstant, long endInstant, Chronology chrono) {
         super();
         iChronology = DateTimeUtils.getChronology(chrono);
@@ -82,6 +85,7 @@ public abstract class BaseInterval
      * @param end  end of this interval, null means now
      * @throws IllegalArgumentException if the end is before the start
      */
+    @Impure
     protected BaseInterval(ReadableInstant start, ReadableInstant end) {
         super();
         if (start == null && end == null) {
@@ -103,6 +107,7 @@ public abstract class BaseInterval
      * @throws IllegalArgumentException if the end is before the start
      * @throws ArithmeticException if the end instant exceeds the capacity of a long
      */
+    @Impure
     protected BaseInterval(ReadableInstant start, ReadableDuration duration) {
         super();
         iChronology = DateTimeUtils.getInstantChronology(start);
@@ -120,6 +125,7 @@ public abstract class BaseInterval
      * @throws IllegalArgumentException if the end is before the start
      * @throws ArithmeticException if the start instant exceeds the capacity of a long
      */
+    @Impure
     protected BaseInterval(ReadableDuration duration, ReadableInstant end) {
         super();
         iChronology = DateTimeUtils.getInstantChronology(end);
@@ -140,6 +146,7 @@ public abstract class BaseInterval
      * @throws IllegalArgumentException if the end is before the start
      * @throws ArithmeticException if the end instant exceeds the capacity of a long
      */
+    @Impure
     protected BaseInterval(ReadableInstant start, ReadablePeriod period) {
         super();
         Chronology chrono = DateTimeUtils.getInstantChronology(start);
@@ -164,6 +171,7 @@ public abstract class BaseInterval
      * @throws IllegalArgumentException if the end is before the start
      * @throws ArithmeticException if the start instant exceeds the capacity of a long
      */
+    @Impure
     protected BaseInterval(ReadablePeriod period, ReadableInstant end) {
         super();
         Chronology chrono = DateTimeUtils.getInstantChronology(end);
@@ -185,6 +193,7 @@ public abstract class BaseInterval
      * @param chrono  the chronology to use, null means let converter decide
      * @throws IllegalArgumentException if the interval is invalid
      */
+    @Impure
     protected BaseInterval(Object interval, Chronology chrono) {
         super();
         IntervalConverter converter = ConverterManager.getInstance().getIntervalConverter(interval);
@@ -211,6 +220,7 @@ public abstract class BaseInterval
      *
      * @return the chronology
      */
+    @Pure
     public Chronology getChronology() {
         return iChronology;
     }
@@ -221,6 +231,7 @@ public abstract class BaseInterval
      * @return the start of the time interval,
      *  millisecond instant from 1970-01-01T00:00:00Z
      */
+    @Pure
     public long getStartMillis() {
         return iStartMillis;
     }
@@ -231,6 +242,7 @@ public abstract class BaseInterval
      * @return the end of the time interval,
      *  millisecond instant from 1970-01-01T00:00:00Z
      */
+    @Pure
     public long getEndMillis() {
         return iEndMillis;
     }
@@ -244,6 +256,7 @@ public abstract class BaseInterval
      * @param chrono  the chronology, not null
      * @throws IllegalArgumentException if the end is before the start
      */
+    @Impure
     protected void setInterval(long startInstant, long endInstant, Chronology chrono) {
         checkInterval(startInstant, endInstant);
         iStartMillis = startInstant;

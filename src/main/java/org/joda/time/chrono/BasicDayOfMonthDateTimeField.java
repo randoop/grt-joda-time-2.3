@@ -15,6 +15,8 @@
  */
 package org.joda.time.chrono;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.DurationField;
 import org.joda.time.ReadablePartial;
@@ -38,32 +40,41 @@ final class BasicDayOfMonthDateTimeField extends PreciseDurationDateTimeField {
     /**
      * Restricted constructor.
      */
+    @Impure
     BasicDayOfMonthDateTimeField(BasicChronology chronology, DurationField days) {
         super(DateTimeFieldType.dayOfMonth(), days);
         iChronology = chronology;
     }
 
     //-----------------------------------------------------------------------
+    @Impure
     public int get(long instant) {
         return iChronology.getDayOfMonth(instant);
     }
 
+    @Pure
+    @Impure
     public DurationField getRangeDurationField() {
         return iChronology.months();
     }
 
+    @Pure
     public int getMinimumValue() {
         return 1;
     }
 
+    @Pure
+    @Impure
     public int getMaximumValue() {
         return iChronology.getDaysInMonthMax();
     }
 
+    @Impure
     public int getMaximumValue(long instant) {
         return iChronology.getDaysInMonthMax(instant);
     }
 
+    @Impure
     public int getMaximumValue(ReadablePartial partial) {
         if (partial.isSupported(DateTimeFieldType.monthOfYear())) {
             int month = partial.get(DateTimeFieldType.monthOfYear());
@@ -76,6 +87,7 @@ final class BasicDayOfMonthDateTimeField extends PreciseDurationDateTimeField {
         return getMaximumValue();
     }
 
+    @Impure
     public int getMaximumValue(ReadablePartial partial, int[] values) {
         int size = partial.size();
         for (int i = 0; i < size; i++) {
@@ -93,6 +105,7 @@ final class BasicDayOfMonthDateTimeField extends PreciseDurationDateTimeField {
         return getMaximumValue();
     }
 
+    @Impure
     protected int getMaximumValueForSet(long instant, int value) {
         return iChronology.getDaysInMonthMaxForSet(instant, value);
     }
@@ -100,6 +113,8 @@ final class BasicDayOfMonthDateTimeField extends PreciseDurationDateTimeField {
     /**
      * Serialization singleton
      */
+    @Pure
+    @Impure
     private Object readResolve() {
         return iChronology.dayOfMonth();
     }

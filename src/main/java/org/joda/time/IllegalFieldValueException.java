@@ -14,6 +14,9 @@
  *  limitations under the License.
  */
 package org.joda.time;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 
 /**
  * Exception thrown when attempting to set a field outside its supported range.
@@ -36,6 +39,7 @@ public class IllegalFieldValueException extends IllegalArgumentException {
      * @param explain  an explanation
      * @return the message
      */
+    @Impure
     private static String createMessage(String fieldName, Number value,
                                         Number lowerBound, Number upperBound, String explain) {
         StringBuilder buf = new StringBuilder()
@@ -70,6 +74,7 @@ public class IllegalFieldValueException extends IllegalArgumentException {
      * @param value  the value rejected
      * @return the message
      */
+    @Impure
     private static String createMessage(String fieldName, String value) {
         StringBuffer buf = new StringBuffer().append("Value ");
 
@@ -103,6 +108,7 @@ public class IllegalFieldValueException extends IllegalArgumentException {
      * @param lowerBound  lower legal field value, or null if not applicable
      * @param upperBound  upper legal field value, or null if not applicable
      */
+    @Impure
     public IllegalFieldValueException(DateTimeFieldType fieldType,
                                       Number value, Number lowerBound, Number upperBound) {
         super(createMessage(fieldType.getName(), value, lowerBound, upperBound, null));
@@ -124,6 +130,7 @@ public class IllegalFieldValueException extends IllegalArgumentException {
      * @param explain  an explanation
      * @since 1.5
      */
+    @Impure
     public IllegalFieldValueException(DateTimeFieldType fieldType,
                                       Number value, String explain) {
         super(createMessage(fieldType.getName(), value, null, null, explain));
@@ -145,6 +152,7 @@ public class IllegalFieldValueException extends IllegalArgumentException {
      * @param lowerBound  lower legal field value, or null if not applicable
      * @param upperBound  upper legal field value, or null if not applicable
      */
+    @Impure
     public IllegalFieldValueException(DurationFieldType fieldType,
                                       Number value, Number lowerBound, Number upperBound) {
         super(createMessage(fieldType.getName(), value, lowerBound, upperBound, null));
@@ -166,6 +174,7 @@ public class IllegalFieldValueException extends IllegalArgumentException {
      * @param lowerBound  lower legal field value, or null if not applicable
      * @param upperBound  upper legal field value, or null if not applicable
      */
+    @Impure
     public IllegalFieldValueException(String fieldName,
                                       Number value, Number lowerBound, Number upperBound) {
         super(createMessage(fieldName, value, lowerBound, upperBound, null));
@@ -185,6 +194,7 @@ public class IllegalFieldValueException extends IllegalArgumentException {
      * @param fieldType  type of field being set
      * @param value  illegal value being set
      */
+    @Impure
     public IllegalFieldValueException(DateTimeFieldType fieldType, String value) {
         super(createMessage(fieldType.getName(), value));
         iDateTimeFieldType = fieldType;
@@ -203,6 +213,7 @@ public class IllegalFieldValueException extends IllegalArgumentException {
      * @param fieldType  type of field being set
      * @param value  illegal value being set
      */
+    @Impure
     public IllegalFieldValueException(DurationFieldType fieldType, String value) {
         super(createMessage(fieldType.getName(), value));
         iDateTimeFieldType = null;
@@ -221,6 +232,7 @@ public class IllegalFieldValueException extends IllegalArgumentException {
      * @param fieldName  name of field being set
      * @param value  illegal value being set
      */
+    @Impure
     public IllegalFieldValueException(String fieldName, String value) {
         super(createMessage(fieldName, value));
         iDateTimeFieldType = null;
@@ -239,6 +251,7 @@ public class IllegalFieldValueException extends IllegalArgumentException {
      * 
      * @return the datetime field type
      */
+    @Pure
     public DateTimeFieldType getDateTimeFieldType() {
         return iDateTimeFieldType;
     }
@@ -248,6 +261,7 @@ public class IllegalFieldValueException extends IllegalArgumentException {
      * 
      * @return the duration field type
      */
+    @Pure
     public DurationFieldType getDurationFieldType() {
         return iDurationFieldType;
     }
@@ -257,6 +271,7 @@ public class IllegalFieldValueException extends IllegalArgumentException {
      * 
      * @return the field name
      */
+    @Pure
     public String getFieldName() {
         return iFieldName;
     }
@@ -266,6 +281,7 @@ public class IllegalFieldValueException extends IllegalArgumentException {
      * 
      * @return the value
      */
+    @Pure
     public Number getIllegalNumberValue() {
         return iNumberValue;
     }
@@ -275,6 +291,7 @@ public class IllegalFieldValueException extends IllegalArgumentException {
      * 
      * @return the value
      */
+    @Pure
     public String getIllegalStringValue() {
         return iStringValue;
     }
@@ -284,6 +301,7 @@ public class IllegalFieldValueException extends IllegalArgumentException {
      * 
      * @return the value
      */
+    @SideEffectFree
     public String getIllegalValueAsString() {
         String value = iStringValue;
         if (value == null) {
@@ -297,6 +315,7 @@ public class IllegalFieldValueException extends IllegalArgumentException {
      * 
      * @return the lower bound
      */
+    @Pure
     public Number getLowerBound() {
         return iLowerBound;
     }
@@ -306,10 +325,12 @@ public class IllegalFieldValueException extends IllegalArgumentException {
      * 
      * @return the upper bound
      */
+    @Pure
     public Number getUpperBound() {
         return iUpperBound;
     }
 
+    @Pure
     public String getMessage() {
         return iMessage;
     }
@@ -319,6 +340,7 @@ public class IllegalFieldValueException extends IllegalArgumentException {
      * A colon is separator is automatically inserted between the messages.
      * @since 1.3
      */
+    @Impure
     public void prependMessage(String message) {
         if (iMessage == null) {
             iMessage = message;

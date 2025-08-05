@@ -15,6 +15,9 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -98,6 +101,7 @@ public class PeriodType implements Serializable {
      *
      * @return the period type
      */
+    @Impure
     public static PeriodType standard() {
         PeriodType type = cStandard;
         if (type == null) {
@@ -130,6 +134,7 @@ public class PeriodType implements Serializable {
      *
      * @return the period type
      */
+    @Impure
     public static PeriodType yearMonthDayTime() {
         PeriodType type = cYMDTime;
         if (type == null) {
@@ -159,6 +164,7 @@ public class PeriodType implements Serializable {
      * @return the period type
      * @since 1.1
      */
+    @Impure
     public static PeriodType yearMonthDay() {
         PeriodType type = cYMD;
         if (type == null) {
@@ -189,6 +195,7 @@ public class PeriodType implements Serializable {
      *
      * @return the period type
      */
+    @Impure
     public static PeriodType yearWeekDayTime() {
         PeriodType type = cYWDTime;
         if (type == null) {
@@ -218,6 +225,7 @@ public class PeriodType implements Serializable {
      * @return the period type
      * @since 1.1
      */
+    @Impure
     public static PeriodType yearWeekDay() {
         PeriodType type = cYWD;
         if (type == null) {
@@ -247,6 +255,7 @@ public class PeriodType implements Serializable {
      *
      * @return the period type
      */
+    @Impure
     public static PeriodType yearDayTime() {
         PeriodType type = cYDTime;
         if (type == null) {
@@ -274,6 +283,7 @@ public class PeriodType implements Serializable {
      * @return the period type
      * @since 1.1
      */
+    @Impure
     public static PeriodType yearDay() {
         PeriodType type = cYD;
         if (type == null) {
@@ -301,6 +311,7 @@ public class PeriodType implements Serializable {
      *
      * @return the period type
      */
+    @Impure
     public static PeriodType dayTime() {
         PeriodType type = cDTime;
         if (type == null) {
@@ -329,6 +340,7 @@ public class PeriodType implements Serializable {
      *
      * @return the period type
      */
+    @Impure
     public static PeriodType time() {
         PeriodType type = cTime;
         if (type == null) {
@@ -350,6 +362,7 @@ public class PeriodType implements Serializable {
      *
      * @return the period type
      */
+    @Impure
     public static PeriodType years() {
         PeriodType type = cYears;
         if (type == null) {
@@ -368,6 +381,7 @@ public class PeriodType implements Serializable {
      *
      * @return the period type
      */
+    @Impure
     public static PeriodType months() {
         PeriodType type = cMonths;
         if (type == null) {
@@ -386,6 +400,7 @@ public class PeriodType implements Serializable {
      *
      * @return the period type
      */
+    @Impure
     public static PeriodType weeks() {
         PeriodType type = cWeeks;
         if (type == null) {
@@ -404,6 +419,7 @@ public class PeriodType implements Serializable {
      *
      * @return the period type
      */
+    @Impure
     public static PeriodType days() {
         PeriodType type = cDays;
         if (type == null) {
@@ -422,6 +438,7 @@ public class PeriodType implements Serializable {
      *
      * @return the period type
      */
+    @Impure
     public static PeriodType hours() {
         PeriodType type = cHours;
         if (type == null) {
@@ -440,6 +457,7 @@ public class PeriodType implements Serializable {
      *
      * @return the period type
      */
+    @Impure
     public static PeriodType minutes() {
         PeriodType type = cMinutes;
         if (type == null) {
@@ -458,6 +476,7 @@ public class PeriodType implements Serializable {
      *
      * @return the period type
      */
+    @Impure
     public static PeriodType seconds() {
         PeriodType type = cSeconds;
         if (type == null) {
@@ -476,6 +495,7 @@ public class PeriodType implements Serializable {
      *
      * @return the period type
      */
+    @Impure
     public static PeriodType millis() {
         PeriodType type = cMillis;
         if (type == null) {
@@ -498,6 +518,7 @@ public class PeriodType implements Serializable {
      * @return the period type
      * @since 1.1
      */
+    @Impure
     public static synchronized PeriodType forFields(DurationFieldType[] types) {
         if (types == null || types.length == 0) {
             throw new IllegalArgumentException("Types array must not be null or empty");
@@ -591,6 +612,7 @@ public class PeriodType implements Serializable {
      * @param types  the types
      * @param indices  the indices
      */
+    @SideEffectFree
     protected PeriodType(String name, DurationFieldType[] types, int[] indices) {
         super();
         iName = name;
@@ -604,6 +626,7 @@ public class PeriodType implements Serializable {
      * 
      * @return the name
      */
+    @Pure
     public String getName() {
         return iName;
     }
@@ -613,6 +636,7 @@ public class PeriodType implements Serializable {
      * 
      * @return the number of fields
      */
+    @Pure
     public int size() {
         return iTypes.length;
     }
@@ -624,6 +648,7 @@ public class PeriodType implements Serializable {
      * @return the field type
      * @throws IndexOutOfBoundsException if the index is invalid
      */
+    @Pure
     public DurationFieldType getFieldType(int index) {
         return iTypes[index];
     }
@@ -634,6 +659,8 @@ public class PeriodType implements Serializable {
      * @param type  the type to check, may be null which returns false
      * @return true if the field is supported
      */
+    @Pure
+    @Impure
     public boolean isSupported(DurationFieldType type) {
         return (indexOf(type) >= 0);
     }
@@ -644,6 +671,8 @@ public class PeriodType implements Serializable {
      * @param type  the type to check, may be null which returns -1
      * @return the index of -1 if not supported
      */
+    @Pure
+    @Impure
     public int indexOf(DurationFieldType type) {
         for (int i = 0, isize = size(); i < isize; i++) {
             if (iTypes[i] == type) {
@@ -658,6 +687,8 @@ public class PeriodType implements Serializable {
      * 
      * @return a string
      */
+    @Pure
+    @Impure
     public String toString() {
         return "PeriodType[" + getName() + "]";
     }
@@ -670,6 +701,8 @@ public class PeriodType implements Serializable {
      * @param index  the index to use
      * @return the value of the field, zero if unsupported
      */
+    @SideEffectFree
+    @Impure
     int getIndexedField(ReadablePeriod period, int index) {
         int realIndex = iIndices[index];
         return (realIndex == -1 ? 0 : period.getValue(realIndex));
@@ -684,6 +717,7 @@ public class PeriodType implements Serializable {
      * @param newValue  the value to set
      * @throws UnsupportedOperationException if not supported
      */
+    @Impure
     boolean setIndexedField(ReadablePeriod period, int index, int[] values, int newValue) {
         int realIndex = iIndices[index];
         if (realIndex == -1) {
@@ -703,6 +737,7 @@ public class PeriodType implements Serializable {
      * @return true if the array is updated
      * @throws UnsupportedOperationException if not supported
      */
+    @Impure
     boolean addIndexedField(ReadablePeriod period, int index, int[] values, int valueToAdd) {
         if (valueToAdd == 0) {
             return false;
@@ -721,6 +756,7 @@ public class PeriodType implements Serializable {
      * 
      * @return a new period type that supports the original set of fields except years
      */
+    @Impure
     public PeriodType withYearsRemoved() {
         return withFieldRemoved(0, "NoYears");
     }
@@ -730,6 +766,7 @@ public class PeriodType implements Serializable {
      * 
      * @return a new period type that supports the original set of fields except months
      */
+    @Impure
     public PeriodType withMonthsRemoved() {
         return withFieldRemoved(1, "NoMonths");
     }
@@ -739,6 +776,7 @@ public class PeriodType implements Serializable {
      * 
      * @return a new period type that supports the original set of fields except weeks
      */
+    @Impure
     public PeriodType withWeeksRemoved() {
         return withFieldRemoved(2, "NoWeeks");
     }
@@ -748,6 +786,7 @@ public class PeriodType implements Serializable {
      * 
      * @return a new period type that supports the original set of fields except days
      */
+    @Impure
     public PeriodType withDaysRemoved() {
         return withFieldRemoved(3, "NoDays");
     }
@@ -757,6 +796,7 @@ public class PeriodType implements Serializable {
      * 
      * @return a new period type that supports the original set of fields except hours
      */
+    @Impure
     public PeriodType withHoursRemoved() {
         return withFieldRemoved(4, "NoHours");
     }
@@ -766,6 +806,7 @@ public class PeriodType implements Serializable {
      * 
      * @return a new period type that supports the original set of fields except minutes
      */
+    @Impure
     public PeriodType withMinutesRemoved() {
         return withFieldRemoved(5, "NoMinutes");
     }
@@ -775,6 +816,7 @@ public class PeriodType implements Serializable {
      * 
      * @return a new period type that supports the original set of fields except seconds
      */
+    @Impure
     public PeriodType withSecondsRemoved() {
         return withFieldRemoved(6, "NoSeconds");
     }
@@ -784,6 +826,7 @@ public class PeriodType implements Serializable {
      * 
      * @return a new period type that supports the original set of fields except milliseconds
      */
+    @Impure
     public PeriodType withMillisRemoved() {
         return withFieldRemoved(7, "NoMillis");
     }
@@ -795,6 +838,7 @@ public class PeriodType implements Serializable {
      * @param name  the name addition
      * @return the new type
      */
+    @Impure
     private PeriodType withFieldRemoved(int indicesIndex, String name) {
         int fieldIndex = iIndices[indicesIndex];
         if (fieldIndex == -1) {
@@ -831,6 +875,7 @@ public class PeriodType implements Serializable {
      * @param obj  the object to compare to
      * @return true if equal
      */
+    @Pure
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -847,6 +892,7 @@ public class PeriodType implements Serializable {
      * 
      * @return a suitable hashcode
      */
+    @Pure
     public int hashCode() {
         int hash = 0;
         for (int i = 0; i < iTypes.length; i++) {

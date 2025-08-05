@@ -15,6 +15,9 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.Serializable;
 
 /**
@@ -90,6 +93,7 @@ public abstract class DurationFieldType implements Serializable {
      * 
      * @param name  the name to use, which by convention, are plural.
      */
+    @SideEffectFree
     protected DurationFieldType(String name) {
         super();
         iName = name;
@@ -101,6 +105,7 @@ public abstract class DurationFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DurationFieldType millis() {
         return MILLIS_TYPE;
     }
@@ -110,6 +115,7 @@ public abstract class DurationFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DurationFieldType seconds() {
         return SECONDS_TYPE;
     }
@@ -119,6 +125,7 @@ public abstract class DurationFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DurationFieldType minutes() {
         return MINUTES_TYPE;
     }
@@ -128,6 +135,7 @@ public abstract class DurationFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DurationFieldType hours() {
         return HOURS_TYPE;
     }
@@ -137,6 +145,7 @@ public abstract class DurationFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DurationFieldType halfdays() {
         return HALFDAYS_TYPE;
     }
@@ -147,6 +156,7 @@ public abstract class DurationFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DurationFieldType days() {
         return DAYS_TYPE;
     }
@@ -156,6 +166,7 @@ public abstract class DurationFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DurationFieldType weeks() {
         return WEEKS_TYPE;
     }
@@ -165,6 +176,7 @@ public abstract class DurationFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DurationFieldType weekyears() {
         return WEEKYEARS_TYPE;
     }
@@ -174,6 +186,7 @@ public abstract class DurationFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DurationFieldType months() {
         return MONTHS_TYPE;
     }
@@ -183,6 +196,7 @@ public abstract class DurationFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DurationFieldType years() {
         return YEARS_TYPE;
     }
@@ -192,6 +206,7 @@ public abstract class DurationFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DurationFieldType centuries() {
         return CENTURIES_TYPE;
     }
@@ -201,6 +216,7 @@ public abstract class DurationFieldType implements Serializable {
      * 
      * @return the DateTimeFieldType constant
      */
+    @Pure
     public static DurationFieldType eras() {
         return ERAS_TYPE;
     }
@@ -212,6 +228,7 @@ public abstract class DurationFieldType implements Serializable {
      * 
      * @return field name
      */
+    @Pure
     public String getName() {
         return iName;
     }
@@ -222,6 +239,7 @@ public abstract class DurationFieldType implements Serializable {
      * @param chronology  the chronology to use, null means ISOChronology in default zone
      * @return a suitable field
      */
+    @Impure
     public abstract DurationField getField(Chronology chronology);
 
     /**
@@ -230,6 +248,7 @@ public abstract class DurationFieldType implements Serializable {
      * @param chronology  the chronology to use, null means ISOChronology in default zone
      * @return true if supported
      */
+    @Impure
     public boolean isSupported(Chronology chronology) {
         return getField(chronology).isSupported();
     }
@@ -239,6 +258,8 @@ public abstract class DurationFieldType implements Serializable {
      * 
      * @return debug string
      */
+    @Pure
+    @Impure
     public String toString() {
         return getName();
     }
@@ -255,12 +276,15 @@ public abstract class DurationFieldType implements Serializable {
          * 
          * @param name  the name to use
          */
+        @SideEffectFree
+        @Impure
         StandardDurationFieldType(String name, byte ordinal) {
             super(name);
             iOrdinal = ordinal;
         }
 
         /** @inheritdoc */
+        @Pure
         @Override
         public boolean equals(Object obj) {
             if (this == obj) {
@@ -273,11 +297,13 @@ public abstract class DurationFieldType implements Serializable {
         }
 
         /** @inheritdoc */
+        @Pure
         @Override
         public int hashCode() {
             return (1 << iOrdinal);
         }
 
+        @Impure
         public DurationField getField(Chronology chronology) {
             chronology = DateTimeUtils.getChronology(chronology);
             
@@ -317,6 +343,7 @@ public abstract class DurationFieldType implements Serializable {
          * 
          * @return the singleton type
          */
+        @Pure
         private Object readResolve() {
             switch (iOrdinal) {
                 case ERAS:

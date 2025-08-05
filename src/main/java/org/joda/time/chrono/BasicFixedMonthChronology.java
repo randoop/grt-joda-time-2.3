@@ -15,6 +15,8 @@
  */
 package org.joda.time.chrono;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.time.Chronology;
 import org.joda.time.DateTimeConstants;
 
@@ -55,11 +57,13 @@ abstract class BasicFixedMonthChronology extends BasicChronology {
      * @param param  the init parameter
      * @param minDaysInFirstWeek  the minimum days in the first week
      */
+    @Impure
     BasicFixedMonthChronology(Chronology base, Object param, int minDaysInFirstWeek) {
         super(base, param, minDaysInFirstWeek);
     }
 
     //-----------------------------------------------------------------------
+    @Impure
     long setYear(long instant, int year) {
         // optimsed implementation of set, due to fixed months
         int thisYear = getYear(instant);
@@ -80,6 +84,7 @@ abstract class BasicFixedMonthChronology extends BasicChronology {
     }
 
     //-----------------------------------------------------------------------
+    @Impure
     long getYearDifference(long minuendInstant, long subtrahendInstant) {
         // optimsed implementation of getDifference, due to fixed months
         int minuendYear = getYear(minuendInstant);
@@ -97,63 +102,76 @@ abstract class BasicFixedMonthChronology extends BasicChronology {
     }
 
     //-----------------------------------------------------------------------
+    @Pure
     long getTotalMillisByYearMonth(int year, int month) {
         return ((month - 1) * MILLIS_PER_MONTH);
     }
 
     //-----------------------------------------------------------------------
+    @Impure
     int getDayOfMonth(long millis) {
         // optimised for fixed months
         return (getDayOfYear(millis) - 1) % MONTH_LENGTH + 1;
     }
 
     //-----------------------------------------------------------------------
+    @Pure
     boolean isLeapYear(int year) {
         return (year & 3) == 3;
     }
 
     //-----------------------------------------------------------------------
+    @Pure
+    @Impure
     int getDaysInYearMonth(int year, int month) {
         return (month != 13) ? MONTH_LENGTH : (isLeapYear(year) ? 6 : 5);
     }
 
     //-----------------------------------------------------------------------
+    @Pure
     int getDaysInMonthMax() {
         return MONTH_LENGTH;
     }
 
     //-----------------------------------------------------------------------
+    @Pure
     int getDaysInMonthMax(int month) {
         return (month != 13 ? MONTH_LENGTH : 6);
     }
 
     //-----------------------------------------------------------------------
+    @Impure
     int getMonthOfYear(long millis) {
         return (getDayOfYear(millis) - 1) / MONTH_LENGTH + 1;
     }
 
     //-----------------------------------------------------------------------
+    @Impure
     int getMonthOfYear(long millis, int year) {
         long monthZeroBased = (millis - getYearMillis(year)) / MILLIS_PER_MONTH;
         return ((int) monthZeroBased) + 1;
     }
 
     //-----------------------------------------------------------------------
+    @Pure
     int getMaxMonth() {
         return 13;
     }
 
     //-----------------------------------------------------------------------
+    @Pure
     long getAverageMillisPerYear() {
         return MILLIS_PER_YEAR;
     }
 
     //-----------------------------------------------------------------------
+    @Pure
     long getAverageMillisPerYearDividedByTwo() {
         return MILLIS_PER_YEAR / 2;
     }
 
     //-----------------------------------------------------------------------
+    @Pure
     long getAverageMillisPerMonth() {
         return MILLIS_PER_MONTH;
     }

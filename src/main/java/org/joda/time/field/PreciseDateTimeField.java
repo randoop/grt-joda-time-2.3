@@ -15,6 +15,8 @@
  */
 package org.joda.time.field;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.DurationField;
 
@@ -53,6 +55,7 @@ public class PreciseDateTimeField extends PreciseDurationDateTimeField {
      * @throws IllegalArgumentException if unit milliseconds is less than one
      * or effective value range is less than two.
      */
+    @Impure
     public PreciseDateTimeField(DateTimeFieldType type,
                                 DurationField unit, DurationField range) {
         super(type, unit);
@@ -76,6 +79,8 @@ public class PreciseDateTimeField extends PreciseDurationDateTimeField {
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z to query
      * @return the amount of fractional units extracted from the input.
      */
+    @Pure
+    @Impure
     public int get(long instant) {
         if (instant >= 0) {
             return (int) ((instant / getUnitMillis()) % iRange);
@@ -92,6 +97,8 @@ public class PreciseDateTimeField extends PreciseDurationDateTimeField {
      * @param amount  the amount of units to add (can be negative).
      * @return the updated time instant.
      */
+    @Pure
+    @Impure
     public long addWrapField(long instant, int amount) {
         int thisValue = get(instant);
         int wrappedValue = FieldUtils.getWrappedValue
@@ -108,6 +115,7 @@ public class PreciseDateTimeField extends PreciseDurationDateTimeField {
      * @return the updated time instant.
      * @throws IllegalArgumentException if value is too large or too small.
      */
+    @Impure
     public long set(long instant, int value) {
         FieldUtils.verifyValueBounds(this, value, getMinimumValue(), getMaximumValue());
         return instant + (value - get(instant)) * iUnitMillis;
@@ -119,6 +127,7 @@ public class PreciseDateTimeField extends PreciseDurationDateTimeField {
      *
      * @return the range duration of this field, or null if field has no range
      */
+    @Pure
     public DurationField getRangeDurationField() {
         return iRangeField;
     }
@@ -128,6 +137,7 @@ public class PreciseDateTimeField extends PreciseDurationDateTimeField {
      * 
      * @return the maximum value
      */
+    @Pure
     public int getMaximumValue() {
         return iRange - 1;
     }
@@ -140,6 +150,7 @@ public class PreciseDateTimeField extends PreciseDurationDateTimeField {
      * 
      * @return unit range
      */
+    @Pure
     public int getRange() {
         return iRange;
     }

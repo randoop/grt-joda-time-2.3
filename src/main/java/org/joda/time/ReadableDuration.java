@@ -14,6 +14,9 @@
  *  limitations under the License.
  */
 package org.joda.time;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 
 /**
  * Defines an exact duration of time in milliseconds.
@@ -43,6 +46,7 @@ public interface ReadableDuration extends Comparable<ReadableDuration> {
      *
      * @return the total length of the time duration in milliseconds.
      */
+    @Pure
     long getMillis();
 
     //-----------------------------------------------------------------------
@@ -53,6 +57,8 @@ public interface ReadableDuration extends Comparable<ReadableDuration> {
      * 
      * @return a Duration created using the millisecond duration from this instance
      */
+    @SideEffectFree
+    @Impure
     Duration toDuration();
 
     //-----------------------------------------------------------------------
@@ -77,6 +83,7 @@ public interface ReadableDuration extends Comparable<ReadableDuration> {
      * 
      * @return a Period created using the millisecond duration from this instance
      */
+    @Impure
     Period toPeriod();
 
     //-----------------------------------------------------------------------
@@ -97,6 +104,7 @@ public interface ReadableDuration extends Comparable<ReadableDuration> {
      * @param duration  another duration to compare to, null means zero milliseconds
      * @return true if this duration is equal to than the duration passed in
      */
+    @Pure
     boolean isEqual(ReadableDuration duration);
 
     /**
@@ -105,6 +113,7 @@ public interface ReadableDuration extends Comparable<ReadableDuration> {
      * @param duration  another duration to compare to, null means zero milliseconds
      * @return true if this duration is equal to than the duration passed in
      */
+    @Pure
     boolean isLongerThan(ReadableDuration duration);
 
     /**
@@ -113,6 +122,7 @@ public interface ReadableDuration extends Comparable<ReadableDuration> {
      * @param duration  another duration to compare to, null means zero milliseconds
      * @return true if this duration is equal to than the duration passed in
      */
+    @Pure
     boolean isShorterThan(ReadableDuration duration);
 
     //-----------------------------------------------------------------------
@@ -123,6 +133,8 @@ public interface ReadableDuration extends Comparable<ReadableDuration> {
      * @param readableDuration  a readable duration to check against
      * @return true if the length of the duration is equal
      */
+    @Pure
+    @Impure
     boolean equals(Object readableDuration);
 
     /**
@@ -136,6 +148,8 @@ public interface ReadableDuration extends Comparable<ReadableDuration> {
      *
      * @return a hash code
      */
+    @Pure
+    @Impure
     int hashCode();
 
     //-----------------------------------------------------------------------
@@ -147,6 +161,7 @@ public interface ReadableDuration extends Comparable<ReadableDuration> {
      *
      * @return the value as an ISO8601 string
      */
+    @Impure
     String toString();
 
 }

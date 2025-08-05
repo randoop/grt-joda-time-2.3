@@ -14,6 +14,7 @@
  *  limitations under the License.
  */
 package org.joda.time.convert;
+import org.checkerframework.dataflow.qual.Pure;
 
 /**
  * Basic converter interface for specifying what object type can be converted.
@@ -29,6 +30,7 @@ public interface Converter {
      * 
      * @return the object type that this converter supports
      */
+    @Pure
     Class<?> getSupportedType();
 
 }

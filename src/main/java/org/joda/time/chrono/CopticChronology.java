@@ -15,6 +15,8 @@
  */
 package org.joda.time.chrono;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -85,6 +87,7 @@ public final class CopticChronology extends BasicFixedMonthChronology {
      * 
      * @return a singleton UTC instance of the chronology
      */
+    @Pure
     public static CopticChronology getInstanceUTC() {
         return INSTANCE_UTC;
     }
@@ -94,6 +97,7 @@ public final class CopticChronology extends BasicFixedMonthChronology {
      * 
      * @return a chronology in the default time zone
      */
+    @Impure
     public static CopticChronology getInstance() {
         return getInstance(DateTimeZone.getDefault(), 4);
     }
@@ -104,6 +108,7 @@ public final class CopticChronology extends BasicFixedMonthChronology {
      * @param zone  the time zone to get the chronology in, null is default
      * @return a chronology in the specified time zone
      */
+    @Impure
     public static CopticChronology getInstance(DateTimeZone zone) {
         return getInstance(zone, 4);
     }
@@ -115,6 +120,7 @@ public final class CopticChronology extends BasicFixedMonthChronology {
      * @param minDaysInFirstWeek  minimum number of days in first week of the year; default is 4
      * @return a chronology in the specified time zone
      */
+    @Impure
     public static CopticChronology getInstance(DateTimeZone zone, int minDaysInFirstWeek) {
         if (zone == null) {
             zone = DateTimeZone.getDefault();
@@ -157,6 +163,7 @@ public final class CopticChronology extends BasicFixedMonthChronology {
     /**
      * Restricted constructor.
      */
+    @Impure
     CopticChronology(Chronology base, Object param, int minDaysInFirstWeek) {
         super(base, param, minDaysInFirstWeek);
     }
@@ -164,6 +171,7 @@ public final class CopticChronology extends BasicFixedMonthChronology {
     /**
      * Serialization singleton.
      */
+    @Impure
     private Object readResolve() {
         Chronology base = getBase();
         int minDays = getMinimumDaysInFirstWeek();
@@ -180,6 +188,7 @@ public final class CopticChronology extends BasicFixedMonthChronology {
      * 
      * @return the chronology in UTC
      */
+    @Pure
     public Chronology withUTC() {
         return INSTANCE_UTC;
     }
@@ -190,6 +199,7 @@ public final class CopticChronology extends BasicFixedMonthChronology {
      * @param zone  the zone to get the chronology in, null is default
      * @return the chronology
      */
+    @Impure
     public Chronology withZone(DateTimeZone zone) {
         if (zone == null) {
             zone = DateTimeZone.getDefault();
@@ -201,6 +211,8 @@ public final class CopticChronology extends BasicFixedMonthChronology {
     }
 
     //-----------------------------------------------------------------------
+    @Pure
+    @Impure
     long calculateFirstDayOfYearMillis(int year) {
         // Java epoch is 1970-01-01 Gregorian which is 1686-04-23 Coptic.
         // Calculate relative to the nearest leap year and account for the
@@ -229,21 +241,25 @@ public final class CopticChronology extends BasicFixedMonthChronology {
     }
 
     //-----------------------------------------------------------------------
+    @Pure
     int getMinYear() {
         return MIN_YEAR;
     }
 
     //-----------------------------------------------------------------------
+    @Pure
     int getMaxYear() {
         return MAX_YEAR;
     }
 
     //-----------------------------------------------------------------------
+    @Pure
     long getApproxMillisAtEpochDividedByTwo() {
         return (1686L * MILLIS_PER_YEAR + 112L * DateTimeConstants.MILLIS_PER_DAY) / 2;
     }
 
     //-----------------------------------------------------------------------
+    @Impure
     protected void assemble(Fields fields) {
         if (getBase() == null) {
             super.assemble(fields);

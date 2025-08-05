@@ -15,6 +15,9 @@
  */
 package org.joda.time.chrono;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
@@ -96,12 +99,14 @@ public abstract class AssembledChronology extends BaseChronology {
      * @param base optional base chronology to copy initial fields from
      * @param param optional param object avalable for assemble method
      */
+    @Impure
     protected AssembledChronology(Chronology base, Object param) {
         iBase = base;
         iParam = param;
         setFields();
     }
 
+    @Impure
     public DateTimeZone getZone() {
         Chronology base;
         if ((base = iBase) != null) {
@@ -110,6 +115,7 @@ public abstract class AssembledChronology extends BaseChronology {
         return null;
     }
 
+    @Impure
     public long getDateTimeMillis(int year, int monthOfYear, int dayOfMonth,
                                   int millisOfDay)
         throws IllegalArgumentException
@@ -122,6 +128,7 @@ public abstract class AssembledChronology extends BaseChronology {
         return super.getDateTimeMillis(year, monthOfYear, dayOfMonth, millisOfDay);
     }
 
+    @Impure
     public long getDateTimeMillis(int year, int monthOfYear, int dayOfMonth,
                                   int hourOfDay, int minuteOfHour,
                                   int secondOfMinute, int millisOfSecond)
@@ -137,6 +144,7 @@ public abstract class AssembledChronology extends BaseChronology {
                                        hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond);
     }
 
+    @Impure
     public long getDateTimeMillis(long instant,
                                   int hourOfDay, int minuteOfHour,
                                   int secondOfMinute, int millisOfSecond)
@@ -152,142 +160,177 @@ public abstract class AssembledChronology extends BaseChronology {
             (instant, hourOfDay, minuteOfHour, secondOfMinute, millisOfSecond);
     }
 
+    @Pure
     public final DurationField millis() {
         return iMillis;
     }
 
+    @Pure
     public final DateTimeField millisOfSecond() {
         return iMillisOfSecond;
     }
 
+    @Pure
     public final DateTimeField millisOfDay() {
         return iMillisOfDay;
     }
 
+    @Pure
     public final DurationField seconds() {
         return iSeconds;
     }
 
+    @Pure
     public final DateTimeField secondOfMinute() {
         return iSecondOfMinute;
     }
 
+    @Pure
     public final DateTimeField secondOfDay() {
         return iSecondOfDay;
     }
 
+    @Pure
     public final DurationField minutes() {
         return iMinutes;
     }
 
+    @Pure
     public final DateTimeField minuteOfHour() {
         return iMinuteOfHour;
     }
 
+    @Pure
     public final DateTimeField minuteOfDay() {
         return iMinuteOfDay;
     }
 
+    @Pure
     public final DurationField hours() {
         return iHours;
     }
 
+    @Pure
     public final DateTimeField hourOfDay() {
         return iHourOfDay;
     }
 
+    @Pure
     public final DateTimeField clockhourOfDay() {
         return iClockhourOfDay;
     }
 
+    @Pure
     public final DurationField halfdays() {
         return iHalfdays;
     }
 
+    @Pure
     public final DateTimeField hourOfHalfday() {
         return iHourOfHalfday;
     }
 
+    @Pure
     public final DateTimeField clockhourOfHalfday() {
         return iClockhourOfHalfday;
     }
 
+    @Pure
     public final DateTimeField halfdayOfDay() {
         return iHalfdayOfDay;
     }
 
+    @Pure
     public final DurationField days() {
         return iDays;
     }
 
+    @Pure
     public final DateTimeField dayOfWeek() {
         return iDayOfWeek;
     }
 
+    @Pure
     public final DateTimeField dayOfMonth() {
         return iDayOfMonth;
     }
 
+    @Pure
     public final DateTimeField dayOfYear() {
         return iDayOfYear;
     }
 
+    @Pure
     public final DurationField weeks() {
         return iWeeks;
     }
 
+    @Pure
     public final DateTimeField weekOfWeekyear() {
         return iWeekOfWeekyear;
     }
 
+    @Pure
     public final DurationField weekyears() {
         return iWeekyears;
     }
 
+    @Pure
     public final DateTimeField weekyear() {
         return iWeekyear;
     }
 
+    @Pure
     public final DateTimeField weekyearOfCentury() {
         return iWeekyearOfCentury;
     }
 
+    @Pure
     public final DurationField months() {
         return iMonths;
     }
 
+    @Pure
     public final DateTimeField monthOfYear() {
         return iMonthOfYear;
     }
 
+    @Pure
     public final DurationField years() {
         return iYears;
     }
 
+    @Pure
     public final DateTimeField year() {
         return iYear;
     }
 
+    @Pure
     public final DateTimeField yearOfEra() {
         return iYearOfEra;
     }
 
+    @Pure
     public final DateTimeField yearOfCentury() {
         return iYearOfCentury;
     }
 
+    @Pure
     public final DurationField centuries() {
         return iCenturies;
     }
 
+    @Pure
     public final DateTimeField centuryOfEra() {
         return iCenturyOfEra;
     }
 
+    @Pure
     public final DurationField eras() {
         return iEras;
     }
 
+    @Pure
     public final DateTimeField era() {
         return iEra;
     }
@@ -299,11 +342,13 @@ public abstract class AssembledChronology extends BaseChronology {
      *
      * @param fields container of fields
      */
+    @Impure
     protected abstract void assemble(Fields fields);
 
     /**
      * Returns the same base chronology as passed into the constructor.
      */
+    @Pure
     protected final Chronology getBase() {
         return iBase;
     }
@@ -311,10 +356,12 @@ public abstract class AssembledChronology extends BaseChronology {
     /**
      * Returns the same param object as passed into the constructor.
      */
+    @Pure
     protected final Object getParam() {
         return iParam;
     }
 
+    @Impure
     private void setFields() {
         Fields fields = new Fields();
         if (iBase != null) {
@@ -385,6 +432,7 @@ public abstract class AssembledChronology extends BaseChronology {
         iBaseFlags = flags;
     }
 
+    @Impure
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         setFields();
@@ -433,12 +481,14 @@ public abstract class AssembledChronology extends BaseChronology {
         public DateTimeField centuryOfEra;
         public DateTimeField era;
 
+        @SideEffectFree
         Fields() {
         }
 
         /**
          * Copy the supported fields from a chronology into this container.
          */
+        @Impure
         public void copyFieldsFrom(Chronology chrono) {
             {
                 DurationField f;
@@ -554,10 +604,12 @@ public abstract class AssembledChronology extends BaseChronology {
             }
         }
 
+        @Impure
         private static boolean isSupported(DurationField field) {
             return field == null ? false : field.isSupported();
         }
 
+        @Impure
         private static boolean isSupported(DateTimeField field) {
             return field == null ? false : field.isSupported();
         }

@@ -15,6 +15,9 @@
  */
 package org.joda.time.chrono;
 
+import org.checkerframework.dataflow.qual.Deterministic;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 import java.lang.ref.WeakReference;
 import java.text.DateFormatSymbols;
 import java.util.Locale;
@@ -38,6 +41,7 @@ class GJLocaleSymbols {
 
     private static WeakHashMap<Locale, GJLocaleSymbols> cCache = new WeakHashMap<Locale, GJLocaleSymbols>();
 
+    @Impure
     public static GJLocaleSymbols forLocale(Locale locale) {
         if (locale == null) {
             locale = Locale.getDefault();
@@ -58,6 +62,7 @@ class GJLocaleSymbols {
         return symbols;
     }
 
+    @Impure
     private static String[] realignMonths(String[] months) {
         String[] a = new String[13];
         for (int i=1; i<13; i++) {
@@ -66,6 +71,7 @@ class GJLocaleSymbols {
         return a;
     }
 
+    @Impure
     private static String[] realignDaysOfWeek(String[] daysOfWeek) {
         String[] a = new String[8];
         for (int i=1; i<8; i++) {
@@ -74,6 +80,7 @@ class GJLocaleSymbols {
         return a;
     }
 
+    @Impure
     private static void addSymbols(TreeMap<String, Integer> map, String[] symbols, Integer[] integers) {
         for (int i=symbols.length; --i>=0; ) {
             String symbol = symbols[i];
@@ -83,12 +90,14 @@ class GJLocaleSymbols {
         }
     }
 
+    @Impure
     private static void addNumerals(TreeMap<String, Integer> map, int start, int end, Integer[] integers) {
         for (int i=start; i<=end; i++) {
             map.put(String.valueOf(i).intern(), integers[i]);
         }
     }
 
+    @Pure
     private static int maxLength(String[] a) {
         int max = 0;
         for (int i=a.length; --i>=0; ) {
@@ -126,6 +135,7 @@ class GJLocaleSymbols {
     /**
      * @param locale must not be null
      */
+    @Impure
     private GJLocaleSymbols(Locale locale) {
         iLocale = new WeakReference<Locale>(locale);
         
@@ -171,10 +181,13 @@ class GJLocaleSymbols {
         iMaxHalfdayLength = maxLength(iHalfday);
     }
 
+    @Pure
     public String eraValueToText(int value) {
         return iEras[value];
     }
 
+    @Deterministic
+    @Impure
     public int eraTextToValue(String text) {
         Integer era = iParseEras.get(text);
         if (era != null) {
@@ -183,18 +196,23 @@ class GJLocaleSymbols {
         throw new IllegalFieldValueException(DateTimeFieldType.era(), text);
     }
 
+    @Pure
     public int getEraMaxTextLength() {
         return iMaxEraLength;
     }
 
+    @Pure
     public String monthOfYearValueToText(int value) {
         return iMonths[value];
     }
 
+    @Pure
     public String monthOfYearValueToShortText(int value) {
         return iShortMonths[value];
     }
 
+    @Deterministic
+    @Impure
     public int monthOfYearTextToValue(String text) {
         Integer month = iParseMonths.get(text);
         if (month != null) {
@@ -203,22 +221,28 @@ class GJLocaleSymbols {
         throw new IllegalFieldValueException(DateTimeFieldType.monthOfYear(), text);
     }
 
+    @Pure
     public int getMonthMaxTextLength() {
         return iMaxMonthLength;
     }
 
+    @Pure
     public int getMonthMaxShortTextLength() {
         return iMaxShortMonthLength;
     }
 
+    @Pure
     public String dayOfWeekValueToText(int value) {
         return iDaysOfWeek[value];
     }
 
+    @Pure
     public String dayOfWeekValueToShortText(int value) {
         return iShortDaysOfWeek[value];
     }
 
+    @Deterministic
+    @Impure
     public int dayOfWeekTextToValue(String text) {
         Integer day = iParseDaysOfWeek.get(text);
         if (day != null) {
@@ -227,18 +251,23 @@ class GJLocaleSymbols {
         throw new IllegalFieldValueException(DateTimeFieldType.dayOfWeek(), text);
     }
 
+    @Pure
     public int getDayOfWeekMaxTextLength() {
         return iMaxDayOfWeekLength;
     }
 
+    @Pure
     public int getDayOfWeekMaxShortTextLength() {
         return iMaxShortDayOfWeekLength;
     }
 
+    @Pure
     public String halfdayValueToText(int value) {
         return iHalfday[value];
     }
 
+    @Deterministic
+    @Impure
     public int halfdayTextToValue(String text) {
         String[] halfday = iHalfday;
         for (int i = halfday.length; --i>=0; ) {
@@ -249,6 +278,7 @@ class GJLocaleSymbols {
         throw new IllegalFieldValueException(DateTimeFieldType.halfdayOfDay(), text);
     }
 
+    @Pure
     public int getHalfdayMaxTextLength() {
         return iMaxHalfdayLength;
     }

@@ -15,6 +15,9 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
 import java.lang.reflect.Method;
 import java.text.DateFormatSymbols;
 import java.util.Collections;
@@ -58,6 +61,7 @@ public class DateTimeUtils {
         put(map, "PDT", "America/Los_Angeles");
         cZoneNames = Collections.unmodifiableMap(map);
     }
+    @Impure
     private static void put(Map<String, DateTimeZone> map, String name, String id) {
         try {
             map.put(name, DateTimeZone.forID(id));
@@ -69,6 +73,7 @@ public class DateTimeUtils {
     /**
      * Restrictive constructor
      */
+    @SideEffectFree
     protected DateTimeUtils() {
         super();
     }
@@ -82,6 +87,7 @@ public class DateTimeUtils {
      * 
      * @return the current time in milliseconds from 1970-01-01T00:00:00Z
      */
+    @Impure
     public static final long currentTimeMillis() {
         return cMillisProvider.getMillis();
     }
@@ -94,6 +100,7 @@ public class DateTimeUtils {
      * 
      * @throws SecurityException if the application does not have sufficient security rights
      */
+    @Impure
     public static final void setCurrentMillisSystem() throws SecurityException {
         checkPermission();
         cMillisProvider = SYSTEM_MILLIS_PROVIDER;
@@ -108,6 +115,7 @@ public class DateTimeUtils {
      * @param fixedMillis  the fixed millisecond time to use
      * @throws SecurityException if the application does not have sufficient security rights
      */
+    @Impure
     public static final void setCurrentMillisFixed(long fixedMillis) throws SecurityException {
         checkPermission();
         cMillisProvider = new FixedMillisProvider(fixedMillis);
@@ -123,6 +131,7 @@ public class DateTimeUtils {
      * @param offsetMillis  the fixed millisecond time to use
      * @throws SecurityException if the application does not have sufficient security rights
      */
+    @Impure
     public static final void setCurrentMillisOffset(long offsetMillis) throws SecurityException {
         checkPermission();
         if (offsetMillis == 0) {
@@ -142,6 +151,7 @@ public class DateTimeUtils {
      * @throws SecurityException if the application does not have sufficient security rights
      * @since 2.0
      */
+    @Impure
     public static final void setCurrentMillisProvider(MillisProvider millisProvider) throws SecurityException {
         if (millisProvider == null) {
             throw new IllegalArgumentException("The MillisProvider must not be null");
@@ -155,6 +165,7 @@ public class DateTimeUtils {
      * 
      * @throws SecurityException if the provider may not be changed
      */
+    @Impure
     private static void checkPermission() throws SecurityException {
         SecurityManager sm = System.getSecurityManager();
         if (sm != null) {
@@ -172,6 +183,7 @@ public class DateTimeUtils {
      * @param instant  the instant to examine, null means now
      * @return the time in milliseconds from 1970-01-01T00:00:00Z
      */
+    @Impure
     public static final long getInstantMillis(ReadableInstant instant) {
         if (instant == null) {
             return DateTimeUtils.currentTimeMillis();
@@ -190,6 +202,7 @@ public class DateTimeUtils {
      * @param instant  the instant to examine, null means ISO in the default zone
      * @return the chronology, never null
      */
+    @Impure
     public static final Chronology getInstantChronology(ReadableInstant instant) {
         if (instant == null) {
             return ISOChronology.getInstance();
@@ -213,6 +226,7 @@ public class DateTimeUtils {
      * @param end  the instant to examine and use as the secondary source of the chronology
      * @return the chronology, never null
      */
+    @Impure
     public static final Chronology getIntervalChronology(ReadableInstant start, ReadableInstant end) {
         Chronology chrono = null;
         if (start != null) {
@@ -237,6 +251,7 @@ public class DateTimeUtils {
      * @param interval  the interval to examine, null means ISO in the default zone
      * @return the chronology, never null
      */
+    @Impure
     public static final Chronology getIntervalChronology(ReadableInterval interval) {
         if (interval == null) {
             return ISOChronology.getInstance();
@@ -260,6 +275,7 @@ public class DateTimeUtils {
      * @return the interval, never null
      * @since 1.1
      */
+    @Impure
     public static final ReadableInterval getReadableInterval(ReadableInterval interval) {
         if (interval == null) {
             long now = DateTimeUtils.currentTimeMillis();
@@ -278,6 +294,7 @@ public class DateTimeUtils {
      * @param chrono  the chronology to use, null means ISO in the default zone
      * @return the chronology, never null
      */
+    @Impure
     public static final Chronology getChronology(Chronology chrono) {
         if (chrono == null) {
             return ISOChronology.getInstance();
@@ -295,6 +312,7 @@ public class DateTimeUtils {
      * @param zone  the time zone to use, null means the default zone
      * @return the time zone, never null
      */
+    @Impure
     public static final DateTimeZone getZone(DateTimeZone zone) {
         if (zone == null) {
             return DateTimeZone.getDefault();
@@ -312,6 +330,7 @@ public class DateTimeUtils {
      * @param type  the time zone to use, null means the standard type
      * @return the type to use, never null
      */
+    @Impure
     public static final PeriodType getPeriodType(PeriodType type) {
         if (type == null) {
             return PeriodType.standard();
@@ -329,6 +348,8 @@ public class DateTimeUtils {
      * @param duration  the duration to examine, null means zero
      * @return the duration in milliseconds
      */
+    @Pure
+    @Impure
     public static final long getDurationMillis(ReadableDuration duration) {
         if (duration == null) {
             return 0L;
@@ -360,6 +381,7 @@ public class DateTimeUtils {
      * @throws IllegalArgumentException if the partial is null
      * @since 1.1
      */
+    @Impure
     public static final boolean isContiguous(ReadablePartial partial) {
         if (partial == null) {
             throw new IllegalArgumentException("Partial must not be null");
@@ -390,6 +412,7 @@ public class DateTimeUtils {
      * @return the symbols
      * @since 2.0
      */
+    @Impure
     public static final DateFormatSymbols getDateFormatSymbols(Locale locale) {
         try {
             Method method = DateFormatSymbols.class.getMethod("getInstance", new Class[] {Locale.class});
@@ -423,6 +446,7 @@ public class DateTimeUtils {
      * @return the unmodifiable map of abbreviations to zones, not null
      * @since 2.2
      */
+    @Pure
     public static final Map<String, DateTimeZone> getDefaultTimeZoneNames() {
         return cZoneNames;
     }
@@ -435,6 +459,7 @@ public class DateTimeUtils {
      * @param names  the map of abbreviations to zones, not null
      * @since 2.2
      */
+    @Impure
     public static final void setDefaultTimeZoneNames(Map<String, DateTimeZone> names) {
         cZoneNames = Collections.unmodifiableMap(new HashMap<String, DateTimeZone>(names));
     }
@@ -457,6 +482,7 @@ public class DateTimeUtils {
      * @return the astronomical Julian Day represented by the specified instant
      * @since 2.2
      */
+    @Pure
     public static final double toJulianDay(long epochMillis) {
         // useful links
         // http://en.wikipedia.org/wiki/Julian_day#cite_note-13 - Wikipedia
@@ -482,6 +508,8 @@ public class DateTimeUtils {
      * @return the astronomical Julian Day represented by the specified instant
      * @since 2.2
      */
+    @Pure
+    @Impure
     public static final long toJulianDayNumber(long epochMillis) {
         return (long) Math.floor(toJulianDay(epochMillis) + 0.5d);
     }
@@ -495,6 +523,7 @@ public class DateTimeUtils {
      * @return the epoch millis from 1970-01-01Z
      * @since 2.2
      */
+    @Pure
     public static final long fromJulianDay(double julianDay) {
         double epochDay = julianDay - 2440587.5d;
         return (long) (epochDay * 86400000d);
@@ -515,6 +544,7 @@ public class DateTimeUtils {
          * 
          * @return the current time in milliseconds
          */
+        @Impure
         long getMillis();
     }
 
@@ -526,6 +556,7 @@ public class DateTimeUtils {
          * Gets the current time.
          * @return the current time in millis
          */
+        @Impure
         public long getMillis() {
             return System.currentTimeMillis();
         }
@@ -542,6 +573,7 @@ public class DateTimeUtils {
          * Constructor.
          * @param offsetMillis  the millis offset
          */
+        @SideEffectFree
         FixedMillisProvider(long fixedMillis) {
             iMillis = fixedMillis;
         }
@@ -550,6 +582,7 @@ public class DateTimeUtils {
          * Gets the current time.
          * @return the current time in millis
          */
+        @Pure
         public long getMillis() {
             return iMillis;
         }
@@ -566,6 +599,7 @@ public class DateTimeUtils {
          * Constructor.
          * @param offsetMillis  the millis offset
          */
+        @SideEffectFree
         OffsetMillisProvider(long offsetMillis) {
             iMillis = offsetMillis;
         }
@@ -574,6 +608,7 @@ public class DateTimeUtils {
          * Gets the current time.
          * @return the current time in millis
          */
+        @Impure
         public long getMillis() {
             return System.currentTimeMillis() + iMillis;
         }

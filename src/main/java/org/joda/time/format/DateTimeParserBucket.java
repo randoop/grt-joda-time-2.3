@@ -15,6 +15,9 @@
  */
 package org.joda.time.format;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.Arrays;
 import java.util.Locale;
 
@@ -84,6 +87,7 @@ public class DateTimeParserBucket {
      * @param locale  the locale to use
      * @deprecated Use longer constructor
      */
+    @Impure
     @Deprecated
     public DateTimeParserBucket(long instantLocal, Chronology chrono, Locale locale) {
         this(instantLocal, chrono, locale, null, 2000);
@@ -100,6 +104,7 @@ public class DateTimeParserBucket {
      * @since 1.1
      * @deprecated Use longer constructor
      */
+    @Impure
     @Deprecated
     public DateTimeParserBucket(long instantLocal, Chronology chrono, Locale locale, Integer pivotYear) {
         this(instantLocal, chrono, locale, pivotYear, 2000);
@@ -115,6 +120,7 @@ public class DateTimeParserBucket {
      * @param pivotYear  the pivot year to use when parsing two-digit years
      * @since 2.0
      */
+    @Impure
     public DateTimeParserBucket(long instantLocal, Chronology chrono,
             Locale locale, Integer pivotYear, int defaultYear) {
         super();
@@ -131,6 +137,7 @@ public class DateTimeParserBucket {
     /**
      * Gets the chronology of the bucket, which will be a local (UTC) chronology.
      */
+    @Pure
     public Chronology getChronology() {
         return iChrono;
     }
@@ -141,6 +148,7 @@ public class DateTimeParserBucket {
      * 
      * @return the locale to use
      */
+    @Pure
     public Locale getLocale() {
         return iLocale;
     }
@@ -149,6 +157,7 @@ public class DateTimeParserBucket {
     /**
      * Returns the time zone used by computeMillis.
      */
+    @Pure
     public DateTimeZone getZone() {
         return iZone;
     }
@@ -156,6 +165,7 @@ public class DateTimeParserBucket {
     /**
      * Set a time zone to be used when computeMillis is called.
      */
+    @Impure
     public void setZone(DateTimeZone zone) {
         iSavedState = null;
         iZone = zone;
@@ -166,6 +176,7 @@ public class DateTimeParserBucket {
      * Returns the time zone offset in milliseconds used by computeMillis.
      * @deprecated use Integer version
      */
+    @Pure
     @Deprecated
     public int getOffset() {
         return (iOffset != null ? iOffset : 0);
@@ -174,6 +185,7 @@ public class DateTimeParserBucket {
     /**
      * Returns the time zone offset in milliseconds used by computeMillis.
      */
+    @Pure
     public Integer getOffsetInteger() {
         return iOffset;
     }
@@ -182,6 +194,7 @@ public class DateTimeParserBucket {
      * Set a time zone offset to be used when computeMillis is called.
      * @deprecated use Integer version
      */
+    @Impure
     @Deprecated
     public void setOffset(int offset) {
         iSavedState = null;
@@ -191,6 +204,7 @@ public class DateTimeParserBucket {
     /**
      * Set a time zone offset to be used when computeMillis is called.
      */
+    @Impure
     public void setOffset(Integer offset) {
         iSavedState = null;
         iOffset = offset;
@@ -209,6 +223,7 @@ public class DateTimeParserBucket {
      * @return Integer value of the pivot year, null if not set
      * @since 1.1
      */
+    @Pure
     public Integer getPivotYear() {
         return iPivotYear;
     }
@@ -222,6 +237,7 @@ public class DateTimeParserBucket {
      * @param pivotYear  the pivot year to use
      * @since 1.1
      */
+    @Impure
     public void setPivotYear(Integer pivotYear) {
         iPivotYear = pivotYear;
     }
@@ -233,6 +249,7 @@ public class DateTimeParserBucket {
      * @param field  the field, whose chronology must match that of this bucket
      * @param value  the value
      */
+    @Impure
     public void saveField(DateTimeField field, int value) {
         saveField(new SavedField(field, value));
     }
@@ -243,6 +260,7 @@ public class DateTimeParserBucket {
      * @param fieldType  the field type
      * @param value  the value
      */
+    @Impure
     public void saveField(DateTimeFieldType fieldType, int value) {
         saveField(new SavedField(fieldType.getField(iChrono), value));
     }
@@ -254,10 +272,12 @@ public class DateTimeParserBucket {
      * @param text  the text value
      * @param locale  the locale to use
      */
+    @Impure
     public void saveField(DateTimeFieldType fieldType, String text, Locale locale) {
         saveField(new SavedField(fieldType.getField(iChrono), text, locale));
     }
     
+    @Impure
     private void saveField(SavedField field) {
         SavedField[] savedFields = iSavedFields;
         int savedFieldsCount = iSavedFieldsCount;
@@ -283,6 +303,7 @@ public class DateTimeParserBucket {
      *
      * @return opaque saved state, which may be passed to restoreState
      */
+    @Impure
     public Object saveState() {
         if (iSavedState == null) {
             iSavedState = new SavedState();
@@ -298,6 +319,7 @@ public class DateTimeParserBucket {
      * @param savedState opaque saved state, returned from saveState
      * @return true state object is valid and state restored
      */
+    @Impure
     public boolean restoreState(Object savedState) {
         if (savedState instanceof SavedState) {
             if (((SavedState) savedState).restoreState(this)) {
@@ -315,6 +337,7 @@ public class DateTimeParserBucket {
      * @return milliseconds since 1970-01-01T00:00:00Z
      * @throws IllegalArgumentException if any field is out of range
      */
+    @Impure
     public long computeMillis() {
         return computeMillis(false, null);
     }
@@ -327,6 +350,7 @@ public class DateTimeParserBucket {
      * @return milliseconds since 1970-01-01T00:00:00Z
      * @throws IllegalArgumentException if any field is out of range
      */
+    @Impure
     public long computeMillis(boolean resetFields) {
         return computeMillis(resetFields, null);
     }
@@ -341,6 +365,7 @@ public class DateTimeParserBucket {
      * @throws IllegalArgumentException if any field is out of range
      * @since 1.3
      */
+    @Impure
     public long computeMillis(boolean resetFields, String text) {
         SavedField[] savedFields = iSavedFields;
         int count = iSavedFieldsCount;
@@ -412,6 +437,7 @@ public class DateTimeParserBucket {
      * perform any casting operations. The version in java.util.Arrays performs
      * casts within the insertion sort loop.
      */
+    @Impure
     private static void sort(SavedField[] array, int high) {
         if (high > 10) {
             Arrays.sort(array, 0, high);
@@ -432,6 +458,7 @@ public class DateTimeParserBucket {
         final SavedField[] iSavedFields;
         final int iSavedFieldsCount;
         
+        @SideEffectFree
         SavedState() {
             this.iZone = DateTimeParserBucket.this.iZone;
             this.iOffset = DateTimeParserBucket.this.iOffset;
@@ -439,6 +466,7 @@ public class DateTimeParserBucket {
             this.iSavedFieldsCount = DateTimeParserBucket.this.iSavedFieldsCount;
         }
         
+        @Impure
         boolean restoreState(DateTimeParserBucket enclosing) {
             if (enclosing != DateTimeParserBucket.this) {
                 return false;
@@ -464,6 +492,7 @@ public class DateTimeParserBucket {
         final String iText;
         final Locale iLocale;
         
+        @SideEffectFree
         SavedField(DateTimeField field, int value) {
             iField = field;
             iValue = value;
@@ -471,6 +500,7 @@ public class DateTimeParserBucket {
             iLocale = null;
         }
         
+        @SideEffectFree
         SavedField(DateTimeField field, String text, Locale locale) {
             iField = field;
             iValue = 0;
@@ -478,6 +508,7 @@ public class DateTimeParserBucket {
             iLocale = locale;
         }
         
+        @Impure
         long set(long millis, boolean reset) {
             if (iText == null) {
                 millis = iField.set(millis, iValue);
@@ -495,6 +526,7 @@ public class DateTimeParserBucket {
          * null is considered infinite. If the ranges match, then the field
          * with the longer duration is ordered first.
          */
+        @Impure
         public int compareTo(SavedField obj) {
             DateTimeField other = obj.iField;
             int result = compareReverse
@@ -507,6 +539,7 @@ public class DateTimeParserBucket {
         }
     }
 
+    @Impure
     static int compareReverse(DurationField a, DurationField b) {
         if (a == null || !a.isSupported()) {
             if (b == null || !b.isSupported()) {

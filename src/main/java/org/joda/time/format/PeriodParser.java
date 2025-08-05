@@ -15,6 +15,7 @@
  */
 package org.joda.time.format;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.util.Locale;
 
 import org.joda.time.ReadWritablePeriod;
@@ -57,6 +58,7 @@ public interface PeriodParser {
      * operator (~) to get position of failure
      * @throws IllegalArgumentException if any field is out of range
      */
+    @Impure
     int parseInto(ReadWritablePeriod period, String periodStr, int position, Locale locale);
 
 }

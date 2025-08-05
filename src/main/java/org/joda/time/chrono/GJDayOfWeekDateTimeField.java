@@ -15,6 +15,8 @@
  */
 package org.joda.time.chrono;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.Locale;
 
 import org.joda.time.DateTimeConstants;
@@ -42,6 +44,7 @@ final class GJDayOfWeekDateTimeField extends PreciseDurationDateTimeField {
     /**
      * Restricted constructor.
      */
+    @Impure
     GJDayOfWeekDateTimeField(BasicChronology chronology, DurationField days) {
         super(DateTimeFieldType.dayOfWeek(), days);
         iChronology = chronology;
@@ -53,6 +56,8 @@ final class GJDayOfWeekDateTimeField extends PreciseDurationDateTimeField {
      * @param instant  the time instant in millis to query
      * @return the day of the week extracted from the input
      */
+    @Pure
+    @Impure
     public int get(long instant) {
         return iChronology.getDayOfWeek(instant);
     }
@@ -64,6 +69,7 @@ final class GJDayOfWeekDateTimeField extends PreciseDurationDateTimeField {
      * @param locale  the locale to use
      * @return the day of the week, such as 'Monday'
      */
+    @Impure
     public String getAsText(int fieldValue, Locale locale) {
         return GJLocaleSymbols.forLocale(locale).dayOfWeekValueToText(fieldValue);
     }
@@ -75,6 +81,7 @@ final class GJDayOfWeekDateTimeField extends PreciseDurationDateTimeField {
      * @param locale  the locale to use
      * @return the day of the week, such as 'Mon'
      */
+    @Impure
     public String getAsShortText(int fieldValue, Locale locale) {
         return GJLocaleSymbols.forLocale(locale).dayOfWeekValueToShortText(fieldValue);
     }
@@ -87,10 +94,13 @@ final class GJDayOfWeekDateTimeField extends PreciseDurationDateTimeField {
      * @return the value extracted from the text
      * @throws IllegalArgumentException if the text is invalid
      */
+    @Impure
     protected int convertText(String text, Locale locale) {
         return GJLocaleSymbols.forLocale(locale).dayOfWeekTextToValue(text);
     }
 
+    @Pure
+    @Impure
     public DurationField getRangeDurationField() {
         return iChronology.weeks();
     }
@@ -100,6 +110,7 @@ final class GJDayOfWeekDateTimeField extends PreciseDurationDateTimeField {
      * 
      * @return the field's minimum value
      */
+    @Pure
     public int getMinimumValue() {
         return DateTimeConstants.MONDAY;
     }
@@ -109,6 +120,7 @@ final class GJDayOfWeekDateTimeField extends PreciseDurationDateTimeField {
      * 
      * @return the field's maximum value
      */
+    @Pure
     public int getMaximumValue() {
         return DateTimeConstants.SUNDAY;
     }
@@ -119,6 +131,7 @@ final class GJDayOfWeekDateTimeField extends PreciseDurationDateTimeField {
      * @param locale  the locale to use
      * @return the maximum textual length
      */
+    @Impure
     public int getMaximumTextLength(Locale locale) {
         return GJLocaleSymbols.forLocale(locale).getDayOfWeekMaxTextLength();
     }
@@ -129,6 +142,7 @@ final class GJDayOfWeekDateTimeField extends PreciseDurationDateTimeField {
      * @param locale  the locale to use
      * @return the maximum abbreviated textual length
      */
+    @Impure
     public int getMaximumShortTextLength(Locale locale) {
         return GJLocaleSymbols.forLocale(locale).getDayOfWeekMaxShortTextLength();
     }
@@ -136,6 +150,8 @@ final class GJDayOfWeekDateTimeField extends PreciseDurationDateTimeField {
     /**
      * Serialization singleton
      */
+    @Pure
+    @Impure
     private Object readResolve() {
         return iChronology.dayOfWeek();
     }

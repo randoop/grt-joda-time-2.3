@@ -15,6 +15,9 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
@@ -102,6 +105,7 @@ public final class YearMonthDay
      * @throws IllegalArgumentException if the date is invalid for the ISO chronology
      * @since 1.2
      */
+    @Impure
     public static YearMonthDay fromCalendarFields(Calendar calendar) {
         if (calendar == null) {
             throw new IllegalArgumentException("The calendar must not be null");
@@ -129,6 +133,7 @@ public final class YearMonthDay
      * @throws IllegalArgumentException if the date is invalid for the ISO chronology
      * @since 1.2
      */
+    @Impure
     public static YearMonthDay fromDateFields(Date date) {
         if (date == null) {
             throw new IllegalArgumentException("The date must not be null");
@@ -149,6 +154,7 @@ public final class YearMonthDay
      * being initialised. Once the constructor is complete, all further calculations
      * are performed without reference to a timezone (by switching to UTC).
      */
+    @Impure
     public YearMonthDay() {
         super();
     }
@@ -164,6 +170,7 @@ public final class YearMonthDay
      * @param zone  the zone to use, null means default zone
      * @since 1.1
      */
+    @Impure
     public YearMonthDay(DateTimeZone zone) {
         super(ISOChronology.getInstance(zone));
     }
@@ -178,6 +185,7 @@ public final class YearMonthDay
      *
      * @param chronology  the chronology, null means ISOChronology in the default zone
      */
+    @Impure
     public YearMonthDay(Chronology chronology) {
         super(chronology);
     }
@@ -192,6 +200,7 @@ public final class YearMonthDay
      *
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z
      */
+    @Impure
     public YearMonthDay(long instant) {
         super(instant);
     }
@@ -207,6 +216,7 @@ public final class YearMonthDay
      * @param instant  the milliseconds from 1970-01-01T00:00:00Z
      * @param chronology  the chronology, null means ISOChronology in the default zone
      */
+    @Impure
     public YearMonthDay(long instant, Chronology chronology) {
         super(instant, chronology);
     }
@@ -227,6 +237,7 @@ public final class YearMonthDay
      * @param instant  the datetime object, null means now
      * @throws IllegalArgumentException if the instant is invalid
      */
+    @Impure
     public YearMonthDay(Object instant) {
         super(instant, null, ISODateTimeFormat.dateOptionalTimeParser());
     }
@@ -252,6 +263,7 @@ public final class YearMonthDay
      * @param chronology  the chronology, null means ISO default
      * @throws IllegalArgumentException if the instant is invalid
      */
+    @Impure
     public YearMonthDay(Object instant, Chronology chronology) {
         super(instant, DateTimeUtils.getChronology(chronology), ISODateTimeFormat.dateOptionalTimeParser());
     }
@@ -268,6 +280,7 @@ public final class YearMonthDay
      * @param monthOfYear  the month of the year
      * @param dayOfMonth  the day of the month
      */
+    @Impure
     public YearMonthDay(int year, int monthOfYear, int dayOfMonth) {
         this(year, monthOfYear, dayOfMonth, null);
     }
@@ -284,6 +297,7 @@ public final class YearMonthDay
      * @param dayOfMonth  the day of the month
      * @param chronology  the chronology, null means ISOChronology in the default zone
      */
+    @Impure
     public YearMonthDay(int year, int monthOfYear, int dayOfMonth, Chronology chronology) {
         super(new int[] {year, monthOfYear, dayOfMonth}, chronology);
     }
@@ -294,6 +308,8 @@ public final class YearMonthDay
      * @param partial  the partial to base this new instance on
      * @param values  the new set of values
      */
+    @SideEffectFree
+    @Impure
     YearMonthDay(YearMonthDay partial, int[] values) {
         super(partial, values);
     }
@@ -304,6 +320,7 @@ public final class YearMonthDay
      * @param partial  the partial to base this new instance on
      * @param chrono  the new chronology
      */
+    @Impure
     YearMonthDay(YearMonthDay partial, Chronology chrono) {
         super(partial, chrono);
     }
@@ -314,6 +331,7 @@ public final class YearMonthDay
      * 
      * @return the field count
      */
+    @Pure
     public int size() {
         return 3;
     }
@@ -327,6 +345,7 @@ public final class YearMonthDay
      * @param chrono  the chronology to use
      * @return the field
      */
+    @Impure
     protected DateTimeField getField(int index, Chronology chrono) {
         switch (index) {
             case YEAR:
@@ -347,6 +366,7 @@ public final class YearMonthDay
      * @return the field at the specified index
      * @throws IndexOutOfBoundsException if the index is invalid
      */
+    @Pure
     public DateTimeFieldType getFieldType(int index) {
         return FIELD_TYPES[index];
     }
@@ -358,6 +378,7 @@ public final class YearMonthDay
      *
      * @return the array of field types (cloned), largest to smallest
      */
+    @SideEffectFree
     public DateTimeFieldType[] getFieldTypes() {
         return (DateTimeFieldType[]) FIELD_TYPES.clone();
     }
@@ -377,6 +398,7 @@ public final class YearMonthDay
      * @return a copy of this datetime with a different chronology
      * @throws IllegalArgumentException if the values are invalid for the new chronology
      */
+    @Impure
     public YearMonthDay withChronologyRetainFields(Chronology newChronology) {
         newChronology = DateTimeUtils.getChronology(newChronology);
         newChronology = newChronology.withUTC();
@@ -407,6 +429,7 @@ public final class YearMonthDay
      * @return a copy of this instance with the field set
      * @throws IllegalArgumentException if the value is null or invalid
      */
+    @Impure
     public YearMonthDay withField(DateTimeFieldType fieldType, int value) {
         int index = indexOfSupported(fieldType);
         if (value == getValue(index)) {
@@ -435,6 +458,7 @@ public final class YearMonthDay
      * @throws IllegalArgumentException if the value is null or invalid
      * @throws ArithmeticException if the new datetime exceeds the capacity
      */
+    @Impure
     public YearMonthDay withFieldAdded(DurationFieldType fieldType, int amount) {
         int index = indexOfSupported(fieldType);
         if (amount == 0) {
@@ -461,6 +485,7 @@ public final class YearMonthDay
      * @return a copy of this instance with the period added
      * @throws ArithmeticException if the new datetime exceeds the capacity
      */
+    @Impure
     public YearMonthDay withPeriodAdded(ReadablePeriod period, int scalar) {
         if (period == null || scalar == 0) {
             return this;
@@ -491,6 +516,7 @@ public final class YearMonthDay
      * @return a copy of this instance with the period added
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public YearMonthDay plus(ReadablePeriod period) {
         return withPeriodAdded(period, 1);
     }
@@ -512,6 +538,7 @@ public final class YearMonthDay
      * @return the new date plus the increased years
      * @since 1.1
      */
+    @Impure
     public YearMonthDay plusYears(int years) {
         return withFieldAdded(DurationFieldType.years(), years);
     }
@@ -532,6 +559,7 @@ public final class YearMonthDay
      * @return the new date plus the increased months
      * @since 1.1
      */
+    @Impure
     public YearMonthDay plusMonths(int months) {
         return withFieldAdded(DurationFieldType.months(), months);
     }
@@ -552,6 +580,7 @@ public final class YearMonthDay
      * @return the new date plus the increased days
      * @since 1.1
      */
+    @Impure
     public YearMonthDay plusDays(int days) {
         return withFieldAdded(DurationFieldType.days(), days);
     }
@@ -570,6 +599,7 @@ public final class YearMonthDay
      * @return a copy of this instance with the period taken away
      * @throws ArithmeticException if the new datetime exceeds the capacity of a long
      */
+    @Impure
     public YearMonthDay minus(ReadablePeriod period) {
         return withPeriodAdded(period, -1);
     }
@@ -591,6 +621,7 @@ public final class YearMonthDay
      * @return the new datetime minus the increased years
      * @since 1.1
      */
+    @Impure
     public YearMonthDay minusYears(int years) {
         return withFieldAdded(DurationFieldType.years(), FieldUtils.safeNegate(years));
     }
@@ -611,6 +642,7 @@ public final class YearMonthDay
      * @return the new datetime minus the increased months
      * @since 1.1
      */
+    @Impure
     public YearMonthDay minusMonths(int months) {
         return withFieldAdded(DurationFieldType.months(), FieldUtils.safeNegate(months));
     }
@@ -631,6 +663,7 @@ public final class YearMonthDay
      * @return the new datetime minus the increased days
      * @since 1.1
      */
+    @Impure
     public YearMonthDay minusDays(int days) {
         return withFieldAdded(DurationFieldType.days(), FieldUtils.safeNegate(days));
     }
@@ -644,6 +677,7 @@ public final class YearMonthDay
      * @return the property object
      * @throws IllegalArgumentException if the field is null or unsupported
      */
+    @Impure
     public Property property(DateTimeFieldType type) {
         return new Property(this, indexOfSupported(type));
     }
@@ -655,6 +689,7 @@ public final class YearMonthDay
      * @return a LocalDate with the same date and chronology
      * @since 1.3
      */
+    @Impure
     public LocalDate toLocalDate() {
         return new LocalDate(getYear(), getMonthOfYear(), getDayOfMonth(), getChronology());
     }
@@ -666,6 +701,7 @@ public final class YearMonthDay
      *
      * @return this date as a datetime at midnight
      */
+    @Impure
     public DateTime toDateTimeAtMidnight() {
         return toDateTimeAtMidnight(null);
     }
@@ -680,6 +716,7 @@ public final class YearMonthDay
      * @param zone  the zone to use, null means default
      * @return this date as a datetime at midnight
      */
+    @Impure
     public DateTime toDateTimeAtMidnight(DateTimeZone zone) {
         Chronology chrono = getChronology().withZone(zone);
         return new DateTime(getYear(), getMonthOfYear(), getDayOfMonth(), 0, 0, 0, 0, chrono);
@@ -693,6 +730,7 @@ public final class YearMonthDay
      *
      * @return this date as a datetime with the time as the current time
      */
+    @Impure
     public DateTime toDateTimeAtCurrentTime() {
         return toDateTimeAtCurrentTime(null);
     }
@@ -708,6 +746,7 @@ public final class YearMonthDay
      * @param zone  the zone to use, null means default
      * @return this date as a datetime with the time as the current time
      */
+    @Impure
     public DateTime toDateTimeAtCurrentTime(DateTimeZone zone) {
         Chronology chrono = getChronology().withZone(zone);
         long instantMillis = DateTimeUtils.currentTimeMillis();
@@ -721,6 +760,7 @@ public final class YearMonthDay
      *
      * @return the DateMidnight instance in the default zone
      */
+    @Impure
     public DateMidnight toDateMidnight() {
         return toDateMidnight(null);
     }
@@ -731,6 +771,7 @@ public final class YearMonthDay
      * @param zone  the zone to get the DateMidnight in, null means default
      * @return the DateMidnight instance
      */
+    @Impure
     public DateMidnight toDateMidnight(DateTimeZone zone) {
         Chronology chrono = getChronology().withZone(zone);
         return new DateMidnight(getYear(), getMonthOfYear(), getDayOfMonth(), chrono);
@@ -749,6 +790,7 @@ public final class YearMonthDay
      * @param time  the time of day to use, null means current time
      * @return the DateTime instance
      */
+    @Impure
     public DateTime toDateTime(TimeOfDay time) {
         return toDateTime(time, null);
     }
@@ -766,6 +808,7 @@ public final class YearMonthDay
      * @param zone  the zone to get the DateTime in, null means default
      * @return the DateTime instance
      */
+    @Impure
     public DateTime toDateTime(TimeOfDay time, DateTimeZone zone) {
         Chronology chrono = getChronology().withZone(zone);
         long instant = DateTimeUtils.currentTimeMillis();
@@ -783,6 +826,7 @@ public final class YearMonthDay
      *
      * @return a interval over the day
      */
+    @Impure
     public Interval toInterval() {
         return toInterval(null);
     }
@@ -793,6 +837,7 @@ public final class YearMonthDay
      * @param zone  the zone to get the Interval in, null means default
      * @return a interval over the day
      */
+    @Impure
     public Interval toInterval(DateTimeZone zone) {
         zone = DateTimeUtils.getZone(zone);
         return toDateMidnight(zone).toInterval();
@@ -804,6 +849,8 @@ public final class YearMonthDay
      *
      * @return the year
      */
+    @Pure
+    @Impure
     public int getYear() {
         return getValue(YEAR);
     }
@@ -813,6 +860,8 @@ public final class YearMonthDay
      *
      * @return the month of year
      */
+    @Pure
+    @Impure
     public int getMonthOfYear() {
         return getValue(MONTH_OF_YEAR);
     }
@@ -822,6 +871,8 @@ public final class YearMonthDay
      *
      * @return the day of month
      */
+    @Pure
+    @Impure
     public int getDayOfMonth() {
         return getValue(DAY_OF_MONTH);
     }
@@ -839,6 +890,7 @@ public final class YearMonthDay
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public YearMonthDay withYear(int year) {
         int[] newValues = getValues();
         newValues = getChronology().year().set(this, YEAR, newValues, year);
@@ -857,6 +909,7 @@ public final class YearMonthDay
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public YearMonthDay withMonthOfYear(int monthOfYear) {
         int[] newValues = getValues();
         newValues = getChronology().monthOfYear().set(this, MONTH_OF_YEAR, newValues, monthOfYear);
@@ -875,6 +928,7 @@ public final class YearMonthDay
      * @throws IllegalArgumentException if the value is invalid
      * @since 1.3
      */
+    @Impure
     public YearMonthDay withDayOfMonth(int dayOfMonth) {
         int[] newValues = getValues();
         newValues = getChronology().dayOfMonth().set(this, DAY_OF_MONTH, newValues, dayOfMonth);
@@ -887,6 +941,8 @@ public final class YearMonthDay
      * 
      * @return the year property
      */
+    @SideEffectFree
+    @Impure
     public Property year() {
         return new Property(this, YEAR);
     }
@@ -896,6 +952,8 @@ public final class YearMonthDay
      * 
      * @return the month of year property
      */
+    @SideEffectFree
+    @Impure
     public Property monthOfYear() {
         return new Property(this, MONTH_OF_YEAR);
     }
@@ -905,6 +963,8 @@ public final class YearMonthDay
      * 
      * @return the day of month property
      */
+    @SideEffectFree
+    @Impure
     public Property dayOfMonth() {
         return new Property(this, DAY_OF_MONTH);
     }
@@ -915,6 +975,7 @@ public final class YearMonthDay
      * 
      * @return ISO8601 formatted string
      */
+    @Impure
     public String toString() {
         return ISODateTimeFormat.yearMonthDay().print(this);
     }
@@ -946,6 +1007,8 @@ public final class YearMonthDay
          * @param partial  the partial instance
          * @param fieldIndex  the index in the partial
          */
+        @SideEffectFree
+        @Impure
         Property(YearMonthDay partial, int fieldIndex) {
             super();
             iYearMonthDay = partial;
@@ -957,6 +1020,7 @@ public final class YearMonthDay
          * 
          * @return the field
          */
+        @Impure
         public DateTimeField getField() {
             return iYearMonthDay.getField(iFieldIndex);
         }
@@ -966,6 +1030,7 @@ public final class YearMonthDay
          * 
          * @return the partial
          */
+        @Pure
         protected ReadablePartial getReadablePartial() {
             return iYearMonthDay;
         }
@@ -975,6 +1040,7 @@ public final class YearMonthDay
          * 
          * @return the partial
          */
+        @Pure
         public YearMonthDay getYearMonthDay() {
             return iYearMonthDay;
         }
@@ -984,6 +1050,8 @@ public final class YearMonthDay
          * 
          * @return the field value
          */
+        @Pure
+        @Impure
         public int get() {
             return iYearMonthDay.getValue(iFieldIndex);
         }
@@ -1006,6 +1074,7 @@ public final class YearMonthDay
          * @return a copy of the YearMonthDay with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
+        @Impure
         public YearMonthDay addToCopy(int valueToAdd) {
             int[] newValues = iYearMonthDay.getValues();
             newValues = getField().add(iYearMonthDay, iFieldIndex, newValues, valueToAdd);
@@ -1030,6 +1099,7 @@ public final class YearMonthDay
          * @return a copy of the YearMonthDay with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
+        @Impure
         public YearMonthDay addWrapFieldToCopy(int valueToAdd) {
             int[] newValues = iYearMonthDay.getValues();
             newValues = getField().addWrapField(iYearMonthDay, iFieldIndex, newValues, valueToAdd);
@@ -1047,6 +1117,7 @@ public final class YearMonthDay
          * @return a copy of the YearMonthDay with the field value changed
          * @throws IllegalArgumentException if the value isn't valid
          */
+        @Impure
         public YearMonthDay setCopy(int value) {
             int[] newValues = iYearMonthDay.getValues();
             newValues = getField().set(iYearMonthDay, iFieldIndex, newValues, value);
@@ -1064,6 +1135,7 @@ public final class YearMonthDay
          * @return a copy of the YearMonthDay with the field value changed
          * @throws IllegalArgumentException if the text value isn't valid
          */
+        @Impure
         public YearMonthDay setCopy(String text, Locale locale) {
             int[] newValues = iYearMonthDay.getValues();
             newValues = getField().set(iYearMonthDay, iFieldIndex, newValues, text, locale);
@@ -1080,6 +1152,7 @@ public final class YearMonthDay
          * @return a copy of the YearMonthDay with the field value changed
          * @throws IllegalArgumentException if the text value isn't valid
          */
+        @Impure
         public YearMonthDay setCopy(String text) {
             return setCopy(text, null);
         }
@@ -1100,6 +1173,7 @@ public final class YearMonthDay
          * @return a copy of the YearMonthDay with this field set to its maximum
          * @since 1.2
          */
+        @Impure
         public YearMonthDay withMaximumValue() {
             return setCopy(getMaximumValue());
         }
@@ -1113,6 +1187,7 @@ public final class YearMonthDay
          * @return a copy of the YearMonthDay with this field set to its minimum
          * @since 1.2
          */
+        @Impure
         public YearMonthDay withMinimumValue() {
             return setCopy(getMinimumValue());
         }

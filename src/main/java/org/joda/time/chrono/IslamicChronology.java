@@ -15,6 +15,9 @@
  */
 package org.joda.time.chrono;
 
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -158,6 +161,7 @@ public final class IslamicChronology extends BasicChronology {
      * 
      * @return a singleton UTC instance of the chronology
      */
+    @Pure
     public static IslamicChronology getInstanceUTC() {
         return INSTANCE_UTC;
     }
@@ -167,6 +171,7 @@ public final class IslamicChronology extends BasicChronology {
      * 
      * @return a chronology in the default time zone
      */
+    @Impure
     public static IslamicChronology getInstance() {
         return getInstance(DateTimeZone.getDefault(), LEAP_YEAR_16_BASED);
     }
@@ -177,6 +182,7 @@ public final class IslamicChronology extends BasicChronology {
      * @param zone  the time zone to get the chronology in, null is default
      * @return a chronology in the specified time zone
      */
+    @Impure
     public static IslamicChronology getInstance(DateTimeZone zone) {
         return getInstance(zone, LEAP_YEAR_16_BASED);
     }
@@ -188,6 +194,7 @@ public final class IslamicChronology extends BasicChronology {
      * @param leapYears  the type defining the leap year pattern
      * @return a chronology in the specified time zone
      */
+    @Impure
     public static IslamicChronology getInstance(DateTimeZone zone, LeapYearPatternType leapYears) {
         if (zone == null) {
             zone = DateTimeZone.getDefault();
@@ -225,6 +232,7 @@ public final class IslamicChronology extends BasicChronology {
     /**
      * Restricted constructor.
      */
+    @Impure
     IslamicChronology(Chronology base, Object param, LeapYearPatternType leapYears) {
         super(base, param, 4);
         this.iLeapYears = leapYears;
@@ -233,6 +241,7 @@ public final class IslamicChronology extends BasicChronology {
     /**
      * Serialization singleton.
      */
+    @Impure
     private Object readResolve() {
         Chronology base = getBase();
         return base == null ? getInstanceUTC() : getInstance(base.getZone());
@@ -244,6 +253,7 @@ public final class IslamicChronology extends BasicChronology {
      *
      * @return the pattern type
      */
+    @Pure
     public LeapYearPatternType getLeapYearPatternType() {
         return iLeapYears;
     }
@@ -255,6 +265,7 @@ public final class IslamicChronology extends BasicChronology {
      * 
      * @return the chronology in UTC
      */
+    @Pure
     public Chronology withUTC() {
         return INSTANCE_UTC;
     }
@@ -265,6 +276,7 @@ public final class IslamicChronology extends BasicChronology {
      * @param zone  the zone to get the chronology in, null is default
      * @return the chronology
      */
+    @Impure
     public Chronology withZone(DateTimeZone zone) {
         if (zone == null) {
             zone = DateTimeZone.getDefault();
@@ -283,6 +295,8 @@ public final class IslamicChronology extends BasicChronology {
      * @return true if equal
      * @since 2.3
      */
+    @Pure
+    @Impure
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -301,11 +315,15 @@ public final class IslamicChronology extends BasicChronology {
      * @return the hash code
      * @since 1.6
      */
+    @Pure
+    @Impure
     public int hashCode() {
         return super.hashCode() * 13 + getLeapYearPatternType().hashCode();
     }
 
     //-----------------------------------------------------------------------
+    @Pure
+    @Impure
     int getYear(long instant) {
         long millisIslamic = instant - MILLIS_YEAR_1;
         long cycles = millisIslamic / MILLIS_PER_CYCLE;
@@ -320,6 +338,7 @@ public final class IslamicChronology extends BasicChronology {
         return year;
     }
 
+    @Impure
     long setYear(long instant, int year) {
         // optimsed implementation of set, due to fixed months
         int thisYear = getYear(instant);
@@ -340,6 +359,7 @@ public final class IslamicChronology extends BasicChronology {
     }
 
     //-----------------------------------------------------------------------
+    @Impure
     long getYearDifference(long minuendInstant, long subtrahendInstant) {
         // optimsed implementation of getDifference, due to fixed months
         int minuendYear = getYear(minuendInstant);
@@ -357,6 +377,7 @@ public final class IslamicChronology extends BasicChronology {
     }
 
     //-----------------------------------------------------------------------
+    @Pure
     long getTotalMillisByYearMonth(int year, int month) {
         if (--month % 2 == 1) {
             month /= 2;
@@ -368,6 +389,7 @@ public final class IslamicChronology extends BasicChronology {
     }
 
     //-----------------------------------------------------------------------
+    @Impure
     int getDayOfMonth(long millis) {
         // optimised for simple months
         int doy = getDayOfYear(millis) - 1;
@@ -378,21 +400,28 @@ public final class IslamicChronology extends BasicChronology {
     }
 
     //-----------------------------------------------------------------------
+    @Pure
+    @Impure
     boolean isLeapYear(int year) {
         return iLeapYears.isLeapYear(year);
     }
 
     //-----------------------------------------------------------------------
+    @Pure
     int getDaysInYearMax() {
         return 355;
     }
 
     //-----------------------------------------------------------------------
+    @Pure
+    @Impure
     int getDaysInYear(int year) {
         return isLeapYear(year) ? 355 : 354;
     }
 
     //-----------------------------------------------------------------------
+    @Pure
+    @Impure
     int getDaysInYearMonth(int year, int month) {
         if (month == 12 && isLeapYear(year)) {
             return LONG_MONTH_LENGTH;
@@ -401,11 +430,13 @@ public final class IslamicChronology extends BasicChronology {
     }
 
     //-----------------------------------------------------------------------
+    @Pure
     int getDaysInMonthMax() {
         return LONG_MONTH_LENGTH;
     }
 
     //-----------------------------------------------------------------------
+    @Pure
     int getDaysInMonthMax(int month) {
         if (month == 12) {
             return LONG_MONTH_LENGTH;
@@ -414,6 +445,7 @@ public final class IslamicChronology extends BasicChronology {
     }
 
     //-----------------------------------------------------------------------
+    @Impure
     int getMonthOfYear(long millis, int year) {
         int doyZeroBased = (int) ((millis - getYearMillis(year)) / DateTimeConstants.MILLIS_PER_DAY);
         if (doyZeroBased == 354) {
@@ -428,21 +460,26 @@ public final class IslamicChronology extends BasicChronology {
     }
 
     //-----------------------------------------------------------------------
+    @Pure
     long getAverageMillisPerYear() {
         return MILLIS_PER_YEAR;
     }
 
     //-----------------------------------------------------------------------
+    @Pure
     long getAverageMillisPerYearDividedByTwo() {
         return MILLIS_PER_YEAR / 2;
     }
 
     //-----------------------------------------------------------------------
+    @Pure
     long getAverageMillisPerMonth() {
         return MILLIS_PER_MONTH;
     }
 
     //-----------------------------------------------------------------------
+    @Pure
+    @Impure
     long calculateFirstDayOfYearMillis(int year) {
         if (year > MAX_YEAR) {
             throw new ArithmeticException("Year is too large: " + year + " > " + MAX_YEAR);
@@ -468,22 +505,26 @@ public final class IslamicChronology extends BasicChronology {
     }
 
     //-----------------------------------------------------------------------
+    @Pure
     int getMinYear() {
         return 1; //MIN_YEAR;
     }
 
     //-----------------------------------------------------------------------
+    @Pure
     int getMaxYear() {
         return MAX_YEAR;
     }
 
     //-----------------------------------------------------------------------
+    @Pure
     long getApproxMillisAtEpochDividedByTwo() {
         // Epoch 1970-01-01 ISO = 1389-10-22 Islamic
         return (-MILLIS_YEAR_1) / 2;
     }
 
     //-----------------------------------------------------------------------
+    @Impure
     protected void assemble(Fields fields) {
         if (getBase() == null) {
             super.assemble(fields);
@@ -525,6 +566,7 @@ public final class IslamicChronology extends BasicChronology {
          * @param index  the index
          * @param pattern  the bit pattern
          */
+        @SideEffectFree
         LeapYearPatternType(int index, int pattern) {
             super();
             this.index = (byte) index;
@@ -536,6 +578,7 @@ public final class IslamicChronology extends BasicChronology {
          * @param year  the year to query
          * @return true if leap
          */
+        @Pure
         boolean isLeapYear(int year) {
             int key = 1 << (year % 30);
             return ((pattern & key) > 0);
@@ -545,6 +588,7 @@ public final class IslamicChronology extends BasicChronology {
          * Ensure a singleton is returned if possible.
          * @return the singleton instance
          */
+        @Pure
         private Object readResolve() {
             switch (index) {
                 case 0:
@@ -560,6 +604,7 @@ public final class IslamicChronology extends BasicChronology {
             }
         }
 
+        @Pure
         @Override
         public boolean equals(Object obj) {
             if (obj instanceof LeapYearPatternType) {
@@ -568,6 +613,7 @@ public final class IslamicChronology extends BasicChronology {
             return false;
         }
 
+        @Pure
         @Override
         public int hashCode() {
             return index;

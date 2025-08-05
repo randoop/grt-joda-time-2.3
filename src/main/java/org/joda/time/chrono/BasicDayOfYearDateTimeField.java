@@ -15,6 +15,8 @@
  */
 package org.joda.time.chrono;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.DurationField;
 import org.joda.time.ReadablePartial;
@@ -38,6 +40,7 @@ final class BasicDayOfYearDateTimeField extends PreciseDurationDateTimeField {
     /**
      * Restricted constructor
      */
+    @Impure
     BasicDayOfYearDateTimeField(BasicChronology chronology, DurationField days) {
         super(DateTimeFieldType.dayOfYear(), days);
         iChronology = chronology;
@@ -49,27 +52,35 @@ final class BasicDayOfYearDateTimeField extends PreciseDurationDateTimeField {
      * @param instant  the time instant in millis to query.
      * @return the day of the year extracted from the input.
      */
+    @Impure
     public int get(long instant) {
         return iChronology.getDayOfYear(instant);
     }
 
+    @Pure
+    @Impure
     public DurationField getRangeDurationField() {
         return iChronology.years();
     }
 
+    @Pure
     public int getMinimumValue() {
         return 1;
     }
 
+    @Pure
+    @Impure
     public int getMaximumValue() {
         return iChronology.getDaysInYearMax();
     }
 
+    @Impure
     public int getMaximumValue(long instant) {
         int year = iChronology.getYear(instant);
         return iChronology.getDaysInYear(year);
     }
 
+    @Impure
     public int getMaximumValue(ReadablePartial partial) {
         if (partial.isSupported(DateTimeFieldType.year())) {
             int year = partial.get(DateTimeFieldType.year());
@@ -78,6 +89,7 @@ final class BasicDayOfYearDateTimeField extends PreciseDurationDateTimeField {
         return iChronology.getDaysInYearMax();
     }
 
+    @Impure
     public int getMaximumValue(ReadablePartial partial, int[] values) {
         int size = partial.size();
         for (int i = 0; i < size; i++) {
@@ -89,6 +101,7 @@ final class BasicDayOfYearDateTimeField extends PreciseDurationDateTimeField {
         return iChronology.getDaysInYearMax();
     }
 
+    @Impure
     protected int getMaximumValueForSet(long instant, int value) {
         int maxLessOne = iChronology.getDaysInYearMax() - 1;
         return (value > maxLessOne || value < 1) ? getMaximumValue(instant) : maxLessOne;
@@ -97,6 +110,8 @@ final class BasicDayOfYearDateTimeField extends PreciseDurationDateTimeField {
     /**
      * Serialization singleton
      */
+    @Pure
+    @Impure
     private Object readResolve() {
         return iChronology.dayOfYear();
     }

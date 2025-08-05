@@ -15,6 +15,7 @@
  */
 package org.joda.time.chrono;
 
+import org.checkerframework.dataflow.qual.Impure;
 import java.util.Locale;
 
 /**
@@ -34,31 +35,37 @@ final class GJMonthOfYearDateTimeField extends BasicMonthOfYearDateTimeField {
     /**
      * Restricted constructor
      */
+    @Impure
     GJMonthOfYearDateTimeField(BasicChronology chronology) {
         super(chronology, 2);
     }
 
     //-----------------------------------------------------------------------
+    @Impure
     public String getAsText(int fieldValue, Locale locale) {
         return GJLocaleSymbols.forLocale(locale).monthOfYearValueToText(fieldValue);
     }
 
     //-----------------------------------------------------------------------
+    @Impure
     public String getAsShortText(int fieldValue, Locale locale) {
         return GJLocaleSymbols.forLocale(locale).monthOfYearValueToShortText(fieldValue);
     }
 
     //-----------------------------------------------------------------------
+    @Impure
     protected int convertText(String text, Locale locale) {
         return GJLocaleSymbols.forLocale(locale).monthOfYearTextToValue(text);
     }
 
     //-----------------------------------------------------------------------
+    @Impure
     public int getMaximumTextLength(Locale locale) {
         return GJLocaleSymbols.forLocale(locale).getMonthMaxTextLength();
     }
 
     //-----------------------------------------------------------------------
+    @Impure
     public int getMaximumShortTextLength(Locale locale) {
         return GJLocaleSymbols.forLocale(locale).getMonthMaxShortTextLength();
     }

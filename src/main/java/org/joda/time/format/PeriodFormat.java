@@ -15,6 +15,8 @@
  */
 package org.joda.time.format;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
@@ -51,6 +53,7 @@ public class PeriodFormat {
      *
      * @since 1.1 (previously private)
      */
+    @SideEffectFree
     protected PeriodFormat() {
         super();
     }
@@ -63,6 +66,7 @@ public class PeriodFormat {
      * 
      * @return the formatter, not null
      */
+    @Impure
     public static PeriodFormatter getDefault() {
         return wordBased(Locale.ENGLISH);
     }
@@ -75,6 +79,7 @@ public class PeriodFormat {
      * @return the formatter, not null
      * @since 2.0
      */
+    @Impure
     public static PeriodFormatter wordBased() {
         return wordBased(Locale.getDefault());
     }
@@ -91,6 +96,7 @@ public class PeriodFormat {
      * @return the formatter, not null
      * @since 2.0
      */
+    @Impure
     public static PeriodFormatter wordBased(Locale locale) {
         PeriodFormatter pf = FORMATTERS.get(locale);
         if (pf == null) {

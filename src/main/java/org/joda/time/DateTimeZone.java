@@ -15,6 +15,9 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -130,6 +133,7 @@ public abstract class DateTimeZone implements Serializable {
      * 
      * @return the default datetime zone object
      */
+    @Impure
     public static DateTimeZone getDefault() {
         DateTimeZone zone = cDefault;
         if (zone == null) {
@@ -171,6 +175,7 @@ public abstract class DateTimeZone implements Serializable {
      * @throws IllegalArgumentException if the zone is null
      * @throws SecurityException if the application has insufficient security rights
      */
+    @Impure
     public static void setDefault(DateTimeZone zone) throws SecurityException {
         SecurityManager sm = System.getSecurityManager();
         if (sm != null) {
@@ -200,6 +205,7 @@ public abstract class DateTimeZone implements Serializable {
      * @return the DateTimeZone object for the ID
      * @throws IllegalArgumentException if the ID is not recognised
      */
+    @Impure
     @FromString
     public static DateTimeZone forID(String id) {
         if (id == null) {
@@ -234,6 +240,7 @@ public abstract class DateTimeZone implements Serializable {
      * @return the DateTimeZone object for the offset
      * @throws IllegalArgumentException if the offset is too large or too small
      */
+    @Impure
     public static DateTimeZone forOffsetHours(int hoursOffset) throws IllegalArgumentException {
         return forOffsetHoursMinutes(hoursOffset, 0);
     }
@@ -269,6 +276,7 @@ public abstract class DateTimeZone implements Serializable {
      * @throws IllegalArgumentException if any value is out of range, the minutes are negative
      *  when the hours are positive, or the resulting offset exceeds +/- 23:59:59.000
      */
+    @Impure
     public static DateTimeZone forOffsetHoursMinutes(int hoursOffset, int minutesOffset) throws IllegalArgumentException {
         if (hoursOffset == 0 && minutesOffset == 0) {
             return DateTimeZone.UTC;
@@ -303,6 +311,7 @@ public abstract class DateTimeZone implements Serializable {
      * @param millisOffset  the offset in millis from UTC, from -23:59:59.999 to +23:59:59.999
      * @return the DateTimeZone object for the offset
      */
+    @Impure
     public static DateTimeZone forOffsetMillis(int millisOffset) {
         if (millisOffset < -MAX_MILLIS || millisOffset > MAX_MILLIS) {
             throw new IllegalArgumentException("Millis out of range: " + millisOffset);
@@ -326,6 +335,7 @@ public abstract class DateTimeZone implements Serializable {
      * @return the DateTimeZone object for the zone
      * @throws IllegalArgumentException if the zone is not recognised
      */
+    @Impure
     public static DateTimeZone forTimeZone(TimeZone zone) {
         if (zone == null) {
             return getDefault();
@@ -373,6 +383,7 @@ public abstract class DateTimeZone implements Serializable {
      * @param offset  the offset in millis
      * @return the zone
      */
+    @Impure
     private static synchronized DateTimeZone fixedOffsetZone(String id, int offset) {
         if (offset == 0) {
             return DateTimeZone.UTC;
@@ -398,6 +409,7 @@ public abstract class DateTimeZone implements Serializable {
      * 
      * @return an unmodifiable Set of String IDs
      */
+    @Pure
     public static Set<String> getAvailableIDs() {
         return cAvailableIDs;
     }
@@ -411,6 +423,7 @@ public abstract class DateTimeZone implements Serializable {
      * 
      * @return the provider
      */
+    @Pure
     public static Provider getProvider() {
         return cProvider;
     }
@@ -425,6 +438,7 @@ public abstract class DateTimeZone implements Serializable {
      * @throws SecurityException if you do not have the permission DateTimeZone.setProvider
      * @throws IllegalArgumentException if the provider is invalid
      */
+    @Impure
     public static void setProvider(Provider provider) throws SecurityException {
         SecurityManager sm = System.getSecurityManager();
         if (sm != null) {
@@ -439,6 +453,7 @@ public abstract class DateTimeZone implements Serializable {
      * @param provider  provider to use, or null for default
      * @throws IllegalArgumentException if the provider is invalid
      */
+    @Impure
     private static void setProvider0(Provider provider) {
         if (provider == null) {
             provider = getDefaultProvider();
@@ -467,6 +482,7 @@ public abstract class DateTimeZone implements Serializable {
      * 
      * @return the default name provider
      */
+    @Impure
     private static Provider getDefaultProvider() {
         Provider provider = null;
 
@@ -510,6 +526,7 @@ public abstract class DateTimeZone implements Serializable {
      * 
      * @return the provider
      */
+    @Pure
     public static NameProvider getNameProvider() {
         return cNameProvider;
     }
@@ -524,6 +541,7 @@ public abstract class DateTimeZone implements Serializable {
      * @throws SecurityException if you do not have the permission DateTimeZone.setNameProvider
      * @throws IllegalArgumentException if the provider is invalid
      */
+    @Impure
     public static void setNameProvider(NameProvider nameProvider) throws SecurityException {
         SecurityManager sm = System.getSecurityManager();
         if (sm != null) {
@@ -538,6 +556,7 @@ public abstract class DateTimeZone implements Serializable {
      * @param nameProvider  provider to use, or null for default
      * @throws IllegalArgumentException if the provider is invalid
      */
+    @Impure
     private static void setNameProvider0(NameProvider nameProvider) {
         if (nameProvider == null) {
             nameProvider = getDefaultNameProvider();
@@ -553,6 +572,7 @@ public abstract class DateTimeZone implements Serializable {
      * 
      * @return the default name provider
      */
+    @Impure
     private static NameProvider getDefaultNameProvider() {
         NameProvider nameProvider = null;
         try {
@@ -583,6 +603,7 @@ public abstract class DateTimeZone implements Serializable {
      * @param id  the old style id
      * @return the new style id, null if not found
      */
+    @Impure
     private static synchronized String getConvertedId(String id) {
         Map<String, String> map = cZoneIdConversion;
         if (map == null) {
@@ -626,20 +647,25 @@ public abstract class DateTimeZone implements Serializable {
         return map.get(id);
     }
 
+    @Impure
     private static int parseOffset(String str) {
         // Can't use a real chronology if called during class
         // initialization. Offset parser doesn't need it anyhow.
         Chronology chrono = new BaseChronology() {
             private static final long serialVersionUID = -3128740902654445468L;
+            @Pure
             public DateTimeZone getZone() {
                 return null;
             }
+            @Pure
             public Chronology withUTC() {
                 return this;
             }
+            @Pure
             public Chronology withZone(DateTimeZone zone) {
                 return this;
             }
+            @Pure
             public String toString() {
                 return getClass().getName();
             }
@@ -656,6 +682,7 @@ public abstract class DateTimeZone implements Serializable {
      * @param offset  the offset in milliseconds
      * @return the time zone string
      */
+    @Impure
     private static String printOffset(int offset) {
         StringBuffer buf = new StringBuffer();
         if (offset >= 0) {
@@ -695,6 +722,7 @@ public abstract class DateTimeZone implements Serializable {
      * 
      * @return the formatter
      */
+    @Impure
     private static synchronized DateTimeFormatter offsetFormatter() {
         if (cOffsetFormatter == null) {
             cOffsetFormatter = new DateTimeFormatterBuilder()
@@ -715,6 +743,7 @@ public abstract class DateTimeZone implements Serializable {
      * @param id  the id to use
      * @throws IllegalArgumentException if the id is null
      */
+    @SideEffectFree
     protected DateTimeZone(String id) {
         if (id == null) {
             throw new IllegalArgumentException("Id must not be null");
@@ -730,6 +759,7 @@ public abstract class DateTimeZone implements Serializable {
      * 
      * @return the ID of this datetime zone
      */
+    @Pure
     @ToString
     public final String getID() {
         return iID;
@@ -742,6 +772,7 @@ public abstract class DateTimeZone implements Serializable {
      * @param instant  milliseconds from 1970-01-01T00:00:00Z to get the name for
      * @return name key or null if id should be used for names
      */
+    @Impure
     public abstract String getNameKey(long instant);
 
     /**
@@ -754,6 +785,7 @@ public abstract class DateTimeZone implements Serializable {
      * @param instant  milliseconds from 1970-01-01T00:00:00Z to get the name for
      * @return the human-readable short name in the default locale
      */
+    @Impure
     public final String getShortName(long instant) {
         return getShortName(instant, null);
     }
@@ -769,6 +801,7 @@ public abstract class DateTimeZone implements Serializable {
      * @param locale  the locale to get the name for
      * @return the human-readable short name in the specified locale
      */
+    @Impure
     public String getShortName(long instant, Locale locale) {
         if (locale == null) {
             locale = Locale.getDefault();
@@ -794,6 +827,7 @@ public abstract class DateTimeZone implements Serializable {
      * @param instant  milliseconds from 1970-01-01T00:00:00Z to get the name for
      * @return the human-readable long name in the default locale
      */
+    @Impure
     public final String getName(long instant) {
         return getName(instant, null);
     }
@@ -809,6 +843,7 @@ public abstract class DateTimeZone implements Serializable {
      * @param locale  the locale to get the name for
      * @return the human-readable long name in the specified locale
      */
+    @Impure
     public String getName(long instant, Locale locale) {
         if (locale == null) {
             locale = Locale.getDefault();
@@ -830,6 +865,7 @@ public abstract class DateTimeZone implements Serializable {
      * @param instant  milliseconds from 1970-01-01T00:00:00Z to get the offset for
      * @return the millisecond offset to add to UTC to get local time
      */
+    @Impure
     public abstract int getOffset(long instant);
 
     /**
@@ -838,6 +874,7 @@ public abstract class DateTimeZone implements Serializable {
      * @param instant  instant to get the offset for, null means now
      * @return the millisecond offset to add to UTC to get local time
      */
+    @Impure
     public final int getOffset(ReadableInstant instant) {
         if (instant == null) {
             return getOffset(DateTimeUtils.currentTimeMillis());
@@ -852,6 +889,7 @@ public abstract class DateTimeZone implements Serializable {
      * @param instant  milliseconds from 1970-01-01T00:00:00Z to get the offset for
      * @return the millisecond offset to add to UTC to get local time
      */
+    @Impure
     public abstract int getStandardOffset(long instant);
 
     /**
@@ -869,6 +907,7 @@ public abstract class DateTimeZone implements Serializable {
      * @return true if the offset at the given instant is the standard offset
      * @since 1.5
      */
+    @Impure
     public boolean isStandardOffset(long instant) {
         return getOffset(instant) == getStandardOffset(instant);
     }
@@ -906,6 +945,7 @@ public abstract class DateTimeZone implements Serializable {
      * @param instantLocal  the millisecond instant, relative to this time zone, to get the offset for
      * @return the millisecond offset to subtract from local time to get UTC time
      */
+    @Impure
     public int getOffsetFromLocal(long instantLocal) {
         // get the offset at instantLocal (first estimate)
         final int offsetLocal = getOffset(instantLocal);
@@ -949,6 +989,7 @@ public abstract class DateTimeZone implements Serializable {
      * @throws ArithmeticException if the result overflows a long
      * @since 1.5
      */
+    @Impure
     public long convertUTCToLocal(long instantUTC) {
         int offset = getOffset(instantUTC);
         long instantLocal = instantUTC + offset;
@@ -976,6 +1017,7 @@ public abstract class DateTimeZone implements Serializable {
      * @throws IllegalArgumentException if the zone has no equivalent local time
      * @since 2.0
      */
+    @Impure
     public long convertLocalToUTC(long instantLocal, boolean strict, long originalInstantUTC) {
         int offsetOriginal = getOffset(originalInstantUTC);
         long instantUTC = instantLocal - offsetOriginal;
@@ -998,6 +1040,7 @@ public abstract class DateTimeZone implements Serializable {
      * @throws IllegalInstantException if the zone has no equivalent local time
      * @since 1.5
      */
+    @Impure
     public long convertLocalToUTC(long instantLocal, boolean strict) {
         // get the offset at instantLocal (first estimate)
         int offsetLocal = getOffset(instantLocal);
@@ -1051,6 +1094,7 @@ public abstract class DateTimeZone implements Serializable {
      * @param oldInstant  the UTC millisecond instant to convert
      * @return the UTC millisecond instant with the same local time in the new zone
      */
+    @Impure
     public long getMillisKeepLocal(DateTimeZone newZone, long oldInstant) {
         if (newZone == null) {
             newZone = DateTimeZone.getDefault();
@@ -1168,6 +1212,7 @@ public abstract class DateTimeZone implements Serializable {
      * @return true if the given datetime refers to a gap
      * @since 1.6
      */
+    @Impure
     public boolean isLocalDateTimeGap(LocalDateTime localDateTime) {
         if (isFixed()) {
             return false;
@@ -1187,6 +1232,7 @@ public abstract class DateTimeZone implements Serializable {
      * @param earlierOrLater  false for earlier, true for later
      * @return the adjusted instant millis
      */
+    @Impure
     public long adjustOffset(long instant, boolean earlierOrLater) {
         // a bit messy, but will work in all non-pathological cases
         
@@ -1226,6 +1272,7 @@ public abstract class DateTimeZone implements Serializable {
      *
      * @return true if no transitions
      */
+    @Impure
     public abstract boolean isFixed();
 
     /**
@@ -1236,6 +1283,7 @@ public abstract class DateTimeZone implements Serializable {
      * @param instant  milliseconds from 1970-01-01T00:00:00Z
      * @return milliseconds from 1970-01-01T00:00:00Z
      */
+    @Impure
     public abstract long nextTransition(long instant);
 
     /**
@@ -1246,6 +1294,7 @@ public abstract class DateTimeZone implements Serializable {
      * @param instant  milliseconds from 1970-01-01T00:00:00Z
      * @return milliseconds from 1970-01-01T00:00:00Z
      */
+    @Impure
     public abstract long previousTransition(long instant);
 
     // Basic methods
@@ -1256,6 +1305,7 @@ public abstract class DateTimeZone implements Serializable {
      * 
      * @return the closest matching TimeZone object
      */
+    @Impure
     public java.util.TimeZone toTimeZone() {
         return java.util.TimeZone.getTimeZone(iID);
     }
@@ -1266,6 +1316,8 @@ public abstract class DateTimeZone implements Serializable {
      * @param object the object to compare with
      * @return true if equal, based on the ID and all internal rules
      */
+    @Pure
+    @Impure
     public abstract boolean equals(Object object);
 
     /**
@@ -1273,6 +1325,8 @@ public abstract class DateTimeZone implements Serializable {
      * 
      * @return suitable hashcode
      */
+    @Pure
+    @Impure
     public int hashCode() {
         return 57 + getID().hashCode();
     }
@@ -1281,6 +1335,8 @@ public abstract class DateTimeZone implements Serializable {
      * Gets the datetime zone as a string, which is simply its ID.
      * @return the id of the zone
      */
+    @Pure
+    @Impure
     public String toString() {
         return getID();
     }
@@ -1291,6 +1347,8 @@ public abstract class DateTimeZone implements Serializable {
      * replaces itself with a DateTimeZone object.
      * @return a stub object to go in the stream
      */
+    @SideEffectFree
+    @Impure
     protected Object writeReplace() throws ObjectStreamException {
         return new Stub(iID);
     }
@@ -1308,18 +1366,22 @@ public abstract class DateTimeZone implements Serializable {
          * Constructor.
          * @param id  the id of the zone
          */
+        @SideEffectFree
         Stub(String id) {
             iID = id;
         }
 
+        @Impure
         private void writeObject(ObjectOutputStream out) throws IOException {
             out.writeUTF(iID);
         }
 
+        @Impure
         private void readObject(ObjectInputStream in) throws IOException {
             iID = in.readUTF();
         }
 
+        @Impure
         private Object readResolve() throws ObjectStreamException {
             return forID(iID);
         }

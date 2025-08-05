@@ -15,6 +15,8 @@
  */
 package org.joda.time.field;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import org.joda.time.DateTimeField;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.DurationField;
@@ -51,6 +53,7 @@ public abstract class DecoratedDateTimeField extends BaseDateTimeField {
      * @param field  the field being decorated
      * @param type  allow type to be overridden
      */
+    @Impure
     protected DecoratedDateTimeField(DateTimeField field, DateTimeFieldType type) {
         super(type);
         if (field == null) {
@@ -67,38 +70,47 @@ public abstract class DecoratedDateTimeField extends BaseDateTimeField {
      * 
      * @return the wrapped DateTimeField
      */
+    @Pure
     public final DateTimeField getWrappedField() {
         return iField;
     }
 
+    @Impure
     public boolean isLenient() {
         return iField.isLenient();
     }
 
+    @Impure
     public int get(long instant) {
         return iField.get(instant);
     }
 
+    @Impure
     public long set(long instant, int value) {
         return iField.set(instant, value);
     }
 
+    @Impure
     public DurationField getDurationField() {
         return iField.getDurationField();
     }
 
+    @Impure
     public DurationField getRangeDurationField() {
         return iField.getRangeDurationField();
     }
 
+    @Impure
     public int getMinimumValue() {
         return iField.getMinimumValue();
     }
 
+    @Impure
     public int getMaximumValue() {
         return iField.getMaximumValue();
     }
 
+    @Impure
     public long roundFloor(long instant) {
         return iField.roundFloor(instant);
     }

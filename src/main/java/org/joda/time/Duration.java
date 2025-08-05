@@ -15,6 +15,9 @@
  */
 package org.joda.time;
 
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.io.Serializable;
 
 import org.joda.convert.FromString;
@@ -54,6 +57,7 @@ public final class Duration
      * @param str  the string to parse, not null
      * @since 2.0
      */
+    @Impure
     @FromString
     public static Duration parse(String str) {
         return new Duration(str);
@@ -77,6 +81,8 @@ public final class Duration
      * @throws ArithmeticException if the days value is too large
      * @since 1.6
      */
+    @SideEffectFree
+    @Impure
     public static Duration standardDays(long days) {
         if (days == 0) {
             return ZERO;
@@ -100,6 +106,8 @@ public final class Duration
      * @throws ArithmeticException if the hours value is too large
      * @since 1.6
      */
+    @SideEffectFree
+    @Impure
     public static Duration standardHours(long hours) {
         if (hours == 0) {
             return ZERO;
@@ -123,6 +131,8 @@ public final class Duration
      * @throws ArithmeticException if the minutes value is too large
      * @since 1.6
      */
+    @SideEffectFree
+    @Impure
     public static Duration standardMinutes(long minutes) {
         if (minutes == 0) {
             return ZERO;
@@ -145,6 +155,8 @@ public final class Duration
      * @throws ArithmeticException if the seconds value is too large
      * @since 1.6
      */
+    @SideEffectFree
+    @Impure
     public static Duration standardSeconds(long seconds) {
         if (seconds == 0) {
             return ZERO;
@@ -159,6 +171,8 @@ public final class Duration
      * @return the duration, never null
      * @since 2.0
      */
+    @SideEffectFree
+    @Impure
     public static Duration millis(long millis) {
         if (millis == 0) {
             return ZERO;
@@ -172,6 +186,8 @@ public final class Duration
      *
      * @param duration  the duration, in milliseconds
      */
+    @SideEffectFree
+    @Impure
     public Duration(long duration) {
         super(duration);
     }
@@ -183,6 +199,8 @@ public final class Duration
      * @param endInstant  interval end, in milliseconds
      * @throws ArithmeticException if the duration exceeds a 64 bit long
      */
+    @SideEffectFree
+    @Impure
     public Duration(long startInstant, long endInstant) {
         super(startInstant, endInstant);
     }
@@ -194,6 +212,7 @@ public final class Duration
      * @param end  interval end, null means now
      * @throws ArithmeticException if the duration exceeds a 64 bit long
      */
+    @Impure
     public Duration(ReadableInstant start, ReadableInstant end) {
         super(start, end);
     }
@@ -205,6 +224,7 @@ public final class Duration
      * @param duration  duration to convert
      * @throws IllegalArgumentException if duration is invalid
      */
+    @Impure
     public Duration(Object duration) {
         super(duration);
     }
@@ -225,6 +245,8 @@ public final class Duration
      * @return the length of the duration in standard seconds
      * @since 2.0
      */
+    @Pure
+    @Impure
     public long getStandardDays() {
         return getMillis() / DateTimeConstants.MILLIS_PER_DAY;
     }
@@ -243,6 +265,8 @@ public final class Duration
      * @return the length of the duration in standard seconds
      * @since 2.0
      */
+    @Pure
+    @Impure
     public long getStandardHours() {
         return getMillis() / DateTimeConstants.MILLIS_PER_HOUR;
     }
@@ -261,6 +285,8 @@ public final class Duration
      * @return the length of the duration in standard seconds
      * @since 2.0
      */
+    @Pure
+    @Impure
     public long getStandardMinutes() {
         return getMillis() / DateTimeConstants.MILLIS_PER_MINUTE;
     }
@@ -278,6 +304,8 @@ public final class Duration
      * @return the length of the duration in standard seconds
      * @since 1.6
      */
+    @Pure
+    @Impure
     public long getStandardSeconds() {
         return getMillis() / DateTimeConstants.MILLIS_PER_SECOND;
     }
@@ -289,6 +317,7 @@ public final class Duration
      * 
      * @return <code>this</code>
      */
+    @Pure
     public Duration toDuration() {
         return this;
     }
@@ -306,6 +335,8 @@ public final class Duration
      * @throws ArithmeticException if the number of days is too large to be represented
      * @since 2.0
      */
+    @SideEffectFree
+    @Impure
     public Days toStandardDays() {
         long days = getStandardDays();
         return Days.days(FieldUtils.safeToInt(days));
@@ -323,6 +354,8 @@ public final class Duration
      * @throws ArithmeticException if the number of hours is too large to be represented
      * @since 2.0
      */
+    @SideEffectFree
+    @Impure
     public Hours toStandardHours() {
         long hours = getStandardHours();
         return Hours.hours(FieldUtils.safeToInt(hours));
@@ -340,6 +373,8 @@ public final class Duration
      * @throws ArithmeticException if the number of minutes is too large to be represented
      * @since 2.0
      */
+    @SideEffectFree
+    @Impure
     public Minutes toStandardMinutes() {
         long minutes = getStandardMinutes();
         return Minutes.minutes(FieldUtils.safeToInt(minutes));
@@ -356,6 +391,8 @@ public final class Duration
      * @throws ArithmeticException if the number of seconds is too large to be represented
      * @since 1.6
      */
+    @SideEffectFree
+    @Impure
     public Seconds toStandardSeconds() {
         long seconds = getStandardSeconds();
         return Seconds.seconds(FieldUtils.safeToInt(seconds));
@@ -368,6 +405,8 @@ public final class Duration
      * @param duration  the new length of the duration
      * @return the new duration instance
      */
+    @SideEffectFree
+    @Impure
     public Duration withMillis(long duration) {
         if (duration == getMillis()) {
             return this;
@@ -385,6 +424,8 @@ public final class Duration
      * @param scalar  the amount of times to add, such as -1 to subtract once
      * @return the new duration instance
      */
+    @SideEffectFree
+    @Impure
     public Duration withDurationAdded(long durationToAdd, int scalar) {
         if (durationToAdd == 0 || scalar == 0) {
             return this;
@@ -404,6 +445,8 @@ public final class Duration
      * @param scalar  the amount of times to add, such as -1 to subtract once
      * @return the new duration instance
      */
+    @SideEffectFree
+    @Impure
     public Duration withDurationAdded(ReadableDuration durationToAdd, int scalar) {
         if (durationToAdd == null || scalar == 0) {
             return this;
@@ -421,6 +464,8 @@ public final class Duration
      * @param amount  the duration to add to this one
      * @return the new duration instance
      */
+    @SideEffectFree
+    @Impure
     public Duration plus(long amount) {
         return withDurationAdded(amount, 1);
     }
@@ -434,6 +479,8 @@ public final class Duration
      * @param amount  the duration to add to this one, null means zero
      * @return the new duration instance
      */
+    @SideEffectFree
+    @Impure
     public Duration plus(ReadableDuration amount) {
         if (amount == null) {
             return this;
@@ -450,6 +497,8 @@ public final class Duration
      * @param amount  the duration to take away from this one
      * @return the new duration instance
      */
+    @SideEffectFree
+    @Impure
     public Duration minus(long amount) {
         return withDurationAdded(amount, -1);
     }
@@ -463,6 +512,8 @@ public final class Duration
      * @param amount  the duration to take away from this one, null means zero
      * @return the new duration instance
      */
+    @SideEffectFree
+    @Impure
     public Duration minus(ReadableDuration amount) {
         if (amount == null) {
             return this;

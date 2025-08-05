@@ -15,6 +15,8 @@
  */
 package org.joda.time.field;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import org.joda.time.DurationField;
 import org.joda.time.DurationFieldType;
 
@@ -48,6 +50,7 @@ public class DecoratedDurationField extends BaseDurationField {
      * @param field  the base field
      * @param type  the type to actually use
      */
+    @Impure
     public DecoratedDurationField(DurationField field, DurationFieldType type) {
         super(type);
         if (field == null) {
@@ -65,38 +68,47 @@ public class DecoratedDurationField extends BaseDurationField {
      * 
      * @return the wrapped DurationField
      */
+    @Pure
     public final DurationField getWrappedField() {
         return iField;
     }
 
+    @Impure
     public boolean isPrecise() {
         return iField.isPrecise();
     }
 
+    @Impure
     public long getValueAsLong(long duration, long instant) {
         return iField.getValueAsLong(duration, instant);
     }
 
+    @Impure
     public long getMillis(int value, long instant) {
         return iField.getMillis(value, instant);
     }
 
+    @Impure
     public long getMillis(long value, long instant) {
         return iField.getMillis(value, instant);
     }
 
+    @Impure
     public long add(long instant, int value) {
         return iField.add(instant, value);
     }
 
+    @Impure
     public long add(long instant, long value) {
         return iField.add(instant, value);
     }
 
+    @Impure
     public long getDifferenceAsLong(long minuendInstant, long subtrahendInstant) {
         return iField.getDifferenceAsLong(minuendInstant, subtrahendInstant);
     }
 
+    @Impure
     public long getUnitMillis() {
         return iField.getUnitMillis();
     }

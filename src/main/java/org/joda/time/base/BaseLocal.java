@@ -14,6 +14,9 @@
  *  limitations under the License.
  */
 package org.joda.time.base;
+import org.checkerframework.dataflow.qual.SideEffectFree;
+import org.checkerframework.dataflow.qual.Pure;
+import org.checkerframework.dataflow.qual.Impure;
 
 /**
  * BaseLocal is an abstract implementation of ReadablePartial that
@@ -44,6 +47,8 @@ public abstract class BaseLocal
      * being initialised. Once the constructor is complete, all further calculations
      * are performed without reference to a timezone (by switching to UTC).
      */
+    @SideEffectFree
+    @Impure
     protected BaseLocal() {
         super();
     }
@@ -58,6 +63,7 @@ public abstract class BaseLocal
      * 
      * @return the number of milliseconds since 1970-01-01T00:00:00
      */
+    @Pure
     protected abstract long getLocalMillis();
 
 }

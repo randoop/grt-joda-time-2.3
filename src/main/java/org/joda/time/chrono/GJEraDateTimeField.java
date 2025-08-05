@@ -15,6 +15,8 @@
  */
 package org.joda.time.chrono;
 
+import org.checkerframework.dataflow.qual.Impure;
+import org.checkerframework.dataflow.qual.Pure;
 import java.util.Locale;
 
 import org.joda.time.DateTimeConstants;
@@ -43,11 +45,13 @@ final class GJEraDateTimeField extends BaseDateTimeField {
     /**
      * Restricted constructor
      */
+    @Impure
     GJEraDateTimeField(BasicChronology chronology) {
         super(DateTimeFieldType.era());
         iChronology = chronology;
     }
 
+    @Pure
     public boolean isLenient() {
         return false;
     }
@@ -57,6 +61,7 @@ final class GJEraDateTimeField extends BaseDateTimeField {
      * 
      * @param instant  the time instant in millis to query.
      */
+    @Impure
     public int get(long instant) {
         if (iChronology.getYear(instant) <= 0) {
             return DateTimeConstants.BCE;
@@ -65,6 +70,7 @@ final class GJEraDateTimeField extends BaseDateTimeField {
         }
     }
 
+    @Impure
     public String getAsText(int fieldValue, Locale locale) {
         return GJLocaleSymbols.forLocale(locale).eraValueToText(fieldValue);
     }
@@ -77,6 +83,7 @@ final class GJEraDateTimeField extends BaseDateTimeField {
      * @return the updated time instant.
      * @throws IllegalArgumentException  if era is invalid.
      */
+    @Impure
     public long set(long instant, int era) {
         FieldUtils.verifyValueBounds(this, era, DateTimeConstants.BCE, DateTimeConstants.CE);
             
@@ -89,10 +96,12 @@ final class GJEraDateTimeField extends BaseDateTimeField {
         }
     }
 
+    @Impure
     public long set(long instant, String text, Locale locale) {
         return set(instant, GJLocaleSymbols.forLocale(locale).eraTextToValue(text));
     }
 
+    @Impure
     public long roundFloor(long instant) {
         if (get(instant) == DateTimeConstants.CE) {
             return iChronology.setYear(0, 1);
@@ -101,6 +110,7 @@ final class GJEraDateTimeField extends BaseDateTimeField {
         }
     }
 
+    @Impure
     public long roundCeiling(long instant) {
         if (get(instant) == DateTimeConstants.BCE) {
             return iChronology.setYear(0, 1);
@@ -109,37 +119,45 @@ final class GJEraDateTimeField extends BaseDateTimeField {
         }
     }
 
+    @Impure
     public long roundHalfFloor(long instant) {
         // In reality, the era is infinite, so there is no halfway point.
         return roundFloor(instant);
     }
 
+    @Impure
     public long roundHalfCeiling(long instant) {
         // In reality, the era is infinite, so there is no halfway point.
         return roundFloor(instant);
     }
 
+    @Impure
     public long roundHalfEven(long instant) {
         // In reality, the era is infinite, so there is no halfway point.
         return roundFloor(instant);
     }
 
+    @Impure
     public DurationField getDurationField() {
         return UnsupportedDurationField.getInstance(DurationFieldType.eras());
     }
 
+    @Pure
     public DurationField getRangeDurationField() {
         return null;
     }
 
+    @Pure
     public int getMinimumValue() {
         return DateTimeConstants.BCE;
     }
 
+    @Pure
     public int getMaximumValue() {
         return DateTimeConstants.CE;
     }
 
+    @Impure
     public int getMaximumTextLength(Locale locale) {
         return GJLocaleSymbols.forLocale(locale).getEraMaxTextLength();
     }
@@ -147,6 +165,8 @@ final class GJEraDateTimeField extends BaseDateTimeField {
     /**
      * Serialization singleton
      */
+    @Pure
+    @Impure
     private Object readResolve() {
         return iChronology.era();
     }
